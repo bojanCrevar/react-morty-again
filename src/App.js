@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import CharacterList from "./components/CharacterList";
+import Searchbar from "./components/Searchbar";
+const rmAPI = "https://rickandmortyapi.com/api/character";
 
 function App() {
+  const [chars, setChars] = useState([]);
+  async function fetchData(keyword) {
+    let response = await fetch(keyword ? `${rmAPI}?name=${keyword}` : rmAPI);
+    let data = await response.json();
+    setChars(data.results);
+    console.log(data);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="m-auto w-1/2 ">
+      <h5 className="p-4 text-4xl	text-center">
+        Rick & Morty characters - {chars.length}
+      </h5>
+
+      <Searchbar fetchData={fetchData} />
+      <CharacterList characters={chars}></CharacterList>
     </div>
   );
 }

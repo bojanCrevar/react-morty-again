@@ -7,7 +7,7 @@ const rmAPI = "https://rickandmortyapi.com/api/character";
 
 function App() {
   const [chars, setChars] = useState([]);
-  const [pagesInfo, setPagesInfo] = useState([]);
+  const [pagesInfo, setPagesInfo] = useState({});
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
 
@@ -16,18 +16,18 @@ function App() {
   // }
 
   async function fetchData() {
-    
     let pageQueryParam = `?page=${activePage}`;
-    let nameQueryParam = keyword ? `&name=${keyword}` : '';
+    let nameQueryParam = keyword ? `&name=${keyword}` : "";
 
     let response = await fetch(`${rmAPI}/${pageQueryParam}${nameQueryParam}`);
 
     let data = await response.json();
     setChars(data.results);
     setPagesInfo(data.info);
-    console.log(data);
+
+    console.log("data", data);
   }
-  
+
   useEffect(() => {
     fetchData();
   }, [keyword, activePage]);
@@ -35,10 +35,14 @@ function App() {
   return (
     <div className="m-auto w-1/2 ">
       <h5 className="p-4 text-4xl	text-center">
-        Rick & Morty characters - {chars.length}
+        Rick & Morty characters - {chars && chars.length}
       </h5>
 
-      <Pagination pages={pagesInfo} activePage={activePage} setActivePage={setActivePage}></Pagination>
+      <Pagination
+        pagesInfo={pagesInfo}
+        activePage={activePage}
+        setActivePage={setActivePage}
+      ></Pagination>
       <div>Pages:{pagesInfo.count} </div>
       <Searchbar setKeyword={setKeyword} />
       <CharacterList characters={chars}></CharacterList>

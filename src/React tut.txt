@@ -1,3 +1,0 @@
-React:
-
-useEffects gleda u promene const[title, setTitle]. Ukoliko zelimo da gleda samo u jednu promenu, navescemo tu const u useEffects kao parametar.

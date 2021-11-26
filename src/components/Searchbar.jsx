@@ -2,15 +2,15 @@ import React, { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
-const Searchbar = ({ fetchData }) => {
+const Searchbar = ({ setKeyword }) => {
   function submitHandler(e) {
     e.preventDefault();
     console.log(searchKeyword.current.value);
-    fetchData(searchKeyword.current.value);
+    setKeyword(searchKeyword.current.value);
   }
 
   function clearHandler() {
-    fetchData("");
+    setKeyword("");
     searchKeyword.current.value = "";
   }
 

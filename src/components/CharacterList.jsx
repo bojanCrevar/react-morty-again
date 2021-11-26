@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import PaginationBar from "./PaginationBar";
 
 function CharacterList(props) {
   function checkStatus(status) {
@@ -14,6 +15,11 @@ function CharacterList(props) {
   console.log(props);
   return (
     <div>
+      <PaginationBar
+        className="my-8"
+        setPageInfo={props.setPageInfo}
+        pageInfo={props.pageInfo}
+      />
       {props.characters.map((c) => (
         <div className="flex space-x-4 mt-4 border-2 bg-white" key={c.id}>
           <img src={c.image} className="h-32" />

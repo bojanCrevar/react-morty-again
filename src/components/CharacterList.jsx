@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+
 function CharacterList(props) {
   function checkStatus(status) {
     if (status === "Alive") {

@@ -16,7 +16,7 @@ function CharacterList(props) {
     <div>
       {props.characters.map((c) => (
         <div className="flex space-x-4 mt-4 border-2 bg-white" key={c.id}>
-          <img src={c.image} className="h-32"  alt={'character iamge'}/>
+          <img src={c.image} className="h-32"  alt="character image"/>
           <div>
             <div>{c.name}</div>
             <div>

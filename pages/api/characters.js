@@ -6,6 +6,7 @@ const PAGE_SIZE = 20;
 
 export default async function handler(req, res) {
   switch (req.method) {
+    default: 
     case 'GET': {
       console.log('HANDLER');
 
@@ -16,13 +17,13 @@ export default async function handler(req, res) {
                                     : allChars;
 
       let startIndex = (activePage - 1) * PAGE_SIZE;
-      let endIndex = Math.min(startIndex + (PAGE_SIZE), charsFiltered.length);
+      let endIndex = Math.min(startIndex + PAGE_SIZE, charsFiltered.length);
 
       const charsPaginated = charsFiltered.slice(startIndex, endIndex);
 
       const infoPage = {
         count: charsFiltered.length,
-        pages: (charsFiltered.length / PAGE_SIZE),
+        pages: (Math.ceil(charsFiltered.length / PAGE_SIZE)),
       }
 
       res.status(200).json({

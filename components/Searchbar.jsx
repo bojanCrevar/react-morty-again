@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
 const Searchbar = ({ setKeyword }) => {
+  //test
   function submitHandler(e) {
     e.preventDefault();
     console.log(searchKeyword.current.value);

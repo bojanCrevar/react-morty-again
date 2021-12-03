@@ -14,7 +14,7 @@ const CharCard = ({ id, name, image, species, gender, status, location }) => {
 
     return ( 
         <div className="flex space-x-4 mt-4 border-2 bg-white" key={id}>
-          <img src={image} className="h-32"  alt="character image"/>
+          <img src={image} className="h-32"  alt="character"/>
           <div>
             <div>{name}</div>
             <div>

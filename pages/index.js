@@ -1,29 +1,27 @@
-import {useEffect, useState} from "react";
-
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
 import CharacterList from "../components/CharacterList";
 import Pagination from "../components/Pagination";
 import Searchbar from "../components/Searchbar";
-import axios from 'axios';
-
+import axios from "axios";
+import Link from "next/link";
 
 function Index() {
   const [chars, setChars] = useState([]);
-  const [pagesInfo, setPagesInfo] = useState({});
+  const [charactersInfo, setCharactersInfo] = useState({});
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
 
   async function fetchData() {
-    const response = await axios.get('/api/characters', {
-      params: {activePage, keyword}
+    const response = await axios.get("/api/characters", {
+      params: { activePage, keyword },
     });
     setChars(response.data.results);
-    setPagesInfo(response.data.info);
-
-    console.log("response", response);
+    setCharactersInfo(response.data.info);
   }
 
   useEffect(() => {
-    if(activePage !== 1) {
+    if (activePage !== 1) {
       setActivePage(1);
     } else {
       fetchData();
@@ -41,12 +39,20 @@ function Index() {
       </h5>
 
       <Pagination
-        pagesInfo={pagesInfo}
+        charactersInfo={charactersInfo}
         activePage={activePage}
         setActivePage={setActivePage}
       />
-      <div>Pages:{pagesInfo.count} </div>
+      <div>Characters:{charactersInfo.count} </div>
+
       <Searchbar setKeyword={setKeyword} />
+      <div className="pt-4">
+        <Link href="/create-character">
+          <Button variant="success w-1/2" type="submit">
+            Add character!
+          </Button>
+        </Link>
+      </div>
       <CharacterList characters={chars} />
     </div>
   );

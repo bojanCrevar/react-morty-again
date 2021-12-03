@@ -6,7 +6,6 @@ const Searchbar = ({ setKeyword }) => {
   //test
   function submitHandler(e) {
     e.preventDefault();
-    console.log(searchKeyword.current.value);
     setKeyword(searchKeyword.current.value);
   }
 

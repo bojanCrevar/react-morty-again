@@ -1,16 +1,14 @@
 import React from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-const PaginationBar = ({ setActivePage, activePage, pagesInfo }) => {
+const PaginationBar = ({ setActivePage, activePage, charactersInfo }) => {
   const prevButtonTemplate =
     activePage > 1 ? (
       <Pagination.Prev onClick={() => setActivePage((prev) => prev - 1)} />
     ) : null;
 
-  console.log(pagesInfo);
-
   const nextButtonTemplate =
-    activePage < pagesInfo.pages ? (
+    activePage < charactersInfo.pages ? (
       <Pagination.Next onClick={() => setActivePage((prev) => prev + 1)} />
     ) : null;
 

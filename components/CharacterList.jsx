@@ -1,4 +1,6 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
+import Link from "next/link";
 
 function CharacterList(props) {
   function checkStatus(status) {
@@ -11,12 +13,15 @@ function CharacterList(props) {
     }
   }
 
-  console.log(props);
   return (
     <div>
       {props.characters.map((c) => (
         <div className="flex space-x-4 mt-4 border-2 bg-white" key={c.id}>
-          <img src={c.image} className="h-32"  alt="character image"/>
+          {c.image ? (
+            <img src={c.image} className="h-32" alt="character image" />
+          ) : (
+            <div className="bg-green-500 p-4">No image</div>
+          )}
           <div>
             <div>{c.name}</div>
             <div>
@@ -31,6 +36,11 @@ function CharacterList(props) {
               {" "}
               <span className="text-gray-400">Location: </span>
               {c.location.name}
+            </div>
+            <div>
+              <Link href={"/edit/" + c.id}>
+                <Button variant="outline-info">Edit character</Button>
+              </Link>
             </div>
           </div>
         </div>

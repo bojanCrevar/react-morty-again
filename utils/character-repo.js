@@ -22,10 +22,7 @@ function create(char) {
 
 function update({ id, name, status, gender, species, location }) {
   const user = characters.find((x) => x.id.toString() === id.toString());
-
   const index = characters.findIndex((x) => x.id.toString() === id.toString());
-
-  console.log(index);
 
   characters[index] = {
     ...user,

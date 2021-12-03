@@ -5,7 +5,7 @@ function CharacterList(props) {
   return (
     <div>
       {props.characters.map((c) => (
-        <CharCard {...c} />
+        <CharCard {...c} key={c.id} />
       ))}
     </div>
   );

@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     case "GET":
       {
         let { id } = req.query;
-        console.log(id);
         if (!id) {
           res.status(404).json({ error: "No character!" });
         }
@@ -18,11 +17,7 @@ export default async function handler(req, res) {
     case "PUT":
       {
         const body = req.body;
-        console.log(body);
-        console.log("PUT METHOD");
-
         myCharactersRepo.update(body);
-
         res.status(200).json("success");
       }
       break;

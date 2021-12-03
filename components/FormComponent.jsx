@@ -66,7 +66,7 @@ function FormComponent({ submitHandler, initialData }) {
           required
         />
         <div className="flex flex-row p-2">
-          <Link href="/">
+          <Link href="/characters">
             <Button variant="btn btn-outline-danger  w-1/2 mr-2">Back</Button>
           </Link>
 

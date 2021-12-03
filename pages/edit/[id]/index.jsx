@@ -30,7 +30,7 @@ export default function EditCharacter(props) {
       character
     );
     if (response.status === 200) {
-      Router.push("/");
+      Router.push("/characters");
     }
   }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-
+import Link from "next/link";
+import Button from "react-bootstrap/Button";
 import CharacterList from "../components/CharacterList";
 import Pagination from "../components/Pagination";
 import Searchbar from "../components/Searchbar";
@@ -46,6 +47,13 @@ function Characters() {
       />
       <div>Pages:{pagesInfo.count} </div>
       <Searchbar setKeyword={setKeyword} />
+      <div className="pt-4">
+        <Link href="/create-character">
+          <Button variant="success w-1/2" type="submit">
+            Add character!
+          </Button>
+        </Link>
+      </div>
       <CharacterList characters={chars} />
     </div>
   );

@@ -7,8 +7,6 @@ const PaginationBar = ({ setActivePage, activePage, pagesInfo }) => {
       <Pagination.Prev onClick={() => setActivePage((prev) => prev - 1)} />
     ) : null;
 
-  console.log(pagesInfo);
-
   const nextButtonTemplate =
     activePage < pagesInfo.pages ? (
       <Pagination.Next onClick={() => setActivePage((prev) => prev + 1)} />

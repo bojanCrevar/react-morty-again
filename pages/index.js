@@ -1,61 +1,26 @@
-import { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import CharacterList from "../components/CharacterList";
-import Pagination from "../components/Pagination";
-import Searchbar from "../components/Searchbar";
-import axios from "axios";
+import React from "react";
 import Link from "next/link";
 
-function Index() {
-  const [chars, setChars] = useState([]);
-  const [charactersInfo, setCharactersInfo] = useState({});
-  const [activePage, setActivePage] = useState(1);
-  const [keyword, setKeyword] = useState();
-
-  async function fetchData() {
-    const response = await axios.get("/api/characters", {
-      params: { activePage, keyword },
-    });
-    setChars(response.data.results);
-    setCharactersInfo(response.data.info);
-  }
-
-  useEffect(() => {
-    if (activePage !== 1) {
-      setActivePage(1);
-    } else {
-      fetchData();
-    }
-  }, [keyword]);
-
-  useEffect(() => {
-    fetchData();
-  }, [activePage]);
-
+const HomePage = () => {
   return (
-    <div className="m-auto w-1/2 ">
-      <h5 className="p-4 text-4xl	text-center">
-        Rick & Morty characters - {chars && chars.length}
-      </h5>
-
-      <Pagination
-        charactersInfo={charactersInfo}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
-      <div>Characters:{charactersInfo.count} </div>
-
-      <Searchbar setKeyword={setKeyword} />
-      <div className="pt-4">
-        <Link href="/create-character">
-          <Button variant="success w-1/2" type="submit">
-            Add character!
-          </Button>
-        </Link>
+    <div className="container mx-auto w-full mt-1">
+      <h4 className="text-center">Welcome to Rick and Morty app</h4>
+      <div className="my-10">
+        Select link:
+        <ul>
+          <li>
+            <Link href="/locations">Locations</Link>
+          </li>
+          <li>
+            <Link href="/episodes">Episodes</Link>
+          </li>
+          <li>
+            <Link href="/characters">Characters</Link>
+          </li>
+        </ul>
       </div>
-      <CharacterList characters={chars} />
     </div>
   );
-}
+};
 
-export default Index;
+export default HomePage;

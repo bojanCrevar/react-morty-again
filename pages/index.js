@@ -3,11 +3,11 @@ import Link from "next/link";
 
 const HomePage = () => {
   return (
-    <div className="container mx-auto w-full mt-1">
+    <div className="mx-auto w-3/4 mt-1">
       <h4 className="text-center">Welcome to Rick and Morty app</h4>
       <div className="my-10">
         Select link:
-        <ul>
+        <ul className="list-disc">
           <li>
             <Link href="/locations">Locations</Link>
           </li>

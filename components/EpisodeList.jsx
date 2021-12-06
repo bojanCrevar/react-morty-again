@@ -1,9 +1,11 @@
 import RMTable from "./RMTable";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const EpisodeList = ({ episodes }) => {
   const [mappedEpisodes, setMappedEpisodes] = useState(episodes);
+  const router = useRouter();
   const locationscolumns = [
     { key: "name", title: "Title" },
     { key: "air_date", title: "Release date" },
@@ -65,7 +67,7 @@ const EpisodeList = ({ episodes }) => {
   }, [episodes]);
 
   function handleUpdate(id) {
-    alert(id);
+    router.push("episodes/edit/" + id);
   }
 
   return (

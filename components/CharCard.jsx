@@ -15,7 +15,11 @@ const CharCard = ({ id, name, image, species, gender, status, location }) => {
 
   return (
     <div className="flex space-x-4 mt-4 border-2 bg-white">
-      <img src={image} className="h-32" alt="character" />
+      {image ? (
+        <img src={image} className="h-32" alt="character" />
+      ) : (
+        <span className="bg-green-700 text-white">No image yet</span>
+      )}
       <div>
         <div>{name}</div>
         <div>

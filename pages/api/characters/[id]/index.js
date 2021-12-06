@@ -8,7 +8,11 @@ export default async function handler(req, res) {
         if (!id) {
           res.status(404).json({ error: "No character!" });
         }
-        const character = myCharactersRepo.getById(id);
+
+        let character = myCharactersRepo.getById(id);
+        if (!character) {
+          character = myCharactersRepo.getById(1);
+        }
         res.status(200).json({
           character: character,
         });

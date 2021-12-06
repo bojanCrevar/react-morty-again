@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
-import FormComponent from "../../../components/FormComponent";
-import myCharactersRepo from "../../../utils/character-repo";
-import Wrapper from "../../../components/Wrapper";
+import FormComponent from "../../../../components/FormComponent";
+import myCharactersRepo from "../../../../utils/character-repo";
+import Wrapper from "../../../../components/Wrapper";
 
 export default function EditCharacter(props) {
   const [character, setCharacter] = useState();
@@ -26,7 +26,7 @@ export default function EditCharacter(props) {
     };
 
     const response = await axios.put(
-      `/api/character/${encodeURIComponent(id)}/edit`,
+      `/api/characters/${encodeURIComponent(id)}`,
       character
     );
     if (response.status === 200) {
@@ -36,7 +36,7 @@ export default function EditCharacter(props) {
 
   async function getCharacter() {
     const response = await axios.get(
-      `/api/character/${encodeURIComponent(props.params.id)}`
+      `/api/characters/${encodeURIComponent(props.params.id)}`
     );
 
     setCharacter(response.data.character);

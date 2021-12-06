@@ -31,7 +31,7 @@ const CharCard = ({ id, name, image, species, gender, status, location }) => {
           {location.name}
         </div>
         <div>
-          <Link href={"/edit/" + id}>
+          <Link href={"characters/edit/" + id}>
             <Button variant="outline-info">Edit character</Button>
           </Link>
         </div>

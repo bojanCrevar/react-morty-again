@@ -1,4 +1,4 @@
-import myCharactersRepo from "../../utils/character-repo";
+import myCharactersRepo from "../../../utils/character-repo";
 
 //const rmAPI = "https://rickandmortyapi.com/api/character";
 const PAGE_SIZE = 20;
@@ -28,6 +28,17 @@ export default async function handler(req, res) {
           info: infoPage,
           results: charsPaginated,
         });
+      }
+      break;
+    case "POST":
+      {
+        const body = req.body;
+        const insertObj = {
+          id: myCharactersRepo.getAll().length + 1,
+          ...body,
+        };
+        myCharactersRepo.create(insertObj);
+        res.status(200).json("success");
       }
       break;
   }

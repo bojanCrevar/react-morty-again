@@ -2,17 +2,18 @@ import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import Link from "next/link";
+import { Form } from "react-bootstrap";
 
 function FormComponent({ submitHandler, initialData }) {
   const [name, setName] = useState(initialData.name || "");
   const [air_date, setAirDate] = useState(initialData.air_date || "");
-  const [episodeDesc, setEpisodeDesc] = useState(
-    initialData.episodelDesc || ""
-  );
+  const [episodeDesc, setEpisodeDesc] = useState(initialData.episode || "");
   const [id, setId] = useState(initialData.id);
 
   const handleName = (e) => setName(e.target.value);
-  const handleAirDate = (e) => setAirDate(e.target.value);
+  const handleAirDate = (e) => {
+    setAirDate(e.target.value);
+  };
   const handleEpisodeDesc = (e) => setEpisodeDesc(e.target.value);
 
   function submitFunction(e) {
@@ -38,6 +39,7 @@ function FormComponent({ submitHandler, initialData }) {
           value={air_date}
           onChange={handleAirDate}
           required
+          type="date"
         />
         <FormControl
           aria-label="Default"

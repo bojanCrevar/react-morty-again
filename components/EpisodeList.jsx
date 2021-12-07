@@ -18,53 +18,63 @@ const EpisodeList = ({ episodes }) => {
     },
   ];
 
-  async function getEpisode(id) {
-    const response = await axios.get("api/characters/" + id);
-    //console.log(response);
-    if (response.status === 200) return response.data.episode.name;
-    else return "No episode in db!";
+  function extractUniqueCharacters(episodesCharactersList) {
+    const uniqueArray = episodesCharactersList
+      .map((episodeCharData) => episodeCharData.characters)
+      .reduce((prev, cur) => prev.concat(cur.split(",")), []);
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
+    console.log("UNIQ", uniqueArray.filter(onlyUnique));
+    return uniqueArray.filter(onlyUnique);
   }
 
-  // useEffect(() => {
-  //   async function mapEpisodes() {
-  //     const charPromisesList = episodes.map((episode) => {
-  //       const charPromises = episode.characters.map((character) => {
-  //         const id = character.slice(
-  //           character.lastIndexOf("/") + 1,
-  //           character.lastIndexOf("/") + 3
-  //         );
-  //         return getCharacter(id);
-  //       });
-  //       return {
-  //         id: episode.id,
-  //         promises: charPromises,
-  //       };
-  //     });
+  async function getCharacter(characters) {
+    const response = await axios.get("api/characters/", {
+      params: { characters },
+      paramsSerializer: (params) => {
+        console.log("PARAMS: ", params.characters);
 
-  //     episodes.map((e, i) => {
-  //       console.log(
-  //         "Mapping ep",
-  //         e,
-  //         i,
-  //         charPromisesList.find((cp) => cp.id === e.id).promises
-  //       );
-  //       Promise.all(
-  //         charPromisesList.find((cp) => cp.id === e.id).promises
-  //       ).then((values) => {
-  //         console.log("Char promise resolved", e, i, values);
-  //         setMappedEpisodes((prevEpisodes) => {
-  //           prevEpisodes[i] = {
-  //             ...e,
-  //             charactersString: values.join(),
-  //             charactersTooltip: values.join(", "),
-  //           };
-  //           return prevEpisodes;
-  //         });
-  //       });
-  //     });
-  //   }
-  //   mapEpisodes();
-  // }, [episodes]);
+        return `characters=${extractUniqueCharacters(params.characters)}`;
+      },
+    });
+
+    if (response.status === 200) return response;
+    else return "No character in db!";
+  }
+
+  useEffect(() => {
+    let listChar = "";
+    async function mapEpisodes() {
+      const charPromisesList = episodes.map((episode) => {
+        episode.characters.map((character) => {
+          listChar =
+            listChar +
+            character.slice(
+              character.lastIndexOf("/") + 1,
+              character.lastIndexOf("/") + 3
+            ) +
+            ",";
+
+          return listChar;
+        });
+
+        return {
+          id: episode.id,
+          characters: listChar,
+        };
+      });
+
+      getCharacter(charPromisesList);
+    }
+    mapEpisodes();
+  }, [episodes]);
 
   function handleUpdate(id) {
     router.push("episodes/edit/" + id);

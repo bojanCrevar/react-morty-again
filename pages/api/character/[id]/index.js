@@ -4,6 +4,7 @@ export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
       {
+        //Change in master in the character\[id] file
         let { id } = req.query;
         if (!id) {
           res.status(404).json({ error: "No character!" });

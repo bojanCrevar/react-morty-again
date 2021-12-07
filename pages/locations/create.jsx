@@ -1,7 +1,7 @@
 import axios from "axios";
 import Router from "next/router";
-import LocationFormComponent from "../components/LocationFormComponent";
-import Wrapper from "../components/Wrapper";
+import LocationFormComponent from "../../components/LocationFormComponent";
+import Wrapper from "../../components/Wrapper";
 
 export default function CreateLocation() {
   async function submitHandler({ name, dimension, type }) {
@@ -10,7 +10,7 @@ export default function CreateLocation() {
       dimension: dimension,
       type: type,
     };
-    const response = await axios.post("/api/locations/create", location);
+    const response = await axios.post("/api/locations", location);
     if (response.status === 200) {
       Router.push("/locations");
     }

@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Pagination from "../components/Pagination";
-import LocationList from "../components/LocationList";
-import Searchbar from "../components/Searchbar";
+import Pagination from "../../components/Pagination";
+import LocationList from "../../components/LocationList";
+import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 
@@ -47,7 +47,7 @@ const LocationsPage = () => {
       <div>Pages: {pagesInfo.pages}</div>
       <Searchbar setKeyword={setKeyword} />
       <div className="pt-4">
-        <Link href="/create-location">
+        <Link href="locations/create">
           <Button variant="success w-1/2" type="submit">
             Add location
           </Button>

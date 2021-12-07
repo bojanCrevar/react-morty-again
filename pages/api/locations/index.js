@@ -1,5 +1,5 @@
 //import axios from "axios";
-import myLocationsRepo from "../../../utils/locations-repo";
+import locationsRepo from "../../../utils/locations-repo";
 
 const PAGE_SIZE = 20;
 
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         let { activePage = 1, keyword = "" } = req.query;
         keyword = keyword.toLowerCase();
 
-        const allLocations = myLocationsRepo.getAll();
+        const allLocations = locationsRepo.getAll();
         const locationsFiltered = keyword
           ? allLocations.filter((loc) =>
               loc.name.toLowerCase().includes(keyword)
@@ -38,6 +38,17 @@ export default async function handler(req, res) {
           info: infoPage,
           results: locationsPaginated,
         });
+      }
+      break;
+    case "POST":
+      {
+        const body = req.body;
+        const insertObj = {
+          id: locationsRepo.getAll().length + 1,
+          ...body,
+        };
+        locationsRepo.create(insertObj);
+        res.status(200).json("success");
       }
       break;
   }

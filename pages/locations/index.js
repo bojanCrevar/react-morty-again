@@ -1,26 +1,24 @@
-import React, { useState, useEffect, Fragment } from "react";
-import EpisodeList from "../../components/EpisodeList";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
+import LocationList from "../../components/LocationList";
 import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 
-const EpisodesPage = () => {
-  const [episodes, setEpisodes] = useState();
-  const [pagesInfo, setPagesInfo] = useState({});
+const LocationsPage = () => {
+  const [locations, setLocations] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
+  const [pagesInfo, setPagesInfo] = useState({});
 
   async function fetchData() {
-    const response = await axios.get("/api/episodes", {
+    const response = await axios.get("api/locations", {
       params: { activePage, keyword },
     });
 
-    setEpisodes(response.data.results);
+    setLocations(response.data.results);
     setPagesInfo(response.data.info);
-
-    console.log(response);
   }
 
   useEffect(() => {
@@ -36,27 +34,28 @@ const EpisodesPage = () => {
   }, [activePage]);
 
   return (
-    <div className="m-auto w-1/2 ">
-      <h5 className="p-4 text-4xl	text-center">Rick & Morty list of episodes</h5>
+    <div className="m-auto w-1/2">
+      <h5 className="p-4 text-4xl	text-center">
+        List of Locations - {pagesInfo.count}
+      </h5>
+
       <Pagination
         pagesInfo={pagesInfo}
         activePage={activePage}
         setActivePage={setActivePage}
       />
-      <div>Pages: </div>
+      <div>Pages: {pagesInfo.pages}</div>
       <Searchbar setKeyword={setKeyword} />
       <div className="pt-4">
-        <Link href="/episodes/create">
+        <Link href="locations/create">
           <Button variant="success w-1/2" type="submit">
-            Add episode
+            Add location
           </Button>
         </Link>
       </div>
-      <div className="mt-8">
-        {episodes ? <EpisodeList episodes={episodes} /> : <div>loading</div>}
-      </div>
+      <LocationList locations={locations} />
     </div>
   );
 };
 
-export default EpisodesPage;
+export default LocationsPage;

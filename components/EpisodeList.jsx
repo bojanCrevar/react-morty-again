@@ -74,6 +74,7 @@ const EpisodeList = ({ episodes }) => {
     <Fragment>
       <RMTable
         tabledata={episodes}
+        // tabledata={mappedEpisodes}
         columnconfig={locationscolumns}
         onUpdate={handleUpdate}
       />

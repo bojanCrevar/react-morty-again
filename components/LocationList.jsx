@@ -13,8 +13,7 @@ const LocationList = ({ locations }) => {
   }
 
   return (
-    <div className="text-center">
-      <h5 className="p-4 text-4xl	text-center">List of Locations</h5>
+    <div className="text-center mt-4">
       <RMTable
         tabledata={locations}
         columnconfig={locationscolumns}

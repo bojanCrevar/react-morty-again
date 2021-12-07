@@ -37,9 +37,16 @@ export default async function handler(req, res) {
         const body = req.body;
         const insertObj = {
           id: episodesRepo.getAll().length + 1,
+          characters: [
+            "https://rickandmortyapi.com/api/character/1",
+            "https://rickandmortyapi.com/api/character/2",
+            "https://rickandmortyapi.com/api/character/35",
+          ],
           ...body,
         };
         episodesRepo.create(insertObj);
+        console.log("all  ", episodesRepo.getAll());
+
         res.status(200).json("success");
       }
       break;

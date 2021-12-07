@@ -7,12 +7,12 @@ import Wrapper from "../../../../components/Wrapper";
 export default function EditEpisode(props) {
   const [episode, setEpisode] = useState();
 
-  async function submitHandler({ id, name, air_date, serial }) {
+  async function submitHandler({ id, name, air_date, episodeDesc }) {
     const episode = {
       id: id,
       name: name,
       air_date: air_date,
-      episode: serial,
+      episodeDesc: episodeDesc,
     };
 
     const response = await axios.put(

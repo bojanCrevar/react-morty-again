@@ -3,6 +3,8 @@ import EpisodeList from "../../components/EpisodeList";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
+import Link from "next/link";
+import Button from "react-bootstrap/Button";
 
 const EpisodesPage = () => {
   const [episodes, setEpisodes] = useState();
@@ -43,7 +45,13 @@ const EpisodesPage = () => {
       />
       <div>Pages: </div>
       <Searchbar setKeyword={setKeyword} />
-
+      <div className="pt-4">
+        <Link href="/episodes/create">
+          <Button variant="success w-1/2" type="submit">
+            Add episode
+          </Button>
+        </Link>
+      </div>
       <div className="mt-8">
         {episodes ? <EpisodeList episodes={episodes} /> : <div>loading</div>}
       </div>

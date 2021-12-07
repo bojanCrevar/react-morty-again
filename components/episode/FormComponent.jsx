@@ -6,16 +6,18 @@ import Link from "next/link";
 function FormComponent({ submitHandler, initialData }) {
   const [name, setName] = useState(initialData.name || "");
   const [air_date, setAirDate] = useState(initialData.air_date || "");
-  const [serial, setSerial] = useState(initialData.episode || "");
+  const [episodeDesc, setEpisodeDesc] = useState(
+    initialData.episodelDesc || ""
+  );
   const [id, setId] = useState(initialData.id);
 
   const handleName = (e) => setName(e.target.value);
   const handleAirDate = (e) => setAirDate(e.target.value);
-  const handleSerial = (e) => setSerial(e.target.value);
+  const handleEpisodeDesc = (e) => setEpisodeDesc(e.target.value);
 
   function submitFunction(e) {
     e.preventDefault();
-    submitHandler({ id, name, air_date });
+    submitHandler({ name, air_date, episodeDesc });
   }
 
   return (
@@ -40,9 +42,9 @@ function FormComponent({ submitHandler, initialData }) {
         <FormControl
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          placeholder="Serial"
-          value={serial}
-          onChange={handleSerial}
+          placeholder="Episode"
+          value={episodeDesc}
+          onChange={handleEpisodeDesc}
           required
         />
         <div className="flex flex-row p-2">

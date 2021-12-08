@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import Link from "next/link";
-import { Form } from "react-bootstrap";
 
 function FormComponent({ submitHandler, initialData }) {
   const [name, setName] = useState(initialData.name || "");

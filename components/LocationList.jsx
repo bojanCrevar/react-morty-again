@@ -1,5 +1,6 @@
 import React from "react";
 import RMTable from "./RMTable";
+import Router from "next/router";
 
 const LocationList = ({ locations }) => {
   const locationscolumns = [
@@ -9,7 +10,8 @@ const LocationList = ({ locations }) => {
   ];
 
   function handleUpdate(id) {
-    alert(id);
+    //alert(id);
+    Router.push("locations/edit/" + id);
   }
 
   return (

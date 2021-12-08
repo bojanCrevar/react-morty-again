@@ -6,16 +6,17 @@ import moment from "moment";
 
 export default function CreateEpisode() {
   async function submitHandler({ name, air_date, episodeDesc }) {
-    // let formattedDate = new Date(air_date).toDateString();
-    var t = new Date(air_date);
-    var formattedAirDate = moment(t).format("MMMM d,yyyy");
+    var airDateObject = new Date(air_date);
+    var formattedAirDate = moment(airDateObject).format("MMMM DD, yyyy");
 
     const episode = {
       name: name,
       air_date: formattedAirDate,
       episode: episodeDesc,
     };
+
     const response = await axios.post("/api/episodes", episode);
+
     if (response.status === 200) {
       Router.push("/episodes");
     }

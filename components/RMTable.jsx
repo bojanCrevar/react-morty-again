@@ -20,12 +20,16 @@ const RMTable = ({
         {columnConfig.map((cfg) => {
           if (cfg.key === ACTIONS_COL_NAME) {
             return (
-              <td>
+              <td key={cfg.key}>
                 <button onClick={() => onUpdate(data.id)}>Edit</button>
               </td>
             );
           } else {
-            return <td>{data[cfg.key]}</td>;
+            return (
+              <td key={cfg.key} title={cfg.tooltip ? data[cfg.tooltip] : ""}>
+                {data[cfg.key]}
+              </td>
+            );
           }
         })}
       </tr>
@@ -37,7 +41,7 @@ const RMTable = ({
       <thead>
         <tr>
           {columnConfig.map((cfg) => (
-            <th>{cfg.title}</th>
+            <th key={cfg.key}>{cfg.title}</th>
           ))}
         </tr>
       </thead>

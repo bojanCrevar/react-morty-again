@@ -1,7 +1,7 @@
 import axios from "axios";
 import Router from "next/router";
-import FormComponent from "../components/FormComponent";
-import Wrapper from "../components/Wrapper";
+import FormComponent from "../../../components/FormComponent";
+import Wrapper from "../../../components/Wrapper";
 
 export default function CreateCharacter() {
   async function submitHandler({ name, status, gender, species, location }) {
@@ -12,9 +12,9 @@ export default function CreateCharacter() {
       species: species,
       location: { name: location },
     };
-    const response = await axios.post("/api/character/create", character);
+    const response = await axios.post("/api/characters", character);
     if (response.status === 200) {
-      Router.push("/");
+      Router.push("/characters");
     }
   }
 

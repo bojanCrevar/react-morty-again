@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import CharacterList from "../components/CharacterList";
-import Pagination from "../components/Pagination";
-import Searchbar from "../components/Searchbar";
+import CharacterList from "../../components/CharacterList";
+import Pagination from "../../components/Pagination";
+import Searchbar from "../../components/Searchbar";
 import axios from "axios";
 
 function Characters() {
@@ -48,7 +48,7 @@ function Characters() {
       <div>Pages:{pagesInfo.count} </div>
       <Searchbar setKeyword={setKeyword} />
       <div className="pt-4">
-        <Link href="/create-character">
+        <Link href="characters/create">
           <Button variant="success w-1/2" type="submit">
             Add character!
           </Button>

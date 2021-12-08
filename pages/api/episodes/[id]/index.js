@@ -1,25 +1,23 @@
-import myCharactersRepo from "../../../../utils/character-repo";
+import episodesRepo from "../../../../utils/episode-repo";
 
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
       {
-        //Change in master in the character\[id] file
         let { id } = req.query;
         if (!id) {
-          res.status(404).json({ error: "No character!" });
+          res.status(404).json({ error: "No episode!" });
         }
-        const character = myCharactersRepo.getById(id);
+        const episode = episodesRepo.getById(id);
         res.status(200).json({
-          character: character,
+          episode: episode,
         });
       }
       break;
     case "PUT":
       {
         const body = req.body;
-        myCharactersRepo.update(body);
-
+        episodesRepo.update(body);
         res.status(200).json("success");
       }
       break;

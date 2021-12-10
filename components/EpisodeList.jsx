@@ -1,17 +1,14 @@
 import RMTable from "./RMTable";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 const EpisodeList = ({ episodes }) => {
-  // const [mappedEpisodes, setMappedEpisodes] = useState(episodes);
-  const [characters, setCharacters] = useState();
+  const [mappedEpisodes, setMappedEpisodes] = useState(episodes);
 
   const locationscolumns = [
     { key: "name", title: "Title" },
     { key: "air_date", title: "Release date" },
     { key: "episode", title: "Episode" },
-    // { key: "characters", title: "Characters" },
     {
       key: "charactersString",
       title: "Characters",
@@ -24,26 +21,21 @@ const EpisodeList = ({ episodes }) => {
       .map((episodeCharData) => episodeCharData.characters)
       .reduce((prev, cur) => prev.concat(cur.split(",")), []);
 
-    // [1,2,3,2,4]
     function onlyUnique(charId, index, charIdArray) {
       return charIdArray.indexOf(charId) === index;
     }
 
-    console.log("UNIQ", uniqueArray.filter(onlyUnique));
-    return uniqueArray.filter(onlyUnique); //[]
+    return uniqueArray.filter(onlyUnique);
   }
 
   async function getCharacter(characters) {
     const response = await axios.get("api/characters/", {
       params: { characters },
       paramsSerializer: (params) => {
-        console.log("PARAMS: ", params.characters);
-
         return `characters=${extractUniqueCharacters(params.characters)}`;
       },
     });
 
-    console.log("GET api/characters/", response);
     if (response.status === 200) return response;
     else return "No character in db!";
   }
@@ -70,19 +62,25 @@ const EpisodeList = ({ episodes }) => {
         };
       });
 
-      const characterNames = await getCharacter(charsByEpisodesList);
-      console.log("char na frontend", charsByEpisodesList);
-      const test = charsByEpisodesList.map((charsEp) =>
-        charsEp.episodeCharIds.map((id) =>
-          characterNames.data.charactersById.find(
-            (x) => (x.id ? x.id : 0).toString() === id.toString()
+      const characters = (await getCharacter(charsByEpisodesList)).data
+        .characters;
+      charsByEpisodesList.forEach((chByEp, i) => {
+        const charNamesByEp = chByEp.episodeCharIds
+          .map(
+            (epCharId) =>
+              characters.find((c) => c.id.toString() === epCharId.toString())
+                .name
           )
-        )
-      );
-      console.log("char iz apija", characterNames.data.charactersById);
+          .join(", ");
+        mappedEpisodes[i].charactersString = charNamesByEp
+          .split(",")
+          .slice(0, 3)
+          .join(", ");
 
-      console.log("TEST", test);
-      setCharacters(characterNames);
+        mappedEpisodes[i].charactersTooltip = charNamesByEp;
+        chByEp.charNames = charNamesByEp;
+      });
+      setMappedEpisodes([...mappedEpisodes]);
     }
     mapEpisodes();
   }, [episodes]);
@@ -94,7 +92,7 @@ const EpisodeList = ({ episodes }) => {
   return (
     <Fragment>
       <RMTable
-        tabledata={episodes}
+        tabledata={mappedEpisodes}
         columnconfig={locationscolumns}
         onUpdate={handleUpdate}
       />

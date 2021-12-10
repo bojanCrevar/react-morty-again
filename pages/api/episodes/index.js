@@ -45,7 +45,6 @@ export default async function handler(req, res) {
           ...body,
         };
         episodesRepo.create(insertObj);
-        console.log("all  ", episodesRepo.getAll());
 
         res.status(200).json("success");
       }

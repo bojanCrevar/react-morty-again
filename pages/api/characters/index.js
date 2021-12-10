@@ -2,6 +2,15 @@ import myCharactersRepo from "../../../utils/character-repo";
 
 //const rmAPI = "https://rickandmortyapi.com/api/character";
 const PAGE_SIZE = 20;
+const rickChar = myCharactersRepo.getAll()[0];
+
+function generateDummyChar(charId) {
+  return {
+    ...rickChar,
+    id: charId,
+    name: "Dummy Rick " + charId,
+  };
+}
 
 export default async function handler(req, res) {
   switch (req.method) {
@@ -12,14 +21,19 @@ export default async function handler(req, res) {
         let allChars = myCharactersRepo.getAll();
 
         if (characters) {
-          const allCharacterIds = characters.split(",");
+          const characterIds = characters.split(",");
 
-          allChars = allCharacterIds.map((charId) =>
-            allChars.filter((x) => x.id.toString() === charId.toString())
-          );
+          const mappedChars = characterIds
+            .map((charId) => {
+              const foundChar = allChars.find(
+                (x) => x.id.toString() === charId.toString()
+              );
+              return foundChar ? foundChar : generateDummyChar(charId);
+            })
+            .filter((c) => c);
 
           res.status(200).json({
-            charactersById: allChars,
+            characters: mappedChars,
           });
         } else {
           keyword = keyword.toLowerCase();

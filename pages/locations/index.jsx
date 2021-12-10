@@ -53,7 +53,7 @@ const LocationsPage = () => {
           </Button>
         </Link>
       </div>
-      <LocationList locations={locations} />
+      <LocationList locations={locations} fetchData={fetchData} />
     </div>
   );
 };

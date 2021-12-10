@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 
 const EpisodeList = ({ episodes }) => {
   // const [mappedEpisodes, setMappedEpisodes] = useState(episodes);
-  const router = useRouter();
+  const [characters, setCharacters] = useState();
+
   const locationscolumns = [
     { key: "name", title: "Title" },
     { key: "air_date", title: "Release date" },
@@ -23,16 +24,13 @@ const EpisodeList = ({ episodes }) => {
       .map((episodeCharData) => episodeCharData.characters)
       .reduce((prev, cur) => prev.concat(cur.split(",")), []);
 
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
+    // [1,2,3,2,4]
+    function onlyUnique(charId, index, charIdArray) {
+      return charIdArray.indexOf(charId) === index;
     }
 
     console.log("UNIQ", uniqueArray.filter(onlyUnique));
-    return uniqueArray.filter(onlyUnique);
+    return uniqueArray.filter(onlyUnique); //[]
   }
 
   async function getCharacter(characters) {
@@ -45,6 +43,7 @@ const EpisodeList = ({ episodes }) => {
       },
     });
 
+    console.log("GET api/characters/", response);
     if (response.status === 200) return response;
     else return "No character in db!";
   }
@@ -52,26 +51,38 @@ const EpisodeList = ({ episodes }) => {
   useEffect(() => {
     let listChar = "";
     async function mapEpisodes() {
-      const charPromisesList = episodes.map((episode) => {
+      const charsByEpisodesList = episodes.map((episode) => {
+        let episodeCharIds = [];
         episode.characters.map((character) => {
-          listChar =
-            listChar +
-            character.slice(
-              character.lastIndexOf("/") + 1,
-              character.lastIndexOf("/") + 3
-            ) +
-            ",";
-
+          const curId = character.slice(
+            character.lastIndexOf("/") + 1,
+            character.lastIndexOf("/") + 3
+          );
+          listChar = listChar + curId + ",";
+          episodeCharIds.push(curId);
           return listChar;
         });
 
         return {
           id: episode.id,
           characters: listChar,
+          episodeCharIds: episodeCharIds,
         };
       });
 
-      getCharacter(charPromisesList);
+      const characterNames = await getCharacter(charsByEpisodesList);
+      console.log("char na frontend", charsByEpisodesList);
+      const test = charsByEpisodesList.map((charsEp) =>
+        charsEp.episodeCharIds.map((id) =>
+          characterNames.data.charactersById.find(
+            (x) => (x.id ? x.id : 0).toString() === id.toString()
+          )
+        )
+      );
+      console.log("char iz apija", characterNames.data.charactersById);
+
+      console.log("TEST", test);
+      setCharacters(characterNames);
     }
     mapEpisodes();
   }, [episodes]);

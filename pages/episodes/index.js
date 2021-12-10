@@ -19,8 +19,6 @@ const EpisodesPage = () => {
 
     setEpisodes(response.data.results);
     setPagesInfo(response.data.info);
-
-    console.log(response);
   }
 
   useEffect(() => {

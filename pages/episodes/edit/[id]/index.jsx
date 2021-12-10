@@ -3,16 +3,20 @@ import axios from "axios";
 import Router from "next/router";
 import EpisodeFormComponent from "../../../../components/episode/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
+import moment from "moment";
 
 export default function EditEpisode(props) {
   const [episode, setEpisode] = useState();
 
   async function submitHandler({ id, name, air_date, episodeDesc }) {
+    var airDateObject = new Date(air_date);
+    var formattedAirDate = moment(airDateObject).format("MMMM DD, yyyy");
+
     const episode = {
       id: id,
       name: name,
-      air_date: air_date,
-      episodeDesc: episodeDesc,
+      air_date: formattedAirDate,
+      episode: episodeDesc,
     };
 
     const response = await axios.put(
@@ -21,7 +25,7 @@ export default function EditEpisode(props) {
     );
 
     if (response.status === 200) {
-      Router.push("/episodes/edit/" + id);
+      Router.push("/episodes");
     }
   }
 

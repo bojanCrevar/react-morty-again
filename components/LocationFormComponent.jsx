@@ -8,12 +8,12 @@ function LocationFormComponent({ submitHandler, initialData }) {
   const [dimension, setDimension] = useState(initialData.dimension || "");
   const [type, setType] = useState(initialData.type || "");
 
-  const isFormValid = name && dimension && type;
+  const isFormValid = name && dimension && type && name.length > 3;
 
   const [id, setId] = useState(initialData.id);
-  const [visitedName, setVisitedName] = useState(false);
-  const [visitedDimension, setVisitedDimension] = useState(false);
-  const [visitedType, setVisitedType] = useState(false);
+  const [touchedName, setTouchedName] = useState(false);
+  const [touchedDimension, setTouchedDimension] = useState(false);
+  const [touchedType, setTouchedType] = useState(false);
 
   const handleName = (e) => setName(e.target.value);
   const handleDimension = (e) => setDimension(e.target.value);
@@ -27,14 +27,14 @@ function LocationFormComponent({ submitHandler, initialData }) {
   return (
     <form onSubmit={submitFunction} novalidate>
       <div className="flex flex-col gap-y-2">
-        <div className={visitedName ? "was-validated" : ""}>
+        <div className={touchedName ? "was-validated" : ""}>
           <FormControl
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
             placeholder="Name"
             value={name}
             onChange={handleName}
-            onBlur={() => setVisitedName(true)}
+            onBlur={() => setTouchedName(true)}
             minLength="3"
             required
           />
@@ -47,26 +47,26 @@ function LocationFormComponent({ submitHandler, initialData }) {
           </div>
         </div>
 
-        <div className={visitedDimension ? "was-validated" : ""}>
+        <div className={touchedDimension ? "was-validated" : ""}>
           <FormControl
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
             placeholder="Dimension"
             value={dimension}
             onChange={handleDimension}
-            onBlur={() => setVisitedDimension(true)}
+            onBlur={() => setTouchedDimension(true)}
             required
           />
           <div className="invalid-feedback">Please enter a dimension!</div>
         </div>
-        <div className={visitedType ? "was-validated" : ""}>
+        <div className={touchedType ? "was-validated" : ""}>
           <FormControl
             aria-label="Default"
             aria-describedby="inputGroup-sizing-default"
             placeholder="Type"
             value={type}
             onChange={handleType}
-            onBlur={() => setVisitedType(true)}
+            onBlur={() => setTouchedType(true)}
             required
           />
           <div className="invalid-feedback">Please enter a type!</div>

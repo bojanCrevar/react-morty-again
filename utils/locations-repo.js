@@ -5,6 +5,7 @@ const locationsRepo = {
   create,
   getById,
   update,
+  delete: _delete,
 };
 
 function getAll() {
@@ -29,6 +30,10 @@ function update({ id, name, dimension, type }) {
 
 function create(loc) {
   locations.push(loc);
+}
+
+function _delete(id) {
+  locations = locations.filter((x) => x.id.toString() !== id.toString());
 }
 
 export default locationsRepo;

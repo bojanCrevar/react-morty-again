@@ -106,5 +106,4 @@ function FormComponent({ submitHandler, initialData }) {
     </form>
   );
 }
-
 export default FormComponent;

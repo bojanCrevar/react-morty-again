@@ -4,13 +4,12 @@ import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const EpisodeList = ({ episodes }) => {
-  // const [mappedEpisodes, setMappedEpisodes] = useState(episodes);
+  const [mappedEpisodes, setMappedEpisodes] = useState(episodes);
   const router = useRouter();
   const locationscolumns = [
     { key: "name", title: "Title" },
     { key: "air_date", title: "Release date" },
     { key: "episode", title: "Episode" },
-    // { key: "characters", title: "Characters" },
     {
       key: "charactersString",
       title: "Characters",
@@ -23,15 +22,10 @@ const EpisodeList = ({ episodes }) => {
       .map((episodeCharData) => episodeCharData.characters)
       .reduce((prev, cur) => prev.concat(cur.split(",")), []);
 
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
+    function onlyUnique(charId, index, charIdArray) {
+      return charIdArray.indexOf(charId) === index;
     }
 
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-
-    console.log("UNIQ", uniqueArray.filter(onlyUnique));
     return uniqueArray.filter(onlyUnique);
   }
 
@@ -39,8 +33,6 @@ const EpisodeList = ({ episodes }) => {
     const response = await axios.get("api/characters/", {
       params: { characters },
       paramsSerializer: (params) => {
-        console.log("PARAMS: ", params.characters);
-
         return `characters=${extractUniqueCharacters(params.characters)}`;
       },
     });
@@ -52,26 +44,44 @@ const EpisodeList = ({ episodes }) => {
   useEffect(() => {
     let listChar = "";
     async function mapEpisodes() {
-      const charPromisesList = episodes.map((episode) => {
+      const charsByEpisodesList = episodes.map((episode) => {
+        let episodeCharIds = [];
         episode.characters.map((character) => {
-          listChar =
-            listChar +
-            character.slice(
-              character.lastIndexOf("/") + 1,
-              character.lastIndexOf("/") + 3
-            ) +
-            ",";
-
+          const curId = character.slice(
+            character.lastIndexOf("/") + 1,
+            character.lastIndexOf("/") + 3
+          );
+          listChar = listChar + curId + ",";
+          episodeCharIds.push(curId);
           return listChar;
         });
 
         return {
           id: episode.id,
           characters: listChar,
+          episodeCharIds: episodeCharIds,
         };
       });
 
-      getCharacter(charPromisesList);
+      const characters = (await getCharacter(charsByEpisodesList)).data
+        .characters;
+      charsByEpisodesList.forEach((chByEp, i) => {
+        const charNamesByEp = chByEp.episodeCharIds
+          .map(
+            (epCharId) =>
+              characters.find((c) => c.id.toString() === epCharId.toString())
+                .name
+          )
+          .join(", ");
+        mappedEpisodes[i].charactersString = charNamesByEp
+          .split(",")
+          .slice(0, 3)
+          .join(", ");
+
+        mappedEpisodes[i].charactersTooltip = charNamesByEp;
+        chByEp.charNames = charNamesByEp;
+      });
+      setMappedEpisodes([...mappedEpisodes]);
     }
     mapEpisodes();
   }, [episodes]);
@@ -83,8 +93,7 @@ const EpisodeList = ({ episodes }) => {
   return (
     <Fragment>
       <RMTable
-        tabledata={episodes}
-        // tabledata={mappedEpisodes}
+        tabledata={mappedEpisodes}
         columnconfig={locationscolumns}
         onUpdate={handleUpdate}
       />

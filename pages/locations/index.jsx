@@ -47,13 +47,13 @@ const LocationsPage = () => {
       <div>Pages: {pagesInfo.pages}</div>
       <Searchbar setKeyword={setKeyword} />
       <div className="pt-4">
-        <Link href="locations/create">
+        <Link href="/locations/create">
           <Button variant="success w-1/2" type="submit">
             Add location
           </Button>
         </Link>
       </div>
-      <LocationList locations={locations} />
+      <LocationList locations={locations} fetchData={fetchData} />
     </div>
   );
 };

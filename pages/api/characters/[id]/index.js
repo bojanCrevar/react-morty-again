@@ -27,5 +27,13 @@ export default async function handler(req, res) {
         res.status(200).json("success");
       }
       break;
+    case "DELETE":
+      {
+        let { id } = req.query;
+
+        myCharactersRepo.delete(id);
+        res.status(200).json("success");
+      }
+      break;
   }
 }

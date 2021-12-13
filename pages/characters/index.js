@@ -18,8 +18,16 @@ function Characters() {
     });
     setChars(response.data.results);
     setPagesInfo(response.data.info);
+  }
 
-    console.log("response", response);
+  async function deleteCharacter(id) {
+    const filteredChars = chars.filter(
+      (x) => x.id.toString() !== id.toString()
+    );
+    setChars(filteredChars);
+    const response = await axios.delete(
+      `/api/characters/${encodeURIComponent(id)}`
+    );
   }
 
   useEffect(() => {
@@ -54,7 +62,7 @@ function Characters() {
           </Button>
         </Link>
       </div>
-      <CharacterList characters={chars} />
+      <CharacterList characters={chars} deleteCharacter={deleteCharacter} />
     </div>
   );
 }

@@ -5,7 +5,6 @@ const PAGE_SIZE = 20;
 
 export default async function handler(req, res) {
   switch (req.method) {
-    default:
     case "GET":
       {
         let { activePage = 1, keyword = "" } = req.query;
@@ -40,6 +39,7 @@ export default async function handler(req, res) {
         });
       }
       break;
+
     case "POST":
       {
         const body = req.body;
@@ -50,6 +50,9 @@ export default async function handler(req, res) {
         locationsRepo.create(insertObj);
         res.status(200).json("success");
       }
+      break;
+
+    default:
       break;
   }
 }

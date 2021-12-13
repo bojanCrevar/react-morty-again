@@ -24,7 +24,12 @@ const CharCard = ({
   }
 
   return (
-    <div className="flex flex-row space-x-4 mt-4 border-2 bg-white ">
+    <div className="flex flex-row space-x-4 mt-4 border-2 bg-white">
+      {image ? (
+        <img src={image} className="h-32" alt="character" />
+      ) : (
+        <span className="bg-green-700 text-white">No image yet</span>
+      )}
       <div>
         {image ? (
           <img src={image} className="h-36 w-44 " alt="character" />
@@ -52,7 +57,7 @@ const CharCard = ({
       <div className="pt-12 pr-8 flex flex-row space-x-2">
         <div>
           <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info">Edit</Button>
+            <Button variant="outline-info">Edit character</Button>
           </Link>
         </div>
         <div>

@@ -31,16 +31,8 @@ function Characters() {
   }
 
   useEffect(() => {
-    if (activePage !== 1) {
-      setActivePage(1);
-    } else {
-      fetchData();
-    }
-  }, [keyword]);
-
-  useEffect(() => {
     fetchData();
-  }, [activePage]);
+  }, [activePage, keyword]);
 
   return (
     <div className="m-auto w-1/2 ">
@@ -54,7 +46,7 @@ function Characters() {
         setActivePage={setActivePage}
       />
       <div>Pages:{pagesInfo.count} </div>
-      <Searchbar setKeyword={setKeyword} />
+      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
       <div className="pt-4">
         <Link href="characters/create">
           <Button variant="success w-1/2" type="submit">

@@ -2,9 +2,10 @@ import React, { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
-const Searchbar = ({ setKeyword }) => {
+const Searchbar = ({ setKeyword, setActivePage }) => {
   function submitHandler(e) {
     e.preventDefault();
+    setActivePage(1);
     setKeyword(searchKeyword.current.value);
   }
 

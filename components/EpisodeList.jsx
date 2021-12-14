@@ -65,6 +65,7 @@ const EpisodeList = ({ episodes }) => {
 
       const characters = (await getCharacter(charsByEpisodesList)).data
         .characters;
+
       charsByEpisodesList.forEach((chByEp, i) => {
         const charNamesByEp = chByEp.episodeCharIds
           .map(
@@ -73,14 +74,16 @@ const EpisodeList = ({ episodes }) => {
                 .name
           )
           .join(", ");
-        mappedEpisodes[i].charactersString = charNamesByEp
-          .split(",")
-          .slice(0, 3)
-          .join(", ");
+        const charactersString = (mappedEpisodes[i].charactersString =
+          charNamesByEp.split(",").slice(0, 3).join(", "));
 
-        mappedEpisodes[i].charactersTooltip = charNamesByEp;
-        chByEp.charNames = charNamesByEp;
+        mappedEpisodes[i] = {
+          ...episodes[i],
+          charactersTooltip: charNamesByEp,
+          charactersString: charactersString,
+        };
       });
+
       setMappedEpisodes([...mappedEpisodes]);
     }
     mapEpisodes();

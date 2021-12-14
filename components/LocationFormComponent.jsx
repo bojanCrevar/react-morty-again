@@ -25,7 +25,7 @@ function LocationFormComponent({ submitHandler, initialData }) {
   }
 
   return (
-    <form onSubmit={submitFunction} novalidate>
+    <form onSubmit={submitFunction} noValidate>
       <div className="flex flex-col gap-y-2">
         <div className={touchedName ? "was-validated" : ""}>
           <FormControl

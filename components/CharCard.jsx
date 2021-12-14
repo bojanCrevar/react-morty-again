@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
-import axios from "axios";
 
 const CharCard = ({
   id,
@@ -25,11 +24,6 @@ const CharCard = ({
 
   return (
     <div className="flex flex-row space-x-4 mt-4 border-2 bg-white">
-      {image ? (
-        <img src={image} className="h-32" alt="character" />
-      ) : (
-        <span className="bg-green-700 text-white">No image yet</span>
-      )}
       <div>
         {image ? (
           <img src={image} className="h-36 w-44 " alt="character" />
@@ -39,7 +33,7 @@ const CharCard = ({
           </div>
         )}
       </div>
-      <div className="w-3/4 p-4">
+      <div className="w-2/4 p-4">
         <div>{name}</div>
         <div>
           <span className={checkStatus(status)}>{status} </span>- {species}
@@ -54,7 +48,7 @@ const CharCard = ({
           {location.name}
         </div>
       </div>
-      <div className="pt-12 pr-8 flex flex-row space-x-2">
+      <div className="pt-12 pl-8 flex flex-row space-x-2 ">
         <div>
           <Link href={"characters/edit/" + id}>
             <Button variant="outline-info">Edit character</Button>

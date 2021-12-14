@@ -20,7 +20,7 @@ const EpisodesPage = () => {
     setEpisodes(response.data.results);
     setPagesInfo(response.data.info);
   }
-
+  console.log("rerender iz epp pagea");
   useEffect(() => {
     if (activePage !== 1) {
       setActivePage(1);

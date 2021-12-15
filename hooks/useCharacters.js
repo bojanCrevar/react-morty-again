@@ -4,7 +4,6 @@ import axios from "axios";
 const useCharacters = (dataFromComponent, charactersPropName) => {
   const [mappedDataFromComponent, setMappedDataFromComponent] =
     useState(dataFromComponent);
-  console.log("data customHook", mappedDataFromComponent);
 
   function extractUniqueCharacters(dataCharacters) {
     const uniqueArray = dataCharacters
@@ -54,24 +53,29 @@ const useCharacters = (dataFromComponent, charactersPropName) => {
 
       const characters = (await getCharacter(charsByDataComponent)).data
         .characters;
-      charsByDataComponent.forEach((chByComp, i) => {
-        const charNamesByComp = chByComp.componentCharIds
-          .map(
-            (compCharId) =>
-              characters.find((c) => c.id.toString() === compCharId.toString())
-                .name
-          )
-          .join(", ");
-        const charactersString = (mappedDataFromComponent[i].charactersString =
-          charNamesByComp.split(",").slice(0, 3).join(", "));
-
-        mappedDataFromComponent[i] = {
-          ...dataFromComponent[i],
-          charactersTooltip: charNamesByComp,
-          charactersString: charactersString,
-        };
-      });
-      setMappedDataFromComponent([...mappedDataFromComponent]);
+        const newMappedData = [];
+        charsByDataComponent.forEach((chByComp, i) => {
+          const charNamesByComp = chByComp.componentCharIds
+            .map(
+              (compCharId) =>
+                characters.find(
+                  (c) => c.id.toString() === compCharId.toString()
+                ).name
+            )
+            .join(", ");
+          const charactersString = (mappedDataFromComponent[
+            i
+          ].charactersString = charNamesByComp
+            .split(",")
+            .slice(0, 3)
+            .join(", "));
+          newMappedData.push({
+            ...dataFromComponent[i],
+            charactersTooltip: charNamesByComp,
+            charactersString: charactersString,
+          });
+        });
+        setMappedDataFromComponent(newMappedData);
     }
     mapDataFromComponent();
   }, [dataFromComponent]);

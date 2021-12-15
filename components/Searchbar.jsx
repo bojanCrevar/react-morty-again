@@ -7,7 +7,6 @@ const Searchbar = ({ setKeyword, setActivePage }) => {
     e.preventDefault();
     setActivePage(1);
     setKeyword(searchKeyword.current.value);
-    setActivePage(1);
   }
 
   function clearHandler() {

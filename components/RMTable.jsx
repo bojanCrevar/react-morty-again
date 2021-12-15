@@ -9,7 +9,7 @@ const RMTable = ({
   onDelete,
 }) => {
   const [hovered, setHovered] = useState(null);
-  const cfgLength = columnConfig.length;
+  const lastColumn = columnConfig.length - 1;
 
   const locationsRender = tableData.map((data) => {
     return (
@@ -21,16 +21,14 @@ const RMTable = ({
         onMouseLeave={() => setHovered(null)}
       >
         {columnConfig.map((cfg, i) => {
-          if (i === cfgLength - 1) {
-            return (
-              <td className="flex items-center relative">
-                <span
-                  key={cfg.key}
-                  title={cfg.tooltip ? data[cfg.tooltip] : ""}
-                  className="text-left"
-                >
-                  {data[cfg.key]}
-                </span>
+          return (
+            <td
+              className={i === lastColumn ? "flex items-center relative" : ""}
+            >
+              <span key={cfg.key} title={cfg.tooltip ? data[cfg.tooltip] : ""}>
+                {data[cfg.key]}
+              </span>
+              {i === lastColumn ? (
                 <span className="position: absolute right-0">
                   <ActionButton
                     onUpdate={onUpdate}
@@ -39,15 +37,9 @@ const RMTable = ({
                     hovered={hovered === data.id}
                   />
                 </span>
-              </td>
-            );
-          } else {
-            return (
-              <td key={cfg.key} title={cfg.tooltip ? data[cfg.tooltip] : ""}>
-                {data[cfg.key]}
-              </td>
-            );
-          }
+              ) : null}
+            </td>
+          );
         })}
       </tr>
     );
@@ -58,15 +50,11 @@ const RMTable = ({
       <thead>
         <tr>
           {columnConfig.map((cfg, i) => {
-            if (i === cfgLength - 1) {
-              return (
-                <th key={cfg.key} className="w-1/4">
-                  {cfg.title}
-                </th>
-              );
-            } else {
-              return <th key={cfg.key}>{cfg.title}</th>;
-            }
+            return (
+              <th key={cfg.key} className={i === lastColumn ? "w-1/4" : ""}>
+                {cfg.title}
+              </th>
+            );
           })}
         </tr>
       </thead>

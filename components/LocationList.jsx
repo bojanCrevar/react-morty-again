@@ -2,8 +2,7 @@ import React from "react";
 import RMTable from "./RMTable";
 import Router from "next/router";
 import axios from "axios";
-import useCharacters from "./hooks/useCharacters";
-import { useEffect } from "react";
+import useCharacters from "../hooks/useCharacters";
 
 const LocationList = ({ locations, fetchData }) => {
   const locationscolumns = [
@@ -18,8 +17,6 @@ const LocationList = ({ locations, fetchData }) => {
   ];
 
   const mappedLocations = useCharacters(locations, "residents");
-  console.log("mappedLocations", mappedLocations);
-  useEffect(() => {}, [locations]);
 
   function handleUpdate(id) {
     Router.push("locations/edit/" + id);

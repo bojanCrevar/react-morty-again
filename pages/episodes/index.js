@@ -20,7 +20,7 @@ const EpisodesPage = () => {
     setEpisodes(response.data.results);
     setPagesInfo(response.data.info);
   }
-  console.log("rerender iz epp pagea");
+
   useEffect(() => {
     if (activePage !== 1) {
       setActivePage(1);
@@ -33,6 +33,7 @@ const EpisodesPage = () => {
     fetchData();
   }, [activePage]);
 
+  console.log("episodes", episodes);
   return (
     <div className="m-auto w-1/2 ">
       <h5 className="p-4 text-4xl	text-center">Rick & Morty list of episodes</h5>

@@ -7,18 +7,20 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 
 const LocationsPage = () => {
-  const [locations, setLocations] = useState();
+  const [data, setData] = useState({});
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
-  const [pagesInfo, setPagesInfo] = useState({});
+
+  const pagesInfo = data.info || {};
+  const locations = data.results || null;
 
   async function fetchData() {
     const response = await axios.get("api/locations", {
       params: { activePage, keyword },
     });
 
-    setLocations(response.data.results);
-    setPagesInfo(response.data.info);
+    console.log('Locations - fetchData', response.data)
+    setData(response.data);
   }
 
   useEffect(() => {

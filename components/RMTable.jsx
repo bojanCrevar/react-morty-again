@@ -10,7 +10,6 @@ const RMTable = ({
 }) => {
   const [hovered, setHovered] = useState(null);
   const lastColumn = columnConfig.length - 1;
-
   const locationsRender = tableData.map((data) => {
     return (
       <tr
@@ -22,10 +21,10 @@ const RMTable = ({
       >
         {columnConfig.map((cfg, i) => {
           return (
-            <td
+            <td key={cfg.key}
               className={i === lastColumn ? "flex items-center relative" : ""}
             >
-              <span key={cfg.key} title={cfg.tooltip ? data[cfg.tooltip] : ""}>
+              <span title={cfg.tooltip ? data[cfg.tooltip] : ""}>
                 {data[cfg.key]}
               </span>
               {i === lastColumn ? (

@@ -53,26 +53,29 @@ const useCharacters = (dataFromComponent, charactersPropName) => {
 
       const characters = (await getCharacter(charsByDataComponent)).data
         .characters;
-      const newMappedData = [];
-      charsByDataComponent.forEach((chByComp, i) => {
-        const charNamesByComp = chByComp.componentCharIds
-          .map(
-            (compCharId) =>
-              characters.find((c) => c.id.toString() === compCharId.toString())
-                .name
-          )
-          .join(", ");
-        const charactersString = charNamesByComp
-          .split(",")
-          .slice(0, 3)
-          .join(", ");
-        newMappedData.push({
-          ...dataFromComponent[i],
-          charactersTooltip: charNamesByComp,
-          charactersString: charactersString,
+        const newMappedData = [];
+        charsByDataComponent.forEach((chByComp, i) => {
+          const charNamesByComp = chByComp.componentCharIds
+            .map(
+              (compCharId) =>
+                characters.find(
+                  (c) => c.id.toString() === compCharId.toString()
+                ).name
+            )
+            .join(", ");
+          const charactersString = (mappedDataFromComponent[
+            i
+          ].charactersString = charNamesByComp
+            .split(",")
+            .slice(0, 3)
+            .join(", "));
+          newMappedData.push({
+            ...dataFromComponent[i],
+            charactersTooltip: charNamesByComp,
+            charactersString: charactersString,
+          });
         });
-      });
-      setMappedDataFromComponent(newMappedData);
+        setMappedDataFromComponent(newMappedData);
     }
     mapDataFromComponent();
   }, [dataFromComponent]);

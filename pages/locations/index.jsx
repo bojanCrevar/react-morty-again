@@ -7,7 +7,7 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 
 const LocationsPage = () => {
-  const [locations, setLocations] = useState([]);
+  const [locations, setLocations] = useState();
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
   const [pagesInfo, setPagesInfo] = useState({});
@@ -22,16 +22,8 @@ const LocationsPage = () => {
   }
 
   useEffect(() => {
-    if (activePage !== 1) {
-      setActivePage(1);
-    } else {
-      fetchData();
-    }
-  }, [keyword]);
-
-  useEffect(() => {
     fetchData();
-  }, [activePage]);
+  }, [activePage, keyword]);
 
   return (
     <div className="m-auto w-1/2">
@@ -45,7 +37,7 @@ const LocationsPage = () => {
         setActivePage={setActivePage}
       />
       <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar setKeyword={setKeyword} />
+      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
       <div className="pt-4">
         <Link href="/locations/create">
           <Button variant="success w-1/2" type="submit">
@@ -53,7 +45,13 @@ const LocationsPage = () => {
           </Button>
         </Link>
       </div>
-      <LocationList locations={locations} fetchData={fetchData} />
+      <div className="mt-8">
+        {locations ? (
+          <LocationList locations={locations} fetchData={fetchData} />
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </div>
   );
 };

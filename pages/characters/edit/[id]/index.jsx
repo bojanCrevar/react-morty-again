@@ -15,6 +15,7 @@ export default function EditCharacter(props) {
     gender,
     species,
     location,
+    image,
   }) {
     const character = {
       id: id,
@@ -23,6 +24,7 @@ export default function EditCharacter(props) {
       gender: gender,
       species: species,
       location: location,
+      image: image,
     };
 
     const response = await axios.put(

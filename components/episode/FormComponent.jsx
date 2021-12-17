@@ -8,7 +8,7 @@ import moment from "moment";
 
 function FormComponent({ submitHandler, initialData }) {
   function submitFunction(submittedEpisodeData) {
-    submittedEpisodeData.id = initialData.airDate;
+    submittedEpisodeData.id = initialData.id;
     submittedEpisodeData.air_date = submittedEpisodeData.airDate;
 
     delete submittedEpisodeData.airDate;

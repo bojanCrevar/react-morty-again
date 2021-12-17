@@ -9,9 +9,7 @@ export default function EditEpisode(props) {
   const [episode, setEpisode] = useState();
 
   async function submitHandler({ id, name, air_date, episodeDesc }) {
-    var airDateObject = new Date(air_date);
-    var formattedAirDate = moment(airDateObject).format("MMMM DD, yyyy");
-
+    var formattedAirDate = moment(new Date(air_date)).format("MMMM DD, yyyy");
     const episode = {
       id: id,
       name: name,

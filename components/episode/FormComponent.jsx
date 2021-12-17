@@ -4,11 +4,15 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
+import moment from "moment";
 
 function FormComponent({ submitHandler, initialData }) {
   function submitFunction(submittedEpisodeData) {
-    submittedEpisodeData.air_data = submittedEpisodeData.airDate;
+    submittedEpisodeData.id = initialData.airDate;
+    submittedEpisodeData.air_date = submittedEpisodeData.airDate;
+
     delete submittedEpisodeData.airDate;
+
     submitHandler(submittedEpisodeData);
   }
 
@@ -16,7 +20,9 @@ function FormComponent({ submitHandler, initialData }) {
     name: Yup.string()
       .min(4, "Must be 4 characters or more")
       .required("Required amigo"),
-    airDate: Yup.string("Date error").required("Required"),
+    airDate: Yup.date("Date error")
+      .required("Required")
+      .max(new Date(), "Ait Date can not be in future"),
     episodeDesc: Yup.string()
       .matches(
         /^S[0-9][1-9]E[0-9][1-9]$/,
@@ -27,8 +33,8 @@ function FormComponent({ submitHandler, initialData }) {
 
   const initialValues = {
     name: initialData.name,
-    airDate: initialData.air_date,
-    episodeDesc: initialData.episodeDesc,
+    airDate: moment(new Date(initialData.air_date)).format("YYYY-MM-DD"),
+    episodeDesc: initialData.episode,
   };
 
   const formik = useFormik({
@@ -63,7 +69,7 @@ function FormComponent({ submitHandler, initialData }) {
         >
           <Form.Control
             name="airDate"
-            type="text"
+            type="date"
             className="input form-control"
             placeholder="Air date"
             value={formik.values.airDate}

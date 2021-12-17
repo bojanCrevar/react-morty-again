@@ -6,8 +6,7 @@ import moment from "moment";
 
 export default function CreateEpisode() {
   async function submitHandler({ name, air_date, episodeDesc }) {
-    var airDateObject = new Date(air_date);
-    var formattedAirDate = moment(airDateObject).format("MMMM DD, yyyy");
+    var formattedAirDate = moment(new Date(air_date)).format("MMMM DD, yyyy");
 
     const episode = {
       name: name,

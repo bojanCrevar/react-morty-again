@@ -43,7 +43,7 @@ const EpisodesPage = () => {
         setActivePage={setActivePage}
       />
       <div>Pages: </div>
-      <Searchbar setKeyword={setKeyword} />
+      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
       <div className="pt-4">
         <Link href="/episodes/create">
           <Button variant="success w-1/2" type="submit">

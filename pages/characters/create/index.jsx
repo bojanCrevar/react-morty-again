@@ -4,13 +4,21 @@ import FormComponent from "../../../components/FormComponent";
 import Wrapper from "../../../components/Wrapper";
 
 export default function CreateCharacter() {
-  async function submitHandler({ name, status, gender, species, location }) {
+  async function submitHandler({
+    name,
+    status,
+    gender,
+    species,
+    location,
+    image,
+  }) {
     const character = {
       name: name,
       status: status,
       gender: gender,
       species: species,
       location: { name: location },
+      image: image,
     };
     const response = await axios.post("/api/characters", character);
     if (response.status === 200) {

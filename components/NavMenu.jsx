@@ -22,7 +22,11 @@ const NavMenu = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {navLinks.map((nav) => {
-              return <Nav.Link href={nav.path}>{nav.name}</Nav.Link>;
+              return (
+                <Nav.Link href={nav.path} key={nav.name}>
+                  {nav.name}
+                </Nav.Link>
+              );
             })}
           </Nav>
         </Navbar.Collapse>

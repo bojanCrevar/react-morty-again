@@ -34,7 +34,7 @@ const useCharacters = (dataFromComponent, charactersPropName) => {
     async function mapDataFromComponent() {
       const charsByDataComponent = dataFromComponent.map((data) => {
         let componentCharIds = [];
-        data[charactersPropName].map((character) => {
+        data[charactersPropName]?.map((character) => {
           const curId = character.slice(
             character.lastIndexOf("/") + 1,
             character.lastIndexOf("/") + 3

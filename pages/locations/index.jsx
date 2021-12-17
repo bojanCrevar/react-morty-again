@@ -20,7 +20,6 @@ const LocationsPage = () => {
     setLocations(response.data.results);
     setPagesInfo(response.data.info);
   }
-
   useEffect(() => {
     fetchData();
   }, [activePage, keyword]);

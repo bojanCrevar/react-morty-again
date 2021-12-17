@@ -11,25 +11,21 @@ const RMTable = ({
   const [hovered, setHovered] = useState(null);
   const lastColumn = columnConfig.length - 1;
 
-  const locationsRender = tableData.map((data) => {
+  const dataRender = tableData.map((data) => {
     return (
       <tr
         key={data.id}
-        onMouseEnter={() => {
-          setHovered(data.id);
-        }}
+        onMouseEnter={() => setHovered(data.id)}
         onMouseLeave={() => setHovered(null)}
       >
         {columnConfig.map((cfg, i) => {
           return (
-            <td
-              className={i === lastColumn ? "flex items-center relative" : ""}
-            >
-              <span key={cfg.key} title={cfg.tooltip ? data[cfg.tooltip] : ""}>
+            <td key={cfg.key} className={i === lastColumn ? "relative" : ""}>
+              <span title={cfg.tooltip ? data[cfg.tooltip] : ""}>
                 {data[cfg.key]}
               </span>
               {i === lastColumn ? (
-                <span className="position: absolute right-0">
+                <span className="position: absolute right-1">
                   <ActionButton
                     onUpdate={onUpdate}
                     onDelete={onDelete}
@@ -58,7 +54,7 @@ const RMTable = ({
           })}
         </tr>
       </thead>
-      <tbody>{locationsRender}</tbody>
+      <tbody>{dataRender}</tbody>
     </Table>
   );
 };

@@ -18,7 +18,7 @@ const HomePage = () => {
   return (
     <div className="flex-1 relative">
       <div style={myStyle}></div>
-      <div className="text-center relative">
+      <div className="text-center">
         <h1 className="lg:text-6xl lg:pt-48 md:text-4xl md:pt-32 sm:text-2xl sm:pt-20 opacity-60">
           Welcome to the Rick and Morty app
         </h1>

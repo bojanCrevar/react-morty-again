@@ -1,91 +1,109 @@
-import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import FormControl from "react-bootstrap/FormControl";
+import Form from "react-bootstrap/Form";
 import Link from "next/link";
+import { useFormik } from "formik";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import * as Yup from "yup";
 
 function LocationFormComponent({ submitHandler, initialData }) {
-  const [name, setName] = useState(initialData.name || "");
-  const [dimension, setDimension] = useState(initialData.dimension || "");
-  const [type, setType] = useState(initialData.type || "");
-
-  const isFormValid = name && dimension && type && name.length > 3;
-
-  const [id, setId] = useState(initialData.id);
-  const [touchedName, setTouchedName] = useState(false);
-  const [touchedDimension, setTouchedDimension] = useState(false);
-  const [touchedType, setTouchedType] = useState(false);
-
-  const handleName = (e) => setName(e.target.value);
-  const handleDimension = (e) => setDimension(e.target.value);
-  const handleType = (e) => setType(e.target.value);
-
-  function submitFunction(e) {
-    e.preventDefault();
-    submitHandler({ id, name, dimension, type });
+  function submitFunction(submittedLocationsData) {
+    submittedLocationsData.id = initialData.id;
+    submitHandler(submittedLocationsData);
   }
 
-  return (
-    <form onSubmit={submitFunction} noValidate>
-      <div className="flex flex-col gap-y-2">
-        <div className={touchedName ? "was-validated" : ""}>
-          <FormControl
-            aria-label="Default"
-            aria-describedby="inputGroup-sizing-default"
-            placeholder="Name"
-            value={name}
-            onChange={handleName}
-            onBlur={() => setTouchedName(true)}
-            minLength="3"
-            required
-          />
-          <div className="invalid-feedback">
-            {!name
-              ? "Please enter a name!"
-              : name.length < 3
-              ? "Name must have at least three characters!"
-              : ""}
-          </div>
-        </div>
+  const locationsSchema = Yup.object({
+    name: Yup.string()
+      .min(3, "Must be 3 characters or more")
+      .required("Name field is required."),
+    dimension: Yup.string()
+      .min(3, "Must be 3 characters or more")
+      .required("Dimension field is required."),
+    type: Yup.string()
+      .min(3, "Must be 3 characters or more")
+      .required("Type field is required."),
+  });
 
-        <div className={touchedDimension ? "was-validated" : ""}>
-          <FormControl
-            aria-label="Default"
-            aria-describedby="inputGroup-sizing-default"
+  const initialValues = {
+    name: initialData.name,
+    dimension: initialData.dimension,
+    type: initialData.type,
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: locationsSchema,
+    onSubmit: submitFunction,
+  });
+
+  return (
+    <Form noValidate onSubmit={formik.handleSubmit}>
+      <div className="flex flex-col gap-y-2">
+        <FloatingLabel controlId="floatingInput" label="Name" className="mb-3">
+          <Form.Control
+            name="name"
+            type="text"
+            className="input form-control"
+            placeholder="Location's name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            isInvalid={formik.touched.name && formik.errors.name}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.name}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+
+        <FloatingLabel
+          controlId="floatingInput"
+          label="Dimension"
+          className="mb-3"
+        >
+          <Form.Control
+            name="dimension"
+            type="text"
+            className="input form-control"
             placeholder="Dimension"
-            value={dimension}
-            onChange={handleDimension}
-            onBlur={() => setTouchedDimension(true)}
-            required
+            value={formik.values.dimension}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            isInvalid={formik.touched.dimension && formik.errors.dimension}
           />
-          <div className="invalid-feedback">Please enter a dimension!</div>
-        </div>
-        <div className={touchedType ? "was-validated" : ""}>
-          <FormControl
-            aria-label="Default"
-            aria-describedby="inputGroup-sizing-default"
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.dimension}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+
+        <FloatingLabel controlId="floatingInput" label="Type" className="mb-3">
+          <Form.Control
+            name="type"
+            type="text"
+            className="input form-control"
             placeholder="Type"
-            value={type}
-            onChange={handleType}
-            onBlur={() => setTouchedType(true)}
-            required
+            value={formik.values.type}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            isInvalid={formik.touched.type && formik.errors.type}
           />
-          <div className="invalid-feedback">Please enter a type!</div>
-        </div>
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.type}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+
         <div className="flex flex-row p-2">
           <Link href="/locations">
-            <Button variant="btn btn-outline-danger  w-1/2 mr-2">Back</Button>
+            <Button variant="btn btn-outline-danger w-1/2 mr-2">Back</Button>
           </Link>
-
           <Button
             variant="btn btn-outline-success w-1/2"
             type="submit"
-            disabled={!isFormValid}
+            disabled={!formik.isValid}
           >
             {!initialData ? "Add new location!" : "Update location"}
           </Button>
         </div>
       </div>
-    </form>
+    </Form>
   );
 }
 export default LocationFormComponent;

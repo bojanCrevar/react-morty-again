@@ -26,7 +26,16 @@ const CharCard = ({
     <div className="flex flex-row space-x-4 mt-4 border-2 bg-white">
       <div>
         {image ? (
-          <img src={image} className="h-36 w-44 " alt="character" />
+          <img
+            src={image}
+            className="h-36 w-44 "
+            alt="character"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src =
+                "https://rickandmortyapi.com/api/character/avatar/19.jpeg";
+            }}
+          />
         ) : (
           <div className="h-36 w-36 bg-green-700 text-white text-center">
             No image yet

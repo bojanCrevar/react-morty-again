@@ -6,7 +6,7 @@ import { navLinks } from "../utils/navLinks";
 
 const NavMenu = () => {
   return (
-    <Navbar bg="light" expand="lg" sticky="top">
+    <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">
           <img

@@ -5,16 +5,18 @@ import CharacterList from "../../components/CharacterList";
 import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
 import axios from "axios";
+import SortComponent from "../../components/SortComponent";
 
 function Characters() {
   const [chars, setChars] = useState([]);
   const [pagesInfo, setPagesInfo] = useState({});
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
+  const [sort, setSort] = useState("id");
 
   async function fetchData() {
     const response = await axios.get("/api/characters", {
-      params: { activePage, keyword },
+      params: { activePage, keyword, sort },
     });
     setChars(response.data.results);
     setPagesInfo(response.data.info);
@@ -32,12 +34,12 @@ function Characters() {
 
   useEffect(() => {
     fetchData();
-  }, [activePage, keyword]);
+  }, [activePage, keyword, sort]);
 
   return (
     <div className="m-auto w-1/2 ">
       <h5 className="p-4 text-4xl	text-center">
-        Rick & Morty characters - {chars && chars.length}
+        List of characters - {pagesInfo.count}
       </h5>
 
       <Pagination
@@ -45,14 +47,15 @@ function Characters() {
         activePage={activePage}
         setActivePage={setActivePage}
       />
-      <div>Pages:{pagesInfo.count} </div>
+      <div>Pages: {pagesInfo.pages}</div>
       <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
-      <div className="pt-4">
+      <div className="pt-4 relative">
         <Link href="characters/create">
           <Button variant="success w-1/2" type="submit">
             Add character!
           </Button>
         </Link>
+        <SortComponent setSort={setSort} />
       </div>
       <CharacterList characters={chars} deleteCharacter={deleteCharacter} />
     </div>

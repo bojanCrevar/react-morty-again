@@ -4,26 +4,35 @@ const PAGE_SIZE = 20;
 
 export default async function handler(req, res) {
   switch (req.method) {
+    default:
     case "GET":
       {
-        let { activePage = 1, keyword = "" } = req.query;
+        let { activePage = 1, keyword = "", sort = "" } = req.query;
         keyword = keyword.toLowerCase();
+
         const allEpisodes = episodesRepo.getAll();
         const episodesFiltered = keyword
           ? allEpisodes.filter((ch) => ch.name.toLowerCase().includes(keyword))
           : allEpisodes;
 
-        let startIndex = (activePage - 1) * PAGE_SIZE;
-        let endIndex = Math.min(
-          startIndex + PAGE_SIZE,
-          episodesFiltered.length
-        );
+        const episodesSorted =
+          sort === "id"
+            ? episodesFiltered.sort((a, b) => {
+                return a.id - b.id;
+              })
+            : episodesFiltered.sort((a, b) => {
+                const isReversed = sort === "asc" ? 1 : -1;
+                return isReversed * a.name.localeCompare(b.name);
+              });
 
-        const episodesPaginated = episodesFiltered.slice(startIndex, endIndex);
+        let startIndex = (activePage - 1) * PAGE_SIZE;
+        let endIndex = Math.min(startIndex + PAGE_SIZE, episodesSorted.length);
+
+        const episodesPaginated = episodesSorted.slice(startIndex, endIndex);
 
         const infoPage = {
-          count: episodesFiltered.length,
-          pages: episodesFiltered.length / PAGE_SIZE,
+          count: episodesSorted.length,
+          pages: Math.ceil(episodesSorted.length / PAGE_SIZE),
         };
 
         res.status(200).json({
@@ -37,11 +46,6 @@ export default async function handler(req, res) {
         const body = req.body;
         const insertObj = {
           id: episodesRepo.getAll().length + 1,
-          characters: [
-            "https://rickandmortyapi.com/api/character/1",
-            "https://rickandmortyapi.com/api/character/2",
-            "https://rickandmortyapi.com/api/character/35",
-          ],
           ...body,
         };
         episodesRepo.create(insertObj);

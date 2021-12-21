@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
       {
-        let { activePage = 1, keyword = "" } = req.query;
+        let { activePage = 1, keyword = "", sort = "" } = req.query;
         keyword = keyword.toLowerCase();
 
         const allLocations = locationsRepo.getAll();
@@ -17,20 +17,24 @@ export default async function handler(req, res) {
             )
           : allLocations;
 
-        let startIndex = (activePage - 1) * PAGE_SIZE;
-        let endIndex = Math.min(
-          startIndex + PAGE_SIZE,
-          locationsFiltered.length
-        );
+        const locationsSorted =
+          sort === "id"
+            ? locationsFiltered.sort((a, b) => {
+                return a.id - b.id;
+              })
+            : locationsFiltered.sort((a, b) => {
+                const isReversed = sort === "asc" ? 1 : -1;
+                return isReversed * a.name.localeCompare(b.name);
+              });
 
-        const locationsPaginated = locationsFiltered.slice(
-          startIndex,
-          endIndex
-        );
+        let startIndex = (activePage - 1) * PAGE_SIZE;
+        let endIndex = Math.min(startIndex + PAGE_SIZE, locationsSorted.length);
+
+        const locationsPaginated = locationsSorted.slice(startIndex, endIndex);
 
         const infoPage = {
-          count: locationsFiltered.length,
-          pages: Math.ceil(locationsFiltered.length / PAGE_SIZE),
+          count: locationsSorted.length,
+          pages: Math.ceil(locationsSorted.length / PAGE_SIZE),
         };
 
         res.status(200).json({

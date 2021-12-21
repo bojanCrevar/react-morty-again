@@ -20,7 +20,16 @@ function create(char) {
   characters.push(char);
 }
 
-function update({ id, name, status, gender, species, location, image }) {
+function update({
+  id,
+  name,
+  status,
+  gender,
+  species,
+  location,
+  image,
+  favourite,
+}) {
   const user = characters.find((x) => x.id.toString() === id.toString());
   const index = characters.findIndex((x) => x.id.toString() === id.toString());
 
@@ -32,6 +41,7 @@ function update({ id, name, status, gender, species, location, image }) {
     gender: gender,
     species: species,
     image: image,
+    favourite: favourite,
   };
 }
 

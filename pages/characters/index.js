@@ -35,7 +35,7 @@ function Characters() {
   }, [activePage, keyword]);
 
   return (
-    <div className="m-auto w-1/2 ">
+    <div className="m-auto w-3/4 2xl:w-1/2">
       <h5 className="p-4 text-4xl	text-center">
         Rick & Morty characters - {chars && chars.length}
       </h5>

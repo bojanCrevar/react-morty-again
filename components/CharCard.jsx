@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
+import FavouriteIcon from "./FavoriteIcon";
+import axios from "axios";
 
 const CharCard = ({
   id,
@@ -11,7 +13,10 @@ const CharCard = ({
   status,
   location,
   deleteCharacter,
+  favourite,
 }) => {
+  const [favouriteState, setFavouriteState] = useState(favourite);
+
   function checkStatus(status) {
     if (status === "Alive") {
       return "text-green-700";
@@ -22,9 +27,31 @@ const CharCard = ({
     }
   }
 
+  async function toggleFavourite(favourite, finishedCallback) {
+    try {
+      const response = await axios.put("api/characters/" + id, {
+        id: id,
+        name: name,
+        image: image,
+        species: species,
+        gender: gender,
+        status: status,
+        location: location.name,
+        favourite: favourite,
+      });
+
+      console.log("response", response);
+
+      finishedCallback();
+    } catch (error) {
+      console.log(error);
+      finishedCallback(error.response.data.error);
+    }
+  }
+
   return (
     <div className="flex flex-row space-x-4 mt-4 border-2 bg-white">
-      <div>
+      <div className="w-1/6">
         {image ? (
           <img
             src={image}
@@ -42,7 +69,8 @@ const CharCard = ({
           </div>
         )}
       </div>
-      <div className="w-2/4 p-4">
+
+      <div className="w-3/6 p-2">
         <div>{name}</div>
         <div>
           <span className={checkStatus(status)}>{status} </span>- {species}
@@ -57,14 +85,26 @@ const CharCard = ({
           {location.name}
         </div>
       </div>
-      <div className="pt-12 pl-8 flex flex-row space-x-2 ">
+      <div className="w-2/6 flex flex-col text-right space-y-2 p-2 ">
+        <div>
+          <FavouriteIcon
+            toggleFavourite={toggleFavourite}
+            favouriteState={favouriteState}
+          />
+        </div>
         <div>
           <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info">Edit character</Button>
+            <Button variant="outline-info" className="w-5/6 ">
+              Edit character
+            </Button>
           </Link>
         </div>
         <div>
-          <Button variant="btn btn-danger" onClick={() => deleteCharacter(id)}>
+          <Button
+            className="w-5/6 "
+            variant="btn btn-danger"
+            onClick={() => deleteCharacter(id)}
+          >
             Delete
           </Button>
         </div>

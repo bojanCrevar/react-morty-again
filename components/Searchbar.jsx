@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
-const Searchbar = ({ setKeyword, setActivePage }) => {
+const Searchbar = ({ setKeyword, initKeyword, setActivePage }) => {
   function submitHandler(e) {
     e.preventDefault();
     setActivePage(1);
@@ -25,6 +25,7 @@ const Searchbar = ({ setKeyword, setActivePage }) => {
             aria-describedby="inputGroup-sizing-default"
             placeholder="Search"
             ref={searchKeyword}
+            defaultValue={initKeyword}
           />
           <Button variant="primary" type="submit">
             Search

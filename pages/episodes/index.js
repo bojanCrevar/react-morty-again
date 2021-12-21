@@ -1,18 +1,20 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import EpisodeList from "../../components/EpisodeList";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import { setNestedObjectValues } from "formik";
 import SortComponent from "../../components/SortComponent";
+import { useRouter } from "next/router";
 
-const EpisodesPage = () => {
+const EpisodesPage = (props) => {
+  const router = useRouter();
+
   const [episodes, setEpisodes] = useState();
   const [pagesInfo, setPagesInfo] = useState({});
-  const [activePage, setActivePage] = useState(1);
-  const [keyword, setKeyword] = useState();
+  const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
+  const [keyword, setKeyword] = useState(props?.query?.keyword || "");
   const [sort, setSort] = useState("id");
 
   async function fetchData() {
@@ -23,8 +25,13 @@ const EpisodesPage = () => {
     setEpisodes(response.data.results);
     setPagesInfo(response.data.info);
   }
+
   useEffect(() => {
     fetchData();
+    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+    router.push(`?activePage=${activePage}${keywordQuery}`, undefined, {
+      shallow: true,
+    });
   }, [activePage, keyword, sort]);
 
   return (
@@ -38,7 +45,11 @@ const EpisodesPage = () => {
         setActivePage={setActivePage}
       />
       <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
+      <Searchbar
+        setKeyword={setKeyword}
+        initKeyword={keyword}
+        setActivePage={setActivePage}
+      />
       <div className="pt-4 relative">
         <Link href="/episodes/create">
           <Button variant="success w-1/2" type="submit">
@@ -53,5 +64,9 @@ const EpisodesPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps({ query }) {
+  return { props: { query: query || null } };
+}
 
 export default EpisodesPage;

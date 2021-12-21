@@ -21,10 +21,17 @@ export default async function handler(req, res) {
       break;
     case "PUT":
       {
-        const body = req.body;
-        myCharactersRepo.update(body);
+        setTimeout(() => {
+          const body = req.body;
+          let random_boolean = Math.random() < 0.7;
 
-        res.status(200).json("success");
+          if (random_boolean === true) {
+            myCharactersRepo.update(body);
+            res.status(200).json("success");
+          } else {
+            res.status(500).json({ error: "failed to load data" });
+          }
+        }, 3000);
       }
       break;
     case "DELETE":

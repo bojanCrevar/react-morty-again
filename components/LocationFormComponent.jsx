@@ -24,9 +24,9 @@ function LocationFormComponent({ submitHandler, initialData }) {
   });
 
   const initialValues = {
-    name: initialData.name,
-    dimension: initialData.dimension,
-    type: initialData.type,
+    name: initialData.name || "",
+    dimension: initialData.dimension || "",
+    type: initialData.type || "",
   };
 
   const formik = useFormik({

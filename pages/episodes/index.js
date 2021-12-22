@@ -10,28 +10,30 @@ import { useRouter } from "next/router";
 
 const EpisodesPage = (props) => {
   const router = useRouter();
-
-  const [episodes, setEpisodes] = useState();
-  const [pagesInfo, setPagesInfo] = useState({});
   const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
   const [keyword, setKeyword] = useState(props?.query?.keyword || "");
   const [sort, setSort] = useState("id");
+  const [data, setData] = useState({});
+  const { results: episodes, info: pagesInfo = {} } = data;
 
   async function fetchData() {
     const response = await axios.get("/api/episodes", {
       params: { activePage, keyword, sort },
     });
-
-    setEpisodes(response.data.results);
-    setPagesInfo(response.data.info);
+    setData(response.data);
   }
 
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    router.push(`?activePage=${activePage}${keywordQuery}`, undefined, {
-      shallow: true,
-    });
+    const sortQuery = sort ? `&sort=${sort}` : "";
+    router.push(
+      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   }, [activePage, keyword, sort]);
 
   return (

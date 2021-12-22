@@ -5,8 +5,6 @@ import ActionButton from "./ActionButton";
 const RMTable = ({
   columnconfig: columnConfig,
   tabledata: tableData,
-  onUpdate,
-  onDelete,
 }) => {
   const [hovered, setHovered] = useState(null);
   const lastColumn = columnConfig.length - 1;
@@ -27,8 +25,6 @@ const RMTable = ({
               {i === lastColumn ? (
                 <span className="position: absolute right-1">
                   <ActionButton
-                    onUpdate={onUpdate}
-                    onDelete={onDelete}
                     id={data.id}
                     hovered={hovered === data.id}
                   />

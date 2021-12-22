@@ -12,7 +12,7 @@ const CharCard = ({
   gender,
   status,
   location,
-  deleteCharacter,
+  handleDelete,
   favourite,
 }) => {
   const [favouriteState, setFavouriteState] = useState(favourite);
@@ -103,7 +103,7 @@ const CharCard = ({
           <Button
             className="w-5/6 "
             variant="btn btn-danger"
-            onClick={() => deleteCharacter(id)}
+            onClick={() => handleDelete(id)}
           >
             Delete
           </Button>

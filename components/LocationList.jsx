@@ -3,6 +3,7 @@ import RMTable from "./RMTable";
 import Router from "next/router";
 import axios from "axios";
 import useCharacters from "../hooks/useCharacters";
+import { ActionContext } from "../context/ActionContext";
 
 const LocationList = ({ locations, fetchData }) => {
   const locationscolumns = [
@@ -33,12 +34,9 @@ const LocationList = ({ locations, fetchData }) => {
 
   return (
     <div className="mt-4">
-      <RMTable
-        tabledata={mappedLocations}
-        columnconfig={locationscolumns}
-        onUpdate={handleUpdate}
-        onDelete={handleDelete}
-      />
+      <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+        <RMTable tabledata={mappedLocations} columnconfig={locationscolumns} />
+      </ActionContext.Provider>
     </div>
   );
 };

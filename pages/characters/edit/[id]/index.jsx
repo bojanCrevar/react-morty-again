@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
 import FormComponent from "../../../../components/FormComponent";
-import myCharactersRepo from "../../../../utils/character-repo";
 import Wrapper from "../../../../components/Wrapper";
 
 export default function EditCharacter(props) {

@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LocationFormComponent from "../../../../components/LocationFormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import Router from "next/router";
+import { OverlayContext } from "../../../../context/OverlayContext";
 
 const EditLocation = (props) => {
   const [location, setLocation] = useState();
+
+  const { setShowLoading } = useContext(OverlayContext);
 
   const submitHandler = async ({ id, name, dimension, type }) => {
     const location = {
@@ -25,11 +28,16 @@ const EditLocation = (props) => {
   };
 
   const getLocation = async () => {
-    const response = await axios.get(
-      `/api/locations/${encodeURIComponent(props.params.id)}`
-    );
+    setShowLoading(true);
 
-    setLocation(response.data.location);
+    try {
+      const response = await axios.get(
+        `/api/locations/${encodeURIComponent(props.params.id)}`
+      );
+      setLocation(response.data.location);
+    } finally {
+      setShowLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -43,9 +51,7 @@ const EditLocation = (props) => {
         initialData={location}
       />
     </Wrapper>
-  ) : (
-    <div>Loading...</div>
-  );
+  ) : null;
 };
 
 export default EditLocation;

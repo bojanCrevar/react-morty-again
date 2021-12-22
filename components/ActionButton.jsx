@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import {ActionContext} from '../context/ActionContext';
 
-const ActionButton = ({ onUpdate, onDelete, id, hovered }) => {
+const ActionButton = ({ id, hovered }) => {
+  const {handleDelete: onDelete, handleUpdate: onUpdate} = useContext(ActionContext);
   const visibilityClass = hovered ? "visible" : "invisible";
   const deleteButton = onDelete ? (
     <FontAwesomeIcon

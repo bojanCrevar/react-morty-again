@@ -6,24 +6,34 @@ import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import SortComponent from "../../components/SortComponent";
+import { useRouter } from "next/router";
 
-const LocationsPage = () => {
-  const [locations, setLocations] = useState();
-  const [activePage, setActivePage] = useState(1);
-  const [keyword, setKeyword] = useState();
-  const [pagesInfo, setPagesInfo] = useState({});
+const LocationsPage = (props) => {
+  const router = useRouter();
+  const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
+  const [keyword, setKeyword] = useState(props?.query?.keyword || "");
   const [sort, setSort] = useState("id");
+  const [data, setData] = useState({});
+  const { results: locations, info: pagesInfo = {} } = data;
 
   async function fetchData() {
     const response = await axios.get("api/locations", {
       params: { activePage, keyword, sort },
     });
-
-    setLocations(response.data.results);
-    setPagesInfo(response.data.info);
+    setData(response.data);
   }
+
   useEffect(() => {
     fetchData();
+    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+    const sortQuery = sort ? `&sort=${sort}` : "";
+    router.push(
+      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   }, [activePage, keyword, sort]);
 
   return (
@@ -57,5 +67,9 @@ const LocationsPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps({ query }) {
+  return { props: { query: query || null } };
+}
 
 export default LocationsPage;

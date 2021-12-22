@@ -12,7 +12,7 @@ const CharCard = ({
   gender,
   status,
   location,
-  deleteCharacter,
+  fetchData,
   favourite,
 }) => {
   const [favouriteState, setFavouriteState] = useState(favourite);
@@ -46,6 +46,16 @@ const CharCard = ({
     } catch (error) {
       console.log(error);
       finishedCallback(error.response.data.error);
+    }
+  }
+
+  async function handleDelete(id) {
+    const response = await axios.delete(
+      `/api/characters/${encodeURIComponent(id)}`
+    );
+
+    if (response.status === 200) {
+      fetchData();
     }
   }
 
@@ -103,7 +113,7 @@ const CharCard = ({
           <Button
             className="w-5/6 "
             variant="btn btn-danger"
-            onClick={() => deleteCharacter(id)}
+            onClick={() => handleDelete(id)}
           >
             Delete
           </Button>

@@ -6,34 +6,34 @@ import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
 import axios from "axios";
 import SortComponent from "../../components/SortComponent";
+import { useRouter } from "next/router";
 
 function Characters() {
-  const [chars, setChars] = useState([]);
-  const [pagesInfo, setPagesInfo] = useState({});
+  const router = useRouter();
   const [activePage, setActivePage] = useState(1);
   const [keyword, setKeyword] = useState();
   const [sort, setSort] = useState("id");
+  const [data, setData] = useState({});
+  const { results: chars, info: pagesInfo = {} } = data;
 
   async function fetchData() {
     const response = await axios.get("/api/characters", {
       params: { activePage, keyword, sort },
     });
-    setChars(response.data.results);
-    setPagesInfo(response.data.info);
-  }
-
-  async function deleteCharacter(id) {
-    const filteredChars = chars.filter(
-      (x) => x.id.toString() !== id.toString()
-    );
-    setChars(filteredChars);
-    const response = await axios.delete(
-      `/api/characters/${encodeURIComponent(id)}`
-    );
+    setData(response.data);
   }
 
   useEffect(() => {
     fetchData();
+    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+    const sortQuery = sort ? `&sort=${sort}` : "";
+    router.push(
+      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   }, [activePage, keyword, sort]);
 
   return (
@@ -41,7 +41,6 @@ function Characters() {
       <h5 className="p-4 text-4xl	text-center">
         List of characters - {pagesInfo.count}
       </h5>
-
       <Pagination
         pagesInfo={pagesInfo}
         activePage={activePage}
@@ -57,9 +56,19 @@ function Characters() {
         </Link>
         <SortComponent setSort={setSort} />
       </div>
-      <CharacterList characters={chars} deleteCharacter={deleteCharacter} />
+      <div className="mt-8">
+        {chars ? (
+          <CharacterList characters={chars} fetchData={fetchData} />
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ query }) {
+  return { props: { query: query || null } };
 }
 
 export default Characters;

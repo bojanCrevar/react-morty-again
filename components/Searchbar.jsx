@@ -11,6 +11,7 @@ const Searchbar = ({ setKeyword, initKeyword, setActivePage }) => {
 
   function clearHandler() {
     setKeyword("");
+    setActivePage(1);
     searchKeyword.current.value = "";
   }
 

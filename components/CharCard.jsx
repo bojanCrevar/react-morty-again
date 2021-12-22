@@ -12,7 +12,7 @@ const CharCard = ({
   gender,
   status,
   location,
-  fetchData,
+  handleDelete,
   favourite,
 }) => {
   const [favouriteState, setFavouriteState] = useState(favourite);
@@ -46,16 +46,6 @@ const CharCard = ({
     } catch (error) {
       console.log(error);
       finishedCallback(error.response.data.error);
-    }
-  }
-
-  async function handleDelete(id) {
-    const response = await axios.delete(
-      `/api/characters/${encodeURIComponent(id)}`
-    );
-
-    if (response.status === 200) {
-      fetchData();
     }
   }
 

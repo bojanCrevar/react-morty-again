@@ -67,7 +67,7 @@ function FormComponent({ submitHandler, initialData }) {
         </FloatingLabel>
 
         <div className="pb-2">
-          {["Alive", "Dead", "Unknown"].map((type) => (
+          {["Alive", "Dead", "unknown"].map((type) => (
             <Form.Check
               key={type}
               inline

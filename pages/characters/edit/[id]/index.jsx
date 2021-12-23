@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Router from "next/router";
 import FormComponent from "../../../../components/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
+import { OverlayContext } from "../../../../context/OverlayContext";
 
 export default function EditCharacter(props) {
   const [character, setCharacter] = useState();
+
+  const { setShowLoading, setMessage } = useContext(OverlayContext);
 
   async function submitHandler({
     id,
@@ -36,11 +39,17 @@ export default function EditCharacter(props) {
   }
 
   async function getCharacter() {
-    const response = await axios.get(
-      `/api/characters/${encodeURIComponent(props.params.id)}`
-    );
+    setShowLoading(true);
+    setMessage("Loading character's editor");
 
-    setCharacter(response.data.character);
+    try {
+      const response = await axios.get(
+        `/api/characters/${encodeURIComponent(props.params.id)}`
+      );
+      setCharacter(response.data.character);
+    } finally {
+      setShowLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -51,10 +60,9 @@ export default function EditCharacter(props) {
     <Wrapper title={"Edit character: " + character.name}>
       <FormComponent submitHandler={submitHandler} initialData={character} />
     </Wrapper>
-  ) : (
-    <h1> Loading </h1>
-  );
+  ) : null;
 }
+
 export async function getServerSideProps({ params }) {
   return { props: { params } };
 }

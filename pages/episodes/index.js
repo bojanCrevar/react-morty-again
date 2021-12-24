@@ -5,7 +5,7 @@ import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import SortComponent from "../../components/SortComponent";
+import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
 
 const EpisodesPage = (props) => {

@@ -2,20 +2,30 @@ import React, { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
-const Searchbar = ({ setKeyword, initKeyword, setActivePage }) => {
-  function submitHandler(e) {
+type SearchBarProps = {
+  setKeyword: (keyword: string | undefined) => void;
+  initKeyword: string;
+  setActivePage: (activePage: number) => void;
+};
+
+const Searchbar: React.FC<SearchBarProps> = ({
+  setKeyword,
+  initKeyword,
+  setActivePage,
+}) => {
+  function submitHandler(e: React.FormEvent) {
     e.preventDefault();
     setActivePage(1);
-    setKeyword(searchKeyword.current.value);
+    setKeyword(searchKeyword.current?.value);
   }
 
   function clearHandler() {
     setKeyword("");
     setActivePage(1);
-    searchKeyword.current.value = "";
+    searchKeyword.current!.value = "";
   }
 
-  const searchKeyword = useRef();
+  const searchKeyword = useRef<HTMLInputElement>(null);
 
   return (
     <div>

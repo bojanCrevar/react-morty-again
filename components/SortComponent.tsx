@@ -1,6 +1,9 @@
 import React from "react";
 
-const SortComponent = ({ setSort }) => {
+type SortCOmponentParams = { setSort: (e: string) => void };
+
+//destructure and set type
+const SortComponent = ({ setSort }: SortCOmponentParams) => {
   return (
     <div className="absolute right-0 bottom-0">
       <label>Sort by: </label>{" "}

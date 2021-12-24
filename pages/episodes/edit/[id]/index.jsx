@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Router from "next/router";
 import EpisodeFormComponent from "../../../../components/episode/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import moment from "moment";
+import { OverlayContext } from "../../../../context/OverlayContext";
 
 export default function EditEpisode(props) {
   const [episode, setEpisode] = useState();
+
+  const { setShowLoading, setMessage } = useContext(OverlayContext);
 
   async function submitHandler({ id, name, air_date, episodeDesc }) {
     var formattedAirDate = moment(new Date(air_date)).format("MMMM DD, yyyy");
@@ -28,11 +31,16 @@ export default function EditEpisode(props) {
   }
 
   async function getEpisode() {
-    const response = await axios.get(
-      `/api/episodes/${encodeURIComponent(props.params.id)}`
-    );
-
-    setEpisode(response.data.episode);
+    setShowLoading(true);
+    setMessage("Loading episode's editor...");
+    try {
+      const response = await axios.get(
+        `/api/episodes/${encodeURIComponent(props.params.id)}`
+      );
+      setEpisode(response.data.episode);
+    } finally {
+      setShowLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -46,10 +54,9 @@ export default function EditEpisode(props) {
         initialData={episode}
       />
     </Wrapper>
-  ) : (
-    <h1> Loading </h1>
-  );
+  ) : null;
 }
+
 export async function getServerSideProps({ params }) {
   return { props: { params } };
 }

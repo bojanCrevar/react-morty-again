@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import CharacterList from "../../components/CharacterList";
-import Pagination from "../../components/Pagination";
-import Searchbar from "../../components/Searchbar";
+import Pagination from "../../components/Pagination.tsx";
+import Searchbar from "../../components/Searchbar.tsx";
 import axios from "axios";
-import SortComponent from "../../components/SortComponent";
+import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
 
 function Characters() {

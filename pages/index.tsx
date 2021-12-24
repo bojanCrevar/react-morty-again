@@ -1,6 +1,6 @@
 import React from "react";
 
-const myStyle = {
+const myStyle: React.CSSProperties = {
   background: "url(rickandmorty.png)",
   opacity: "0.2",
   backgroundRepeat: "no-repeat",
@@ -14,7 +14,8 @@ const myStyle = {
   top: 0,
   left: 0,
 };
-const HomePage = () => {
+
+const HomePage: React.FC = () => {
   return (
     <div className="flex-1 relative">
       <div style={myStyle}></div>

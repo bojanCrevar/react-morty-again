@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/Pagination.tsx";
 import LocationList from "../../components/LocationList";
-import Searchbar from "../../components/Searchbar";
+import Searchbar from "../../components/Searchbar.tsx";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import SortComponent from "../../components/SortComponent";
+import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
 
 const LocationsPage = (props) => {

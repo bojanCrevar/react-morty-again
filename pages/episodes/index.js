@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import EpisodeList from "../../components/EpisodeList";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
-import Searchbar from "../../components/Searchbar";
+import Searchbar from "../../components/Searchbar.tsx";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import SortComponent from "../../components/SortComponent.tsx";

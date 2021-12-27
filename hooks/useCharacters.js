@@ -68,8 +68,11 @@ const useCharacters = (dataFromComponent, charactersPropName) => {
           .join(", ");
         newMappedData.push({
           ...dataFromComponent[i],
-          charactersTooltip: charNamesByComp,
-          charactersString: charactersString,
+          properties: {
+            ...dataFromComponent[i],
+            charactersTooltip: charNamesByComp,
+            charactersString: charactersString,
+          },
         });
       });
       setMappedDataFromComponent(newMappedData);

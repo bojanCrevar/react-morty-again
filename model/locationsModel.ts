@@ -1,9 +1,10 @@
+import { RMItem } from "./RMItem";
+
 export interface LocationsInfo {
   count: number;
   pages: number;
 }
-export interface LocationsItem {
-  id: number;
+export interface LocationsItem extends RMItem {
   name: string;
   type: string;
   dimension: string;

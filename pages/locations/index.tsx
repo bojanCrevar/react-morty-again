@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
 import LocationList from "../../components/LocationList";
@@ -32,9 +32,8 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    const sortQuery = sort ? `&sort=${sort}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
       undefined,
       {
         shallow: true,
@@ -65,7 +64,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
             Add location
           </Button>
         </Link>
-        <SortComponent setSort={setSort} />
+        <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
         {locations ? (

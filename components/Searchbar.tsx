@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
 type SearchBarProps = {
-  setKeyword: (keyword: string | undefined) => void;
+  setKeyword: (keyword: string) => void;
   initKeyword: string;
   setActivePage: (activePage: number) => void;
 };
@@ -16,7 +16,7 @@ const Searchbar: React.FC<SearchBarProps> = ({
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
     setActivePage(1);
-    setKeyword(searchKeyword.current?.value);
+    setKeyword(searchKeyword.current!.value);
   }
 
   function clearHandler() {

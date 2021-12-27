@@ -1,20 +1,26 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
-import Pagination from "../../components/Pagination.tsx";
+import Pagination from "../../components/Pagination";
 import LocationList from "../../components/LocationList";
-import Searchbar from "../../components/Searchbar.tsx";
+import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import SortComponent from "../../components/SortComponent.tsx";
+import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
+import { LocationsModel } from "../../model/locationsModel";
+import { GetServerSideProps } from "next";
+import { QueryParams } from "../../model/queryParams";
 
-const LocationsPage = (props) => {
+const LocationsPage = ({ query }: { query: QueryParams }) => {
   const router = useRouter();
-  const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
-  const [keyword, setKeyword] = useState(props?.query?.keyword || "");
-  const [sort, setSort] = useState("id");
-  const [data, setData] = useState({});
-  const { results: locations, info: pagesInfo = {} } = data;
+  const [activePage, setActivePage] = useState(+query?.activePage || 1);
+  const [keyword, setKeyword] = useState(query?.keyword || "");
+  const [sort, setSort] = useState(query?.sort || "id");
+  const [data, setData] = useState<LocationsModel>({
+    info: { count: 1, pages: 1 },
+    results: [],
+  });
+  const { results: locations, info: pagesInfo } = data;
 
   async function fetchData() {
     const response = await axios.get("api/locations", {
@@ -48,7 +54,11 @@ const LocationsPage = (props) => {
         setActivePage={setActivePage}
       />
       <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
+      <Searchbar
+        setKeyword={setKeyword}
+        initKeyword={keyword}
+        setActivePage={setActivePage}
+      />
       <div className="pt-4 relative">
         <Link href="/locations/create">
           <Button variant="success w-1/2" type="submit">
@@ -68,8 +78,8 @@ const LocationsPage = (props) => {
   );
 };
 
-export async function getServerSideProps({ query }) {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return { props: { query: query || null } };
-}
+};
 
 export default LocationsPage;

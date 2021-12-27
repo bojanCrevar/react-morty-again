@@ -7,13 +7,25 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
+import { ResponseData } from "../../model/episodeModel";
+import { GetServerSidePropsContext } from "next/types";
 
-const EpisodesPage = (props) => {
+interface EpisodeProps {
+  query: {
+    activePage: string;
+    keyword: string;
+  };
+}
+
+const EpisodesPage = ({ query }: EpisodeProps) => {
   const router = useRouter();
-  const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
-  const [keyword, setKeyword] = useState(props?.query?.keyword || "");
+  const [activePage, setActivePage] = useState(+query?.activePage || 1);
+  const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState("id");
-  const [data, setData] = useState({});
+  const [data, setData] = useState<ResponseData>({
+    results: [],
+    info: { count: 0, pages: 0 },
+  });
   const { results: episodes, info: pagesInfo = {} } = data;
 
   async function fetchData() {
@@ -67,7 +79,7 @@ const EpisodesPage = (props) => {
   );
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   return { props: { query: query || null } };
 }
 

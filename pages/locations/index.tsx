@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
 import LocationList from "../../components/LocationList";

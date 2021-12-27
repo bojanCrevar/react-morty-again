@@ -24,7 +24,6 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
   ];
 
   const mappedLocations = useCharacters(locations, "residents");
-  console.log(mappedLocations);
   function handleUpdate(id: number) {
     Router.push("locations/edit/" + id);
   }

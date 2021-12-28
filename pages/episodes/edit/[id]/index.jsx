@@ -7,22 +7,21 @@ import moment from "moment";
 import { OverlayContext } from "../../../../context/OverlayContext";
 
 export default function EditEpisode(props) {
-  const [episode, setEpisode] = useState();
+  const [episodeObj, setEpisodeObj] = useState();
 
   const { setShowLoading, setMessage } = useContext(OverlayContext);
 
-  async function submitHandler({ id, name, air_date, episodeDesc }) {
-    var formattedAirDate = moment(new Date(air_date)).format("MMMM DD, yyyy");
-    const episode = {
+  async function submitHandler({ id, name, air_date, episode }) {
+    const episodeForApi = {
       id: id,
       name: name,
-      air_date: formattedAirDate,
-      episode: episodeDesc,
+      air_date: moment(new Date(air_date)).format("MMMM DD, yyyy"),
+      episode: episode,
     };
 
     const response = await axios.put(
       `/api/episodes/${encodeURIComponent(id)}`,
-      episode
+      episodeForApi
     );
 
     if (response.status === 200) {
@@ -37,7 +36,7 @@ export default function EditEpisode(props) {
       const response = await axios.get(
         `/api/episodes/${encodeURIComponent(props.params.id)}`
       );
-      setEpisode(response.data.episode);
+      setEpisodeObj(response.data.episode);
     } finally {
       setShowLoading(false);
     }
@@ -47,11 +46,11 @@ export default function EditEpisode(props) {
     getEpisode();
   }, []);
 
-  return episode ? (
-    <Wrapper title={"Edit episode: " + episode.name}>
+  return episodeObj ? (
+    <Wrapper title={"Edit episode: " + episodeObj.name}>
       <EpisodeFormComponent
         submitHandler={submitHandler}
-        initialData={episode}
+        initialData={episodeObj}
       />
     </Wrapper>
   ) : null;

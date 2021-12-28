@@ -6,13 +6,20 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import moment from "moment";
 
-function FormComponent({ submitHandler, initialData }) {
-  function submitFunction(submittedEpisodeData) {
-    submittedEpisodeData.id = initialData.id;
-    submittedEpisodeData.air_date = submittedEpisodeData.airDate;
+interface EpisodeItem {
+  id: string;
+  name: string;
+  air_date: string;
+  episode: string;
+}
 
-    delete submittedEpisodeData.airDate;
+interface FormComponentProps {
+  submitHandler: (data: EpisodeItem) => void;
+  initialData: EpisodeItem;
+}
 
+function FormComponent({ submitHandler, initialData }: FormComponentProps) {
+  function submitFunction(submittedEpisodeData: EpisodeItem) {
     submitHandler(submittedEpisodeData);
   }
 
@@ -20,10 +27,10 @@ function FormComponent({ submitHandler, initialData }) {
     name: Yup.string()
       .min(4, "Must be 4 characters or more")
       .required("Required amigo"),
-    airDate: Yup.date("Date error")
+    air_date: Yup.date("Date error")
       .required("Required")
       .max(new Date(), "Ait Date can not be in future"),
-    episodeDesc: Yup.string()
+    episode: Yup.string()
       .matches(
         /^S[0-9][1-9]E[0-9][1-9]$/,
         "Please enter an episode in proper format S01E01"
@@ -31,14 +38,18 @@ function FormComponent({ submitHandler, initialData }) {
       .required("Required"),
   });
 
-  const initialValues = {
-    name: initialData.name,
-    airDate: moment(new Date(initialData.air_date)).format("YYYY-MM-DD"),
-    episodeDesc: initialData.episode,
+  const initialValuesFormatted: EpisodeItem = {
+    ...initialData,
+    air_date: initialData
+      ? moment(new Date(initialData ? initialData.air_date : "")).format(
+          "YYYY-MM-DD"
+        )
+      : "",
+    episode: initialData ? initialData.episode : "",
   };
 
   const formik = useFormik({
-    initialValues: initialValues,
+    initialValues: initialValuesFormatted,
     validationSchema: episodeSchema,
     onSubmit: submitFunction,
   });
@@ -68,17 +79,17 @@ function FormComponent({ submitHandler, initialData }) {
           className="mb-3"
         >
           <Form.Control
-            name="airDate"
+            name="air_date"
             type="date"
             className="input form-control"
             placeholder="Air date"
-            value={formik.values.airDate}
+            value={formik.values.air_date}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.airDate && formik.errors.airDate}
+            isInvalid={formik.touched.air_date && formik.errors.air_date}
           />
           <Form.Control.Feedback type="invalid">
-            {formik.errors.airDate}
+            {formik.errors.air_date}
           </Form.Control.Feedback>
         </FloatingLabel>
 
@@ -88,17 +99,17 @@ function FormComponent({ submitHandler, initialData }) {
           className="mb-3"
         >
           <Form.Control
-            name="episodeDesc"
+            name="episode"
             type="text"
             className="input form-control"
             placeholder="Episode Description"
-            value={formik.values.episodeDesc}
+            value={formik.values.episode}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.episodeDesc && formik.errors.episodeDesc}
+            isInvalid={formik.touched.episode && formik.errors.episode}
           />
           <Form.Control.Feedback type="invalid">
-            {formik.errors.episodeDesc}
+            {formik.errors.episode}
           </Form.Control.Feedback>
         </FloatingLabel>
 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import EpisodeList from "../../components/EpisodeList";
 import axios from "axios";
-import Pagination from "../../components/Pagination.tsx";
-import Searchbar from "../../components/Searchbar.tsx";
+import Pagination from "../../components/Pagination";
+import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import SortComponent from "../../components/SortComponent.tsx";
+import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
 import { ResponseData } from "../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";

@@ -5,13 +5,13 @@ import Wrapper from "../../../components/Wrapper";
 import moment from "moment";
 
 export default function CreateEpisode() {
-  async function submitHandler({ name, air_date, episodeDesc }) {
+  async function submitHandler({ name, air_date, episode }) {
     var formattedAirDate = moment(new Date(air_date)).format("MMMM DD, yyyy");
 
     const episode = {
       name: name,
       air_date: formattedAirDate,
-      episode: episodeDesc,
+      episode: episode,
     };
 
     const response = await axios.post("/api/episodes", episode);

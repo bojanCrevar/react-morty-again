@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useCharacters = (dataFromComponent, charactersPropName) => {
-  const [mappedDataFromComponent, setMappedDataFromComponent] =
-    useState(dataFromComponent);
+  const [mappedDataFromComponent, setMappedDataFromComponent] = useState(
+    dataFromComponent.map((d) => ({ ...d, properties: {} }))
+  );
 
   function extractUniqueCharacters(dataCharacters) {
     const uniqueArray = dataCharacters

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import LocationFormComponent from "../../../../components/LocationFormComponent";
+import LocationFormComponent from "../../../../components/LocationFormComponent.tsx";
 import Wrapper from "../../../../components/Wrapper";
 import Router from "next/router";
 import { OverlayContext } from "../../../../context/OverlayContext";

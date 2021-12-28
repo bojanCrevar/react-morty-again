@@ -2,7 +2,7 @@ import RMTable from "./RMTable";
 import { Fragment } from "react";
 import { useRouter } from "next/router";
 import useCharacters from "../hooks/useCharacters";
-import {ActionContext} from '../context/ActionContext';
+import { ActionContext } from "../context/ActionContext";
 
 const EpisodeList = ({ episodes }) => {
   const router = useRouter();
@@ -17,18 +17,15 @@ const EpisodeList = ({ episodes }) => {
     },
   ];
   const mappedEpisodes = useCharacters(episodes, "characters");
-
+  console.log("mappedEp", mappedEpisodes);
   function handleUpdate(id) {
     router.push("episodes/edit/" + id);
   }
 
   return (
     <Fragment>
-      <ActionContext.Provider value={{handleUpdate}}>
-        <RMTable
-          tabledata={mappedEpisodes}
-          columnconfig={locationscolumns}
-        />
+      <ActionContext.Provider value={{ handleUpdate }}>
+        <RMTable tabledata={mappedEpisodes} columnconfig={locationscolumns} />
       </ActionContext.Provider>
     </Fragment>
   );

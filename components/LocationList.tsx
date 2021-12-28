@@ -4,8 +4,14 @@ import Router from "next/router";
 import axios from "axios";
 import useCharacters from "../hooks/useCharacters";
 import { ActionContext } from "../context/ActionContext";
+import { LocationsItem } from "../model/locationsModel";
 
-const LocationList = ({ locations, fetchData }) => {
+type LocationsProps = {
+  locations: LocationsItem[];
+  fetchData: () => void;
+};
+
+const LocationList = ({ locations, fetchData }: LocationsProps) => {
   const locationscolumns = [
     { key: "name", title: "Name" },
     { key: "dimension", title: "Dimension" },
@@ -18,11 +24,10 @@ const LocationList = ({ locations, fetchData }) => {
   ];
 
   const mappedLocations = useCharacters(locations, "residents");
-
-  function handleUpdate(id) {
+  function handleUpdate(id: number) {
     Router.push("locations/edit/" + id);
   }
-  async function handleDelete(id) {
+  async function handleDelete(id: number) {
     const response = await axios.delete(
       `/api/locations/${encodeURIComponent(id)}`
     );

@@ -3,14 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 
-const FavouriteIcon = ({
-  toggleFavourite,
-  favouriteState,
-
-  warningFav,
-}) => {
+const FavouriteIcon = ({ toggleFavourite, favouriteState }) => {
   const [showFave, setShowFave] = useState(favouriteState);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showWarning, setShowWarning] = useState("");

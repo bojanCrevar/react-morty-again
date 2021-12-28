@@ -1,14 +1,18 @@
-import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
-import moment from "moment";
 import FormControl from "react-bootstrap/FormControl";
+import { CharactersModel } from "../model/charactersModel";
 
-function FormComponent({ submitHandler, initialData }) {
+type FormComponentProps = {
+  submitHandler: (submittedEpisodeData: CharactersModel) => void;
+  initialData: CharactersModel;
+};
+
+function FormComponent({ submitHandler, initialData }: FormComponentProps) {
   const charactersSchema = Yup.object({
     name: Yup.string().required("Name field is required."),
     status: Yup.string().required("Status is required."),
@@ -25,13 +29,16 @@ function FormComponent({ submitHandler, initialData }) {
       .required("Image URL is required"),
   });
 
-  const initialValues = {
-    id: initialData.id || "",
+  const initialValues: CharactersModel = {
+    id: initialData.id || 0,
     name: initialData.name || "",
     status: initialData.status || "",
     gender: initialData.gender || "",
     species: initialData.species || "",
-    location: initialData.location?.name || "",
+    location: {
+      name: initialData.location?.name || "",
+      url: initialData.location?.url || "",
+    },
     image: initialData.image || "",
   };
 
@@ -41,7 +48,7 @@ function FormComponent({ submitHandler, initialData }) {
     onSubmit: submitFunction,
   });
 
-  function submitFunction(submittedEpisodeData) {
+  function submitFunction(submittedEpisodeData: CharactersModel) {
     submittedEpisodeData.id = initialData.id;
     submitHandler(submittedEpisodeData);
   }
@@ -58,7 +65,7 @@ function FormComponent({ submitHandler, initialData }) {
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.name && formik.errors.name}
+            isInvalid={!!(formik.touched.name && formik.errors.name)}
             autoComplete="off"
           />
           <Form.Control.Feedback type="invalid">
@@ -78,15 +85,18 @@ function FormComponent({ submitHandler, initialData }) {
               value={type}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              isInvalid={formik.touched.status && formik.errors.status}
+              isInvalid={!!(formik.touched.status && formik.errors.status)}
               defaultChecked={type === formik.values.status ? true : false}
             />
           ))}
           <Form.Control.Feedback
             type="invalid"
             style={
-              formik.touched.status &&
-              formik.errors.status && { display: "block" }
+              formik.touched.status
+                ? formik.errors.status
+                  ? { display: "block" }
+                  : {}
+                : {}
             }
           >
             {formik.errors.status}
@@ -103,7 +113,7 @@ function FormComponent({ submitHandler, initialData }) {
             onChange={formik.handleChange}
             value={formik.values.gender}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.gender && formik.errors.gender}
+            isInvalid={!!(formik.touched.gender && formik.errors.gender)}
           >
             {!initialData.status && (
               <option value={0}>Select character!</option>
@@ -132,7 +142,7 @@ function FormComponent({ submitHandler, initialData }) {
             value={formik.values.species}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.species && formik.errors.species}
+            isInvalid={!!(formik.touched.species && formik.errors.species)}
             autoComplete="off"
           />
           <Form.Control.Feedback type="invalid">
@@ -150,10 +160,10 @@ function FormComponent({ submitHandler, initialData }) {
             type="text"
             className="input form-control"
             placeholder="Characters name"
-            value={formik.values.location}
+            value={formik.values.location?.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.location && formik.errors.location}
+            isInvalid={!!(formik.touched.location && formik.errors.location)}
             autoComplete="off"
           />
           <Form.Control.Feedback type="invalid">
@@ -174,7 +184,7 @@ function FormComponent({ submitHandler, initialData }) {
             value={formik.values.image}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.image && formik.errors.image}
+            isInvalid={!!(formik.touched.image && formik.errors.image)}
             autoComplete="off"
           />
           <Form.Control.Feedback type="invalid">

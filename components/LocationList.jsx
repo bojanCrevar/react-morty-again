@@ -3,7 +3,7 @@ import RMTable from "./RMTable";
 import Router from "next/router";
 import axios from "axios";
 import useCharacters from "../hooks/useCharacters";
-import { ActionContext } from "../context/ActionContext";
+import { ActionContext } from "../context/ActionContext.tsx";
 
 const LocationList = ({ locations, fetchData }) => {
   const locationscolumns = [

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import CharacterList from "../../components/CharacterList";
+import CharacterList from "../../components/CharacterList.tsx";
 import Pagination from "../../components/Pagination.tsx";
 import Searchbar from "../../components/Searchbar.tsx";
 import axios from "axios";

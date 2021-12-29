@@ -32,7 +32,7 @@ function LocationFormComponent({
       .required("Type field is required."),
   });
 
-  const initialValues = {
+  const initialValues: LocationsItem = {
     id: initialData.id || 0,
     name: initialData.name || "",
     dimension: initialData.dimension || "",

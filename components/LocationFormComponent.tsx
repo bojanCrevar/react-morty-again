@@ -31,7 +31,7 @@ function LocationFormComponent({
       .min(3, "Must be 3 characters or more")
       .required("Type field is required."),
   });
-  console.log("initialData", initialData);
+
   const initialValues: LocationsItem = {
     id: initialData.id || 0,
     name: initialData.name || "",

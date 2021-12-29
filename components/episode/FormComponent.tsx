@@ -5,14 +5,7 @@ import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import moment from "moment";
-
-interface EpisodeItem {
-  id: string;
-  name: string;
-  air_date: string;
-  episode: string;
-}
-
+import { EpisodeItem } from "../../model/episodeModel";
 interface FormComponentProps {
   submitHandler: (data: EpisodeItem) => void;
   initialData: EpisodeItem;

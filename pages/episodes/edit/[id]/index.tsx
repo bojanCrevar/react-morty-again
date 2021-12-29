@@ -4,14 +4,20 @@ import Router from "next/router";
 import EpisodeFormComponent from "../../../../components/episode/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import moment from "moment";
+import {
+  EditEpisodeProps,
+  emptyEpisodeItem,
+  EpisodeItem,
+} from "../../../../model/episodeModel";
+import { GetServerSidePropsContext } from "next/types";
 import { OverlayContext } from "../../../../context/OverlayContext";
 
-export default function EditEpisode(props) {
-  const [episodeObj, setEpisodeObj] = useState();
+export default function EditEpisode({ props }: EditEpisodeProps) {
+  const [episodeObj, setEpisodeObj] = useState<EpisodeItem>(emptyEpisodeItem);
 
   const { setShowLoading, setMessage } = useContext(OverlayContext);
 
-  async function submitHandler({ id, name, air_date, episode }) {
+  async function submitHandler({ id, name, air_date, episode }: EpisodeItem) {
     const episodeForApi = {
       id: id,
       name: name,
@@ -20,7 +26,7 @@ export default function EditEpisode(props) {
     };
 
     const response = await axios.put(
-      `/api/episodes/${encodeURIComponent(id)}`,
+      `/api/episodes/${encodeURIComponent(id ?? 0)}`,
       episodeForApi
     );
 
@@ -34,7 +40,7 @@ export default function EditEpisode(props) {
     setMessage("Loading episode's editor...");
     try {
       const response = await axios.get(
-        `/api/episodes/${encodeURIComponent(props.params.id)}`
+        `/api/episodes/${encodeURIComponent(props.id)}`
       );
       setEpisodeObj(response.data.episode);
     } finally {
@@ -56,6 +62,8 @@ export default function EditEpisode(props) {
   ) : null;
 }
 
-export async function getServerSideProps({ params }) {
-  return { props: { params } };
+export async function getServerSideProps({
+  params,
+}: GetServerSidePropsContext) {
+  return { props: params || {} };
 }

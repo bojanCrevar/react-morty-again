@@ -5,7 +5,18 @@ import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-const FavouriteIcon = ({ toggleFavourite, favouriteState }) => {
+type FavouriteIconProps = {
+  toggleFavourite: (
+    favourite: boolean,
+    finishedCallback: (error?: string) => void
+  ) => void;
+  favouriteState: boolean;
+};
+
+const FavouriteIcon = ({
+  toggleFavourite,
+  favouriteState,
+}: FavouriteIconProps) => {
   const [showFave, setShowFave] = useState(favouriteState);
   const [showSpinner, setShowSpinner] = useState(false);
   const [showWarning, setShowWarning] = useState("");
@@ -14,7 +25,7 @@ const FavouriteIcon = ({ toggleFavourite, favouriteState }) => {
     return showFave ? "btn-warning" : "btn-outline-warning";
   }
 
-  function updateFinished(error) {
+  function updateFinished(error: any) {
     setShowSpinner(false);
     if (error) {
       setShowWarning(error);

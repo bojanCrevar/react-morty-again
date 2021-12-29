@@ -9,7 +9,6 @@ type CharListProps = {
 };
 
 function CharacterList({ characters, fetchData }: CharListProps) {
-  console.log(characters);
   async function handleDelete(id: number) {
     const response = await axios.delete(
       `/api/characters/${encodeURIComponent(id)}`

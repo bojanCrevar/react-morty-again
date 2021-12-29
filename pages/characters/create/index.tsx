@@ -2,6 +2,7 @@ import axios from "axios";
 import Router from "next/router";
 import FormComponent from "../../../components/FormComponent";
 import Wrapper from "../../../components/Wrapper";
+import { CharactersModel } from "../../../model/charactersModel";
 
 export default function CreateCharacter() {
   async function submitHandler({
@@ -11,7 +12,7 @@ export default function CreateCharacter() {
     species,
     location,
     image,
-  }) {
+  }: CharactersModel) {
     const character = {
       name: name,
       status: status,
@@ -26,9 +27,21 @@ export default function CreateCharacter() {
     }
   }
 
+  const dummyInitialData = {
+    id: -55,
+    gender: "",
+    image: "",
+    name: "",
+    species: "",
+    status: "",
+  };
+
   return (
     <Wrapper title={"Create new character!"}>
-      <FormComponent submitHandler={submitHandler} initialData={""} />
+      <FormComponent
+        submitHandler={submitHandler}
+        initialData={dummyInitialData}
+      />
     </Wrapper>
   );
 }

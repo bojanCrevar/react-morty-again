@@ -37,7 +37,6 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
     species: initialData.species || "",
     location: {
       name: initialData.location?.name || "",
-      url: initialData.location?.url || "",
     },
     image: initialData.image || "",
   };

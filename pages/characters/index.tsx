@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import CharacterList from "../../components/CharacterList.tsx";
-import Pagination from "../../components/Pagination.tsx";
-import Searchbar from "../../components/Searchbar.tsx";
+import CharacterList from "../../components/CharacterList";
+import Pagination from "../../components/Pagination";
+import Searchbar from "../../components/Searchbar";
 import axios from "axios";
-import SortComponent from "../../components/SortComponent.tsx";
+import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
+import { GetServerSidePropsContext } from "next/types";
+import { ResponseData } from "../../model/charactersModel";
 
 function Characters() {
   const router = useRouter();
-  const [activePage, setActivePage] = useState(1);
-  const [keyword, setKeyword] = useState();
-  const [sort, setSort] = useState("id");
-  const [data, setData] = useState({});
-  const { results: chars, info: pagesInfo = {} } = data;
+  const [activePage, setActivePage] = useState<number>(1);
+  const [keyword, setKeyword] = useState<string>();
+  const [sort, setSort] = useState<string>("id");
+  const [data, setData] = useState<ResponseData>({
+    info: { count: 1, pages: 1 },
+    results: [],
+  });
+  const { results: chars, info: pagesInfo } = data;
 
   async function fetchData() {
     const response = await axios.get("/api/characters", {
@@ -47,7 +52,11 @@ function Characters() {
         setActivePage={setActivePage}
       />
       <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
+      <Searchbar
+        setKeyword={setKeyword}
+        setActivePage={setActivePage}
+        initKeyword={""}
+      />
       <div className="pt-4 relative">
         <Link href="characters/create">
           <Button variant="success w-1/2" type="submit">
@@ -67,7 +76,7 @@ function Characters() {
   );
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   return { props: { query: query || null } };
 }
 

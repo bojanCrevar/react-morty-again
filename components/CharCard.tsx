@@ -21,7 +21,7 @@ const CharCard = ({
   handleDelete,
   favourite,
 }: CharCardProps) => {
-  const [favouriteState, setFavouriteState] = useState(favourite);
+  const [favouriteState, setFavouriteState] = useState(favourite || false);
 
   function checkStatus(status: string) {
     if (status === "Alive") {

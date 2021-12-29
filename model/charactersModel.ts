@@ -1,12 +1,18 @@
+import { PaginationModel } from "./paginationModel";
+
 export interface CharactersModel {
-  episode?: [];
+  episode?: string[];
   gender: string;
   id: number;
   image: string;
-  location?: { name: string; url: string };
+  location?: { name: string };
   name: string;
-  origin?: [];
+  origin?: string[];
   species: string;
   status: string;
   favourite?: boolean;
+}
+export interface ResponseData {
+  results: CharactersModel[];
+  info: PaginationModel;
 }

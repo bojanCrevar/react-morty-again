@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
-import { LocationsItem } from "../model/locationsModel";
 import ActionButton from "./ActionButton";
 import { ColumnCfg } from "../model/columnCfgModel";
 

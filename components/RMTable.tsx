@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
-import { LocationsItem } from "../model/locationsModel";
 import ActionButton from "./ActionButton";
 import { ColumnCfg } from "../model/columnCfgModel";
 
@@ -10,8 +9,6 @@ const RMTable = ({
 }: ColumnCfg) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const lastColumn = columnConfig.length - 1;
-  console.log("column config", columnConfig);
-  console.log("tabledata ", tableData);
   const dataRender = tableData.map((data) => {
     return (
       <tr

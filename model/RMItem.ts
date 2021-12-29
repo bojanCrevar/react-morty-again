@@ -1,6 +1,6 @@
 export interface RMItem {
   id: number;
-  properties: {
+  properties?: {
     [prop: string]: string;
   };
 }

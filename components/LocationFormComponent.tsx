@@ -4,23 +4,18 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
+import { LocationsItem } from "../model/locationsModel";
 
-type InitialDataType = {
-  id: number;
-  name: string;
-  type: string;
-  dimension: string;
-};
 type LocationFormProps = {
-  submitHandler: (location: InitialDataType) => void;
-  initialData: InitialDataType | { id: 0; name: ""; type: ""; dimension: "" };
+  submitHandler: (location: LocationsItem) => void;
+  initialData: LocationsItem;
 };
 
 function LocationFormComponent({
   submitHandler,
   initialData,
 }: LocationFormProps) {
-  function submitFunction(submittedLocationsData: InitialDataType) {
+  function submitFunction(submittedLocationsData: LocationsItem) {
     submittedLocationsData.id = initialData.id;
     submitHandler(submittedLocationsData);
   }

@@ -13,7 +13,7 @@ import { ResponseData } from "../../model/charactersModel";
 function Characters() {
   const router = useRouter();
   const [activePage, setActivePage] = useState<number>(1);
-  const [keyword, setKeyword] = useState<string>();
+  const [keyword, setKeyword] = useState<string>("");
   const [sort, setSort] = useState<string>("id");
   const [data, setData] = useState<ResponseData>({
     info: { count: 1, pages: 1 },
@@ -31,9 +31,8 @@ function Characters() {
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    const sortQuery = sort ? `&sort=${sort}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
       undefined,
       {
         shallow: true,
@@ -55,7 +54,7 @@ function Characters() {
       <Searchbar
         setKeyword={setKeyword}
         setActivePage={setActivePage}
-        initKeyword={""}
+        initKeyword={keyword}
       />
       <div className="pt-4 relative">
         <Link href="characters/create">
@@ -63,7 +62,7 @@ function Characters() {
             Add character!
           </Button>
         </Link>
-        <SortComponent setSort={setSort} />
+        <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
         {chars ? (

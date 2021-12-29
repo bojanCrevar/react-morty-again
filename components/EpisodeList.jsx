@@ -17,7 +17,7 @@ const EpisodeList = ({ episodes }) => {
     },
   ];
   const mappedEpisodes = useCharacters(episodes, "characters");
-
+  console.log("mappedEp", mappedEpisodes);
   function handleUpdate(id) {
     router.push("episodes/edit/" + id);
   }

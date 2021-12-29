@@ -4,9 +4,18 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
+import { LocationsItem } from "../model/locationsModel";
 
-function LocationFormComponent({ submitHandler, initialData }) {
-  function submitFunction(submittedLocationsData) {
+type LocationFormProps = {
+  submitHandler: (location: LocationsItem) => void;
+  initialData: LocationsItem;
+};
+
+function LocationFormComponent({
+  submitHandler,
+  initialData,
+}: LocationFormProps) {
+  function submitFunction(submittedLocationsData: LocationsItem) {
     submittedLocationsData.id = initialData.id;
     submitHandler(submittedLocationsData);
   }
@@ -23,7 +32,8 @@ function LocationFormComponent({ submitHandler, initialData }) {
       .required("Type field is required."),
   });
 
-  const initialValues = {
+  const initialValues: LocationsItem = {
+    id: initialData.id || 0,
     name: initialData.name || "",
     dimension: initialData.dimension || "",
     type: initialData.type || "",
@@ -47,7 +57,7 @@ function LocationFormComponent({ submitHandler, initialData }) {
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.name && formik.errors.name}
+            isInvalid={!!(formik.touched.name && formik.errors.name)}
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.name}
@@ -67,7 +77,7 @@ function LocationFormComponent({ submitHandler, initialData }) {
             value={formik.values.dimension}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.dimension && formik.errors.dimension}
+            isInvalid={!!(formik.touched.dimension && formik.errors.dimension)}
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.dimension}
@@ -83,7 +93,7 @@ function LocationFormComponent({ submitHandler, initialData }) {
             value={formik.values.type}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.type && formik.errors.type}
+            isInvalid={!!(formik.touched.type && formik.errors.type)}
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.type}

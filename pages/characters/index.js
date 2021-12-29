@@ -8,11 +8,11 @@ import axios from "axios";
 import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
 
-function Characters() {
+function Characters(props) {
   const router = useRouter();
-  const [activePage, setActivePage] = useState(1);
-  const [keyword, setKeyword] = useState();
-  const [sort, setSort] = useState("id");
+  const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
+  const [keyword, setKeyword] = useState(props?.query?.keyword || "");
+  const [sort, setSort] = useState(props?.query?.sort || "id");
   const [data, setData] = useState({});
   const { results: chars, info: pagesInfo = {} } = data;
 
@@ -26,9 +26,8 @@ function Characters() {
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    const sortQuery = sort ? `&sort=${sort}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
       undefined,
       {
         shallow: true,
@@ -47,14 +46,18 @@ function Characters() {
         setActivePage={setActivePage}
       />
       <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar setKeyword={setKeyword} setActivePage={setActivePage} />
+      <Searchbar
+        setKeyword={setKeyword}
+        setActivePage={setActivePage}
+        initKeyword={keyword}
+      />
       <div className="pt-4 relative">
         <Link href="characters/create">
           <Button variant="success w-1/2" type="submit">
             Add character!
           </Button>
         </Link>
-        <SortComponent setSort={setSort} />
+        <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
         {chars ? (

@@ -12,7 +12,7 @@ const EpisodesPage = (props) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
   const [keyword, setKeyword] = useState(props?.query?.keyword || "");
-  const [sort, setSort] = useState("id");
+  const [sort, setSort] = useState(props?.query?.sort || "id");
   const [data, setData] = useState({});
   const { results: episodes, info: pagesInfo = {} } = data;
 
@@ -26,9 +26,8 @@ const EpisodesPage = (props) => {
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    const sortQuery = sort ? `&sort=${sort}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}${sortQuery}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
       undefined,
       {
         shallow: true,
@@ -58,7 +57,7 @@ const EpisodesPage = (props) => {
             Add episode
           </Button>
         </Link>
-        <SortComponent setSort={setSort} />
+        <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
         {episodes ? <EpisodeList episodes={episodes} /> : <div>loading</div>}

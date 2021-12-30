@@ -109,7 +109,7 @@ function LocationFormComponent({
             type="submit"
             disabled={!formik.isValid}
           >
-            {!initialData ? "Add new location!" : "Update location"}
+            {initialData.id < 0 ? "Add new location!" : "Update location"}
           </Button>
         </div>
       </div>

@@ -1,16 +1,26 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import LocationFormComponent from "../../../../components/LocationFormComponent.tsx";
+import LocationFormComponent from "../../../../components/LocationFormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import Router from "next/router";
 import { OverlayContext } from "../../../../context/OverlayContext";
+import { GetServerSidePropsContext } from "next";
+import {
+  EditLocationsProps,
+  LocationsItem,
+} from "../../../../model/locationsModel";
 
-const EditLocation = (props) => {
-  const [location, setLocation] = useState();
+const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
+  const [location, setLocation] = useState<LocationsItem>();
 
-  const { setShowLoading } = useContext(OverlayContext);
+  const { setShowLoading, setMessage } = useContext(OverlayContext);
 
-  const submitHandler = async ({ id, name, dimension, type }) => {
+  const submitHandler = async ({
+    id,
+    name,
+    dimension,
+    type,
+  }: LocationsItem) => {
     const location = {
       id: id,
       name: name,
@@ -19,7 +29,7 @@ const EditLocation = (props) => {
     };
 
     const response = await axios.put(
-      `/api/locations/${encodeURIComponent(id)}`,
+      `/api/locations/${encodeURIComponent(id ?? 0)}`,
       location
     );
     if (response.status === 200) {
@@ -29,10 +39,10 @@ const EditLocation = (props) => {
 
   const getLocation = async () => {
     setShowLoading(true);
-
+    setMessage("Loading location's editor...");
     try {
       const response = await axios.get(
-        `/api/locations/${encodeURIComponent(props.params.id)}`
+        `/api/locations/${encodeURIComponent(idFromUrl)}`
       );
       setLocation(response.data.location);
     } finally {
@@ -56,6 +66,8 @@ const EditLocation = (props) => {
 
 export default EditLocation;
 
-export async function getServerSideProps({ params }) {
-  return { props: { params } };
+export async function getServerSideProps({
+  params,
+}: GetServerSidePropsContext) {
+  return { props: params || {} };
 }

@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
 import FavouriteIcon from "./FavoriteIcon";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { CharactersModel } from "../model/charactersModel";
+import { ActionCtxModel } from "../model/actionCtxModel";
+
+interface CharCardProps extends CharactersModel {
+  handleDelete: (id: number) => void;
+}
 
 const CharCard = ({
   id,
@@ -14,10 +20,10 @@ const CharCard = ({
   location,
   handleDelete,
   favourite,
-}) => {
-  const [favouriteState, setFavouriteState] = useState(favourite);
+}: CharCardProps) => {
+  const [favouriteState, setFavouriteState] = useState(favourite || false);
 
-  function checkStatus(status) {
+  function checkStatus(status: string) {
     if (status === "Alive") {
       return "text-green-700";
     } else if (status === "Dead") {
@@ -27,7 +33,10 @@ const CharCard = ({
     }
   }
 
-  async function toggleFavourite(favourite, finishedCallback) {
+  async function toggleFavourite(
+    favourite: boolean,
+    finishedCallback: (error?: string) => void
+  ) {
     try {
       const response = await axios.put("api/characters/" + id, {
         id: id,
@@ -36,16 +45,13 @@ const CharCard = ({
         species: species,
         gender: gender,
         status: status,
-        location: location.name,
+        location: location?.name,
         favourite: favourite,
       });
 
-      console.log("response", response);
-
       finishedCallback();
-    } catch (error) {
-      console.log(error);
-      finishedCallback(error.response.data.error);
+    } catch (e: any) {
+      finishedCallback(e.response.data.error);
     }
   }
 
@@ -57,7 +63,7 @@ const CharCard = ({
             src={image}
             className="h-36 w-44 "
             alt="character"
-            onError={(e) => {
+            onError={(e: any) => {
               e.target.onerror = null;
               e.target.src =
                 "https://rickandmortyapi.com/api/character/avatar/19.jpeg";
@@ -82,7 +88,7 @@ const CharCard = ({
         <div>
           {" "}
           <span className="text-gray-400">Location: </span>
-          {location.name}
+          {location?.name}
         </div>
       </div>
       <div className="w-2/6 flex flex-col text-right space-y-2 p-2 ">

@@ -2,19 +2,24 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import CharacterList from "../../components/CharacterList";
-import Pagination from "../../components/Pagination.tsx";
-import Searchbar from "../../components/Searchbar.tsx";
+import Pagination from "../../components/Pagination";
+import Searchbar from "../../components/Searchbar";
 import axios from "axios";
-import SortComponent from "../../components/SortComponent.tsx";
+import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
+import { GetServerSidePropsContext } from "next/types";
+import { ResponseData } from "../../model/charactersModel";
 
-function Characters(props) {
+function Characters() {
   const router = useRouter();
-  const [activePage, setActivePage] = useState(+props?.query?.activePage || 1);
-  const [keyword, setKeyword] = useState(props?.query?.keyword || "");
-  const [sort, setSort] = useState(props?.query?.sort || "id");
-  const [data, setData] = useState({});
-  const { results: chars, info: pagesInfo = {} } = data;
+  const [activePage, setActivePage] = useState<number>(1);
+  const [keyword, setKeyword] = useState<string>("");
+  const [sort, setSort] = useState<string>("id");
+  const [data, setData] = useState<ResponseData>({
+    info: { count: 1, pages: 1 },
+    results: [],
+  });
+  const { results: chars, info: pagesInfo } = data;
 
   async function fetchData() {
     const response = await axios.get("/api/characters", {
@@ -70,7 +75,7 @@ function Characters(props) {
   );
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   return { props: { query: query || null } };
 }
 

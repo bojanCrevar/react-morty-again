@@ -8,7 +8,7 @@ export interface LocationsItem extends RMItem {
   name: string;
   type: string;
   dimension: string;
-  residents: string[];
+  residents?: string[];
 }
 
 export interface LocationsModel {

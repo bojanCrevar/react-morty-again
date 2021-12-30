@@ -6,7 +6,7 @@ import { ActionContext } from "../context/ActionContext";
 
 type ActionButtonProps = {
   id: number;
-  hovered: number;
+  hovered: boolean;
 };
 
 const ActionButton = ({ id, hovered }: ActionButtonProps) => {

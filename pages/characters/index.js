@@ -7,6 +7,7 @@ import Searchbar from "../../components/Searchbar.tsx";
 import axios from "axios";
 import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
+import CharactersSkeleton from "../../components/CharactersSkeleton";
 
 function Characters(props) {
   const router = useRouter();
@@ -63,7 +64,7 @@ function Characters(props) {
         {chars ? (
           <CharacterList characters={chars} fetchData={fetchData} />
         ) : (
-          <div>Loading...</div>
+          <CharactersSkeleton amount={10} />
         )}
       </div>
     </div>

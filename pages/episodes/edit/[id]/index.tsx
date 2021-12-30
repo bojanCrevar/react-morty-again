@@ -50,7 +50,16 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
     getEpisode();
   }, []);
 
-  return <SkeletonCreateEdit type={"round"} />;
+  return episodeObj ? (
+    <Wrapper title={"Edit episode: " + episodeObj.name}>
+      <EpisodeFormComponent
+        submitHandler={submitHandler}
+        initialData={episodeObj}
+      />
+    </Wrapper>
+  ) : (
+    <SkeletonCreateEdit />
+  );
 }
 
 export async function getServerSideProps({

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const OverlayContext = React.createContext({});
+export const OverlayContext = React.createContext();
 
 const OverlayContextProvider = ({ children }) => {
   const [message, setMessage] = useState("Loading...");

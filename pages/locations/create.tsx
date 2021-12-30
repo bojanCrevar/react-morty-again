@@ -1,10 +1,11 @@
 import axios from "axios";
 import Router from "next/router";
-import LocationFormComponent from "../../components/LocationFormComponent.tsx";
+import LocationFormComponent from "../../components/LocationFormComponent";
 import Wrapper from "../../components/Wrapper";
+import { LocationsItem, emptyLocationItem } from "../../model/locationsModel";
 
 export default function CreateLocation() {
-  async function submitHandler({ name, dimension, type }) {
+  async function submitHandler({ name, dimension, type }: LocationsItem) {
     const location = {
       name: name,
       dimension: dimension,
@@ -18,7 +19,10 @@ export default function CreateLocation() {
 
   return (
     <Wrapper title={"Create new location"}>
-      <LocationFormComponent submitHandler={submitHandler} initialData={""} />
+      <LocationFormComponent
+        submitHandler={submitHandler}
+        initialData={emptyLocationItem}
+      />
     </Wrapper>
   );
 }

@@ -7,8 +7,6 @@ import moment from "moment";
 import { EditEpisodeProps, EpisodeItem } from "../../../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
 import { OverlayContext } from "../../../../context/OverlayContext";
-import ReactPlaceholder from "react-placeholder";
-import SkeletonCreateEdit from "../../../../components/SkeletonCreateEdit";
 
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();
@@ -57,9 +55,7 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
         initialData={episodeObj}
       />
     </Wrapper>
-  ) : (
-    <SkeletonCreateEdit />
-  );
+  ) : null;
 }
 
 export async function getServerSideProps({

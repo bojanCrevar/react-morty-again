@@ -1,7 +1,6 @@
 import "tailwindcss/tailwind.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../_styles/App.css";
-import "react-placeholder/lib/reactPlaceholder.css";
 
 import NavMenu from "../components/NavMenu.tsx";
 import LoaderOverlay from "../components/LoaderOverlay";

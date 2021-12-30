@@ -19,8 +19,8 @@ const RMTable = ({
         {columnConfig.map((cfg, i) => {
           return (
             <td key={cfg.key} className={i === lastColumn ? "relative" : ""}>
-              <span title={cfg.tooltip ? data.properties[cfg.tooltip] : ""}>
-                {data.properties[cfg.key]}
+              <span title={cfg.tooltip ? data.properties![cfg.tooltip] : ""}>
+                {data.properties![cfg.key]}
               </span>
               {i === lastColumn ? (
                 <span className="position: absolute right-1">

@@ -1,4 +1,6 @@
 export const UNDEFINED_ID = -55;
+import moment from "moment";
+
 export interface ResponseData {
   results: EpisodeItem[];
   info: PageInfo;
@@ -19,12 +21,10 @@ export interface PageInfo {
 export const emptyEpisodeItem: EpisodeItem = {
   id: UNDEFINED_ID,
   name: "",
-  air_date: "",
+  air_date: moment(new Date()).format("MMMM DD, yyyy"),
   episode: "",
 };
 
 export type EditEpisodeProps = {
-  props: {
-    id: string;
-  };
+  id: string;
 };

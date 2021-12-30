@@ -5,6 +5,7 @@ import "../_styles/App.css";
 import NavMenu from "../components/NavMenu.tsx";
 import LoaderOverlay from "../components/LoaderOverlay";
 import OverlayContextProvider from "../context/OverlayContext";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function MyApp({ Component, pageProps }) {
   return (

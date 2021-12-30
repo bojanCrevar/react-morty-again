@@ -6,12 +6,10 @@ import Wrapper from "../../../../components/Wrapper";
 import moment from "moment";
 import { EditEpisodeProps, EpisodeItem } from "../../../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
-import { OverlayContext } from "../../../../context/OverlayContext";
+import EditEpisodeSkeleton from "../../../../components/EditepisodeSkeleton";
 
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();
-
-  const { setShowLoading, setMessage } = useContext(OverlayContext);
 
   async function submitHandler({ id, name, air_date, episode }: EpisodeItem) {
     const episodeForApi = {
@@ -32,16 +30,10 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   }
 
   async function getEpisode() {
-    // setShowLoading(true);
-    setMessage("Loading episode's editor...");
-    try {
-      const response = await axios.get(
-        `/api/episodes/${encodeURIComponent(idFromUrl)}`
-      );
-      setEpisodeObj(response.data.episode);
-    } finally {
-      // setShowLoading(false);
-    }
+    const response = await axios.get(
+      `/api/episodes/${encodeURIComponent(idFromUrl)}`
+    );
+    setEpisodeObj(response.data.episode);
   }
 
   useEffect(() => {
@@ -49,13 +41,17 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   }, []);
 
   return episodeObj ? (
-    <Wrapper title={"Edit episode: " + episodeObj.name}>
+    <Wrapper title={"Edit episode: " + episodeObj!.name}>
       <EpisodeFormComponent
         submitHandler={submitHandler}
-        initialData={episodeObj}
+        initialData={episodeObj!}
       />
     </Wrapper>
-  ) : null;
+  ) : (
+    <div className="m-auto">
+      <EditEpisodeSkeleton />
+    </div>
+  );
 }
 
 export async function getServerSideProps({

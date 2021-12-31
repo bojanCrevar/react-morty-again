@@ -7,6 +7,7 @@ import Searchbar from "../../components/Searchbar";
 import axios from "axios";
 import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
+import CharactersSkeleton from "../../components/skeletons/CharactersSkeleton";
 import { GetServerSidePropsContext } from "next/types";
 import { ResponseData } from "../../model/charactersModel";
 
@@ -68,7 +69,7 @@ function Characters() {
         {chars ? (
           <CharacterList characters={chars} fetchData={fetchData} />
         ) : (
-          <div>Loading...</div>
+          <CharactersSkeleton amount={10} />
         )}
       </div>
     </div>

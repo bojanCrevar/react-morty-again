@@ -63,10 +63,12 @@ export default async function handler(req, res) {
             pages: Math.ceil(charsSorted.length / PAGE_SIZE),
           };
 
-          res.status(200).json({
-            info: infoPage,
-            results: charsPaginated,
-          });
+          setTimeout(() => {
+            res.status(200).json({
+              info: infoPage,
+              results: charsPaginated,
+            });
+          }, 2000);
         }
       }
       break;

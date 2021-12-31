@@ -6,7 +6,7 @@ import Wrapper from "../../../../components/Wrapper";
 import moment from "moment";
 import { EditEpisodeProps, EpisodeItem } from "../../../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
-import EditEpisodeSkeleton from "../../../../components/EditepisodeSkeleton";
+import EditSkeleton from "../../../../components/EditSkeleton";
 
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();
@@ -49,7 +49,7 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
     </Wrapper>
   ) : (
     <div className="m-auto">
-      <EditEpisodeSkeleton />
+      <EditSkeleton count={3} />
     </div>
   );
 }

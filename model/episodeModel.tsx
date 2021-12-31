@@ -1,9 +1,10 @@
 export const UNDEFINED_ID = -55;
 import moment from "moment";
+import { PaginationModel } from "./paginationModel";
 
 export interface ResponseData {
   results: EpisodeItem[];
-  info: PageInfo;
+  info: PaginationModel;
 }
 
 export interface EpisodeItem {
@@ -11,11 +12,6 @@ export interface EpisodeItem {
   name: string;
   air_date: string;
   episode: string;
-}
-
-export interface PageInfo {
-  count: number;
-  pages: number;
 }
 
 export const emptyEpisodeItem: EpisodeItem = {

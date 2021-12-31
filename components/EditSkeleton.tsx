@@ -1,14 +1,17 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-export default function EditEpisodeSkeleton() {
+const additionalStyle = { "margin-top": "20px" };
+
+export default function EditSkeleton({ count }: { count?: number }) {
   return (
     <Skeleton
-      count={3}
+      count={count ?? 1}
       baseColor="#ddd"
       highlightColor="#fff"
       borderRadius="0.5rem"
       height={60}
       width={870}
+      style={additionalStyle}
     />
   );
 }

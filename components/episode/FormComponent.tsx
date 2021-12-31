@@ -5,13 +5,13 @@ import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import moment from "moment";
-import { EpisodeItem } from "../../model/episodeModel";
-interface FormComponentProps {
-  submitHandler: (data: EpisodeItem) => void;
-  initialData: EpisodeItem;
-}
+import { EpisodeItem, UNDEFINED_ID } from "../../model/episodeModel";
+import EpisodeFormComponentInput from "../../model/episodeFormComponentInput";
 
-function FormComponent({ submitHandler, initialData }: FormComponentProps) {
+function FormComponent({
+  submitHandler,
+  initialData,
+}: EpisodeFormComponentInput) {
   function submitFunction(submittedEpisodeData: EpisodeItem) {
     submitHandler(submittedEpisodeData);
   }
@@ -33,12 +33,8 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
 
   const initialValuesFormatted: EpisodeItem = {
     ...initialData,
-    air_date: initialData
-      ? moment(new Date(initialData ? initialData.air_date : "")).format(
-          "YYYY-MM-DD"
-        )
-      : "",
-    episode: initialData ? initialData.episode : "",
+    air_date: moment(new Date(initialData.air_date)).format("YYYY-MM-DD"),
+    episode: initialData.episode,
   };
 
   const formik = useFormik({
@@ -46,7 +42,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
     validationSchema: episodeSchema,
     onSubmit: submitFunction,
   });
-
+  console.log("initialData", initialData);
   return (
     <Form noValidate onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-y-2">
@@ -115,7 +111,9 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
             type="submit"
             disabled={!formik.isValid}
           >
-            {!initialData ? "Add new episode!" : "Update episode"}
+            {initialData.id == UNDEFINED_ID
+              ? "Create episode"
+              : "Update episode"}
           </Button>
         </div>
       </div>

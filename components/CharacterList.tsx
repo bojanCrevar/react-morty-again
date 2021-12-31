@@ -1,9 +1,15 @@
 import React from "react";
 import CharCard from "./CharCard";
 import axios from "axios";
+import { CharactersModel } from "../model/charactersModel";
 
-function CharacterList({ characters, fetchData }) {
-  async function handleDelete(id) {
+type CharListProps = {
+  characters: CharactersModel[];
+  fetchData: () => void;
+};
+
+function CharacterList({ characters, fetchData }: CharListProps) {
+  async function handleDelete(id: number) {
     const response = await axios.delete(
       `/api/characters/${encodeURIComponent(id)}`
     );

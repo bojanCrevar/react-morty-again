@@ -4,9 +4,18 @@ import Router from "next/router";
 import FormComponent from "../../../../components/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import { OverlayContext } from "../../../../context/OverlayContext";
+import { CharactersModel } from "../../../../model/charactersModel";
+import { GetServerSidePropsContext } from "next/types";
+import { ParsedUrlQuery } from "querystring";
 
-export default function EditCharacter(props) {
-  const [character, setCharacter] = useState();
+type EditCharacterProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default function EditCharacter(props: EditCharacterProps) {
+  const [character, setCharacter] = useState<CharactersModel>();
 
   const { setShowLoading, setMessage } = useContext(OverlayContext);
 
@@ -18,7 +27,7 @@ export default function EditCharacter(props) {
     species,
     location,
     image,
-  }) {
+  }: CharactersModel) {
     const character = {
       id: id,
       name: name,
@@ -63,6 +72,8 @@ export default function EditCharacter(props) {
   ) : null;
 }
 
-export async function getServerSideProps({ params }) {
-  return { props: { params } };
+export async function getServerSideProps({
+  params,
+}: GetServerSidePropsContext) {
+  return { props: { params: params || {} } };
 }

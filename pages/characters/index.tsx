@@ -26,7 +26,7 @@ function Characters() {
     const response = await axios.get("/api/characters", {
       params: { activePage, keyword, sort },
     });
-    setData(response.data);
+    setTimeout(() => setData(response.data), 700);
   }
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function Characters() {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
-        {chars ? (
+        {chars.length ? (
           <CharacterList characters={chars} fetchData={fetchData} />
         ) : (
           <CharactersSkeleton amount={10} />

@@ -7,7 +7,6 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
-import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ResponseData } from "../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
 
@@ -28,13 +27,13 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
     results: [],
     info: { count: 0, pages: 0 },
   });
-  const { results: episodes, info: pagesInfo = {} } = data;
+  const { results: episodes, info: pagesInfo } = data;
 
   async function fetchData() {
     const response = await axios.get("/api/episodes", {
       params: { activePage, keyword, sort },
     });
-    setData(response.data);
+    setTimeout(() => setData(response.data), 700);
   }
 
   useEffect(() => {

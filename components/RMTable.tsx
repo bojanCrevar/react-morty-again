@@ -9,6 +9,7 @@ const RMTable = ({
 }: ColumnCfg) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const lastColumn = columnConfig.length - 1;
+  console.log("rm table,", tableData);
   const dataRender = tableData.map((data) => {
     return (
       <tr

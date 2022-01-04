@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { LocationsModel } from "../../model/locationsModel";
 import { GetServerSideProps } from "next";
 import { QueryParams } from "../../model/queryParams";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     const response = await axios.get("api/locations", {
       params: { activePage, keyword, sort },
     });
-    setData(response.data);
+    setTimeout(() => setData(response.data), 3000);
   }
 
   useEffect(() => {
@@ -67,10 +68,11 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
+        {" "}
         {locations ? (
           <LocationList locations={locations} fetchData={fetchData} />
         ) : (
-          <div>Loading...</div>
+          <TableSkeletons amount={10} />
         )}
       </div>
     </div>

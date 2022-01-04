@@ -5,6 +5,7 @@ import axios from "axios";
 import useCharacters from "../hooks/useCharacters";
 import { ActionContext } from "../context/ActionContext";
 import { LocationsItem } from "../model/locationsModel";
+import TableSkeletons from "./skeletons/TableSkeletons";
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -24,6 +25,7 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
   ];
 
   const mappedLocations = useCharacters(locations, "residents");
+  console.log("locationlist", mappedLocations);
   function handleUpdate(id: number) {
     Router.push("locations/edit/" + id);
   }

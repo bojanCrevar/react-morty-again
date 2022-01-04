@@ -7,6 +7,7 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import SortComponent from "../../components/SortComponent.tsx";
 import { useRouter } from "next/router";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
 
 const EpisodesPage = (props) => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const EpisodesPage = (props) => {
     const response = await axios.get("/api/episodes", {
       params: { activePage, keyword, sort },
     });
-    setData(response.data);
+    setTimeout(() => setData(response.data), 3000);
   }
 
   useEffect(() => {
@@ -60,7 +61,11 @@ const EpisodesPage = (props) => {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
-        {episodes ? <EpisodeList episodes={episodes} /> : <div>loading</div>}
+        {episodes ? (
+          <EpisodeList episodes={episodes} />
+        ) : (
+          <TableSkeletons amount={10} />
+        )}
       </div>
     </div>
   );

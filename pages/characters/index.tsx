@@ -66,7 +66,7 @@ function Characters() {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
-        {chars.length > 0 ? (
+        {chars.length ? (
           <CharacterList characters={chars} fetchData={fetchData} />
         ) : (
           <CharactersSkeleton amount={10} />

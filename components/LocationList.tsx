@@ -25,7 +25,6 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
   ];
 
   const mappedLocations = useCharacters(locations, "residents");
-  console.log("locationlist", mappedLocations);
   function handleUpdate(id: number) {
     Router.push("locations/edit/" + id);
   }
@@ -39,12 +38,14 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
     }
   }
 
-  return (
+  return locations.length ? (
     <div className="mt-4">
       <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
         <RMTable tabledata={mappedLocations} columnconfig={locationscolumns} />
       </ActionContext.Provider>
     </div>
+  ) : (
+    <TableSkeletons amount={10} pageColumns={locationscolumns} />
   );
 };
 

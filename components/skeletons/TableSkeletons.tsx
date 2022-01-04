@@ -3,9 +3,14 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 type TableSkeletonsProps = {
   amount: number;
+  pageColumns: {
+    key: string;
+    title: string;
+    tooltip?: string;
+  }[];
 };
 
-const TableSkeletons = ({ amount }: TableSkeletonsProps) => {
+const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
   const episodescolumn = [
     { key: "name", title: "Title" },
     { key: "air_date", title: "Release date" },
@@ -16,12 +21,13 @@ const TableSkeletons = ({ amount }: TableSkeletonsProps) => {
       tooltip: "charactersTooltip",
     },
   ];
+  pageColumns = pageColumns ? pageColumns : episodescolumn;
   const renderSkeletons = (amount: number) => {
     let skeletons = [];
     for (let i = 0; i < amount; i++)
       skeletons.push(
         <tr style={{ width: "95%" }} key={i}>
-          {episodescolumn.map((column) => (
+          {pageColumns.map((column) => (
             <td key={column.key}>
               <Skeleton width="w-1/4" />
             </td>
@@ -49,7 +55,7 @@ const TableSkeletons = ({ amount }: TableSkeletonsProps) => {
       >
         <thead>
           <tr>
-            {episodescolumn.map((column) => (
+            {pageColumns.map((column) => (
               <th key={column.key}>{column.title}</th>
             ))}
           </tr>

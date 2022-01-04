@@ -27,7 +27,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     const response = await axios.get("api/locations", {
       params: { activePage, keyword, sort },
     });
-    setTimeout(() => setData(response.data), 3000);
+    setTimeout(() => setData(response.data), 1000);
   }
 
   useEffect(() => {
@@ -68,12 +68,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
-        {" "}
-        {locations ? (
-          <LocationList locations={locations} fetchData={fetchData} />
-        ) : (
-          <TableSkeletons amount={10} />
-        )}
+        <LocationList locations={locations} fetchData={fetchData} />
       </div>
     </div>
   );

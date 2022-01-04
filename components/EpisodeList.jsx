@@ -22,12 +22,14 @@ const EpisodeList = ({ episodes }) => {
     router.push("episodes/edit/" + id);
   }
 
-  return (
+  return episodes.length ? (
     <Fragment>
       <ActionContext.Provider value={{ handleUpdate }}>
         <RMTable tabledata={mappedEpisodes} columnconfig={episodescolumn} />
       </ActionContext.Provider>
     </Fragment>
+  ) : (
+    <TableSkeletons amount={10} pageColumns={episodescolumn} />
   );
 };
 

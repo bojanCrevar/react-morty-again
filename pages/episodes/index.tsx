@@ -34,7 +34,7 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
     const response = await axios.get("/api/episodes", {
       params: { activePage, keyword, sort },
     });
-    setTimeout(() => setData(response.data), 3000);
+    setData(response.data);
   }
 
   useEffect(() => {
@@ -74,11 +74,7 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
-        {episodes ? (
-          <EpisodeList episodes={episodes} />
-        ) : (
-          <TableSkeletons amount={10} />
-        )}
+        <EpisodeList episodes={episodes} />
       </div>
     </div>
   );

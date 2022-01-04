@@ -14,7 +14,7 @@ function generateDummyChar(charId: string) {
 }
 
 type charactersProps = {
-  activePage: number;
+  activePage: string;
   keyword: string;
   characters?: string;
   sort: string;
@@ -29,11 +29,11 @@ export default async function handler(
     case "GET":
       {
         let {
-          activePage = 1,
+          activePage = "1",
           keyword = "",
           characters,
           sort = "",
-        }: charactersProps = req.query;
+        }: charactersProps = req.query as charactersProps;
 
         let allChars = myCharactersRepo.getAll();
 
@@ -69,7 +69,7 @@ export default async function handler(
                   return isReversed * a.name.localeCompare(b.name);
                 });
 
-          let startIndex = (activePage - 1) * PAGE_SIZE;
+          let startIndex = (+activePage - 1) * PAGE_SIZE;
           let endIndex = Math.min(startIndex + PAGE_SIZE, charsSorted.length);
 
           const charsPaginated = charsSorted.slice(startIndex, endIndex);

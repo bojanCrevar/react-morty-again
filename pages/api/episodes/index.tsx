@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 const PAGE_SIZE = 20;
 
 type episodeProps = {
-  activePage: number;
+  activePage: string;
   keyword: string;
   sort: string;
 };
@@ -18,10 +18,10 @@ export default async function handler(
     case "GET":
       {
         let {
-          activePage = 1,
+          activePage = "1",
           keyword = "",
           sort = "",
-        }: episodeProps = req.query;
+        }: episodeProps = req.query as episodeProps;
         keyword = keyword.toLowerCase();
 
         const allEpisodes = episodesRepo.getAll();
@@ -39,7 +39,7 @@ export default async function handler(
                 return isReversed * a.name.localeCompare(b.name);
               });
 
-        let startIndex = (activePage - 1) * PAGE_SIZE;
+        let startIndex = (+activePage - 1) * PAGE_SIZE;
         let endIndex = Math.min(startIndex + PAGE_SIZE, episodesSorted.length);
 
         const episodesPaginated = episodesSorted.slice(startIndex, endIndex);

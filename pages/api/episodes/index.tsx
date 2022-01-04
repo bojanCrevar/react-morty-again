@@ -1,13 +1,27 @@
 import episodesRepo from "../../../utils/episodes-repo";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const PAGE_SIZE = 20;
 
-export default async function handler(req, res) {
+type episodeProps = {
+  activePage: string;
+  keyword: string;
+  sort: string;
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     default:
     case "GET":
       {
-        let { activePage = 1, keyword = "", sort = "" } = req.query;
+        let {
+          activePage = "1",
+          keyword = "",
+          sort = "",
+        }: episodeProps = req.query as episodeProps;
         keyword = keyword.toLowerCase();
 
         const allEpisodes = episodesRepo.getAll();
@@ -25,7 +39,7 @@ export default async function handler(req, res) {
                 return isReversed * a.name.localeCompare(b.name);
               });
 
-        let startIndex = (activePage - 1) * PAGE_SIZE;
+        let startIndex = (+activePage - 1) * PAGE_SIZE;
         let endIndex = Math.min(startIndex + PAGE_SIZE, episodesSorted.length);
 
         const episodesPaginated = episodesSorted.slice(startIndex, endIndex);

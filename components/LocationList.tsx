@@ -5,6 +5,7 @@ import axios from "axios";
 import useCharacters from "../hooks/useCharacters";
 import { ActionContext } from "../context/ActionContext";
 import { LocationsItem } from "../model/locationsModel";
+import TableSkeletons from "./skeletons/TableSkeletons";
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -37,12 +38,14 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
     }
   }
 
-  return (
+  return locations.length ? (
     <div className="mt-4">
       <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
         <RMTable tabledata={mappedLocations} columnconfig={locationscolumns} />
       </ActionContext.Provider>
     </div>
+  ) : (
+    <TableSkeletons amount={10} pageColumns={locationscolumns} />
   );
 };
 

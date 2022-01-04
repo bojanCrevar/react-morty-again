@@ -7,6 +7,7 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ResponseData } from "../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
 
@@ -73,7 +74,7 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
         <SortComponent setSort={setSort} initSort={sort} />
       </div>
       <div className="mt-8">
-        {episodes ? <EpisodeList episodes={episodes} /> : <div>loading</div>}
+        <EpisodeList episodes={episodes} />
       </div>
     </div>
   );

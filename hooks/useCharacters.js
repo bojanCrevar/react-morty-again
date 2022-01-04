@@ -78,9 +78,10 @@ const useCharacters = (dataFromComponent, charactersPropName) => {
       });
       setMappedDataFromComponent(newMappedData);
     }
-    mapDataFromComponent();
+    if (dataFromComponent?.length) {
+      mapDataFromComponent();
+    }
   }, [dataFromComponent]);
-
   return mappedDataFromComponent;
 };
 

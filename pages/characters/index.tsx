@@ -42,29 +42,47 @@ function Characters() {
     );
   }, [activePage, keyword, sort]);
 
-  const checkboxObject = [
+  const filterConfig: {
+    title: string;
+    values: string[];
+    type: "checkbox" | "radio";
+  }[] = [
     {
       title: "Gender",
       values: ["Male", "Female", "Genderless"],
+      type: "checkbox",
     },
     {
       title: "Testing",
       values: ["1", "2", "3"],
+      type: "radio",
     },
-  ];
-
-  const radioObject = [
     {
       title: "Status",
       values: ["Dead", "Alive", "Unknown"],
+      type: "checkbox",
+    },
+    {
+      title: "Status2",
+      values: ["Dead", "Alive", "Unknown"],
+      type: "radio",
     },
   ];
+
+  function submitHandler(e: any) {
+    e.preventDefault();
+    console.log("Submit");
+  }
 
   return (
     <div className="flex mb-4 w-full">
       <div className="w-1/4">
         <div className="w-1/2 ml-28 mt-44">
-          <FilterPanel checkbox={checkboxObject} radio={radioObject} />
+          <FilterPanel
+            filterConfig={filterConfig}
+            submitHandler={submitHandler}
+            date={true}
+          />
         </div>
       </div>
       <div className="w-2/4 ">
@@ -92,7 +110,7 @@ function Characters() {
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
           <div className="mt-8">
-            {chars ? (
+            {chars.length ? (
               <CharacterList characters={chars} fetchData={fetchData} />
             ) : (
               <CharactersSkeleton amount={10} />

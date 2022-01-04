@@ -3,17 +3,15 @@ import React, { useContext, useEffect, useState } from "react";
 import LocationFormComponent from "../../../../components/LocationFormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import Router from "next/router";
-import { OverlayContext } from "../../../../context/OverlayContext";
 import { GetServerSidePropsContext } from "next";
 import {
   EditLocationsProps,
   LocationsItem,
 } from "../../../../model/locationsModel";
+import EditSkeleton from "../../../../components/EditSkeleton";
 
 const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   const [location, setLocation] = useState<LocationsItem>();
-
-  const { setShowLoading, setMessage } = useContext(OverlayContext);
 
   const submitHandler = async ({
     id,
@@ -38,16 +36,10 @@ const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   };
 
   const getLocation = async () => {
-    setShowLoading(true);
-    setMessage("Loading location's editor...");
-    try {
-      const response = await axios.get(
-        `/api/locations/${encodeURIComponent(idFromUrl)}`
-      );
-      setLocation(response.data.location);
-    } finally {
-      setShowLoading(false);
-    }
+    const response = await axios.get(
+      `/api/locations/${encodeURIComponent(idFromUrl)}`
+    );
+    setLocation(response.data.location);
   };
 
   useEffect(() => {
@@ -61,7 +53,11 @@ const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
         initialData={location}
       />
     </Wrapper>
-  ) : null;
+  ) : (
+    <div className="m-auto">
+      <EditSkeleton count={3} />
+    </div>
+  );
 };
 
 export default EditLocation;

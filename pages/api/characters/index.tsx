@@ -1,10 +1,11 @@
 import myCharactersRepo from "../../../utils/character-repo";
+import { NextApiRequest, NextApiResponse } from "next";
 
 //const rmAPI = "https://rickandmortyapi.com/api/character";
 const PAGE_SIZE = 20;
 const rickChar = myCharactersRepo.getAll()[0];
 
-function generateDummyChar(charId) {
+function generateDummyChar(charId: string) {
   return {
     ...rickChar,
     id: charId,
@@ -12,12 +13,27 @@ function generateDummyChar(charId) {
   };
 }
 
-export default async function handler(req, res) {
+type charactersProps = {
+  activePage: string;
+  keyword: string;
+  characters?: string;
+  sort: string;
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     default:
     case "GET":
       {
-        let { activePage = 1, keyword = "", characters, sort = "" } = req.query;
+        let {
+          activePage = "1",
+          keyword = "",
+          characters,
+          sort = "",
+        }: charactersProps = req.query as charactersProps;
 
         let allChars = myCharactersRepo.getAll();
 
@@ -53,7 +69,7 @@ export default async function handler(req, res) {
                   return isReversed * a.name.localeCompare(b.name);
                 });
 
-          let startIndex = (activePage - 1) * PAGE_SIZE;
+          let startIndex = (+activePage - 1) * PAGE_SIZE;
           let endIndex = Math.min(startIndex + PAGE_SIZE, charsSorted.length);
 
           const charsPaginated = charsSorted.slice(startIndex, endIndex);
@@ -63,10 +79,12 @@ export default async function handler(req, res) {
             pages: Math.ceil(charsSorted.length / PAGE_SIZE),
           };
 
-          res.status(200).json({
-            info: infoPage,
-            results: charsPaginated,
-          });
+          setTimeout(() => {
+            res.status(200).json({
+              info: infoPage,
+              results: charsPaginated,
+            });
+          }, 2000);
         }
       }
       break;

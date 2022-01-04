@@ -1,13 +1,27 @@
 //import axios from "axios";
 import locationsRepo from "../../../utils/locations-repo";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const PAGE_SIZE = 20;
 
-export default async function handler(req, res) {
+type locationProps = {
+  activePage: string;
+  keyword: string;
+  sort: string;
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   switch (req.method) {
     case "GET":
       {
-        let { activePage = 1, keyword = "", sort = "" } = req.query;
+        let {
+          activePage = "1",
+          keyword = "",
+          sort = "",
+        }: locationProps = req.query as locationProps;
         keyword = keyword.toLowerCase();
 
         const allLocations = locationsRepo.getAll();
@@ -27,7 +41,7 @@ export default async function handler(req, res) {
                 return isReversed * a.name.localeCompare(b.name);
               });
 
-        let startIndex = (activePage - 1) * PAGE_SIZE;
+        let startIndex = (+activePage - 1) * PAGE_SIZE;
         let endIndex = Math.min(startIndex + PAGE_SIZE, locationsSorted.length);
 
         const locationsPaginated = locationsSorted.slice(startIndex, endIndex);

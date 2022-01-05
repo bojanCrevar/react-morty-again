@@ -17,7 +17,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [data, setData] = useState<LocationsModel>({
-    info: { count: 1, pages: 1 },
+    info: { count: 0, pages: 1 },
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;

@@ -25,7 +25,7 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
   const [sort, setSort] = useState(query?.sort || "id");
   const [data, setData] = useState<ResponseData>({
     results: [],
-    info: { count: 0, pages: 0 },
+    info: { count: 0, pages: 1 },
   });
   const { results: episodes, info: pagesInfo } = data;
 

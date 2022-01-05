@@ -4,15 +4,23 @@ import userEvent from "@testing-library/user-event";
 import Pagination from "./Pagination.tsx";
 
 describe("Paginaton component", () => {
-  test("renders pagination buttons - first page", () => {
-    let activePage = 1;
-    const pagesInfo = {
+  let activePage;
+  let pagesInfo;
+  let setActivePage;
+
+  beforeEach(() => {
+    pagesInfo = {
       count: 41,
       pages: 3,
     };
-    const setActivePage = (activePageFn) => {
+    setActivePage = (activePageFn) => {
       activePage = activePageFn(activePage);
     };
+  });
+
+  test("renders pagination buttons - first page", () => {
+    activePage = 1;
+
     render(
       <Pagination
         activePage={activePage}
@@ -28,13 +36,7 @@ describe("Paginaton component", () => {
 
   test("renders pagination buttons - second page", () => {
     let activePage = 2;
-    const pagesInfo = {
-      count: 41,
-      pages: 3,
-    };
-    const setActivePage = (activePageFn) => {
-      activePage = activePageFn(activePage);
-    };
+
     render(
       <Pagination
         activePage={activePage}
@@ -50,13 +52,7 @@ describe("Paginaton component", () => {
 
   test("renders pagination buttons - third page", () => {
     let activePage = 3;
-    const pagesInfo = {
-      count: 41,
-      pages: 3,
-    };
-    const setActivePage = (activePageFn) => {
-      activePage = activePageFn(activePage);
-    };
+
     render(
       <Pagination
         activePage={activePage}
@@ -70,16 +66,21 @@ describe("Paginaton component", () => {
     expect(buttonElements).toHaveLength(2);
   });
 
-  test.only("renders new value of activePage when clicked", async () => {
+  test("renders new value of activePage when clicked", async () => {
     let activePage = 1;
-    const pagesInfo = {
-      count: 41,
-      pages: 3,
-    };
-    const setActivePage = (activePageFn) => {
+
+    setActivePage = (activePageFn) => {
       activePage = activePageFn(activePage);
+      rerender(
+        <Pagination
+          activePage={activePage}
+          pagesInfo={pagesInfo}
+          setActivePage={setActivePage}
+        />
+      );
     };
-    render(
+
+    const { rerender } = render(
       <Pagination
         activePage={activePage}
         pagesInfo={pagesInfo}
@@ -87,13 +88,13 @@ describe("Paginaton component", () => {
       />
     );
 
-    const buttonElement = screen.getByRole("button", { name: "Next" }); //.getByRole("button", { name: "Next" });
+    const buttonElement = screen.getByRole("button", { name: "Next" });
 
-    await fireEvent.click(buttonElement);
+    fireEvent.click(buttonElement);
 
     await waitFor(() => screen.findByText("2"));
 
-    const outputElem = screen.getAllByRole("button"); // ili screen.getAllByRole("button");
-    expect(outputElem).toHaveLength(3); //i ovdje bi trebalo da bude toHaveLength(2);
+    const outputElem = screen.getAllByRole("button");
+    expect(outputElem).toHaveLength(3);
   });
 });

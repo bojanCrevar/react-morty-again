@@ -117,7 +117,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
             {!initialData.status && (
               <option value={0}>Select character!</option>
             )}
-            {["Male", "Female", "Genderless", "unknown"].map((g) => (
+            {["Male", "Female", "unknown"].map((g) => (
               <option key={g} value={g}>
                 {g}
               </option>

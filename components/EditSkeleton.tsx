@@ -1,6 +1,6 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
-const additionalStyle = { "margin-top": "20px" };
+const additionalStyle = { marginTop: "20px" };
 
 export default function EditSkeleton({ count }: { count?: number }) {
   return (

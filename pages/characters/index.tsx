@@ -18,7 +18,7 @@ function Characters() {
   const [keyword, setKeyword] = useState<string>("");
   const [sort, setSort] = useState<string>("id");
   const [data, setData] = useState<ResponseData>({
-    info: { count: 1, pages: 1 },
+    info: { count: 0, pages: 1 },
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;
@@ -27,7 +27,7 @@ function Characters() {
     const response = await axios.get("/api/characters", {
       params: { activePage, keyword, sort },
     });
-    setData(response.data);
+    setTimeout(() => setData(response.data), 700);
   }
 
   useEffect(() => {

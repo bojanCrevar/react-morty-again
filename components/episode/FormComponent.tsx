@@ -42,7 +42,7 @@ function FormComponent({
     validationSchema: episodeSchema,
     onSubmit: submitFunction,
   });
-  console.log("initialData", initialData);
+
   return (
     <Form noValidate onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-y-2">

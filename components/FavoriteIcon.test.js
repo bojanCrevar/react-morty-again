@@ -1,40 +1,15 @@
-import { screen, render, fireEvent, waitFor } from "@testing-library/react";
-import axios from "axios";
+import { screen, render, fireEvent } from "@testing-library/react";
 import FavoriteIcon from "./FavoriteIcon.tsx";
 
-jest.mock("axios");
-
 describe("FavoriteIcon component", () => {
-  test("render Favorited on screen", () => {
+  test("render 'Favorited' on screen", () => {
     let favouriteState = false;
+
     const toggleFavourite = (favouriteState, finishedCallback) => {
-      try {
-        // const characters = {
-        //   id: 1,
-        //   name: "Rick",
-        //   image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-        //   species: "Human",
-        //   gender: "Male",
-        //   status: "Alive",
-        //   location: "Citadel of Ricks",
-        //   favourite: favouriteState,
-        // };
-        // const response = { data: characters };
-
-        // axios.put.mockResolvedValue(response);
-
-        rerender(
-          <FavoriteIcon
-            toggleFavourite={toggleFavourite}
-            favouriteState={favouriteState}
-          />
-        );
-        finishedCallback();
-      } catch (e) {
-        finishedCallback(e);
-      }
+      finishedCallback();
     };
-    const { rerender } = render(
+
+    render(
       <FavoriteIcon
         toggleFavourite={toggleFavourite}
         favouriteState={favouriteState}
@@ -46,9 +21,42 @@ describe("FavoriteIcon component", () => {
     });
 
     fireEvent.click(buttonElement);
-    //await waitFor(() => screen.findByText("Favorited"));
 
     const outputElem = screen.getByText("Favorited");
     expect(outputElem).toBeInTheDocument();
+
+    const exclamationMark = screen.queryByRole("img", {
+      name: "error",
+    });
+    expect(exclamationMark).not.toBeInTheDocument();
+  });
+
+  test("error while rendering 'Favorited'", () => {
+    let favouriteState = false;
+
+    const toggleFavourite = (favouriteState, finishedCallback) => {
+      finishedCallback("error");
+    };
+
+    render(
+      <FavoriteIcon
+        toggleFavourite={toggleFavourite}
+        favouriteState={favouriteState}
+      />
+    );
+
+    const buttonElement = screen.getByRole("button", {
+      name: "Add to favorites!",
+    });
+
+    fireEvent.click(buttonElement);
+
+    const outputElem = screen.getByText("Add to favorites!");
+    expect(outputElem).toBeInTheDocument();
+
+    const exclamationMark = screen.getByRole("img", {
+      name: "error",
+    });
+    expect(exclamationMark).toBeInTheDocument();
   });
 });

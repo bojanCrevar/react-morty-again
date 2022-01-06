@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import { LocationsModel } from "../../model/locationsModel";
 import { GetServerSideProps } from "next";
 import { QueryParams } from "../../model/queryParams";
-import TableSkeletons from "../../components/skeletons/TableSkeletons";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const router = useRouter();
@@ -18,7 +17,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [data, setData] = useState<LocationsModel>({
-    info: { count: 1, pages: 1 },
+    info: { count: 0, pages: 1 },
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;
@@ -27,7 +26,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     const response = await axios.get("api/locations", {
       params: { activePage, keyword, sort },
     });
-    setTimeout(() => setData(response.data), 1000);
+    setTimeout(() => setData(response.data), 700);
   }
 
   useEffect(() => {

@@ -83,17 +83,14 @@ function Characters() {
   ];
 
   return (
-    <div className="flex mb-4 w-full flex-col lg:flex-row">
-      <div className="w-1/4 lg:block hidden">
-        <div className="w-1/2 ml-28 mt-44 ">
-          <FilterPanel
-            filterConfig={filterConfig}
-            submitFilterHandler={fetchData}
-          />
-        </div>
+    <div className="flex flex-col lg:flex-row w-full">
+      <div className="w-full lg:w-1/3 xl:w-1/4 p-24 hidden lg:block">
+        <FilterPanel
+          filterConfig={filterConfig}
+          submitFilterHandler={fetchData}
+        />
       </div>
-
-      <div className="w-4/4 p-4 lg:w-2/4 lg:p:0">
+      <div className="w-full p-4 lg:w-3/4 xl:w-2/4">
         <div>
           <h5 className="p-4 text-4xl	text-center">
             List of characters - {pagesInfo.count}
@@ -132,7 +129,6 @@ function Characters() {
           </div>
         </div>
       </div>
-      <div className="w-1/4"></div>
     </div>
   );
 }

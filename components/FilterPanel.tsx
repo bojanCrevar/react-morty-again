@@ -3,7 +3,13 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Button from "react-bootstrap/Button";
 import { useRef, createRef, RefObject } from "react";
 import { FilterModel } from "../model/filterModel";
-import { FilterPanelProps } from "../model/filterModel";
+import { FilterGroupConfig } from "../model/filterModel";
+
+type FilterPanelProps = {
+  filterConfig: FilterGroupConfig[];
+  date?: boolean;
+  submitFilterHandler: (e: any) => void;
+};
 
 type GroupValueRefsMap = {
   [key: string]: RefObject<HTMLInputElement>[];

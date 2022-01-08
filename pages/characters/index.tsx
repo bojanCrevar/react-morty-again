@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import CharacterList from "../../components/CharacterList";
@@ -11,6 +11,9 @@ import CharactersSkeleton from "../../components/skeletons/CharactersSkeleton";
 import { GetServerSidePropsContext } from "next/types";
 import { ResponseData } from "../../model/charactersModel";
 import FilterPanel from "../../components/FilterPanel";
+import { FilterGroupConfig } from "../../model/filterModel";
+import { FilterModel } from "../../model/filterModel";
+import FilterPanelMobile from "../../components/mobile/FilterPanelMobile";
 
 function Characters() {
   const router = useRouter();
@@ -18,16 +21,37 @@ function Characters() {
   const [keyword, setKeyword] = useState<string>("");
   const [sort, setSort] = useState<string>("id");
   const [data, setData] = useState<ResponseData>({
-    info: { count: 0, pages: 1 },
+    info: { count: 1, pages: 1 },
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;
 
-  async function fetchData() {
-    const response = await axios.get("/api/characters", {
-      params: { activePage, keyword, sort },
-    });
-    setTimeout(() => setData(response.data), 700);
+  function constructFilterQuery(filterObject: FilterModel) {
+    let filterQuery = "";
+    for (let key in filterObject) {
+      let value = filterObject[key];
+      value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
+    }
+    return filterQuery;
+  }
+
+  async function fetchData(filterObject?: FilterModel) {
+    if (filterObject) {
+      const response = await axios.get("/api/characters", {
+        params: { activePage, keyword, sort, filterObject },
+        paramsSerializer: (params) => {
+          return `activePage=${params.activePage}&keyword=${
+            params.keyword
+          }${constructFilterQuery(params.filterObject)}`;
+        },
+      });
+      setData(response.data);
+    } else {
+      const response = await axios.get("/api/characters", {
+        params: { activePage, keyword, sort },
+      });
+      setData(response.data);
+    }
   }
 
   useEffect(() => {
@@ -42,50 +66,34 @@ function Characters() {
     );
   }, [activePage, keyword, sort]);
 
-  const filterConfig: {
-    title: string;
-    values: string[];
-    type: "checkbox" | "radio";
-  }[] = [
+  const filterConfig: FilterGroupConfig[] = [
     {
       title: "Gender",
-      values: ["Male", "Female", "Genderless"],
+      values: ["Male", "Female", "Unknown"],
       type: "checkbox",
+      key: "gender",
     },
-    {
-      title: "Testing",
-      values: ["1", "2", "3"],
-      type: "radio",
-    },
+
     {
       title: "Status",
       values: ["Dead", "Alive", "Unknown"],
       type: "checkbox",
-    },
-    {
-      title: "Status2",
-      values: ["Dead", "Alive", "Unknown"],
-      type: "radio",
+      key: "status",
     },
   ];
 
-  function submitHandler(e: any) {
-    e.preventDefault();
-    console.log("Submit");
-  }
-
   return (
-    <div className="flex mb-4 w-full">
-      <div className="w-1/4">
-        <div className="w-1/2 ml-28 mt-44">
+    <div className="flex mb-4 w-full flex-col lg:flex-row">
+      <div className="w-1/4 lg:block hidden">
+        <div className="w-1/2 ml-28 mt-44 ">
           <FilterPanel
             filterConfig={filterConfig}
-            submitHandler={submitHandler}
-            date={true}
+            submitFilterHandler={fetchData}
           />
         </div>
       </div>
-      <div className="w-2/4 ">
+
+      <div className="w-4/4 p-4 lg:w-2/4 lg:p:0">
         <div>
           <h5 className="p-4 text-4xl	text-center">
             List of characters - {pagesInfo.count}
@@ -109,6 +117,12 @@ function Characters() {
             </Link>
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
+          <div className="block lg:hidden mt-2">
+            <FilterPanelMobile
+              filterConfig={filterConfig}
+              submitFilterHandler={fetchData}
+            />
+          </div>
           <div className="mt-8">
             {chars.length ? (
               <CharacterList characters={chars} fetchData={fetchData} />
@@ -118,6 +132,7 @@ function Characters() {
           </div>
         </div>
       </div>
+      <div className="w-1/4"></div>
     </div>
   );
 }

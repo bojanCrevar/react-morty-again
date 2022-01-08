@@ -8,3 +8,9 @@ export interface FilterGroupConfig {
   type: "checkbox" | "radio";
   key: string;
 }
+
+export interface FilterPanelProps {
+  filterConfig: FilterGroupConfig[];
+  date?: boolean;
+  submitFilterHandler: (e: any) => void;
+}

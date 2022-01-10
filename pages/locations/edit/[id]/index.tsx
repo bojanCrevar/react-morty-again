@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import LocationFormComponent from "../../../../components/locations/LocationFormComponent";
+import LocationFormComponent from "../../../../components/locations/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import Router from "next/router";
 import { GetServerSidePropsContext } from "next";

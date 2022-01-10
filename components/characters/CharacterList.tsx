@@ -1,7 +1,7 @@
 import React from "react";
 import CharCard from "./CharCard";
 import axios from "axios";
-import { CharactersModel } from "../model/charactersModel";
+import { CharactersModel } from "../../model/charactersModel";
 
 type CharListProps = {
   characters: CharactersModel[];

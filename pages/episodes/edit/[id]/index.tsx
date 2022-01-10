@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Router from "next/router";
-import EpisodeFormComponent from "../../../../components/episode/FormComponent";
+import EpisodeFormComponent from "../../../../components/episodes/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import moment from "moment";
 import { EditEpisodeProps, EpisodeItem } from "../../../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
-import EditSkeleton from "../../../../components/EditSkeleton";
+import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();

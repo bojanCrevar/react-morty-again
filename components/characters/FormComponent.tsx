@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import FormControl from "react-bootstrap/FormControl";
-import { CharactersModel } from "../model/charactersModel";
+import { CharactersModel } from "../../model/charactersModel";
 
 type FormComponentProps = {
   submitHandler: (submittedEpisodeData: CharactersModel) => void;

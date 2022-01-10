@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EpisodeList from "../../components/EpisodeList";
+import EpisodeList from "../../components/episodes/EpisodeList";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";

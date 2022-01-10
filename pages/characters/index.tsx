@@ -20,6 +20,7 @@ function Characters() {
   const [activePage, setActivePage] = useState<number>(1);
   const [keyword, setKeyword] = useState<string>("");
   const [sort, setSort] = useState<string>("id");
+  const [mobile, setMobile] = useState<Boolean>();
   const [data, setData] = useState<ResponseData>({
     info: { count: 1, pages: 1 },
     results: [],
@@ -82,14 +83,34 @@ function Characters() {
     },
   ];
 
+  useEffect(() => {
+    function handleResize() {
+      console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
+
+      if (window.innerWidth < 1024) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    }
+
+    window.addEventListener("load", handleResize);
+    window.addEventListener("resize", handleResize);
+  });
+
+  console.log("mobile", mobile);
+
   return (
     <div className="flex flex-col lg:flex-row w-full">
-      <div className="w-full lg:w-1/3 xl:w-1/4 p-24 hidden lg:block">
-        <FilterPanel
-          filterConfig={filterConfig}
-          submitFilterHandler={fetchData}
-        />
-      </div>
+      {!mobile && (
+        <div className="w-full lg:w-1/3 xl:w-1/4 p-24 hidden lg:block">
+          <FilterPanel
+            filterConfig={filterConfig}
+            submitFilterHandler={fetchData}
+          />
+        </div>
+      )}
+
       <div className="w-full p-4 lg:w-3/4 xl:w-2/4">
         <div>
           <h5 className="p-4 text-4xl	text-center">
@@ -114,12 +135,16 @@ function Characters() {
             </Link>
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
-          <div className="block lg:hidden mt-2">
-            <FilterPanelMobile
-              filterConfig={filterConfig}
-              submitFilterHandler={fetchData}
-            />
-          </div>
+
+          {mobile && (
+            <div className="block lg:hidden mt-2">
+              <FilterPanelMobile
+                filterConfig={filterConfig}
+                submitFilterHandler={fetchData}
+              />
+            </div>
+          )}
+
           <div className="mt-8">
             {chars.length ? (
               <CharacterList characters={chars} fetchData={fetchData} />

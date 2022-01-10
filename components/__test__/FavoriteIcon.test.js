@@ -1,5 +1,5 @@
 import { screen, render, fireEvent } from "@testing-library/react";
-import FavoriteIcon from "./FavoriteIcon.tsx";
+import FavoriteIcon from "../FavoriteIcon.tsx";
 
 describe("FavoriteIcon component", () => {
   test("render 'Favorited' on screen", () => {

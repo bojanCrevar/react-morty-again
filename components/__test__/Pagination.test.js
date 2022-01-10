@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import Pagination from "./Pagination.tsx";
+import Pagination from "../Pagination.tsx";
 
 describe("Paginaton component", () => {
   let activePage;

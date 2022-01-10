@@ -49,7 +49,7 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
   }, [activePage, keyword, sort]);
 
   return (
-    <div className="m-auto w-1/2 ">
+    <div className="mx-auto w-1/2 ">
       <h5 className="p-4 text-4xl	text-center">
         List of episodes - {pagesInfo.count}
       </h5>

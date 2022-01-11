@@ -100,14 +100,14 @@ const CharCard = ({
         </div>
         <div>
           <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info" className="w-5/6 ">
+            <Button variant="outline-info" className="btn-char">
               Edit character
             </Button>
           </Link>
         </div>
         <div>
           <Button
-            className="w-5/6 "
+            className="btn-char"
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}
           >

@@ -44,7 +44,7 @@ function Characters() {
         paramsSerializer: (params) => {
           return `activePage=${params.activePage}&keyword=${
             params.keyword
-          }${constructFilterQuery(params.filterObject)}`;
+          }&sort=${sort}${constructFilterQuery(params.filterObject)}`;
         },
       });
       setData(response.data);

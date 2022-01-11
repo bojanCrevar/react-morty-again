@@ -1,4 +1,3 @@
-//import axios from "axios";
 import locationsRepo from "../../../utils/locations-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,6 +7,7 @@ type locationProps = {
   activePage: string;
   keyword: string;
   sort: string;
+  filterObject: string;
 };
 
 export default async function handler(
@@ -21,8 +21,10 @@ export default async function handler(
           activePage = "1",
           keyword = "",
           sort = "",
+          filterObject = "",
         }: locationProps = req.query as locationProps;
         keyword = keyword.toLowerCase();
+        console.log("req.query", req.query);
 
         const allLocations = locationsRepo.getAll();
         const locationsFiltered = keyword

@@ -10,6 +10,9 @@ import { useRouter } from "next/router";
 import { LocationsModel } from "../../model/locationsModel";
 import { GetServerSideProps } from "next";
 import { QueryParams } from "../../model/queryParams";
+import { FilterGroupConfig, FilterModel } from "../../model/filterModel";
+import FilterPanel from "../../components/FilterPanel";
+import PageWrapper from "../../components/PageWrapper";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const router = useRouter();
@@ -22,11 +25,32 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
   });
   const { results: locations, info: pagesInfo } = data;
 
-  async function fetchData() {
-    const response = await axios.get("api/locations", {
-      params: { activePage, keyword, sort },
-    });
-    setTimeout(() => setData(response.data), 700);
+  function constructFilterQuery(filterObject: FilterModel) {
+    let filterQuery = "";
+    for (let key in filterObject) {
+      let value = filterObject[key];
+      value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
+    }
+    return filterQuery;
+  }
+
+  async function fetchData(filterObject?: FilterModel) {
+    if (filterObject) {
+      const response = await axios.get("/api/locations", {
+        params: { activePage, keyword, sort, filterObject },
+        paramsSerializer: (params) => {
+          return `activePage=${params.activePage}&keyword=${
+            params.keyword
+          }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
+        },
+      });
+      setData(response.data);
+    } else {
+      const response = await axios.get("api/locations", {
+        params: { activePage, keyword, sort },
+      });
+      setTimeout(() => setData(response.data), 700);
+    }
   }
 
   useEffect(() => {
@@ -41,9 +65,28 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     );
   }, [activePage, keyword, sort]);
 
-  return (
-    <div className="m-auto w-1/2">
-      <h5 className="p-4 text-4xl	text-center">
+  const filterConfig: FilterGroupConfig[] = [
+    {
+      title: "Dimension",
+      values: ["Dimension C-137", "Replacement Dimension", "unknown"],
+      type: "checkbox",
+      key: "dimension",
+    },
+    {
+      title: "Type",
+      values: ["Planet", "Cluster", "Microverse", "Space station"],
+      type: "checkbox",
+      key: "type",
+    },
+  ];
+
+  const filterComponent = (
+    <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
+  );
+
+  const content = (
+    <>
+      <h5 className="p-4 text-4xl text-center">
         List of locations - {pagesInfo.count}
       </h5>
 
@@ -69,8 +112,10 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       <div className="mt-8">
         <LocationList locations={locations} fetchData={fetchData} />
       </div>
-    </div>
+    </>
   );
+
+  return <PageWrapper filterComponent={filterComponent} content={content} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

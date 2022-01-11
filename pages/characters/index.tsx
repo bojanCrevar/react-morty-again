@@ -13,6 +13,7 @@ import { ResponseData } from "../../model/charactersModel";
 import FilterPanel from "../../components/FilterPanel";
 import { FilterGroupConfig } from "../../model/filterModel";
 import { FilterModel } from "../../model/filterModel";
+import PageWrapper from "../../components/PageWrapper";
 
 function Characters() {
   const router = useRouter();
@@ -81,51 +82,44 @@ function Characters() {
     },
   ];
 
-  return (
-    <div className="flex mb-4 w-full">
-      <div className="w-1/4">
-        <div className="w-1/2 ml-28 mt-44">
-          <FilterPanel
-            filterConfig={filterConfig}
-            submitFilterHandler={fetchData}
-          />
-        </div>
+  const content = (
+    <>
+      <h5 className="p-4 text-4xl text-center">
+        List of characters - {pagesInfo.count}
+      </h5>
+      <Pagination
+        pagesInfo={pagesInfo}
+        activePage={activePage}
+        setActivePage={setActivePage}
+      />
+      <div>Pages: {pagesInfo.pages}</div>
+      <Searchbar
+        setKeyword={setKeyword}
+        setActivePage={setActivePage}
+        initKeyword={keyword}
+      />
+      <div className="pt-4 relative">
+        <Link href="characters/create">
+          <Button variant="success w-1/2" type="submit">
+            Add character!
+          </Button>
+        </Link>
+        <SortComponent setSort={setSort} initSort={sort} />
       </div>
-      <div className="w-2/4 ">
-        <div>
-          <h5 className="p-4 text-4xl	text-center">
-            List of characters - {pagesInfo.count}
-          </h5>
-          <Pagination
-            pagesInfo={pagesInfo}
-            activePage={activePage}
-            setActivePage={setActivePage}
-          />
-          <div>Pages: {pagesInfo.pages}</div>
-          <Searchbar
-            setKeyword={setKeyword}
-            setActivePage={setActivePage}
-            initKeyword={keyword}
-          />
-          <div className="pt-4 relative">
-            <Link href="characters/create">
-              <Button variant="success w-1/2" type="submit">
-                Add character!
-              </Button>
-            </Link>
-            <SortComponent setSort={setSort} initSort={sort} />
-          </div>
-          <div className="mt-8">
-            {chars.length ? (
-              <CharacterList characters={chars} fetchData={fetchData} />
-            ) : (
-              <CharactersSkeleton amount={10} />
-            )}
-          </div>
-        </div>
+      <div className="mt-8">
+        {chars.length ? (
+          <CharacterList characters={chars} fetchData={fetchData} />
+        ) : (
+          <CharactersSkeleton amount={10} />
+        )}
       </div>
-    </div>
+    </>
   );
+  const filterComponent = (
+    <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
+  );
+
+  return <PageWrapper filterComponent={filterComponent} content={content} />;
 }
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {

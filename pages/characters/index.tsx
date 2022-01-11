@@ -11,6 +11,8 @@ import CharactersSkeleton from "../../components/skeletons/CharactersSkeleton";
 import { GetServerSidePropsContext } from "next/types";
 import { ResponseData } from "../../model/charactersModel";
 import FilterPanel from "../../components/FilterPanel";
+import { FilterGroupConfig } from "../../model/filterModel";
+import { FilterModel } from "../../model/filterModel";
 
 function Characters() {
   const router = useRouter();
@@ -23,11 +25,32 @@ function Characters() {
   });
   const { results: chars, info: pagesInfo } = data;
 
-  async function fetchData() {
-    const response = await axios.get("/api/characters", {
-      params: { activePage, keyword, sort },
-    });
-    setTimeout(() => setData(response.data), 700);
+  function constructFilterQuery(filterObject: FilterModel) {
+    let filterQuery = "";
+    for (let key in filterObject) {
+      let value = filterObject[key];
+      value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
+    }
+    return filterQuery;
+  }
+
+  async function fetchData(filterObject?: FilterModel) {
+    if (filterObject) {
+      const response = await axios.get("/api/characters", {
+        params: { activePage, keyword, sort, filterObject },
+        paramsSerializer: (params) => {
+          return `activePage=${params.activePage}&keyword=${
+            params.keyword
+          }${constructFilterQuery(params.filterObject)}`;
+        },
+      });
+      setData(response.data);
+    } else {
+      const response = await axios.get("/api/characters", {
+        params: { activePage, keyword, sort },
+      });
+      setData(response.data);
+    }
   }
 
   useEffect(() => {
@@ -42,37 +65,21 @@ function Characters() {
     );
   }, [activePage, keyword, sort]);
 
-  const filterConfig: {
-    title: string;
-    values: string[];
-    type: "checkbox" | "radio";
-  }[] = [
+  const filterConfig: FilterGroupConfig[] = [
     {
       title: "Gender",
-      values: ["Male", "Female", "Genderless"],
+      values: ["Male", "Female", "Unknown"],
       type: "checkbox",
+      key: "gender",
     },
-    {
-      title: "Testing",
-      values: ["1", "2", "3"],
-      type: "radio",
-    },
+
     {
       title: "Status",
       values: ["Dead", "Alive", "Unknown"],
       type: "checkbox",
-    },
-    {
-      title: "Status2",
-      values: ["Dead", "Alive", "Unknown"],
-      type: "radio",
+      key: "status",
     },
   ];
-
-  function submitHandler(e: any) {
-    e.preventDefault();
-    console.log("Submit");
-  }
 
   return (
     <div className="flex mb-4 w-full">
@@ -80,8 +87,7 @@ function Characters() {
         <div className="w-1/2 ml-28 mt-44">
           <FilterPanel
             filterConfig={filterConfig}
-            submitHandler={submitHandler}
-            date={true}
+            submitFilterHandler={fetchData}
           />
         </div>
       </div>

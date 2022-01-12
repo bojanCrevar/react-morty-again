@@ -120,15 +120,15 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
         initKeyword={keyword}
         setActivePage={setActivePage}
       />
-      <div className="flex flex-col lg:flex-row pt-4 relative w-full">
-        <div className="w-2/3">
+      <div className="flex flex-col relative w-full space-y-2 pt-4 lg:flex-row lg:space-y-0">
+        <div className="lg:w-2/3">
           <Link href="/locations/create">
             <Button variant="success w-1/2" type="submit">
               Add location
             </Button>
           </Link>
         </div>
-        <div className="w-1/2 pt-2 lg:w-1/3 lg:p-0">
+        <div className="lg:w-1/3">
           <SortComponent setSort={setSort} initSort={sort} />
         </div>
       </div>

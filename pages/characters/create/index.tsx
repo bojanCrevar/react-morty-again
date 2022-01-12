@@ -2,7 +2,7 @@ import axios from "axios";
 import Router from "next/router";
 import FormComponent from "../../../components/FormComponent";
 import Wrapper from "../../../components/Wrapper";
-import { CharactersModel } from "../../../model/charactersModel";
+import { CharactersItem } from '../../../model/charactersModel';
 
 export default function CreateCharacter() {
   async function submitHandler({
@@ -12,7 +12,7 @@ export default function CreateCharacter() {
     species,
     location,
     image,
-  }: CharactersModel) {
+  }: CharactersItem) {
     const character = {
       name: name,
       status: status,

@@ -47,11 +47,15 @@ describe("RMTable component test", () => {
       },
     ];
   });
+  test("rendering all rows", () => {
+    render(<RMTable tabledata={tableData} columnconfig={columnCfg} />);
+
+    const rowsElements = screen.getAllByRole("row");
+    expect(rowsElements).toHaveLength(4);
+  });
 
   test("Showing update button when hovered", () => {
-    const { container } = render(
-      <RMTable tabledata={tableData} columnconfig={columnCfg} />
-    );
+    render(<RMTable tabledata={tableData} columnconfig={columnCfg} />);
 
     let rowElement = screen.getByRole("row", {
       name: "Earth C-2 Planet Rick, Morty",
@@ -60,7 +64,9 @@ describe("RMTable component test", () => {
 
     userEvent.hover(rowElement);
 
-    expect(container.getElementsByClassName("visible").length).toBe(1);
+    expect(rowElement.getElementsByClassName("fa-edit visible")).toHaveLength(
+      1
+    );
   });
 
   test("Getting elements with class invisible which are not hovered", () => {

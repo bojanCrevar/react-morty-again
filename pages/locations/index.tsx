@@ -13,12 +13,14 @@ import { QueryParams } from "../../model/queryParams";
 import { FilterGroupConfig, FilterModel } from "../../model/filterModel";
 import FilterPanel from "../../components/FilterPanel";
 import PageWrapper from "../../components/PageWrapper";
+import FilterPanelMobile from "../../components/mobile/FilterPanelMobile";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
+  const [mobile, setMobile] = useState<Boolean>();
   const [data, setData] = useState<LocationsModel>({
     info: { count: 0, pages: 1 },
     results: [],
@@ -65,6 +67,23 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     );
   }, [activePage, keyword, sort]);
 
+  useEffect(() => {
+    function handleResize() {
+      console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
+
+      if (window.innerWidth < 1024) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    }
+
+    window.addEventListener("load", handleResize);
+    window.addEventListener("resize", handleResize);
+  });
+
+  console.log("mobile", mobile);
+
   const filterConfig: FilterGroupConfig[] = [
     {
       title: "Dimension",
@@ -80,7 +99,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     },
   ];
 
-  const filterComponent = (
+  const filterComponent = !mobile && (
     <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
   );
 
@@ -101,14 +120,24 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
         initKeyword={keyword}
         setActivePage={setActivePage}
       />
-      <div className="pt-4 relative">
-        <Link href="/locations/create">
-          <Button variant="success w-1/2" type="submit">
-            Add location
-          </Button>
-        </Link>
-        <SortComponent setSort={setSort} initSort={sort} />
+      <div className="flex flex-col lg:flex-row pt-4 relative w-full">
+        <div className="w-2/3">
+          <Link href="/locations/create">
+            <Button variant="success w-1/2" type="submit">
+              Add location
+            </Button>
+          </Link>
+        </div>
+        <div className="w-1/2 pt-2 lg:w-1/3 lg:p-0">
+          <SortComponent setSort={setSort} initSort={sort} />
+        </div>
       </div>
+      {mobile && (
+        <FilterPanelMobile
+          filterConfig={filterConfig}
+          submitFilterHandler={fetchData}
+        />
+      )}
       <div className="mt-8">
         <LocationList locations={locations} fetchData={fetchData} />
       </div>

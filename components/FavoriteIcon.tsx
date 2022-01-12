@@ -35,7 +35,7 @@ const FavouriteIcon = ({
 
   const favouriteButton = (
     <Button
-      className="w-5/6"
+      className="btn-char"
       type="button"
       variant={"btn " + getStyle()}
       onClick={() => {

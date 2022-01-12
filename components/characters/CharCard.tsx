@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
-import FavouriteIcon from "./FavoriteIcon";
-import axios, { AxiosError } from "axios";
-import { CharactersModel } from "../model/charactersModel";
-import { ActionCtxModel } from "../model/actionCtxModel";
+import FavouriteIcon from "../FavoriteIcon";
+import axios from "axios";
+import { CharactersModel } from "../../model/charactersModel";
 
 interface CharCardProps extends CharactersModel {
   handleDelete: (id: number) => void;

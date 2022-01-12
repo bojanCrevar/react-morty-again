@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
-import { LocationsItem } from "../model/locationsModel";
+import { LocationsItem } from "../../model/locationsModel";
 
 type LocationFormProps = {
   submitHandler: (location: LocationsItem) => void;

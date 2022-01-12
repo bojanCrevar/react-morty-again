@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import LocationFormComponent from "../../../../components/LocationFormComponent";
+import LocationFormComponent from "../../../../components/locations/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import Router from "next/router";
 import { GetServerSidePropsContext } from "next";
@@ -8,7 +8,7 @@ import {
   EditLocationsProps,
   LocationsItem,
 } from "../../../../model/locationsModel";
-import EditSkeleton from "../../../../components/EditSkeleton";
+import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 
 const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   const [location, setLocation] = useState<LocationsItem>();

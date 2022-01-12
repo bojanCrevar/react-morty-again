@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Link from "next/link";
-import FavouriteIcon from "./FavoriteIcon";
-import axios, { AxiosError } from "axios";
-import { CharactersModel } from "../model/charactersModel";
-import { ActionCtxModel } from "../model/actionCtxModel";
+import FavouriteIcon from "../FavoriteIcon";
+import axios from "axios";
+import { CharactersModel } from "../../model/charactersModel";
 
 interface CharCardProps extends CharactersModel {
   handleDelete: (id: number) => void;
@@ -100,14 +99,14 @@ const CharCard = ({
         </div>
         <div>
           <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info" className="btn-char">
+            <Button variant="outline-info" className="w-5/6 ">
               Edit character
             </Button>
           </Link>
         </div>
         <div>
           <Button
-            className="btn-char"
+            className="w-5/6 "
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}
           >

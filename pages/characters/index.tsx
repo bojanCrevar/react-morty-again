@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import CharacterList from "../../components/CharacterList";
+import CharacterList from "../../components/characters/CharacterList";
 import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
 import axios from "axios";
@@ -81,9 +81,12 @@ function Characters() {
 
     window.addEventListener("load", handleResize);
     window.addEventListener("resize", handleResize);
-  });
 
-  console.log("mobile", mobile);
+    return () => {
+      window.removeEventListener("load", handleResize);
+      window.removeEventListener("resize", handleResize);
+    }
+  }, []);
 
   const filterConfig: FilterGroupConfig[] = [
     {

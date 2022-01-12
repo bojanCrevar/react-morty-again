@@ -1,9 +1,9 @@
-import RMTable from "./RMTable";
+import RMTable from "../RMTable";
 import { Fragment } from "react";
 import { useRouter } from "next/router";
-import useCharacters from "../hooks/useCharacters";
-import { ActionContext } from "../context/ActionContext.tsx";
-import TableSkeletons from "./skeletons/TableSkeletons";
+import useCharacters from "../../hooks/useCharacters";
+import { ActionContext } from "../../context/ActionContext";
+import TableSkeletons from "../skeletons/TableSkeletons";
 
 const EpisodeList = ({ episodes }) => {
   const router = useRouter();

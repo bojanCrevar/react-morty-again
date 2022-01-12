@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
-import LocationList from "../../components/LocationList";
+import LocationList from "../../components/locations/LocationList";
 import Searchbar from "../../components/Searchbar";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";

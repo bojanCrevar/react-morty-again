@@ -80,7 +80,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
 
     window.addEventListener("load", handleResize);
     window.addEventListener("resize", handleResize);
-  });
+  }, []);
 
   console.log("mobile", mobile);
 
@@ -99,9 +99,9 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     },
   ];
 
-  const filterComponent = !mobile && (
+  const filterComponent = !mobile ? (
     <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
-  );
+  ) : null;
 
   const content = (
     <>

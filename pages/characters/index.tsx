@@ -81,6 +81,11 @@ function Characters() {
 
     window.addEventListener("load", handleResize);
     window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("load", handleResize);
+      window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   const filterConfig: FilterGroupConfig[] = [

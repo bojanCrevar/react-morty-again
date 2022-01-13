@@ -1,11 +1,11 @@
 import { useState, useEffect} from "react";
 import axios from "axios";
 import Router from "next/router";
-import FormComponent from "../../../../components/FormComponent";
+import FormComponent from "../../../../components/characters/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
 import { CharactersItem } from "../../../../model/charactersModel";
 import { GetServerSidePropsContext } from "next/types";
-import EditSkeleton from "../../../../components/EditSkeleton";
+import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 
 type EditCharacterProps = {
   params: {

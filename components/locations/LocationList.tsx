@@ -1,12 +1,12 @@
 import React from "react";
-import RMTable from "./RMTable";
+import RMTable from "../RMTable";
 import Router from "next/router";
 import axios from "axios";
-import useCharacters from "../hooks/useCharacters";
-import { ActionContext } from "../context/ActionContext";
-import { LocationsItem } from "../model/locationsModel";
-import TableSkeletons from "./skeletons/TableSkeletons";
-import { ColumnCfg } from '../model/columnCfgModel';
+import useCharacters from "../../hooks/useCharacters";
+import { ActionContext } from "../../context/ActionContext";
+import { LocationsItem } from "../../model/locationsModel";
+import TableSkeletons from "../skeletons/TableSkeletons";
+import { ColumnCfg } from '../../model/columnCfgModel';
 
 type LocationsProps = {
   locations: LocationsItem[];

@@ -1,11 +1,11 @@
-import RMTable from "./RMTable";
+import RMTable from "../RMTable";
 import { Fragment } from "react";
 import { useRouter } from "next/router";
-import useCharacters from "../hooks/useCharacters";
-import { ActionContext } from "../context/ActionContext";
-import TableSkeletons from "./skeletons/TableSkeletons";
-import { ColumnCfg } from '../model/columnCfgModel';
-import { EpisodeItem } from '../model/episodeModel';
+import useCharacters from "../../hooks/useCharacters";
+import { ActionContext } from "../../context/ActionContext";
+import TableSkeletons from "../skeletons/TableSkeletons";
+import { ColumnCfg } from '../../model/columnCfgModel';
+import { EpisodeItem } from '../../model/episodeModel';
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];

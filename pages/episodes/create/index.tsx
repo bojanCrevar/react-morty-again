@@ -1,6 +1,6 @@
 import axios from "axios";
 import Router from "next/router";
-import EpisodeFormComponent from "../../../components/episode/FormComponent";
+import EpisodeFormComponent from "../../../components/episodes/FormComponent";
 import Wrapper from "../../../components/Wrapper";
 import moment from "moment";
 import { emptyEpisodeItem, EpisodeItem } from "../../../model/episodeModel";

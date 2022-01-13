@@ -5,18 +5,18 @@ type SortCOmponentParams = { setSort: (e: string) => void; initSort: string };
 //destructure and set type
 const SortComponent = ({ setSort, initSort }: SortCOmponentParams) => {
   return (
-    <>
-      <label>Sort by: </label>{" "}
+    <div className="w-full">
+      <label className="w-1/3 text-right pr-2 lg:w-1/4">Sort by: </label>
       <select
         onChange={(e) => setSort(e.target.value)}
-        className="w-auto rounded text-base p-1 bg-gray-300"
+        className="rounded w-2/5 text-left text-base ml-1 p-1 bg-gray-300 lg:w-3/4 lg:ml-0"
         defaultValue={initSort}
       >
         <option value="id">ID</option>
         <option value="asc">Name ascending</option>
         <option value="desc">Name descending</option>
       </select>
-    </>
+    </div>
   );
 };
 

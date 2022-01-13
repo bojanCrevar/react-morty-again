@@ -108,37 +108,39 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       <h5 className="p-4 text-4xl text-center">
         List of locations - {pagesInfo.count}
       </h5>
-
-      <Pagination
-        pagesInfo={pagesInfo}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
-      <div>Pages: {pagesInfo.pages}</div>
+      <div className="flex lg:flex-row space-x-2">
+        <div className="m-0 w-2/3">
+          <Pagination
+            pagesInfo={pagesInfo}
+            activePage={activePage}
+            setActivePage={setActivePage}
+          />
+        </div>
+        {mobile ? (
+          <FilterPanelMobile
+            filterConfig={filterConfig}
+            submitFilterHandler={fetchData}
+          />
+        ) : null}
+      </div>
       <Searchbar
         setKeyword={setKeyword}
         initKeyword={keyword}
         setActivePage={setActivePage}
       />
-      <div className="flex flex-col relative w-full space-y-2 pt-4 lg:flex-row lg:space-y-0">
-        <div className="lg:w-2/3">
+      <div className="flex flex-col w-full space-y-2 mt-4 lg:mt-4 lg:flex-row lg:space-y-0">
+        <div className="flex items-start lg:w-1/2">
           <Link href="/locations/create">
-            <Button variant="success w-1/2" type="submit">
+            <Button variant="success w-full lg:w-4/5" type="submit">
               Add location
             </Button>
           </Link>
         </div>
-        <div className="lg:w-1/3">
+        <div className="lg:w-1/2">
           <SortComponent setSort={setSort} initSort={sort} />
         </div>
       </div>
-      {mobile && (
-        <FilterPanelMobile
-          filterConfig={filterConfig}
-          submitFilterHandler={fetchData}
-        />
-      )}
-      <div className="mt-8">
+      <div className="mt-1">
         <LocationList locations={locations} fetchData={fetchData} />
       </div>
     </>

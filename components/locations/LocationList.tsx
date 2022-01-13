@@ -39,7 +39,7 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
   }
 
   return locations.length ? (
-    <div className="mt-4">
+    <div>
       <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
         <RMTable tabledata={mappedLocations} columnconfig={locationscolumns} />
       </ActionContext.Provider>

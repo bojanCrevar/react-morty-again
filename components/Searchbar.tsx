@@ -30,8 +30,8 @@ const Searchbar: React.FC<SearchBarProps> = ({
   return (
     <div>
       <form onSubmit={submitHandler}>
-        <div className="flex flex-col space-y-2 lg:flex-row lg:space-x-2 lg:space-y-0">
-          <div className="w-full lg:w-2/3">
+        <div className="flex flex-col space-y-1 w-full lg:flex-row lg:space-x-1 lg:space-y-0">
+          <div className="lg:w-3/4">
             <FormControl
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
@@ -40,11 +40,19 @@ const Searchbar: React.FC<SearchBarProps> = ({
               defaultValue={initKeyword}
             />
           </div>
-          <div className="w-full space-x-2 lg:w-1/3">
-            <Button variant="primary" type="submit">
+          <div className="space-x-2 lg:w-1/4">
+            <Button
+              variant="primary"
+              type="submit"
+              className="ml-1 text-center w-6/12 lg:ml-0"
+            >
               Search
             </Button>
-            <Button variant="secondary" onClick={clearHandler}>
+            <Button
+              variant="secondary"
+              className="w-5/12 text-center"
+              onClick={clearHandler}
+            >
               Clear
             </Button>
           </div>

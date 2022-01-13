@@ -1,8 +1,10 @@
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamation,
+  faHeart as fullHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 type FavouriteIconProps = {
@@ -33,7 +35,7 @@ const FavouriteIcon = ({
     }
   }
 
-  const favouriteButton = (
+  return (
     <Button
       className="btn-char"
       type="button"
@@ -63,14 +65,12 @@ const FavouriteIcon = ({
         {showSpinner && (
           <div
             className="spinner-border"
-            style={{ height: "20px", width: "20px", marginLeft: "10px" }}
-          ></div>
+            style={{height: '20px', width: '20px', marginLeft: '10px'}}
+            />
         )}
       </div>
     </Button>
   );
-
-  return favouriteButton;
 };
 
 export default FavouriteIcon;

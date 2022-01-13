@@ -18,7 +18,7 @@ const myStyle: React.CSSProperties = {
 const HomePage: React.FC = () => {
   return (
     <div className="flex-1 relative">
-      <div style={myStyle}></div>
+      <div style={myStyle}/>
       <div className="text-center">
         <h1 className="text-base pt-10 sm:text-2xl sm:pt-20 md:text-4xl md:pt-32 lg:text-6xl lg:pt-48 opacity-60">
           Welcome to the Rick and Morty app

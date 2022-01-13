@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
-import FormControl from "react-bootstrap/FormControl";
-import { CharactersModel } from "../../model/charactersModel";
+import { CharactersItem } from "../../model/charactersModel";
 
 type FormComponentProps = {
-  submitHandler: (submittedEpisodeData: CharactersModel) => void;
-  initialData: CharactersModel;
+  submitHandler: (submittedEpisodeData: CharactersItem) => void;
+  initialData: CharactersItem;
 };
 
 function FormComponent({ submitHandler, initialData }: FormComponentProps) {
@@ -29,7 +28,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
       .required("Image URL is required"),
   });
 
-  const initialValues: CharactersModel = {
+  const initialValues: CharactersItem = {
     id: initialData.id || 0,
     name: initialData.name || "",
     status: initialData.status || "",
@@ -47,7 +46,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
     onSubmit: submitFunction,
   });
 
-  function submitFunction(submittedEpisodeData: CharactersModel) {
+  function submitFunction(submittedEpisodeData: CharactersItem) {
     submittedEpisodeData.id = initialData.id;
     submitHandler(submittedEpisodeData);
   }
@@ -85,7 +84,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               isInvalid={!!(formik.touched.status && formik.errors.status)}
-              defaultChecked={type === formik.values.status ? true : false}
+              defaultChecked={type === formik.values.status}
             />
           ))}
           <Form.Control.Feedback

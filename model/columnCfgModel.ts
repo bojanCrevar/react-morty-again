@@ -1,11 +1,12 @@
-import { LocationsItem } from "./locationsModel";
-import { RMItem } from "./RMItem";
+import { RMItem, RMItemWithChars } from './RMItem';
 
-export interface ColumnCfg {
-  columnconfig: {
-    key: string;
-    title: string;
-    tooltip?: string;
-  }[];
-  tabledata: RMItem[];
+export interface ColumnCfg<T extends RMItem = RMItemWithChars> {
+  key: keyof T;
+  title: string;
+  tooltip?: keyof T;
+}
+
+export interface ColumnModel<T extends RMItem = RMItemWithChars> {
+  columnConfig: ColumnCfg<T>[];
+  tableData: T[];
 }

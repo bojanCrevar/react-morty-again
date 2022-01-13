@@ -20,7 +20,7 @@ function FormComponent({
     name: Yup.string()
       .min(4, "Must be 4 characters or more")
       .required("Required amigo"),
-    air_date: Yup.date("Date error")
+    air_date: Yup.date()
       .required("Required")
       .max(new Date(), "Ait Date can not be in future"),
     episode: Yup.string()
@@ -55,7 +55,7 @@ function FormComponent({
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.name && formik.errors.name}
+            isInvalid={!!(formik.touched.name && formik.errors.name)}
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.name}
@@ -75,7 +75,7 @@ function FormComponent({
             value={formik.values.air_date}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.air_date && formik.errors.air_date}
+            isInvalid={!!(formik.touched.air_date && formik.errors.air_date)}
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.air_date}
@@ -95,7 +95,7 @@ function FormComponent({
             value={formik.values.episode}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.touched.episode && formik.errors.episode}
+            isInvalid={!!(formik.touched.episode && formik.errors.episode)}
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.episode}

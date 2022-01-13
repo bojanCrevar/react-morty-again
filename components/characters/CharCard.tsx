@@ -3,9 +3,9 @@ import Button from "react-bootstrap/Button";
 import Link from "next/link";
 import FavouriteIcon from "../FavoriteIcon";
 import axios from "axios";
-import { CharactersModel } from "../../model/charactersModel";
+import { CharactersItem } from "../../model/charactersModel";
 
-interface CharCardProps extends CharactersModel {
+interface CharCardProps extends CharactersItem {
   handleDelete: (id: number) => void;
 }
 
@@ -37,7 +37,7 @@ const CharCard = ({
     finishedCallback: (error?: string) => void
   ) {
     try {
-      const response = await axios.put("api/characters/" + id, {
+      await axios.put("api/characters/" + id, {
         id: id,
         name: name,
         image: image,
@@ -47,7 +47,6 @@ const CharCard = ({
         location: location?.name,
         favourite: favourite,
       });
-
       finishedCallback();
     } catch (e: any) {
       finishedCallback(e.response.data.error);
@@ -99,14 +98,14 @@ const CharCard = ({
         </div>
         <div>
           <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info" className="w-5/6 ">
+            <Button variant="outline-info" className="btn-char ">
               Edit character
             </Button>
           </Link>
         </div>
         <div>
           <Button
-            className="w-5/6 "
+            className="btn-char"
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}
           >

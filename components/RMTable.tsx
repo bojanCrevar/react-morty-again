@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import ActionButton from "./ActionButton";
-import { ColumnCfg } from "../model/columnCfgModel";
+import { ColumnModel } from "../model/columnCfgModel";
+import { RMItemWithChars } from "../model/RMItem";
 
-const RMTable = ({
-  columnconfig: columnConfig,
-  tabledata: tableData,
-}: ColumnCfg) => {
+const RMTable = <T extends RMItemWithChars>({
+  columnConfig,
+  tableData,
+}: ColumnModel<T>) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const lastColumn = columnConfig.length - 1;
   const dataRender = tableData.map((data) => {
@@ -18,9 +19,12 @@ const RMTable = ({
       >
         {columnConfig.map((cfg, i) => {
           return (
-            <td key={cfg.key} className={i === lastColumn ? "relative" : ""}>
-              <span title={cfg.tooltip ? data.properties![cfg.tooltip] : ""}>
-                {data.properties![cfg.key]}
+            <td
+              key={cfg.key as string}
+              className={i === lastColumn ? "relative" : ""}
+            >
+              <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
+                {data[cfg.key]}
               </span>
               {i === lastColumn ? (
                 <span className="position: absolute right-1">
@@ -40,7 +44,10 @@ const RMTable = ({
         <tr>
           {columnConfig.map((cfg, i) => {
             return (
-              <th key={cfg.key} className={i === lastColumn ? "w-1/4" : ""}>
+              <th
+                key={cfg.key as string}
+                className={i === lastColumn ? "w-1/4" : ""}
+              >
                 {cfg.title}
               </th>
             );

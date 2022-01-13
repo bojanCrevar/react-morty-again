@@ -6,6 +6,7 @@ import useCharacters from "../../hooks/useCharacters";
 import { ActionContext } from "../../context/ActionContext";
 import { LocationsItem } from "../../model/locationsModel";
 import TableSkeletons from "../skeletons/TableSkeletons";
+import { ColumnCfg } from '../../model/columnCfgModel';
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -13,7 +14,7 @@ type LocationsProps = {
 };
 
 const LocationList = ({ locations, fetchData }: LocationsProps) => {
-  const locationscolumns = [
+  const locationsColumns: ColumnCfg<LocationsItem>[] = [
     { key: "name", title: "Name" },
     { key: "dimension", title: "Dimension" },
     { key: "type", title: "Type" },
@@ -24,7 +25,7 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
     },
   ];
 
-  const mappedLocations = useCharacters(locations, "residents");
+  const mappedLocations = useCharacters(locations);
   function handleUpdate(id: number) {
     Router.push("locations/edit/" + id);
   }
@@ -41,11 +42,11 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
   return locations.length ? (
     <div>
       <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
-        <RMTable tabledata={mappedLocations} columnconfig={locationscolumns} />
+        <RMTable tableData={mappedLocations} columnConfig={locationsColumns} />
       </ActionContext.Provider>
     </div>
   ) : (
-    <TableSkeletons amount={10} pageColumns={locationscolumns} />
+    <TableSkeletons amount={10} pageColumns={locationsColumns} />
   );
 };
 

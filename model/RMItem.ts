@@ -1,6 +1,12 @@
 export interface RMItem {
   id: number;
-  properties?: {
-    [prop: string]: string;
-  };
+  name: string;
+}
+
+export interface RMItemWithChars extends RMItem {
+  charactersIds?: string[];
+  charactersTooltip?: string;
+  charactersString?: string;
+  characters?: [];
+  residents?: [];
 }

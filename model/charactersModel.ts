@@ -1,6 +1,7 @@
 import { PaginationModel } from "./paginationModel";
+import { RMItem } from './RMItem';
 
-export interface CharactersModel {
+export interface CharactersItem extends RMItem {
   episode?: string[];
   gender: string;
   id: number;
@@ -12,7 +13,8 @@ export interface CharactersModel {
   status: string;
   favourite?: boolean;
 }
+
 export interface ResponseData {
-  results: CharactersModel[];
+  results: CharactersItem[];
   info: PaginationModel;
 }

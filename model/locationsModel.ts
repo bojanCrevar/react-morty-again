@@ -1,14 +1,13 @@
-import { RMItem } from "./RMItem";
+import { RMItemWithChars } from './RMItem';
 const UNDEFINED_ID = -55;
 export interface LocationsInfo {
   count: number;
   pages: number;
 }
-export interface LocationsItem extends RMItem {
-  name: string;
+
+export interface LocationsItem extends RMItemWithChars {
   type: string;
   dimension: string;
-  residents?: string[];
 }
 
 export interface LocationsModel {
@@ -25,4 +24,5 @@ export const emptyLocationItem: LocationsItem = {
   name: "",
   type: "",
   dimension: "",
+  residents: [],
 };

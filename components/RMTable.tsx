@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import ActionButton from "./ActionButton";
-import { ColumnCfg } from "../model/columnCfgModel";
 import styles from "./RMTable.module.css";
 import { ColumnModel } from "../model/columnCfgModel";
 import { RMItemWithChars } from "../model/RMItem";

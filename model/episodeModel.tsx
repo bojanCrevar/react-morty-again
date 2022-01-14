@@ -1,8 +1,7 @@
-import { RMItemWithChars } from './RMItem';
-
-export const UNDEFINED_ID = -55;
+import { RMItemWithChars } from "./RMItem";
 import moment from "moment";
 import { PaginationModel } from "./paginationModel";
+export const UNDEFINED_ID = -55;
 
 export interface ResponseData {
   results: EpisodeItem[];
@@ -21,7 +20,7 @@ export const emptyEpisodeItem: EpisodeItem = {
   name: "",
   air_date: moment(new Date()).format("MMMM DD, yyyy"),
   episode: "",
-  characters: []
+  characters: [],
 };
 
 export type EditEpisodeProps = {

@@ -6,11 +6,11 @@ import useCharacters from "../../hooks/useCharacters";
 import { ActionContext } from "../../context/ActionContext";
 import { LocationsItem } from "../../model/locationsModel";
 import TableSkeletons from "../skeletons/TableSkeletons";
-import { ColumnCfg } from '../../model/columnCfgModel';
+import { ColumnCfg } from "../../model/columnCfgModel";
 
 type LocationsProps = {
   locations: LocationsItem[];
-  fetchData: () => void;
+  fetchData?: () => void;
 };
 
 const LocationList = ({ locations, fetchData }: LocationsProps) => {
@@ -35,7 +35,7 @@ const LocationList = ({ locations, fetchData }: LocationsProps) => {
     );
 
     if (response.status === 200) {
-      fetchData();
+      //fetchData();
     }
   }
 

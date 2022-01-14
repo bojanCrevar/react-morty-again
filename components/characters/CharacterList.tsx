@@ -5,7 +5,7 @@ import { CharactersItem } from "../../model/charactersModel";
 
 type CharListProps = {
   characters: CharactersItem[];
-  fetchData: () => void;
+  fetchData?: () => void;
 };
 
 function CharacterList({ characters, fetchData }: CharListProps) {
@@ -15,7 +15,7 @@ function CharacterList({ characters, fetchData }: CharListProps) {
     );
 
     if (response.status === 200) {
-      fetchData();
+      //fetchData();
     }
   }
   return (

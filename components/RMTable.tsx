@@ -29,8 +29,8 @@ const RMTable = <T extends RMItemWithChars>({
               }
               data-title={cfg.title + ": "}
             >
-              <span title={cfg.tooltip ? data.properties![cfg.tooltip] : ""}>
-                {data.properties![cfg.key]}
+              <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
+                {data[cfg.key]}
               </span>
               {i === lastColumn ? (
                 <span className="position: absolute right-1">

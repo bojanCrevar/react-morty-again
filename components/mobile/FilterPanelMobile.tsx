@@ -28,7 +28,7 @@ export default function FilterPanelMobile({
   const [modalShow, setModalShow] = useState(false);
 
   return (
-    <div>
+    <div className="mt-4">
       <Button variant="primary" onClick={() => setModalShow(true)}>
         Filter
       </Button>

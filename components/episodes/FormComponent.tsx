@@ -4,44 +4,42 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
-import { LocationsItem } from "../model/locationsModel";
+import moment from "moment";
+import { EpisodeItem, UNDEFINED_ID } from "../../model/episodeModel";
+import EpisodeFormComponentInput from "../../model/episodeFormComponentInput";
 
-type LocationFormProps = {
-  submitHandler: (location: LocationsItem) => void;
-  initialData: LocationsItem;
-};
-
-function LocationFormComponent({
+function FormComponent({
   submitHandler,
   initialData,
-}: LocationFormProps) {
-  function submitFunction(submittedLocationsData: LocationsItem) {
-    submittedLocationsData.id = initialData.id;
-    submitHandler(submittedLocationsData);
+}: EpisodeFormComponentInput) {
+  function submitFunction(submittedEpisodeData: EpisodeItem) {
+    submitHandler(submittedEpisodeData);
   }
 
-  const locationsSchema = Yup.object({
+  const episodeSchema = Yup.object({
     name: Yup.string()
-      .min(3, "Must be 3 characters or more")
-      .required("Name field is required."),
-    dimension: Yup.string()
-      .min(3, "Must be 3 characters or more")
-      .required("Dimension field is required."),
-    type: Yup.string()
-      .min(3, "Must be 3 characters or more")
-      .required("Type field is required."),
+      .min(4, "Must be 4 characters or more")
+      .required("Required amigo"),
+    air_date: Yup.date()
+      .required("Required")
+      .max(new Date(), "Ait Date can not be in future"),
+    episode: Yup.string()
+      .matches(
+        /^S[0-9][1-9]E[0-9][1-9]$/,
+        "Please enter an episode in proper format S01E01"
+      )
+      .required("Required"),
   });
 
-  const initialValues: LocationsItem = {
-    id: initialData.id || 0,
-    name: initialData.name || "",
-    dimension: initialData.dimension || "",
-    type: initialData.type || "",
+  const initialValuesFormatted: EpisodeItem = {
+    ...initialData,
+    air_date: moment(new Date(initialData.air_date)).format("YYYY-MM-DD"),
+    episode: initialData.episode,
   };
 
   const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: locationsSchema,
+    initialValues: initialValuesFormatted,
+    validationSchema: episodeSchema,
     onSubmit: submitFunction,
   });
 
@@ -53,7 +51,7 @@ function LocationFormComponent({
             name="name"
             type="text"
             className="input form-control"
-            placeholder="Location's name"
+            placeholder="Episode Name"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -66,54 +64,60 @@ function LocationFormComponent({
 
         <FloatingLabel
           controlId="floatingInput"
-          label="Dimension"
+          label="Air date"
           className="mb-3"
         >
           <Form.Control
-            name="dimension"
-            type="text"
+            name="air_date"
+            type="date"
             className="input form-control"
-            placeholder="Dimension"
-            value={formik.values.dimension}
+            placeholder="Air date"
+            value={formik.values.air_date}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={!!(formik.touched.dimension && formik.errors.dimension)}
+            isInvalid={!!(formik.touched.air_date && formik.errors.air_date)}
           />
           <Form.Control.Feedback type="invalid">
-            {formik.errors.dimension}
+            {formik.errors.air_date}
           </Form.Control.Feedback>
         </FloatingLabel>
 
-        <FloatingLabel controlId="floatingInput" label="Type" className="mb-3">
+        <FloatingLabel
+          controlId="floatingInput"
+          label="Episode Description"
+          className="mb-3"
+        >
           <Form.Control
-            name="type"
+            name="episode"
             type="text"
             className="input form-control"
-            placeholder="Type"
-            value={formik.values.type}
+            placeholder="Episode Description"
+            value={formik.values.episode}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={!!(formik.touched.type && formik.errors.type)}
+            isInvalid={!!(formik.touched.episode && formik.errors.episode)}
           />
           <Form.Control.Feedback type="invalid">
-            {formik.errors.type}
+            {formik.errors.episode}
           </Form.Control.Feedback>
         </FloatingLabel>
 
         <div className="flex flex-row p-2">
-          <Link href="/locations">
-            <Button variant="btn btn-outline-danger w-1/2 mr-2">Back</Button>
+          <Link href="/episodes">
+            <Button variant="btn btn-outline-danger  w-1/2 mr-2">Back</Button>
           </Link>
           <Button
             variant="btn btn-outline-success w-1/2"
             type="submit"
             disabled={!formik.isValid}
           >
-            {initialData.id < 0 ? "Add new location!" : "Update location"}
+            {initialData.id == UNDEFINED_ID
+              ? "Create episode"
+              : "Update episode"}
           </Button>
         </div>
       </div>
     </Form>
   );
 }
-export default LocationFormComponent;
+export default FormComponent;

@@ -3,11 +3,13 @@ import Table from "react-bootstrap/Table";
 import ActionButton from "./ActionButton";
 import { ColumnCfg } from "../model/columnCfgModel";
 import styles from "./RMTable.module.css";
+import { ColumnModel } from "../model/columnCfgModel";
+import { RMItemWithChars } from "../model/RMItem";
 
-const RMTable = ({
-  columnconfig: columnConfig,
-  tabledata: tableData,
-}: ColumnCfg) => {
+const RMTable = <T extends RMItemWithChars>({
+  columnConfig,
+  tableData,
+}: ColumnModel<T>) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const lastColumn = columnConfig.length - 1;
   const dataRender = tableData.map((data) => {
@@ -21,7 +23,7 @@ const RMTable = ({
         {columnConfig.map((cfg, i) => {
           return (
             <td
-              key={cfg.key}
+              key={cfg.key as string}
               className={
                 "w-full break-all	" + (i === lastColumn ? "relative" : "")
               }
@@ -48,7 +50,7 @@ const RMTable = ({
         <tr className="flex flex-col md:flex-row">
           {columnConfig.map((cfg, i) => {
             return (
-              <th key={cfg.key} className="w-full">
+              <th key={cfg.key as string} className="w-full">
                 {cfg.title}
               </th>
             );

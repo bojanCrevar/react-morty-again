@@ -18,6 +18,7 @@ type charactersProps = {
   keyword: string;
   characters?: string;
   sort: string;
+  filterObject: string;
 };
 
 export default async function handler(
@@ -33,7 +34,10 @@ export default async function handler(
           keyword = "",
           characters,
           sort = "",
+          filterObject = "",
         }: charactersProps = req.query as charactersProps;
+
+        console.log("req.query", req.query);
 
         let allChars = myCharactersRepo.getAll();
 

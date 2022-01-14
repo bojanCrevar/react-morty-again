@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EpisodeList from "../../components/EpisodeList";
+import EpisodeList from "../../components/episodes/EpisodeList";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Searchbar from "../../components/Searchbar";
@@ -9,6 +9,7 @@ import SortComponent from "../../components/SortComponent";
 import { useRouter } from "next/router";
 import { ResponseData } from "../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
+import PageWrapper from "../../components/PageWrapper";
 
 interface EpisodeProps {
   query: {
@@ -48,9 +49,9 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
     );
   }, [activePage, keyword, sort]);
 
-  return (
-    <div className="m-auto w-1/2 ">
-      <h5 className="p-4 text-4xl	text-center">
+  const content = (
+    <>
+      <h5 className="p-4 text-4xl text-center">
         List of episodes - {pagesInfo.count}
       </h5>
       <Pagination
@@ -75,8 +76,10 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
       <div className="mt-8">
         <EpisodeList episodes={episodes} />
       </div>
-    </div>
+    </>
   );
+  const filterComponent = <div>Filter</div>;
+  return <PageWrapper filterComponent={filterComponent} content={content} />;
 };
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {

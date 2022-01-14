@@ -1,12 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import Router from "next/router";
-import FormComponent from "../../../../components/FormComponent";
+import FormComponent from "../../../../components/characters/FormComponent";
 import Wrapper from "../../../../components/Wrapper";
-import { CharactersModel } from "../../../../model/charactersModel";
+import { CharactersItem } from "../../../../model/charactersModel";
 import { GetServerSidePropsContext } from "next/types";
-import { ParsedUrlQuery } from "querystring";
-import EditSkeleton from "../../../../components/EditSkeleton";
+import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 
 type EditCharacterProps = {
   params: {
@@ -15,7 +14,7 @@ type EditCharacterProps = {
 };
 
 export default function EditCharacter(props: EditCharacterProps) {
-  const [character, setCharacter] = useState<CharactersModel>();
+  const [character, setCharacter] = useState<CharactersItem>();
 
   async function submitHandler({
     id,
@@ -25,7 +24,7 @@ export default function EditCharacter(props: EditCharacterProps) {
     species,
     location,
     image,
-  }: CharactersModel) {
+  }: CharactersItem) {
     const character = {
       id: id,
       name: name,

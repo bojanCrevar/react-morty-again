@@ -1,6 +1,6 @@
 import axios from "axios";
 import Router from "next/router";
-import LocationFormComponent from "../../components/LocationFormComponent";
+import LocationFormComponent from "../../components/locations/FormComponent";
 import Wrapper from "../../components/Wrapper";
 import { LocationsItem, emptyLocationItem } from "../../model/locationsModel";
 

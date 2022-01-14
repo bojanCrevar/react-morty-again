@@ -1,4 +1,3 @@
-import { PaginationModel } from "./paginationModel";
 import { RMItemWithChars } from "./RMItem";
 const UNDEFINED_ID = -55;
 export interface LocationsItem extends RMItemWithChars {
@@ -17,8 +16,3 @@ export const emptyLocationItem: LocationsItem = {
   dimension: "",
   residents: [],
 };
-
-export interface ResponseData {
-  results: LocationsItem[];
-  info: PaginationModel;
-}

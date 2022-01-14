@@ -1,12 +1,6 @@
 import { RMItemWithChars } from "./RMItem";
 import moment from "moment";
-import { PaginationModel } from "./paginationModel";
 export const UNDEFINED_ID = -55;
-
-export interface ResponseData {
-  results: EpisodeItem[];
-  info: PaginationModel;
-}
 
 export interface EpisodeItem extends RMItemWithChars {
   id: number;

@@ -9,35 +9,30 @@ import Pagination from "./Pagination";
 import { QueryParams } from "../model/queryParams";
 import FilterPanelMobile from "./mobile/FilterPanelMobile";
 import { PaginationModel } from "../model/paginationModel";
-import { ResponseData as EpModel } from "../model/episodeModel";
-import { ResponseData as CharModel } from "../model/charactersModel";
-import { ResponseData as LocModel } from "../model/locationsModel";
+import { ResponseData } from "../model/ResponseDataModel";
+import { RMItem } from "../model/RMItem";
 
-type PageWrapperProps = {
+interface PageWrapperProps<T extends RMItem> {
   children: React.ReactNode;
   title: string;
   query: QueryParams;
   buttonAdd: React.ReactNode;
-  //setData: (data: EpModel | CharModel | LocModel) => void;
-  setLocData?: (data: LocModel) => void;
-  setEpData?: (data: EpModel) => void;
-  setCharData?: (data: CharModel) => void;
+  setData: (data: ResponseData<T>) => void;
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
   api: string;
-};
-const PageWrapper = ({
+}
+
+const PageWrapper = <Type extends RMItem>({
   query,
   title,
   children,
   buttonAdd,
-  setLocData,
-  setEpData,
-  setCharData,
+  setData,
   filterConfig,
   pagesInfo,
   api,
-}: PageWrapperProps) => {
+}: PageWrapperProps<Type>) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");
@@ -63,24 +58,12 @@ const PageWrapper = ({
           }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
         },
       });
-      api === "locations"
-        ? setLocData!(response.data)
-        : api === "characters"
-        ? setCharData!(response.data)
-        : setEpData!(response.data);
+      setData(response.data);
     } else {
       const response = await axios.get(`/api/${api}`, {
         params: { activePage, keyword, sort },
       });
-      setTimeout(
-        () =>
-          api === "locations"
-            ? setLocData!(response.data)
-            : api === "characters"
-            ? setCharData!(response.data)
-            : setEpData!(response.data),
-        700
-      );
+      setTimeout(() => setData(response.data), 700);
     }
   }
 
@@ -132,7 +115,7 @@ const PageWrapper = ({
           {title} - {pagesInfo.count}
         </h5>
         <div className="flex lg:flex-row space-x-2">
-          <div className="m-0 w-2/3">
+          <div className="w-2/3">
             <Pagination
               pagesInfo={pagesInfo}
               activePage={activePage}

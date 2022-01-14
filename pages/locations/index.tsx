@@ -4,12 +4,13 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import { QueryParams } from "../../model/queryParams";
-import { ResponseData } from "../../model/locationsModel";
+import { ResponseData } from "../../model/ResponseDataModel";
 import PageWrapper from "../../components/PageWrapper";
 import { FilterGroupConfig } from "../../model/filterModel";
+import { LocationsItem } from "../../model/locationsModel";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
-  const [data, setData] = useState<ResponseData>({
+  const [data, setData] = useState<ResponseData<LocationsItem>>({
     info: { count: 0, pages: 1 },
     results: [],
   });
@@ -43,12 +44,16 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       title={"List of locations"}
       buttonAdd={buttonAdd}
       query={query}
-      setLocData={setData}
+      setData={setData}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"locations"}
     >
-      <LocationList locations={locations} />
+      <LocationList
+        locations={locations}
+        setData={setData}
+        pagesInfo={pagesInfo}
+      />
     </PageWrapper>
   );
 };

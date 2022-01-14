@@ -3,14 +3,15 @@ import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import CharacterList from "../../components/characters/CharacterList";
 import CharactersSkeleton from "../../components/skeletons/CharactersSkeleton";
-import { ResponseData } from "../../model/charactersModel";
 import { FilterGroupConfig } from "../../model/filterModel";
 import PageWrapper from "../../components/PageWrapper";
 import { QueryParams } from "../../model/queryParams";
 import { GetServerSideProps } from "next";
+import { ResponseData } from "../../model/ResponseDataModel";
+import { CharactersItem } from "../../model/charactersModel";
 
 function Characters({ query }: { query: QueryParams }) {
-  const [data, setData] = useState<ResponseData>({
+  const [data, setData] = useState<ResponseData<CharactersItem>>({
     info: { count: 0, pages: 1 },
     results: [],
   });
@@ -44,13 +45,17 @@ function Characters({ query }: { query: QueryParams }) {
       title={"List of characters"}
       buttonAdd={buttonAdd}
       query={query}
-      setCharData={setData}
+      setData={setData}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"characters"}
     >
       {chars.length ? (
-        <CharacterList characters={chars} />
+        <CharacterList
+          characters={chars}
+          setData={setData}
+          pagesInfo={pagesInfo}
+        />
       ) : (
         <CharactersSkeleton amount={10} />
       )}

@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { RMItem, RMItemWithChars } from "../model/RMItem";
 
-const useCharacters = <T extends RMItemWithChars>(
-  origItemList: T[]
-) => {
+const useCharacters = <T extends RMItemWithChars>(origItemList: T[]) => {
   const [mappedDataFromComponent, setMappedDataFromComponent] =
     useState(origItemList);
   async function getCharacters(characterIds: string[]): Promise<RMItem[]> {
@@ -22,20 +20,23 @@ const useCharacters = <T extends RMItemWithChars>(
   function getUniqueCharIds(origItemList: T[]): string[] {
     const uniqueCharIds = new Set<string>();
     origItemList.forEach((i) => {
-      i.charactersIds = (i.residents ?? i.characters ?? []).map((charUrl: string) =>
-        charUrl.substring(charUrl.lastIndexOf("/") + 1)
+      i.charactersIds = (i.residents ?? i.characters ?? []).map(
+        (charUrl: string) => charUrl.substring(charUrl.lastIndexOf("/") + 1)
       );
       i.charactersIds.forEach((id: string) => uniqueCharIds.add(id));
     });
     return Array.from(uniqueCharIds.values());
   }
 
-  function fillItemsCharacterAttributes(characters: RMItem[], itemWithChars: RMItemWithChars) {
+  function fillItemsCharacterAttributes(
+    characters: RMItem[],
+    itemWithChars: RMItemWithChars
+  ) {
     const itemCharNames = characters
       .filter((ch) => itemWithChars.charactersIds?.includes("" + ch.id))
       .map((ch) => ch.name);
-    itemWithChars.charactersTooltip = itemCharNames.join(",");
-    itemWithChars.charactersString = itemCharNames.slice(0, 3).join(",");
+    itemWithChars.charactersTooltip = itemCharNames.join(", ");
+    itemWithChars.charactersString = itemCharNames.slice(0, 3).join(", ");
   }
 
   async function getCharacterNames() {

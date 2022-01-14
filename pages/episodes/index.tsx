@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import EpisodeList from "../../components/episodes/EpisodeList";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import { ResponseData } from "../../model/episodeModel";
+import { ResponseData } from "../../model/ResponseDataModel";
 import { GetServerSideProps } from "next";
 import PageWrapper from "../../components/PageWrapper";
 import { QueryParams } from "../../model/queryParams";
 import { FilterGroupConfig } from "../../model/filterModel";
+import { EpisodeItem } from "../../model/episodeModel";
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
-  const [data, setData] = useState<ResponseData>({
+  const [data, setData] = useState<ResponseData<EpisodeItem>>({
     results: [],
     info: { count: 0, pages: 1 },
   });
@@ -43,7 +44,7 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       title={"List of episodes"}
       buttonAdd={buttonAdd}
       query={query}
-      setEpData={setData}
+      setData={setData}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"episodes"}

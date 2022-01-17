@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import useCharacters from "../../hooks/useCharacters";
 import { ActionContext } from "../../context/ActionContext";
 import TableSkeletons from "../skeletons/TableSkeletons";
-import { ColumnCfg } from '../../model/columnCfgModel';
-import { EpisodeItem } from '../../model/episodeModel';
+import { ColumnCfg } from "../../model/columnCfgModel";
+import { EpisodeItem } from "../../model/episodeModel";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];
@@ -15,7 +15,7 @@ type EpisodeListProps = {
 const EpisodeList = ({ episodes }: EpisodeListProps) => {
   const router = useRouter();
   const episodeColumns: ColumnCfg<EpisodeItem>[] = [
-    { key: "air_date", title: "Title" },
+    { key: "name", title: "Title" },
     { key: "air_date", title: "Release date" },
     { key: "episode", title: "Episode" },
     {

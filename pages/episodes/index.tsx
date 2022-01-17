@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 import { ResponseData } from "../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
 import PageWrapper from "../../components/PageWrapper";
+import { FilterGroupConfig, FilterModel } from "../../model/filterModel";
+import FilterPanel from "../../components/FilterPanel";
 
 interface EpisodeProps {
   query: {
@@ -30,11 +32,34 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
   });
   const { results: episodes, info: pagesInfo } = data;
 
-  async function fetchData() {
-    const response = await axios.get("/api/episodes", {
-      params: { activePage, keyword, sort },
-    });
-    setTimeout(() => setData(response.data), 700);
+  function constructFilterQuery(filterObject: FilterModel) {
+    let filterQuery = "";
+    for (let key in filterObject) {
+      let value = filterObject[key];
+      value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
+    }
+
+    return filterQuery;
+  }
+
+  async function fetchData(filterObject?: FilterModel) {
+    console.log("filterObject", filterObject);
+    if (filterObject) {
+      const response = await axios.get("/api/episodes", {
+        params: { activePage, keyword, sort, filterObject },
+        paramsSerializer: (params) => {
+          return `activePage=${params.activePage}&keyword=${
+            params.keyword
+          }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
+        },
+      });
+      setData(response.data);
+    } else {
+      const response = await axios.get("/api/episodes", {
+        params: { activePage, keyword, sort },
+      });
+      setTimeout(() => setData(response.data), 700);
+    }
   }
 
   useEffect(() => {
@@ -49,10 +74,19 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
     );
   }, [activePage, keyword, sort]);
 
+  const filterConfig: FilterGroupConfig[] = [
+    {
+      title: "Season",
+      values: ["S01", "S02", "S03"],
+      type: "checkbox",
+      key: "episode",
+    },
+  ];
+
   const content = (
     <>
       <h5 className="p-4 text-4xl text-center">
-        List of episodes - {pagesInfo.count}
+        Episodes list: {pagesInfo.count}
       </h5>
       <Pagination
         pagesInfo={pagesInfo}
@@ -78,7 +112,9 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
       </div>
     </>
   );
-  const filterComponent = <div>Filter</div>;
+  const filterComponent = (
+    <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
+  );
   return <PageWrapper filterComponent={filterComponent} content={content} />;
 };
 

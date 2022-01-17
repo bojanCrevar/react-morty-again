@@ -5,6 +5,7 @@ describe("Testing Locations Form Component", () => {
   test("rendering create button in form component", () => {
     let initialData = { id: -2, name: "", dimension: "", type: "" };
     const submitHandler = ({ id, name, dimension, type }) => {};
+
     render(
       <LocationsFormComponent
         initialData={initialData}
@@ -24,6 +25,7 @@ describe("Testing Locations Form Component", () => {
       type: "Planet",
     };
     const submitHandler = ({ id, name, dimension, type }) => {};
+
     render(
       <LocationsFormComponent
         initialData={initialData}
@@ -60,6 +62,50 @@ describe("Testing Locations Form Component", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Add new location!" }));
 
-    await waitFor(() => expect(submitHandler).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(submitHandler).toHaveBeenCalledTimes(1);
+
+      expect(submitHandler).toBeCalledWith({
+        id: -2,
+        name: "Earth-23",
+        dimension: "C-23",
+        type: "Planet",
+      });
+    });
+  });
+
+  test("error when creating new location", async () => {
+    let initialData = { id: -2, name: "", dimension: "", type: "" };
+    const submitHandler = jest.fn();
+
+    render(
+      <LocationsFormComponent
+        initialData={initialData}
+        submitHandler={submitHandler}
+      />
+    );
+
+    const locName = screen.getByPlaceholderText("Location's name");
+    fireEvent.change(locName, { target: { value: "Earth-23" } });
+    expect(locName.value).toBe("Earth-23");
+
+    const dimension = screen.getByPlaceholderText("Dimension");
+    fireEvent.change(dimension, { target: { value: "C-23" } });
+    expect(dimension.value).toBe("C-23");
+
+    const type = screen.getByPlaceholderText("Type");
+    expect(type.value).toBe("");
+
+    fireEvent.click(screen.getByRole("button", { name: "Add new location!" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Type field is required.")).toBeInTheDocument();
+
+      expect(
+        screen.getByRole("button", { name: "Add new location!" })
+      ).toBeDisabled();
+
+      expect(submitHandler).toHaveBeenCalledTimes(0);
+    });
   });
 });

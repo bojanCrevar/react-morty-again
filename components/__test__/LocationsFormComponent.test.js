@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import LocationsFormComponent from "../locations/FormComponent";
 
 describe("Testing Locations Form Component", () => {
-  test("rendering create form component", () => {
+  test("rendering create button in form component", () => {
     let initialData = { id: -2, name: "", dimension: "", type: "" };
     const submitHandler = ({ id, name, dimension, type }) => {};
     render(
@@ -16,7 +16,7 @@ describe("Testing Locations Form Component", () => {
     expect(outputElem).toBeInTheDocument();
   });
 
-  test("rendering update form component", () => {
+  test("rendering update button in form component", () => {
     let initialData = {
       id: 10,
       name: "Earth",
@@ -35,9 +35,9 @@ describe("Testing Locations Form Component", () => {
     expect(outputElem).toBeInTheDocument();
   });
 
-  test.only("creating new location", async () => {
+  test("creating new location", async () => {
     let initialData = { id: -2, name: "", dimension: "", type: "" };
-    const submitHandler = jest.fn(() => console.log("usao sam"));
+    const submitHandler = jest.fn();
 
     render(
       <LocationsFormComponent
@@ -60,7 +60,6 @@ describe("Testing Locations Form Component", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Add new location!" }));
 
-    await new Promise((r) => setTimeout(r, 200));
-    expect(submitHandler).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(submitHandler).toHaveBeenCalledTimes(1));
   });
 });

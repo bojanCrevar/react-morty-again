@@ -1,22 +1,20 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import CharCard from "./CharCard";
 import axios from "axios";
 import { CharactersItem } from "../../model/charactersModel";
 import { ResponseData } from "../../model/ResponseDataModel";
-import { PaginationModel } from "../../model/paginationModel";
 
 type CharListProps = {
   characters: CharactersItem[];
-  setData: (data: ResponseData<CharactersItem>) => void;
-  pagesInfo: PaginationModel;
+  setData: Dispatch<SetStateAction<ResponseData<CharactersItem>>>;
 };
 
-function CharacterList({ characters, setData, pagesInfo }: CharListProps) {
+function CharacterList({ characters, setData }: CharListProps) {
   async function handleDelete(id: number) {
-    setData({
+    setData((prev) => ({
+      ...prev,
       results: characters.filter((x) => x.id !== id),
-      info: pagesInfo,
-    });
+    }));
     const response = await axios.delete(
       `/api/characters/${encodeURIComponent(id)}`
     );

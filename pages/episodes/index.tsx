@@ -9,6 +9,7 @@ import { QueryParams } from "../../model/queryParams";
 import { FilterGroupConfig } from "../../model/filterModel";
 import { EpisodeItem } from "../../model/episodeModel";
 import { emptyPagination } from "../../model/paginationModel";
+import { RMItem } from "../../model/RMItem";
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
   const [data, setData] = useState<ResponseData<EpisodeItem>>({
@@ -45,7 +46,7 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       title={"List of episodes"}
       buttonAdd={buttonAdd}
       query={query}
-      setData={setData}
+      setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"episodes"}

@@ -9,6 +9,7 @@ import PageWrapper from "../../components/PageWrapper";
 import { FilterGroupConfig } from "../../model/filterModel";
 import { LocationsItem } from "../../model/locationsModel";
 import { emptyPagination } from "../../model/paginationModel";
+import { RMItem } from "../../model/RMItem";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [data, setData] = useState<ResponseData<LocationsItem>>({
@@ -51,16 +52,12 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       title={"List of locations"}
       buttonAdd={buttonAdd}
       query={query}
-      setData={setData}
+      setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"locations"}
     >
-      <LocationList
-        locations={locations}
-        setData={setData}
-        pagesInfo={pagesInfo}
-      />
+      <LocationList locations={locations} setData={setData} />
     </PageWrapper>
   );
 };

@@ -10,6 +10,7 @@ import { GetServerSideProps } from "next";
 import { ResponseData } from "../../model/ResponseDataModel";
 import { CharactersItem } from "../../model/charactersModel";
 import { emptyPagination } from "../../model/paginationModel";
+import { RMItem } from "../../model/RMItem";
 
 function Characters({ query }: { query: QueryParams }) {
   const [data, setData] = useState<ResponseData<CharactersItem>>({
@@ -46,17 +47,13 @@ function Characters({ query }: { query: QueryParams }) {
       title={"List of characters"}
       buttonAdd={buttonAdd}
       query={query}
-      setData={setData}
+      setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"characters"}
     >
       {chars.length ? (
-        <CharacterList
-          characters={chars}
-          setData={setData}
-          pagesInfo={pagesInfo}
-        />
+        <CharacterList characters={chars} setData={setData} />
       ) : (
         <CharactersSkeleton amount={10} />
       )}

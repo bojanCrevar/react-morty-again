@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import RMTable from "../RMTable";
 import Router from "next/router";
 import axios from "axios";
@@ -8,15 +8,13 @@ import { LocationsItem } from "../../model/locationsModel";
 import TableSkeletons from "../skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
-import { PaginationModel } from "../../model/paginationModel";
 
 type LocationsProps = {
   locations: LocationsItem[];
-  setData: (data: ResponseData<LocationsItem>) => void;
-  pagesInfo: PaginationModel;
+  setData: Dispatch<SetStateAction<ResponseData<LocationsItem>>>;
 };
 
-const LocationList = ({ locations, setData, pagesInfo }: LocationsProps) => {
+const LocationList = ({ locations, setData }: LocationsProps) => {
   const locationsColumns: ColumnCfg<LocationsItem>[] = [
     { key: "name", title: "Name" },
     { key: "dimension", title: "Dimension" },
@@ -33,10 +31,10 @@ const LocationList = ({ locations, setData, pagesInfo }: LocationsProps) => {
     Router.push("locations/edit/" + id);
   }
   async function handleDelete(id: number) {
-    setData({
+    setData((prev) => ({
+      ...prev,
       results: mappedLocations.filter((x) => x.id !== id),
-      info: pagesInfo,
-    });
+    }));
     const response = await axios.delete(
       `/api/locations/${encodeURIComponent(id)}`
     );

@@ -12,18 +12,18 @@ import { PaginationModel } from "../model/paginationModel";
 import { ResponseData } from "../model/ResponseDataModel";
 import { RMItem } from "../model/RMItem";
 
-interface PageWrapperProps<T extends RMItem> {
+interface PageWrapperProps {
   children: React.ReactNode;
   title: string;
   query: QueryParams;
   buttonAdd: React.ReactNode;
-  setData: (data: ResponseData<T>) => void;
+  setData: (data: ResponseData<RMItem>) => void;
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
   api: string;
 }
 
-const PageWrapper = <Type extends RMItem>({
+const PageWrapper = ({
   query,
   title,
   children,
@@ -32,7 +32,7 @@ const PageWrapper = <Type extends RMItem>({
   filterConfig,
   pagesInfo,
   api,
-}: PageWrapperProps<Type>) => {
+}: PageWrapperProps) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");

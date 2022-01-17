@@ -4,12 +4,11 @@ import { useRouter } from "next/router";
 import useCharacters from "../../hooks/useCharacters";
 import { ActionContext } from "../../context/ActionContext";
 import TableSkeletons from "../skeletons/TableSkeletons";
-import { ColumnCfg } from '../../model/columnCfgModel';
-import { EpisodeItem } from '../../model/episodeModel';
+import { ColumnCfg } from "../../model/columnCfgModel";
+import { EpisodeItem } from "../../model/episodeModel";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];
-  fetchData?: () => void;
 };
 
 const EpisodeList = ({ episodes }: EpisodeListProps) => {

@@ -48,15 +48,15 @@ describe("Testing Locations Form Component", () => {
       />
     );
 
-    const locName = screen.getByPlaceholderText("Location's name");
+    const locName = screen.getByTestId("name");
     fireEvent.change(locName, { target: { value: "Earth-23" } });
     expect(locName.value).toBe("Earth-23");
 
-    const dimension = screen.getByPlaceholderText("Dimension");
+    const dimension = screen.getByTestId("dimension");
     fireEvent.change(dimension, { target: { value: "C-23" } });
     expect(dimension.value).toBe("C-23");
 
-    const type = screen.getByPlaceholderText("Type");
+    const type = screen.getByTestId("type");
     fireEvent.change(type, { target: { value: "Planet" } });
     expect(type.value).toBe("Planet");
 
@@ -85,15 +85,15 @@ describe("Testing Locations Form Component", () => {
       />
     );
 
-    const locName = screen.getByPlaceholderText("Location's name");
+    const locName = screen.getByTestId("name");
     fireEvent.change(locName, { target: { value: "Earth-23" } });
     expect(locName.value).toBe("Earth-23");
 
-    const dimension = screen.getByPlaceholderText("Dimension");
+    const dimension = screen.getByTestId("dimension");
     fireEvent.change(dimension, { target: { value: "C-23" } });
     expect(dimension.value).toBe("C-23");
 
-    const type = screen.getByPlaceholderText("Type");
+    const type = screen.getByTestId("type");
     expect(type.value).toBe("");
 
     fireEvent.click(screen.getByRole("button", { name: "Add new location!" }));

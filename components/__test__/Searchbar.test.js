@@ -11,21 +11,13 @@ describe("Searchbar component test", () => {
     let keyword;
 
     keyword = "Rick";
-    setActivePage = (activeArg) => (activePage = activeArg);
+    setActivePage = jest.fn((activeArg) => (activePage = activeArg));
 
-    setKeyword = (keyword) => {
+    setKeyword = jest.fn((keyword) => {
       keyword = keyword;
+    });
 
-      rerender(
-        <Searchbar
-          setKeyword={setKeyword}
-          setActivePage={setActivePage}
-          initKeyword={keyword}
-        />
-      );
-    };
-
-    const { rerender } = render(
+    render(
       <Searchbar
         setKeyword={setKeyword}
         setActivePage={setActivePage}
@@ -33,13 +25,16 @@ describe("Searchbar component test", () => {
       />
     );
 
+    const outputElem = screen.getByDisplayValue("Rick");
+
     const buttonElement = screen.getByRole("button", {
       name: "Search",
     });
 
     fireEvent.click(buttonElement);
 
-    const outputElem = screen.getByDisplayValue("Rick");
     expect(outputElem).toBeInTheDocument();
+    expect(setKeyword).toHaveBeenCalledWith(keyword);
+    expect(setActivePage).toHaveBeenCalledWith(1);
   });
 });

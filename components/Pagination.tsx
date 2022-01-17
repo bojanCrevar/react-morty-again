@@ -26,7 +26,7 @@ const PaginationBar = ({
     ) : null;
 
   return (
-    <Pagination>
+    <Pagination className="mb-1 mb-lg-2">
       {prevButtonTemplate}
       <Pagination.Item>{activePage}</Pagination.Item>
       {nextButtonTemplate}

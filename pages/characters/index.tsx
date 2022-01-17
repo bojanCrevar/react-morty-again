@@ -9,10 +9,11 @@ import { QueryParams } from "../../model/queryParams";
 import { GetServerSideProps } from "next";
 import { ResponseData } from "../../model/ResponseDataModel";
 import { CharactersItem } from "../../model/charactersModel";
+import { emptyPagination } from "../../model/paginationModel";
 
 function Characters({ query }: { query: QueryParams }) {
   const [data, setData] = useState<ResponseData<CharactersItem>>({
-    info: { count: 0, pages: 1 },
+    info: emptyPagination,
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;

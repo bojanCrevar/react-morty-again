@@ -8,10 +8,11 @@ import { ResponseData } from "../../model/ResponseDataModel";
 import PageWrapper from "../../components/PageWrapper";
 import { FilterGroupConfig } from "../../model/filterModel";
 import { LocationsItem } from "../../model/locationsModel";
+import { emptyPagination } from "../../model/paginationModel";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [data, setData] = useState<ResponseData<LocationsItem>>({
-    info: { count: 0, pages: 1 },
+    info: emptyPagination,
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;
@@ -28,6 +29,12 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       values: ["Planet", "Cluster", "Microverse", "Space station"],
       type: "checkbox",
       key: "type",
+    },
+    {
+      title: "Residents",
+      values: ["1-15", "16-30", ">30"],
+      type: "checkbox",
+      key: "residents",
     },
   ];
 

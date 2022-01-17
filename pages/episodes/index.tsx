@@ -8,11 +8,12 @@ import PageWrapper from "../../components/PageWrapper";
 import { QueryParams } from "../../model/queryParams";
 import { FilterGroupConfig } from "../../model/filterModel";
 import { EpisodeItem } from "../../model/episodeModel";
+import { emptyPagination } from "../../model/paginationModel";
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
   const [data, setData] = useState<ResponseData<EpisodeItem>>({
     results: [],
-    info: { count: 0, pages: 1 },
+    info: emptyPagination,
   });
   const { results: episodes, info: pagesInfo } = data;
 

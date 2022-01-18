@@ -15,17 +15,17 @@ import FilterPanel from "../../components/FilterPanel";
 
 interface EpisodeProps {
   query: {
-    activePage: string;
-    keyword: string;
-    sort: string;
+    [key: string]: string;
   };
 }
 
 const EpisodesPage = ({ query }: EpisodeProps) => {
+  console.log("query", query);
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
+  const [episodeFilter, setEpisodeFilter] = useState(query?.episode || "");
   const [data, setData] = useState<ResponseData>({
     results: [],
     info: { count: 0, pages: 1 },
@@ -65,14 +65,15 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+    const episodeFilterQuery = episodeFilter ? `&episode=${episodeFilter}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
+      `?activePage=${activePage}${keywordQuery}${episodeFilterQuery}&sort=${sort}`,
       undefined,
       {
         shallow: true,
       }
     );
-  }, [activePage, keyword, sort]);
+  }, [activePage, keyword, sort, episodeFilter]);
 
   const filterConfig: FilterGroupConfig[] = [
     {

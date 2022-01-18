@@ -20,12 +20,10 @@ interface EpisodeProps {
 }
 
 const EpisodesPage = ({ query }: EpisodeProps) => {
-  console.log("query", query);
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
-  const [episodeFilter, setEpisodeFilter] = useState(query?.episode || "");
   const [data, setData] = useState<ResponseData>({
     results: [],
     info: { count: 0, pages: 1 },
@@ -65,15 +63,14 @@ const EpisodesPage = ({ query }: EpisodeProps) => {
   useEffect(() => {
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    const episodeFilterQuery = episodeFilter ? `&episode=${episodeFilter}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}${episodeFilterQuery}&sort=${sort}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
       undefined,
       {
         shallow: true,
       }
     );
-  }, [activePage, keyword, sort, episodeFilter]);
+  }, [activePage, keyword, sort]);
 
   const filterConfig: FilterGroupConfig[] = [
     {

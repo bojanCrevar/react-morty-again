@@ -9,7 +9,6 @@ import { EpisodeItem } from "../../model/episodeModel";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];
-  fetchData?: () => void;
 };
 
 const EpisodeList = ({ episodes }: EpisodeListProps) => {

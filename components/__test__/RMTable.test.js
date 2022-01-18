@@ -10,30 +10,24 @@ describe("RMTable component test", () => {
     tableData = [
       {
         id: 1,
-        properties: {
-          name: "Earth",
-          dimension: "C-2",
-          type: "Planet",
-          charactersString: "Rick, Morty",
-        },
+        name: "Earth",
+        dimension: "C-2",
+        type: "Planet",
+        charactersString: "Rick, Morty",
       },
       {
         id: 2,
-        properties: {
-          name: "Earth c-54",
-          dimension: "C-54",
-          type: "Planetoid",
-          charactersString: "Morty",
-        },
+        name: "Earth c-54",
+        dimension: "C-54",
+        type: "Planetoid",
+        charactersString: "Morty",
       },
       {
         id: 3,
-        properties: {
-          name: "Earth c-1",
-          dimension: "C1",
-          type: "Planet",
-          charactersString: "Rick",
-        },
+        name: "Earth c-1",
+        dimension: "C1",
+        type: "Planet",
+        charactersString: "Rick",
       },
     ];
     columnCfg = [
@@ -42,8 +36,7 @@ describe("RMTable component test", () => {
       { key: "type", title: "Type" },
       {
         key: "charactersString",
-        title: "Residents",
-        tooltip: "charactersTooltip",
+        title: "Residents"
       },
     ];
   });

@@ -37,7 +37,7 @@ const PageWrapper = ({
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
-  const [mobile, setMobile] = useState<Boolean>();
+  const [mobile, setMobile] = useState<Boolean>(true);
 
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";
@@ -90,9 +90,13 @@ const PageWrapper = ({
       }
     }
 
-    window.addEventListener("load", handleResize);
     window.addEventListener("resize", handleResize);
-  }, []);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, );
 
   console.log("mobile", mobile);
 

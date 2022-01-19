@@ -92,6 +92,8 @@ const PageWrapper = ({
 
   useEffect(() => {
     function handleResize() {
+      //console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
+
       if (window.innerWidth < 1024) {
         setMobile(true);
       } else {
@@ -106,6 +108,8 @@ const PageWrapper = ({
       window.removeEventListener("resize", handleResize);
     };
   });
+
+  //console.log("mobile", mobile);
 
   return (
     <div className="flex mb-4 w-full">

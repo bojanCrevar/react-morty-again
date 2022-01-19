@@ -24,7 +24,7 @@ export default async function handler(
           filterObject = "",
         }: locationProps = req.query as locationProps;
         keyword = keyword.toLowerCase();
-        console.log("req.query", req.query);
+        //console.log("req.query", req.query);
 
         const allLocations = locationsRepo.getAll();
         const locationsFiltered = keyword
@@ -64,7 +64,7 @@ export default async function handler(
       {
         const body = req.body;
         const insertObj = {
-          id: locationsRepo.getAll().length + 1,
+          id: locationsRepo.getAll().reduce((a, b) => Math.max(a, b.id), 0) + 1,
           ...body,
         };
         locationsRepo.create(insertObj);

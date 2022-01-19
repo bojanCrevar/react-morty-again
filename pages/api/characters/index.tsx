@@ -1,9 +1,9 @@
-import myCharactersRepo from "../../../utils/character-repo";
+import characterRepo from "../../../utils/character-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 
 //const rmAPI = "https://rickandmortyapi.com/api/character";
 const PAGE_SIZE = 20;
-const rickChar = myCharactersRepo.getAll()[0];
+const rickChar = characterRepo.getAll()[0];
 
 function generateDummyChar(charId: string) {
   return {
@@ -37,9 +37,9 @@ export default async function handler(
           filterObject = "",
         }: charactersProps = req.query as charactersProps;
 
-        console.log("req.query", req.query);
+        //console.log("req.query", req.query);
 
-        let allChars = myCharactersRepo.getAll();
+        let allChars = characterRepo.getAll();
 
         if (characters) {
           const characterIds = characters.split(",");
@@ -94,10 +94,10 @@ export default async function handler(
       {
         const body = req.body;
         const insertObj = {
-          id: myCharactersRepo.getAll().length + 1,
+          id: characterRepo.getAll().reduce((a, b) => Math.max(a, b.id), 0) + 1,
           ...body,
         };
-        myCharactersRepo.create(insertObj);
+        characterRepo.create(insertObj);
         res.status(200).json("success");
       }
       break;

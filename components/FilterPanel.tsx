@@ -8,7 +8,7 @@ import { FilterGroupConfig } from "../model/filterModel";
 type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
-  submitFilterHandler: (e: any) => void;
+  setFilterObject: (e: FilterModel) => void;
 };
 
 type GroupValueRefsMap = {
@@ -18,7 +18,7 @@ type GroupValueRefsMap = {
 export default function FilterPanel({
   filterConfig,
   date,
-  submitFilterHandler,
+  setFilterObject,
 }: FilterPanelProps) {
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
@@ -41,7 +41,7 @@ export default function FilterPanel({
       }
     });
 
-    submitFilterHandler(returnObject);
+    setFilterObject(returnObject);
   }
 
   return (

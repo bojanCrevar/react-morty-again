@@ -38,6 +38,7 @@ const PageWrapper = ({
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
+  const [filterObject, setFilterObject] = useState<FilterModel>({});
 
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";
@@ -48,7 +49,7 @@ const PageWrapper = ({
     return filterQuery;
   }
 
-  async function fetchData(filterObject?: FilterModel) {
+  async function fetchData() {
     if (filterObject) {
       const response = await axios.get(`/api/${api}`, {
         params: { activePage, keyword, sort, filterObject },
@@ -71,13 +72,15 @@ const PageWrapper = ({
     fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
+        filterObject
+      )}`,
       undefined,
       {
         shallow: true,
       }
     );
-  }, [activePage, keyword, sort]);
+  }, [activePage, keyword, sort, filterObject]);
 
   useEffect(() => {
     function handleResize() {
@@ -95,8 +98,8 @@ const PageWrapper = ({
 
     return () => {
       window.removeEventListener("resize", handleResize);
-    }
-  }, );
+    };
+  });
 
   console.log("mobile", mobile);
 
@@ -107,7 +110,7 @@ const PageWrapper = ({
           <div className="w-1/2 ml-28 mt-44">
             <FilterPanel
               filterConfig={filterConfig}
-              submitFilterHandler={fetchData}
+              setFilterObject={setFilterObject}
             />
           </div>
         </div>
@@ -116,7 +119,7 @@ const PageWrapper = ({
       )}
       <div className="w-10/12 lg:w-1/2">
         <h5 className="p-4 text-4xl text-center">
-          {title} - {pagesInfo.count}
+          {title} : {pagesInfo.count}
         </h5>
         <div className="flex lg:flex-row space-x-2">
           <div className="w-2/3">
@@ -129,7 +132,7 @@ const PageWrapper = ({
           {mobile ? (
             <FilterPanelMobile
               filterConfig={filterConfig}
-              submitFilterHandler={fetchData}
+              setFilterObject={setFilterObject}
             />
           ) : null}
         </div>

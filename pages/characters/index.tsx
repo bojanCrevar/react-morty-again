@@ -1,92 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
 import CharacterList from "../../components/characters/CharacterList";
-import Pagination from "../../components/Pagination";
-import Searchbar from "../../components/Searchbar";
-import axios from "axios";
-import SortComponent from "../../components/SortComponent";
-import { useRouter } from "next/router";
 import CharactersSkeleton from "../../components/skeletons/CharactersSkeleton";
-import { GetServerSidePropsContext } from "next/types";
-import { ResponseData } from "../../model/charactersModel";
-import FilterPanel from "../../components/FilterPanel";
 import { FilterGroupConfig } from "../../model/filterModel";
-import { FilterModel } from "../../model/filterModel";
 import PageWrapper from "../../components/PageWrapper";
-import FilterPanelMobile from "../../components/mobile/FilterPanelMobile";
+import { QueryParams } from "../../model/queryParams";
+import { GetServerSideProps } from "next";
+import { ResponseData } from "../../model/ResponseDataModel";
+import { CharactersItem } from "../../model/charactersModel";
+import { emptyPagination } from "../../model/paginationModel";
+import { RMItem } from "../../model/RMItem";
 
-function Characters() {
-  const router = useRouter();
-  const [activePage, setActivePage] = useState<number>(1);
-  const [keyword, setKeyword] = useState<string>("");
-  const [sort, setSort] = useState<string>("id");
-  const [mobile, setMobile] = useState<Boolean>();
-  const [data, setData] = useState<ResponseData>({
-    info: { count: 1, pages: 1 },
+function Characters({ query }: { query: QueryParams }) {
+  const [data, setData] = useState<ResponseData<CharactersItem>>({
+    info: emptyPagination,
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;
-
-  function constructFilterQuery(filterObject: FilterModel) {
-    let filterQuery = "";
-    for (let key in filterObject) {
-      let value = filterObject[key];
-      value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
-    }
-    return filterQuery;
-  }
-
-  async function fetchData(filterObject?: FilterModel) {
-    if (filterObject) {
-      const response = await axios.get("/api/characters", {
-        params: { activePage, keyword, sort, filterObject },
-        paramsSerializer: (params) => {
-          return `activePage=${params.activePage}&keyword=${
-            params.keyword
-          }&sort=${sort}${constructFilterQuery(params.filterObject)}`;
-        },
-      });
-      setData(response.data);
-    } else {
-      const response = await axios.get("/api/characters", {
-        params: { activePage, keyword, sort },
-      });
-      setData(response.data);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    router.push(
-      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-  }, [activePage, keyword, sort]);
-
-  useEffect(() => {
-    function handleResize() {
-      console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
-
-      if (window.innerWidth < 1024) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
-    }
-
-    window.addEventListener("load", handleResize);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("load", handleResize);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const filterConfig: FilterGroupConfig[] = [
     {
@@ -104,55 +35,34 @@ function Characters() {
     },
   ];
 
-  const content = (
-    <>
-      <h5 className="p-4 text-4xl text-center">
-        List of characters - {pagesInfo.count}
-      </h5>
-      <Pagination
-        pagesInfo={pagesInfo}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
-      <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar
-        setKeyword={setKeyword}
-        setActivePage={setActivePage}
-        initKeyword={keyword}
-      />
-      <div className="pt-4 relative">
-        <Link href="characters/create">
-          <Button variant="success w-1/2" type="submit">
-            Add character!
-          </Button>
-        </Link>
-        <SortComponent setSort={setSort} initSort={sort} />
-      </div>
-      {mobile && (
-        <FilterPanelMobile
-          filterConfig={filterConfig}
-          submitFilterHandler={fetchData}
-        />
+  const buttonAdd = (
+    <Link href="/characters/create">
+      <Button variant="success w-full lg:w-4/5" type="submit">
+        Add character
+      </Button>
+    </Link>
+  );
+  return (
+    <PageWrapper
+      title={"List of characters"}
+      buttonAdd={buttonAdd}
+      query={query}
+      setData={setData as (data: ResponseData<RMItem>) => void}
+      filterConfig={filterConfig}
+      pagesInfo={pagesInfo}
+      api={"characters"}
+    >
+      {chars.length ? (
+        <CharacterList characters={chars} setData={setData} />
+      ) : (
+        <CharactersSkeleton amount={10} />
       )}
-      <div className="mt-8">
-        {chars.length ? (
-          <CharacterList characters={chars} fetchData={fetchData} />
-        ) : (
-          <CharactersSkeleton amount={10} />
-        )}
-      </div>
-    </>
+    </PageWrapper>
   );
-
-  const filterComponent = !mobile && (
-    <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
-  );
-
-  return <PageWrapper filterComponent={filterComponent} content={content} />;
 }
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return { props: { query: query || null } };
-}
+};
 
 export default Characters;

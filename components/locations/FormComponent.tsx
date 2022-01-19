@@ -51,6 +51,7 @@ function LocationFormComponent({
         <FloatingLabel controlId="floatingInput" label="Name" className="mb-3">
           <Form.Control
             name="name"
+            data-testid="name"
             type="text"
             className="input form-control"
             placeholder="Location's name"
@@ -71,6 +72,7 @@ function LocationFormComponent({
         >
           <Form.Control
             name="dimension"
+            data-testid="dimension"
             type="text"
             className="input form-control"
             placeholder="Dimension"
@@ -87,6 +89,7 @@ function LocationFormComponent({
         <FloatingLabel controlId="floatingInput" label="Type" className="mb-3">
           <Form.Control
             name="type"
+            data-testid="type"
             type="text"
             className="input form-control"
             placeholder="Type"

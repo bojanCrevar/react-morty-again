@@ -200,7 +200,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
             type="submit"
             disabled={!formik.isValid}
           >
-            {!initialData ? "Add new character!" : "Update character"}
+            {initialData.id < 0 ? "Add new character!" : "Update character"}
           </Button>
         </div>
       </div>

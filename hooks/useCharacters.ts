@@ -12,7 +12,7 @@ const useCharacters = <T extends RMItemWithChars>(origItemList: T[]) => {
         return `characters=${characterIds}`;
       },
     });
-    console.log("response", response);
+
     if (response.status === 200) return response.data.characters;
     else return [];
   }
@@ -44,13 +44,15 @@ const useCharacters = <T extends RMItemWithChars>(origItemList: T[]) => {
     //at the same time create unique chars list across items
     const uniqueCharIds: string[] = getUniqueCharIds(origItemList);
 
-    //get characters from backend
-    const characters: RMItem[] = await getCharacters(uniqueCharIds);
+    if (uniqueCharIds.length > 0) {
+      //get characters from backend
+      const characters: RMItem[] = await getCharacters(uniqueCharIds);
 
-    //for each origItemList item map its character array and assign the missing charactersTooltip/String properties
-    origItemList.forEach((oi: RMItemWithChars) => {
-      fillItemsCharacterAttributes(characters, oi);
-    });
+      //for each origItemList item map its character array and assign the missing charactersTooltip/String properties
+      origItemList.forEach((oi: RMItemWithChars) => {
+        fillItemsCharacterAttributes(characters, oi);
+      });
+    }
 
     setMappedDataFromComponent([...origItemList]);
   }

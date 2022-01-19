@@ -24,7 +24,7 @@ export default async function handler(
           filterObject = "",
         }: locationProps = req.query as locationProps;
         keyword = keyword.toLowerCase();
-        console.log("req.query", req.query);
+        //console.log("req.query", req.query);
 
         const allLocations = locationsRepo.getAll();
         const locationsFiltered = keyword

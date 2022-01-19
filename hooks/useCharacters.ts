@@ -12,7 +12,7 @@ const useCharacters = <T extends RMItemWithChars>(origItemList: T[]) => {
         return `characters=${characterIds}`;
       },
     });
-    console.log("response", response);
+
     if (response.status === 200) return response.data.characters;
     else return [];
   }

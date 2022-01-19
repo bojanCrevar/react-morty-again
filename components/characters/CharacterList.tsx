@@ -21,10 +21,15 @@ function CharacterList({ characters, setData }: CharListProps) {
   }
   return (
     <>
-      {characters.map((c) => (
-        <CharCard {...c} key={c.id} handleDelete={handleDelete} />
-      ))}
-      {}
+      {characters.length > 0 ? (
+        characters.map((c) => (
+          <CharCard {...c} key={c.id} handleDelete={handleDelete} />
+        ))
+      ) : (
+        <div className="mt-4 bg-white rounded p-3 text-lg text-center">
+          No items found!
+        </div>
+      )}
     </>
   );
 }

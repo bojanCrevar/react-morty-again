@@ -22,6 +22,7 @@ interface PageWrapperProps {
   pagesInfo: PaginationModel;
   api: string;
   setSkeleton: (bool: Boolean) => void;
+  setLoader: (bool: Boolean) => void;
 }
 
 const PageWrapper = ({
@@ -34,6 +35,7 @@ const PageWrapper = ({
   pagesInfo,
   api,
   setSkeleton,
+  setLoader,
 }: PageWrapperProps) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
@@ -68,6 +70,7 @@ const PageWrapper = ({
       setTimeout(() => {
         setData(response.data);
         setSkeleton(false);
+        setLoader(false);
       }, 700);
     }
   }
@@ -83,12 +86,12 @@ const PageWrapper = ({
         shallow: true,
       }
     );
+
+    setLoader(true);
   }, [activePage, keyword, sort]);
 
   useEffect(() => {
     function handleResize() {
-      // console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
-
       if (window.innerWidth < 1024) {
         setMobile(true);
       } else {
@@ -103,8 +106,6 @@ const PageWrapper = ({
       window.removeEventListener("resize", handleResize);
     };
   });
-
-  //console.log("mobile", mobile);
 
   return (
     <div className="flex mb-4 w-full">

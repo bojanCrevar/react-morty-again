@@ -94,8 +94,8 @@ export default async function handler(
       {
         const body = req.body;
         const insertObj = {
-          id: myCharactersRepo.getAll().length + 1,
           ...body,
+          id: myCharactersRepo.getAll().length + 1,
         };
         myCharactersRepo.create(insertObj);
         res.status(200).json("success");

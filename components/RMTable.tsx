@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import ActionButton from "./ActionButton";
+import styles from "./RMTable.module.css";
 import { ColumnModel } from "../model/columnCfgModel";
 import { RMItemWithChars } from "../model/RMItem";
 
@@ -16,12 +17,16 @@ const RMTable = <T extends RMItemWithChars>({
         key={data.id}
         onMouseEnter={() => setHovered(data.id)}
         onMouseLeave={() => setHovered(null)}
+        className="flex flex-col md:flex-row even:bg-gray-500 md:even:bg-gray-400"
       >
         {columnConfig.map((cfg, i) => {
           return (
             <td
               key={cfg.key as string}
-              className={i === lastColumn ? "relative" : ""}
+              className={
+                "w-full break-all	" + (i === lastColumn ? "relative" : "")
+              }
+              data-title={cfg.title + ": "}
             >
               <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
                 {data[cfg.key]}
@@ -39,15 +44,12 @@ const RMTable = <T extends RMItemWithChars>({
   });
 
   return (
-    <Table bordered hover striped responsive className="container m-auto mb-3">
-      <thead>
-        <tr>
+    <Table bordered hover striped responsive className={styles.rmtable}>
+      <thead className="hidden md:block">
+        <tr className="flex flex-col md:flex-row">
           {columnConfig.map((cfg, i) => {
             return (
-              <th
-                key={cfg.key as string}
-                className={i === lastColumn ? "w-1/4" : ""}
-              >
+              <th key={cfg.key as string} className="w-full">
                 {cfg.title}
               </th>
             );

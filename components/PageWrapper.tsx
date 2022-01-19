@@ -21,6 +21,8 @@ interface PageWrapperProps {
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
   api: string;
+  setSkeleton: (bool: Boolean) => void;
+  setLoader: (bool: Boolean) => void;
 }
 
 const PageWrapper = ({
@@ -32,6 +34,8 @@ const PageWrapper = ({
   filterConfig,
   pagesInfo,
   api,
+  setSkeleton,
+  setLoader,
 }: PageWrapperProps) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
@@ -63,12 +67,17 @@ const PageWrapper = ({
       const response = await axios.get(`/api/${api}`, {
         params: { activePage, keyword, sort },
       });
-      setTimeout(() => setData(response.data), 700);
+      setTimeout(() => {
+        setData(response.data);
+        setSkeleton(false);
+        setLoader(false);
+      }, 700);
     }
   }
 
   useEffect(() => {
     fetchData();
+
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
@@ -77,6 +86,8 @@ const PageWrapper = ({
         shallow: true,
       }
     );
+
+    setLoader(true);
   }, [activePage, keyword, sort]);
 
   useEffect(() => {

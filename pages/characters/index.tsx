@@ -11,13 +11,18 @@ import { ResponseData } from "../../model/ResponseDataModel";
 import { CharactersItem } from "../../model/charactersModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
+import Spinner from "react-bootstrap/Spinner";
 
 function Characters({ query }: { query: QueryParams }) {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<CharactersItem>>({
     info: emptyPagination,
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;
+
+  console.log("skeleton", skeleton);
 
   const filterConfig: FilterGroupConfig[] = [
     {
@@ -42,6 +47,7 @@ function Characters({ query }: { query: QueryParams }) {
       </Button>
     </Link>
   );
+
   return (
     <PageWrapper
       title={"List of characters"}
@@ -51,11 +57,20 @@ function Characters({ query }: { query: QueryParams }) {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"characters"}
+      setSkeleton={setSkeleton as (bool: Boolean) => void}
+      setLoader={setLoader as (bool: Boolean) => void}
     >
-      {chars.length ? (
-        <CharacterList characters={chars} setData={setData} />
+      {skeleton && <CharactersSkeleton amount={10} />}
+      {loader ? (
+        <div className="flex justify-center mt-8">
+          <Spinner
+            animation="border"
+            variant="info"
+            style={{ width: "3rem", height: "3rem" }}
+          />
+        </div>
       ) : (
-        <CharactersSkeleton amount={10} />
+        <CharacterList characters={chars} setData={setData} />
       )}
     </PageWrapper>
   );

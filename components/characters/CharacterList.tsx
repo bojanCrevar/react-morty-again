@@ -24,6 +24,7 @@ function CharacterList({ characters, setData }: CharListProps) {
       {characters.map((c) => (
         <CharCard {...c} key={c.id} handleDelete={handleDelete} />
       ))}
+      {}
     </>
   );
 }

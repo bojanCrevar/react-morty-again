@@ -13,11 +13,14 @@ import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
 
 function Characters({ query }: { query: QueryParams }) {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
   const [data, setData] = useState<ResponseData<CharactersItem>>({
     info: emptyPagination,
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;
+
+  console.log("skeleton", skeleton);
 
   const filterConfig: FilterGroupConfig[] = [
     {
@@ -51,11 +54,16 @@ function Characters({ query }: { query: QueryParams }) {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"characters"}
+      setSkeleton={setSkeleton as (bool: Boolean) => void}
     >
       {chars.length ? (
         <CharacterList characters={chars} setData={setData} />
-      ) : (
+      ) : skeleton ? (
         <CharactersSkeleton amount={10} />
+      ) : (
+        <div className="bg-white rounded mt-8 text-center text-lg p-3">
+          No data found!
+        </div>
       )}
     </PageWrapper>
   );

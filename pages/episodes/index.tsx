@@ -12,6 +12,8 @@ import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<EpisodeItem>>({
     results: [],
     info: emptyPagination,
@@ -50,8 +52,10 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"episodes"}
+      setLoader={setLoader}
+      setSkeleton={setSkeleton}
     >
-      <EpisodeList episodes={episodes} />
+      <EpisodeList episodes={episodes} skeleton={skeleton} loader={loader} />
     </PageWrapper>
   );
 };

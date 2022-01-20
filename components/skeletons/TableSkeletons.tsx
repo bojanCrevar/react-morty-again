@@ -11,17 +11,6 @@ type TableSkeletonsProps = {
 };
 
 const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
-  const episodescolumn = [
-    { key: "name", title: "Title" },
-    { key: "air_date", title: "Release date" },
-    { key: "episode", title: "Episode" },
-    {
-      key: "charactersString",
-      title: "Characters",
-      tooltip: "charactersTooltip",
-    },
-  ];
-  pageColumns = pageColumns ? pageColumns : episodescolumn;
   const renderSkeletons = (amount: number) => {
     let skeletons = [];
     for (let i = 0; i < amount; i++)

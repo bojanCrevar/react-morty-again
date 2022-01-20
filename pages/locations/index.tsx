@@ -10,8 +10,11 @@ import { FilterGroupConfig } from "../../model/filterModel";
 import { LocationsItem } from "../../model/locationsModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
+import Spinner from "react-bootstrap/Spinner";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<LocationsItem>>({
     info: emptyPagination,
     results: [],
@@ -56,8 +59,15 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"locations"}
+      setSkeleton={setSkeleton}
+      setLoader={setLoader}
     >
-      <LocationList locations={locations} setData={setData} />
+      <LocationList
+        locations={locations}
+        setData={setData}
+        skeleton={skeleton}
+        loader={loader}
+      />
     </PageWrapper>
   );
 };

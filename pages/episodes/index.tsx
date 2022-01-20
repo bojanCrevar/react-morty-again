@@ -10,8 +10,13 @@ import { FilterGroupConfig } from "../../model/filterModel";
 import { EpisodeItem } from "../../model/episodeModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
+import { ColumnCfg } from "../../model/columnCfgModel";
+import Loader from "../../components/Spinner";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<EpisodeItem>>({
     results: [],
     info: emptyPagination,
@@ -41,6 +46,17 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
     },
   ];
 
+  const episodeColumns: ColumnCfg<EpisodeItem>[] = [
+    { key: "name", title: "Title" },
+    { key: "air_date", title: "Release date" },
+    { key: "episode", title: "Episode" },
+    {
+      key: "charactersString",
+      title: "Characters",
+      tooltip: "charactersTooltip",
+    },
+  ];
+
   return (
     <PageWrapper
       title={"List of episodes"}
@@ -50,8 +66,15 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"episodes"}
+      setLoader={setLoader}
+      setSkeleton={setSkeleton}
     >
-      <EpisodeList episodes={episodes} />
+      {skeleton && <TableSkeletons amount={20} pageColumns={episodeColumns} />}
+      {loader ? (
+        <Loader />
+      ) : (
+        <EpisodeList episodes={episodes} episodeColumns={episodeColumns} />
+      )}
     </PageWrapper>
   );
 };

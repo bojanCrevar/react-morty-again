@@ -40,17 +40,17 @@ const Searchbar: React.FC<SearchBarProps> = ({
               defaultValue={initKeyword}
             />
           </div>
-          <div className="space-x-2 lg:w-1/4">
+          <div className="flex lg:w-1/4 ">
             <Button
               variant="primary"
               type="submit"
-              className="ml-1 text-center w-6/12 lg:ml-0"
+              className="text-center w-6/12 mr-1"
             >
               Search
             </Button>
             <Button
               variant="secondary"
-              className="w-5/12 text-center"
+              className="text-center w-6/12 ml-1 "
               onClick={clearHandler}
             >
               Clear

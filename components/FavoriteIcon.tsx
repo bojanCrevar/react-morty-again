@@ -47,27 +47,34 @@ const FavouriteIcon = ({
         toggleFavourite(!favouriteState, updateFinished);
       }}
     >
-      <div>
-        <FontAwesomeIcon
-          icon={showFave ? fullHeart : faHeart}
-          className="text-red-500 mr-2"
-        />
-        <span className={"font-semibold" + showFave && "text-red-700 "}>
-          {!showFave ? "Add to favorites!" : "Favorited"}
-        </span>
-        {showWarning && (
+      <div className="flex justify-center md:space-x-2">
+        <div>
           <FontAwesomeIcon
-            icon={faExclamation}
-            className="ml-2"
-            title={showWarning}
+            icon={showFave ? fullHeart : faHeart}
+            className="text-red-500 mr-2"
           />
-        )}
-        {showSpinner && (
-          <div
-            className="spinner-border"
-            style={{height: '20px', width: '20px', marginLeft: '10px'}}
+        </div>
+
+        <div className={"font-semibold" + showFave && "text-red-700 "}>
+          <span className="hidden md:block">
+            {!showFave ? "Add to favorites!" : "Favorited"}
+          </span>
+        </div>
+        <div>
+          {showWarning && (
+            <FontAwesomeIcon
+              icon={faExclamation}
+              className="ml-2"
+              title={showWarning}
             />
-        )}
+          )}
+          {showSpinner && (
+            <div
+              className="spinner-border"
+              style={{ height: "20px", width: "20px", marginLeft: "10px" }}
+            />
+          )}
+        </div>
       </div>
     </Button>
   );

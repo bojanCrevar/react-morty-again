@@ -23,9 +23,7 @@ const RMTable = <T extends RMItemWithChars>({
           return (
             <td
               key={cfg.key as string}
-              className={
-                "w-full break-all	" + (i === lastColumn ? "relative" : "")
-              }
+              className={"w-full " + (i === lastColumn ? "relative" : "")}
               data-title={cfg.title + ": "}
             >
               <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>

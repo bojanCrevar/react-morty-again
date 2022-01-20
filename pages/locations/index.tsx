@@ -10,7 +10,9 @@ import { FilterGroupConfig } from "../../model/filterModel";
 import { LocationsItem } from "../../model/locationsModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
-import Spinner from "react-bootstrap/Spinner";
+import Loader from "../../components/Spinner";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
+import { ColumnCfg } from "../../model/columnCfgModel";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
@@ -42,6 +44,17 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     },
   ];
 
+  const locationsColumns: ColumnCfg<LocationsItem>[] = [
+    { key: "name", title: "Name" },
+    { key: "dimension", title: "Dimension" },
+    { key: "type", title: "Type" },
+    {
+      key: "charactersString",
+      title: "Residents",
+      tooltip: "charactersTooltip",
+    },
+  ];
+
   const buttonAdd = (
     <Link href="/locations/create">
       <Button variant="success w-full lg:w-4/5" type="submit">
@@ -62,12 +75,18 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       setSkeleton={setSkeleton}
       setLoader={setLoader}
     >
-      <LocationList
-        locations={locations}
-        setData={setData}
-        skeleton={skeleton}
-        loader={loader}
-      />
+      {skeleton && (
+        <TableSkeletons amount={20} pageColumns={locationsColumns} />
+      )}
+      {loader ? (
+        <Loader />
+      ) : (
+        <LocationList
+          locations={locations}
+          setData={setData}
+          locationsColumns={locationsColumns}
+        />
+      )}
     </PageWrapper>
   );
 };

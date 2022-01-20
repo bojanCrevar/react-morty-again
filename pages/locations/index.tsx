@@ -1,88 +1,27 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Pagination from "../../components/Pagination";
+import React, { useState } from "react";
 import LocationList from "../../components/locations/LocationList";
-import Searchbar from "../../components/Searchbar";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import SortComponent from "../../components/SortComponent";
-import { useRouter } from "next/router";
-import { LocationsModel } from "../../model/locationsModel";
-import { GetServerSideProps } from "next";
 import { QueryParams } from "../../model/queryParams";
-import { FilterGroupConfig, FilterModel } from "../../model/filterModel";
-import FilterPanel from "../../components/FilterPanel";
+import { ResponseData } from "../../model/ResponseDataModel";
 import PageWrapper from "../../components/PageWrapper";
-import FilterPanelMobile from "../../components/mobile/FilterPanelMobile";
+import { FilterGroupConfig } from "../../model/filterModel";
+import { LocationsItem } from "../../model/locationsModel";
+import { emptyPagination } from "../../model/paginationModel";
+import { RMItem } from "../../model/RMItem";
+import Loader from "../../components/Spinner";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
+import { ColumnCfg } from "../../model/columnCfgModel";
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
-  const router = useRouter();
-  const [activePage, setActivePage] = useState(+query?.activePage || 1);
-  const [keyword, setKeyword] = useState(query?.keyword || "");
-  const [sort, setSort] = useState(query?.sort || "id");
-  const [mobile, setMobile] = useState<Boolean>();
-  const [data, setData] = useState<LocationsModel>({
-    info: { count: 0, pages: 1 },
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
+  const [data, setData] = useState<ResponseData<LocationsItem>>({
+    info: emptyPagination,
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;
-
-  function constructFilterQuery(filterObject: FilterModel) {
-    let filterQuery = "";
-    for (let key in filterObject) {
-      let value = filterObject[key];
-      value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
-    }
-    return filterQuery;
-  }
-
-  async function fetchData(filterObject?: FilterModel) {
-    if (filterObject) {
-      const response = await axios.get("/api/locations", {
-        params: { activePage, keyword, sort, filterObject },
-        paramsSerializer: (params) => {
-          return `activePage=${params.activePage}&keyword=${
-            params.keyword
-          }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
-        },
-      });
-      setData(response.data);
-    } else {
-      const response = await axios.get("api/locations", {
-        params: { activePage, keyword, sort },
-      });
-      setTimeout(() => setData(response.data), 700);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
-    router.push(
-      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-  }, [activePage, keyword, sort]);
-
-  useEffect(() => {
-    function handleResize() {
-      console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
-
-      if (window.innerWidth < 1024) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
-    }
-
-    window.addEventListener("load", handleResize);
-    window.addEventListener("resize", handleResize);
-  }, []);
-
-  console.log("mobile", mobile);
 
   const filterConfig: FilterGroupConfig[] = [
     {
@@ -97,54 +36,59 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       type: "checkbox",
       key: "type",
     },
+    {
+      title: "Residents",
+      values: ["1-15", "16-30", ">30"],
+      type: "checkbox",
+      key: "residents",
+    },
   ];
 
-  const filterComponent = !mobile ? (
-    <FilterPanel filterConfig={filterConfig} submitFilterHandler={fetchData} />
-  ) : null;
+  const locationsColumns: ColumnCfg<LocationsItem>[] = [
+    { key: "name", title: "Name" },
+    { key: "dimension", title: "Dimension" },
+    { key: "type", title: "Type" },
+    {
+      key: "charactersString",
+      title: "Residents",
+      tooltip: "charactersTooltip",
+    },
+  ];
 
-  const content = (
-    <>
-      <h5 className="p-4 text-4xl text-center">
-        List of locations - {pagesInfo.count}
-      </h5>
-
-      <Pagination
-        pagesInfo={pagesInfo}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
-      <div>Pages: {pagesInfo.pages}</div>
-      <Searchbar
-        setKeyword={setKeyword}
-        initKeyword={keyword}
-        setActivePage={setActivePage}
-      />
-      <div className="flex flex-col relative w-full space-y-2 pt-4 lg:flex-row lg:space-y-0">
-        <div className="lg:w-2/3">
-          <Link href="/locations/create">
-            <Button variant="success w-1/2" type="submit">
-              Add location
-            </Button>
-          </Link>
-        </div>
-        <div className="lg:w-1/3">
-          <SortComponent setSort={setSort} initSort={sort} />
-        </div>
-      </div>
-      {mobile && (
-        <FilterPanelMobile
-          filterConfig={filterConfig}
-          submitFilterHandler={fetchData}
-        />
-      )}
-      <div className="mt-8">
-        <LocationList locations={locations} fetchData={fetchData} />
-      </div>
-    </>
+  const buttonAdd = (
+    <Link href="/locations/create">
+      <Button variant="success w-full lg:w-4/5" type="submit">
+        Add location
+      </Button>
+    </Link>
   );
 
-  return <PageWrapper filterComponent={filterComponent} content={content} />;
+  return (
+    <PageWrapper
+      title={"List of locations"}
+      buttonAdd={buttonAdd}
+      query={query}
+      setData={setData as (data: ResponseData<RMItem>) => void}
+      filterConfig={filterConfig}
+      pagesInfo={pagesInfo}
+      api={"locations"}
+      setSkeleton={setSkeleton}
+      setLoader={setLoader}
+    >
+      {skeleton && (
+        <TableSkeletons amount={20} pageColumns={locationsColumns} />
+      )}
+      {loader ? (
+        <Loader />
+      ) : (
+        <LocationList
+          locations={locations}
+          setData={setData}
+          locationsColumns={locationsColumns}
+        />
+      )}
+    </PageWrapper>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

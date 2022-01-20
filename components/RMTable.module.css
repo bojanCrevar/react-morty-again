@@ -1,0 +1,13 @@
+@media only screen and (max-width: 767px) {
+  .rmtable td::before {
+    content: attr(data-title);
+    font-weight: bold;
+    display: inline-block;
+    font-size: 16px;
+    padding: 2px;
+    min-width: 100px;
+  }
+}
+.tableskeletons {
+  @apply w-3/5 md:w-full;
+}

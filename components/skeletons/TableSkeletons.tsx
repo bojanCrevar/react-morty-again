@@ -1,5 +1,6 @@
 import { Table } from "react-bootstrap";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import styles from "../RMTable.module.css";
 
 type TableSkeletonsProps = {
   amount: number;
@@ -11,25 +12,21 @@ type TableSkeletonsProps = {
 };
 
 const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
-  const episodescolumn = [
-    { key: "name", title: "Title" },
-    { key: "air_date", title: "Release date" },
-    { key: "episode", title: "Episode" },
-    {
-      key: "charactersString",
-      title: "Characters",
-      tooltip: "charactersTooltip",
-    },
-  ];
-  pageColumns = pageColumns ? pageColumns : episodescolumn;
   const renderSkeletons = (amount: number) => {
     let skeletons = [];
     for (let i = 0; i < amount; i++)
       skeletons.push(
-        <tr style={{ width: "95%" }} key={i}>
+        <tr
+          key={i}
+          className="flex flex-col md:flex-row even:bg-gray-500 md:even:bg-gray-400"
+        >
           {pageColumns.map((column) => (
-            <td key={column.key}>
-              <Skeleton width="w-1/4" />
+            <td
+              key={column.key}
+              data-title={column.title + ": "}
+              className="w-full"
+            >
+              <Skeleton className={styles.tableskeletons} />
             </td>
           ))}
         </tr>
@@ -46,17 +43,13 @@ const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
       borderRadius="1"
       duration={2}
     >
-      <Table
-        bordered
-        hover
-        striped
-        responsive
-        className="container m-auto mb-3"
-      >
-        <thead>
-          <tr>
+      <Table bordered hover striped responsive className={styles.rmtable}>
+        <thead className="hidden md:block">
+          <tr className="flex flex-col md:flex-row">
             {pageColumns.map((column) => (
-              <th key={column.key}>{column.title}</th>
+              <th key={column.key} className="w-full">
+                {column.title}
+              </th>
             ))}
           </tr>
         </thead>

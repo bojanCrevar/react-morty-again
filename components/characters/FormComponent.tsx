@@ -11,13 +11,17 @@ type FormComponentProps = {
   initialData: CharactersItem;
 };
 
+interface CharactersItemData extends CharactersItem {
+  locationName: string;
+}
+
 function FormComponent({ submitHandler, initialData }: FormComponentProps) {
   const charactersSchema = Yup.object({
     name: Yup.string().required("Name field is required."),
     status: Yup.string().required("Status is required."),
     gender: Yup.string().required("Gender is required."),
     species: Yup.string().required("Species field is required."),
-    location: Yup.string()
+    locationName: Yup.string()
       .min(3, "Must be 3 character or more")
       .required("Location field is required."),
     image: Yup.string()
@@ -28,26 +32,28 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
       .required("Image URL is required"),
   });
 
-  const initialValues: CharactersItem = {
+  const initialValues: CharactersItemData = {
     id: initialData.id || 0,
     name: initialData.name || "",
     status: initialData.status || "",
     gender: initialData.gender || "",
     species: initialData.species || "",
-    location: {
-      name: initialData.location?.name || "",
-    },
+    locationName: initialData.location?.name || "",
     image: initialData.image || "",
   };
+
+  console.log("initialValue.location", initialValues.location);
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: charactersSchema,
     onSubmit: submitFunction,
+    validateOnMount: true,
   });
 
-  function submitFunction(submittedEpisodeData: CharactersItem) {
+  function submitFunction(submittedEpisodeData: CharactersItemData) {
     submittedEpisodeData.id = initialData.id;
+    submittedEpisodeData.location = { name: submittedEpisodeData.locationName };
     submitHandler(submittedEpisodeData);
   }
 
@@ -56,10 +62,10 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
       <div className="flex flex-col gap-y-2 ">
         <FloatingLabel controlId="floatingInput" label="Name" className="mb-3">
           <Form.Control
+            data-testid="name"
             name="name"
             type="text"
             className="input form-control"
-            placeholder="Characters name"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -74,6 +80,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
         <div className="pb-2">
           {["Alive", "Dead", "unknown"].map((type) => (
             <Form.Check
+              data-testid={"status_" + type}
               key={type}
               inline
               label={type}
@@ -107,6 +114,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
           className="mb-3"
         >
           <Form.Select
+            data-testid="gender"
             name="gender"
             onChange={formik.handleChange}
             value={formik.values.gender}
@@ -133,10 +141,10 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
           className="mb-3"
         >
           <Form.Control
+            data-testid="species"
             name="species"
             type="text"
             className="input form-control"
-            placeholder="Characters name"
             value={formik.values.species}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -154,18 +162,20 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
           className="mb-3"
         >
           <Form.Control
-            name="location"
+            data-testid="locationName"
+            name="locationName"
             type="text"
             className="input form-control"
-            placeholder="Characters name"
-            value={formik.values.location?.name}
+            value={formik.values.locationName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={!!(formik.touched.location && formik.errors.location)}
+            isInvalid={
+              !!(formik.touched.locationName && formik.errors.locationName)
+            }
             autoComplete="off"
           />
           <Form.Control.Feedback type="invalid">
-            {formik.errors.location}
+            {formik.errors.locationName}
           </Form.Control.Feedback>
         </FloatingLabel>
 
@@ -175,10 +185,10 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
           className="mb-3"
         >
           <Form.Control
+            data-testid="image"
             name="image"
             type="text"
             className="input form-control"
-            placeholder="Characters name"
             value={formik.values.image}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -199,6 +209,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
             variant="btn btn-outline-success w-1/2"
             type="submit"
             disabled={!formik.isValid}
+            data-testid="submit"
           >
             {initialData.id < 0 ? "Add new character!" : "Update character"}
           </Button>

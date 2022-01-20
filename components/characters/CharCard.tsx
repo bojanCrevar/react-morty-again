@@ -4,6 +4,9 @@ import Link from "next/link";
 import FavouriteIcon from "../FavoriteIcon";
 import axios from "axios";
 import { CharactersItem } from "../../model/charactersModel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 
 interface CharCardProps extends CharactersItem {
   handleDelete: (id: number) => void;
@@ -54,66 +57,145 @@ const CharCard = ({
   }
 
   return (
-    <div className="flex flex-row space-x-4 mt-4 border-2 bg-white">
-      <div className="w-1/6">
-        {image ? (
-          <img
-            src={image}
-            className="h-36 w-44 "
-            alt="character"
-            onError={(e: any) => {
-              e.target.onerror = null;
-              e.target.src =
-                "https://rickandmortyapi.com/api/character/avatar/19.jpeg";
-            }}
-          />
-        ) : (
-          <div className="h-36 w-36 bg-green-700 text-white text-center">
-            No image yet
+    <>
+      <div className="bg-white rounded mt-2 p-2  flex flex-col sm:flex-row">
+        <div className="flex space-x-4 w-full">
+          <div className="w-1/2 sm:w-1/3 lg:w-1/4 h-36 relative">
+            {image ? (
+              <img
+                src={image}
+                className="rounded w-full h-full"
+                alt="character"
+                onError={(e: any) => {
+                  e.target.onerror = null;
+                  e.target.src =
+                    "https://rickandmortyapi.com/api/character/avatar/19.jpeg";
+                }}
+              />
+            ) : (
+              <div className="h-36 w-36 bg-green-700 text-white text-center">
+                No image yet
+              </div>
+            )}
           </div>
-        )}
+          <div className="pt-4 text-sm">
+            <div>{name}</div>
+            <div>
+              <span className={checkStatus(status)}>{status} </span>- {species}
+            </div>
+            <div>
+              <span className="text-gray-400">Gender: </span>
+              {gender}
+            </div>
+            <div>
+              {" "}
+              <span className="text-gray-400">Location: </span>
+              {location?.name}
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full sm:w-1/4 md:w-2/4 flex flex-row sm:flex-col mt-2 space-x-4 sm:space-x-0 sm:space-y-2">
+          <div className="w-1/3 sm:w-full">
+            <FavouriteIcon
+              toggleFavourite={toggleFavourite}
+              favouriteState={favouriteState}
+            />
+          </div>
+          <div className="w-1/3 sm:w-full">
+            <Link href={"characters/edit/" + id}>
+              <Button variant="outline-info" className="btn-char">
+                <div className="flex justify-center md:space-x-2">
+                  <div>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </div>
+                  <div>
+                    <span className="hidden md:block">Edit character</span>
+                  </div>
+                </div>
+              </Button>
+            </Link>
+          </div>
+          <div className="w-1/3 sm:w-full">
+            <Button
+              className="btn-char"
+              variant="btn btn-danger"
+              onClick={() => handleDelete(id)}
+            >
+              <div className="flex justify-center md:space-x-2">
+                <div>
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </div>
+                <div>
+                  <span className="hidden md:block">Delete</span>
+                </div>
+              </div>
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="w-3/6 p-2">
-        <div>{name}</div>
-        <div>
-          <span className={checkStatus(status)}>{status} </span>- {species}
+      <div className="flex flex-row space-x-4 mt-4 border-2 bg-white">
+        <div className="w-1/6">
+          {image ? (
+            <img
+              src={image}
+              className="h-36 w-44 "
+              alt="character"
+              onError={(e: any) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://rickandmortyapi.com/api/character/avatar/19.jpeg";
+              }}
+            />
+          ) : (
+            <div className="h-36 w-36 bg-green-700 text-white text-center">
+              No image yet
+            </div>
+          )}
         </div>
-        <div>
-          <span className="text-gray-400">Gender: </span>
-          {gender}
+
+        <div className="w-3/6 p-2">
+          <div>{name}</div>
+          <div>
+            <span className={checkStatus(status)}>{status} </span>- {species}
+          </div>
+          <div>
+            <span className="text-gray-400">Gender: </span>
+            {gender}
+          </div>
+          <div>
+            {" "}
+            <span className="text-gray-400">Location: </span>
+            {location?.name}
+          </div>
         </div>
-        <div>
-          {" "}
-          <span className="text-gray-400">Location: </span>
-          {location?.name}
-        </div>
-      </div>
-      <div className="w-2/6 flex flex-col text-right space-y-2 p-2 ">
-        <div>
-          <FavouriteIcon
-            toggleFavourite={toggleFavourite}
-            favouriteState={favouriteState}
-          />
-        </div>
-        <div>
-          <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info" className="btn-char ">
-              Edit character
+        <div className="w-2/6 flex flex-col text-right space-y-2 p-2 ">
+          <div>
+            <FavouriteIcon
+              toggleFavourite={toggleFavourite}
+              favouriteState={favouriteState}
+            />
+          </div>
+          <div>
+            <Link href={"characters/edit/" + id}>
+              <Button variant="outline-info" className="btn-char ">
+                Edit character
+              </Button>
+            </Link>
+          </div>
+          <div>
+            <Button
+              className="btn-char"
+              variant="btn btn-danger"
+              onClick={() => handleDelete(id)}
+            >
+              Delete
             </Button>
-          </Link>
-        </div>
-        <div>
-          <Button
-            className="btn-char"
-            variant="btn btn-danger"
-            onClick={() => handleDelete(id)}
-          >
-            Delete
-          </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

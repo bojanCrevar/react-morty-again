@@ -9,6 +9,7 @@ import TableSkeletons from "../skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import Loader from "../Spinner";
+import NoResults from "../NoResults";
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -63,9 +64,7 @@ const LocationList = ({
           />
         </ActionContext.Provider>
       ) : (
-        <div className="mt-4 bg-white rounded p-3 text-lg text-center">
-          No items found!
-        </div>
+        <NoResults />
       )}
     </>
   );

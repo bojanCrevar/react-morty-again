@@ -35,8 +35,6 @@ const LocationList = ({
   ];
 
   const mappedLocations = useCharacters(locations);
-  console.log("mappedLocations", mappedLocations);
-  console.log("locations", locations);
   function handleUpdate(id: number) {
     Router.push("locations/edit/" + id);
   }

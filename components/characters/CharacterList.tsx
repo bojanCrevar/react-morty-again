@@ -3,6 +3,7 @@ import CharCard from "./CharCard";
 import axios from "axios";
 import { CharactersItem } from "../../model/charactersModel";
 import { ResponseData } from "../../model/ResponseDataModel";
+import NoResults from "../NoResults";
 
 type CharListProps = {
   characters: CharactersItem[];
@@ -26,9 +27,7 @@ function CharacterList({ characters, setData }: CharListProps) {
           <CharCard {...c} key={c.id} handleDelete={handleDelete} />
         ))
       ) : (
-        <div className="mt-4 bg-white rounded p-3 text-lg text-center">
-          No items found!
-        </div>
+        <NoResults />
       )}
     </>
   );

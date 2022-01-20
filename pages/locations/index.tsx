@@ -56,6 +56,8 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"locations"}
+      setLoader={() => ""}
+      setSkeleton={() => ""}
     >
       <LocationList locations={locations} setData={setData} />
     </PageWrapper>

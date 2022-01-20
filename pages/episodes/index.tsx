@@ -50,6 +50,8 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"episodes"}
+      setLoader={() => ""}
+      setSkeleton={() => ""}
     >
       <EpisodeList episodes={episodes} />
     </PageWrapper>

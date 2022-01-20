@@ -149,7 +149,7 @@ const PageWrapper = ({
           initKeyword={keyword}
           setActivePage={setActivePage}
         />
-        <div className="flex flex-col w-full space-y-2 mt-2 mt-lg-4 lg:flex-row lg:space-y-0">
+        <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
           <div className="flex items-start lg:w-1/2">{buttonAdd}</div>
           <div className="lg:w-1/2">
             <SortComponent setSort={setSort} initSort={sort} />

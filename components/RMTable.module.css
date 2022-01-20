@@ -8,3 +8,6 @@
     min-width: 100px;
   }
 }
+.tableskeletons {
+  @apply w-3/5 md:w-full;
+}

@@ -94,8 +94,8 @@ export default async function handler(
       {
         const body = req.body;
         const insertObj = {
-          id: characterRepo.getAll().reduce((a, b) => Math.max(a, b.id), 0) + 1,
           ...body,
+          id: characterRepo.getAll().reduce((a, b) => Math.max(a, b.id), 0) + 1,
         };
         characterRepo.create(insertObj);
         res.status(200).json("success");

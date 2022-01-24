@@ -16,7 +16,7 @@ function getById(id) {
   return locations.find((x) => x.id.toString() === id.toString());
 }
 
-function update({ id, name, dimension, type }) {
+function update({ id, name, dimension, type, residents }) {
   const loc = locations.find((x) => x.id.toString() === id.toString());
   const index = locations.findIndex((x) => x.id.toString() === id.toString());
 
@@ -25,6 +25,7 @@ function update({ id, name, dimension, type }) {
     name: name,
     dimension: dimension,
     type: type,
+    residents: residents,
   };
 }
 

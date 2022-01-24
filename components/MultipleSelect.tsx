@@ -1,20 +1,26 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import Select from "react-select";
+import { ChangeEvent, useEffect, useState } from "react";
+import AsyncSelect from "react-select/async";
 import makeAnimated from "react-select/animated";
+import { CharactersItem } from "../model/charactersModel";
 import { RMItem } from "../model/RMItem";
 
 const animatedComponents = makeAnimated();
-// const charOptions = [
-//   { value: "rick", label: "Rick" },
-//   { value: "morty", label: "Morty" },
-//   { value: "beth", label: "Beth" },
-//   { value: "aquamorty", label: "Aqua Morty" },
-// ];
+const dummyOptions = [
+  { value: "rick", label: "Rick" },
+  { value: "morty", label: "Morty" },
+  { value: "beth", label: "Beth" },
+  { value: "aquamorty", label: "Aqua Morty" },
+];
 
 type MultipleSelectProps = {
   name: string;
-  onChange: (e: string | React.ChangeEvent<any>) => void;
+  onChange: {
+    (e: ChangeEvent<any>): void;
+    <T_1 = any>(field: T_1): T_1 extends ChangeEvent<any>
+      ? void
+      : (e: any) => void;
+  };
   onBlur: {
     (e: React.FocusEvent<any>): void;
     <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
@@ -29,11 +35,11 @@ const MultipleSelect = ({
   value,
 }: MultipleSelectProps) => {
   const [charOptions, setCharOptions] = useState();
-
+  //console.log("initValues", value);
   const charIds = value!.map((charUrl: string) =>
     charUrl.substring(charUrl.lastIndexOf("/") + 1)
   );
-  console.log("charIds", charIds);
+  //console.log("charIds", charIds);
 
   async function getCharacters(characterIds: string[]): Promise<RMItem[]> {
     const response = await axios.get("/api/characters/", {
@@ -46,35 +52,41 @@ const MultipleSelect = ({
     if (response.status === 200) return response.data.characters;
     else return [];
   }
-
   async function getCharactersName() {
-    const characters: any = await getCharacters(charIds);
-
-    let chars = characters.map((char) => {
-      return { value: char.id, label: char.name };
-    });
-    setCharOptions(chars);
-    console.log("charOptions", charOptions);
+    if (charIds.length > 0) {
+      const characters: any = await getCharacters(charIds);
+      setCharOptions(
+        characters.map((char: CharactersItem) => {
+          return { value: char.id, label: char.name };
+        })
+      );
+    } else setCharOptions(undefined);
   }
 
   useEffect(() => {
     getCharactersName();
   }, []);
 
-  const [select, setSelect] = useState();
+  console.log("charOptions", charOptions);
+
   const onSelect = (e: any) => {
-    console.log(e);
-    //onChange(e);
-    //setSelect(e);
+    setCharOptions(e);
+    // let newArrayChar = charOptions.map((char: any) => {
+    //   return (
+    //     "https://rickandmortyapi.com/api/character/" + parseInt(char.value)
+    //   );
+    // });
+    // console.log("newArray", newArrayChar);
+    //onChange(newArrayChar);
   };
   return (
-    <Select
-      value={select}
+    <AsyncSelect
       onChange={onSelect}
       closeMenuOnSelect={false}
       components={animatedComponents}
       isMulti
-      defaultValue={value}
+      value={charOptions}
+      defaultOptions={dummyOptions}
     />
   );
 };

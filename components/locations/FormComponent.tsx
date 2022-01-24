@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import { LocationsItem } from "../../model/locationsModel";
+import MultipleSelect from "../MultipleSelect";
 
 type LocationFormProps = {
   submitHandler: (location: LocationsItem) => void;
@@ -16,8 +17,9 @@ function LocationFormComponent({
   initialData,
 }: LocationFormProps) {
   function submitFunction(submittedLocationsData: LocationsItem) {
-    submittedLocationsData.id = initialData.id;
-    submitHandler(submittedLocationsData);
+    // submittedLocationsData.id = initialData.id;
+    // submitHandler(submittedLocationsData);
+    console.log("submittedLocationsData", submittedLocationsData);
   }
 
   const locationsSchema = Yup.object({
@@ -37,6 +39,7 @@ function LocationFormComponent({
     name: initialData.name || "",
     dimension: initialData.dimension || "",
     type: initialData.type || "",
+    residents: initialData.residents || [],
   };
 
   const formik = useFormik({
@@ -102,6 +105,12 @@ function LocationFormComponent({
             {formik.errors.type}
           </Form.Control.Feedback>
         </FloatingLabel>
+        <MultipleSelect
+          name="residents"
+          onChange={formik.handleChange}
+          value={formik.values.residents}
+          onBlur={formik.handleBlur}
+        />
 
         <div className="flex flex-row p-2">
           <Link href="/locations">

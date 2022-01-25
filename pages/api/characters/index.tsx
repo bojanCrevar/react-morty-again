@@ -19,6 +19,7 @@ type charactersProps = {
   characters?: string;
   sort: string;
   filterObject: string;
+  dropdown: string;
 };
 
 export default async function handler(
@@ -35,6 +36,7 @@ export default async function handler(
           characters,
           sort = "",
           filterObject = "",
+          dropdown = "",
         }: charactersProps = req.query as charactersProps;
 
         console.log("req.query", req.query);
@@ -83,10 +85,14 @@ export default async function handler(
             pages: Math.ceil(charsSorted.length / PAGE_SIZE),
           };
 
-          res.status(200).json({
-            info: infoPage,
-            results: charsPaginated,
-          });
+          if (dropdown) {
+            res.status(200).json(charsFiltered);
+          } else {
+            res.status(200).json({
+              info: infoPage,
+              results: charsPaginated,
+            });
+          }
         }
       }
       break;

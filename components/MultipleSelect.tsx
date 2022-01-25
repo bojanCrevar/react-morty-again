@@ -7,10 +7,10 @@ import { RMItem } from "../model/RMItem";
 
 const animatedComponents = makeAnimated();
 const dummyOptions = [
-  { value: "rick", label: "Rick" },
-  { value: "morty", label: "Morty" },
-  { value: "beth", label: "Beth" },
-  { value: "aquamorty", label: "Aqua Morty" },
+  { value: "1", label: "Rick" },
+  { value: "2", label: "Morty" },
+  { value: "-67", label: "Beth" },
+  { value: "-43", label: "Aqua Morty" },
 ];
 
 type MultipleSelectProps = {
@@ -32,15 +32,14 @@ const MultipleSelect = ({
   name,
   onChange,
   onBlur,
-  value,
+  value: initValues,
 }: MultipleSelectProps) => {
-  const [charOptions, setCharOptions] = useState();
-  //console.log("initValues", value);
-  const charIds = value!.map((charUrl: string) =>
+  const [charOptions, setCharOptions] = useState([]);
+  //console.log("initValues", initValues);
+  const charIds = initValues!.map((charUrl: string) =>
     charUrl.substring(charUrl.lastIndexOf("/") + 1)
   );
   //console.log("charIds", charIds);
-
   async function getCharacters(characterIds: string[]): Promise<RMItem[]> {
     const response = await axios.get("/api/characters/", {
       params: { characterIds },
@@ -60,25 +59,31 @@ const MultipleSelect = ({
           return { value: char.id, label: char.name };
         })
       );
-    } else setCharOptions(undefined);
+    }
   }
 
   useEffect(() => {
     getCharactersName();
   }, []);
 
-  console.log("charOptions", charOptions);
+  useEffect(() => {
+    if (charOptions) {
+      let newArrayChar = charOptions.map((char: any) => {
+        return (
+          "https://rickandmortyapi.com/api/character/" + parseInt(char.value)
+        );
+      });
+      //console.log("newArray", newArrayChar);
+      onChange(newArrayChar);
+    }
+  }, [charOptions]);
+
+  //console.log("charOptions", charOptions);
 
   const onSelect = (e: any) => {
     setCharOptions(e);
-    // let newArrayChar = charOptions.map((char: any) => {
-    //   return (
-    //     "https://rickandmortyapi.com/api/character/" + parseInt(char.value)
-    //   );
-    // });
-    // console.log("newArray", newArrayChar);
-    //onChange(newArrayChar);
   };
+
   return (
     <AsyncSelect
       onChange={onSelect}

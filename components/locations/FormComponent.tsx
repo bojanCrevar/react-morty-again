@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Link from "next/link";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import { LocationsItem } from "../../model/locationsModel";
@@ -17,8 +17,8 @@ function LocationFormComponent({
   initialData,
 }: LocationFormProps) {
   function submitFunction(submittedLocationsData: LocationsItem) {
-    // submittedLocationsData.id = initialData.id;
-    // submitHandler(submittedLocationsData);
+    submittedLocationsData.id = initialData.id;
+    submitHandler(submittedLocationsData);
     console.log("submittedLocationsData", submittedLocationsData);
   }
 
@@ -107,7 +107,9 @@ function LocationFormComponent({
         </FloatingLabel>
         <MultipleSelect
           name="residents"
-          onChange={formik.handleChange}
+          onChange={(e: any) => {
+            formik.setFieldValue("residents", e);
+          }}
           value={formik.values.residents}
           onBlur={formik.handleBlur}
         />

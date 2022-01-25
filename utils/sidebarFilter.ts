@@ -54,15 +54,17 @@ export default function filter(
         (filter) => filter.key === filterKey
       )?.operatorType;
 
+      results[filterKey] = [];
+
       //filterKey = (ie. 'geneder, characters')
       const filterValue = filterValues[filterKey];
       for (const value in filterValue) {
-        console.log("filterValue[value]", filterValue);
+        const criteria = filterValue[value]; //15-30
 
         if (operatorType === FILTER_CONFIG_COMPARISON_COUNT) {
           //filter value (ie. 'male')
-          const criteria = filterValue[value]; //15-30
           let filterKeyCount = item[filterKey].length; // length
+          // console.log("criteria", criteria);
 
           if (criteria.includes("-")) {
             let criteriaArray = criteria.split("-");
@@ -70,9 +72,9 @@ export default function filter(
             let max = criteriaArray[1];
             if (filterKeyCount >= min && filterKeyCount <= max) {
               // console.log("filterKeyCount min max", filterKeyCount);
-              results[filterKey] = true;
+              results[filterKey].push({ [`${criteria}`]: true });
             } else {
-              results[filterKey] = false;
+              results[filterKey].push({ [`${criteria}`]: false });
             }
           } else if (criteria.includes(">")) {
             let operator = criteria[0].charAt(0);
@@ -80,18 +82,18 @@ export default function filter(
             if (operator === ">") {
               if (filterKeyCount > operatorValue) {
                 // console.log("filterKeyCount greater than", filterKeyCount);
-                results[filterKey] = true;
+                results[filterKey].push({ [`${criteria}`]: true });
               } else {
-                results[filterKey] = false;
+                results[filterKey].push({ [`${criteria}`]: false });
               }
             }
           }
         } else if (operatorType === FILTER_CONFIG_EXACT) {
           if (item[filterKey].includes(filterValue[value])) {
             // console.log("exact filter ", filterValue[value]);
-            results[filterKey] = true;
+            results[filterKey].push({ [`${criteria}`]: true });
           } else {
-            results[filterKey] = false;
+            results[filterKey].push({ [`${criteria}`]: false });
           }
         }
 

@@ -7,7 +7,7 @@ export interface FilterGroupConfig {
   values: string[];
   type: "checkbox" | "radio";
   key: string;
-  operatorType: string;
+  operatorType?: string;
 }
 
 export interface FilterPanelProps {

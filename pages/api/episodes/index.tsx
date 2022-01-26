@@ -2,6 +2,7 @@ import episodesRepo from "../../../utils/episodes-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { string } from "yup";
 import filter from "../../../utils/sidebarFilter";
+import { filterConfig } from "../../episodes";
 
 const PAGE_SIZE = 20;
 
@@ -29,7 +30,7 @@ export default async function handler(
 
         const allEpisodes = episodesRepo.getAll();
 
-        const episodesFiltered = filter(allEpisodes, req.query);
+        const episodesFiltered = filter(allEpisodes, req.query, filterConfig);
 
         const episodesSorted =
           sort === "id"

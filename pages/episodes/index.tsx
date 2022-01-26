@@ -10,9 +10,7 @@ import { FilterGroupConfig } from "../../model/filterModel";
 import { EpisodeItem } from "../../model/episodeModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
-
-export const FILTER_CONFIG_COMPARISON_COUNT = "comparison.count";
-export const FILTER_CONFIG_EXACT = "exact";
+import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -20,7 +18,6 @@ export const filterConfig: FilterGroupConfig[] = [
     values: ["S01", "S02", "S03"],
     type: "checkbox",
     key: "episode",
-    operatorType: FILTER_CONFIG_EXACT,
   },
   {
     title: "Characters count",

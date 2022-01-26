@@ -1,17 +1,14 @@
-import {
-  filterConfig,
-  FILTER_CONFIG_COMPARISON_COUNT,
-  FILTER_CONFIG_EXACT,
-} from "../pages/episodes";
+import { FilterGroupConfig } from "../model/filterModel";
 
+export const FILTER_CONFIG_COMPARISON_COUNT = "comparison.count";
+export const FILTER_CONFIG_EXACT = "exact";
 interface FilterValues {
   [key: string]: string[];
 }
 
-function setupFilterValues(
-  query: { [key: string]: string | string[] },
-  keyword?: string
-) {
+type Item = { [prop: string]: any };
+
+function setupFilterValues(query: { [key: string]: string | string[] }) {
   let filterValues: FilterValues = {};
   for (var key in query) {
     if (key.includes("filter.") && typeof key === "string") {
@@ -26,18 +23,21 @@ function setupFilterValues(
     }
   }
 
+  const keyword = query.keyword;
+
   if (keyword) {
-    filterValues["name"] = [keyword];
+    filterValues["name"] = [keyword as string];
   }
 
   return filterValues;
 }
 
 export default function filter(
-  allItems: any[],
+  allItems: Item[],
   query: {
     [key: string]: string | string[];
-  }
+  },
+  filterConfig: FilterGroupConfig[]
 ) {
   const filterValues = setupFilterValues(query);
 
@@ -45,68 +45,63 @@ export default function filter(
     return allItems;
   }
 
-  return allItems.filter((item: { [prop: string]: any }) => {
+  return allItems.filter((item: Item) => {
     //allItems = (ie. locations, characters, episodes)
-    let results: any = [];
+    let itemFilteredByKey: { [key: string]: boolean } = {};
 
-    for (const filterKey in filterValues) {
-      let operatorType = filterConfig.find(
-        (filter) => filter.key === filterKey
-      )?.operatorType;
+    for (const key in filterValues) {
+      let operatorType =
+        filterConfig.find((f) => f.key === key)?.operatorType ??
+        FILTER_CONFIG_EXACT;
 
-      results[filterKey] = [];
+      itemFilteredByKey[key] = false;
 
-      //filterKey = (ie. 'geneder, characters')
-      const filterValue = filterValues[filterKey];
-      for (const value in filterValue) {
-        const criteria = filterValue[value]; //15-30
-
+      // key = (ie. 'geneder, characters')
+      // filterValue = ['15-30', '<30']
+      const filterValue = filterValues[key];
+      filterValue.forEach((criteria) => {
+        if (itemFilteredByKey[key]) {
+          return;
+        }
         if (operatorType === FILTER_CONFIG_COMPARISON_COUNT) {
-          //filter value (ie. 'male')
-          let filterKeyCount = item[filterKey].length; // length
-          // console.log("criteria", criteria);
+          let itemCount = item[key].length; // length
 
           if (criteria.includes("-")) {
-            let criteriaArray = criteria.split("-");
-            let min = criteriaArray[0];
-            let max = criteriaArray[1];
-            if (filterKeyCount >= min && filterKeyCount <= max) {
-              // console.log("filterKeyCount min max", filterKeyCount);
-              results[filterKey].push({ [`${criteria}`]: true });
-            } else {
-              results[filterKey].push({ [`${criteria}`]: false });
-            }
+            itemFilteredByKey[key] = range(criteria, itemCount);
           } else if (criteria.includes(">")) {
-            let operator = criteria[0].charAt(0);
-            let operatorValue = criteria.split(">")[1];
-            if (operator === ">") {
-              if (filterKeyCount > operatorValue) {
-                // console.log("filterKeyCount greater than", filterKeyCount);
-                results[filterKey].push({ [`${criteria}`]: true });
-              } else {
-                results[filterKey].push({ [`${criteria}`]: false });
-              }
-            }
+            itemFilteredByKey[key] = greaterThan(criteria, itemCount);
           }
         } else if (operatorType === FILTER_CONFIG_EXACT) {
-          if (item[filterKey].includes(filterValue[value])) {
-            // console.log("exact filter ", filterValue[value]);
-            results[filterKey].push({ [`${criteria}`]: true });
-          } else {
-            results[filterKey].push({ [`${criteria}`]: false });
-          }
+          itemFilteredByKey[key] = item[key].includes(criteria);
         }
-
-        console.log("results", results);
-
-        for (const result in results) {
-          if (!results[result]) {
-            return false;
-          }
-        }
-      }
+      });
     }
 
-    return true;
+    return !Object.values(itemFilteredByKey).includes(false);
   });
+}
+
+function greaterThan(criteria: string, filterKeyCount: number) {
+  let operator = criteria[0].charAt(0);
+  let operatorValue = +criteria.split(">")[1];
+  if (operator === ">") {
+    if (filterKeyCount > operatorValue) {
+      // console.log("filterKeyCount greater than", filterKeyCount);
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function range(criteria: string, filterKeyCount: number) {
+  let criteriaArray = criteria.split("-");
+  let min = +criteriaArray[0];
+  let max = +criteriaArray[1];
+  if (filterKeyCount >= min && filterKeyCount <= max) {
+    // console.log("filterKeyCount min max", filterKeyCount);
+    return true;
+  }
+
+  return false;
 }

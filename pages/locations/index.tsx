@@ -11,33 +11,33 @@ import { LocationsItem } from "../../model/locationsModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
 
+export const filterConfig: FilterGroupConfig[] = [
+  {
+    title: "Dimension",
+    values: ["Dimension C-137", "Replacement Dimension", "unknown"],
+    type: "checkbox",
+    key: "dimension",
+  },
+  {
+    title: "Type",
+    values: ["Planet", "Cluster", "Microverse", "Space station"],
+    type: "checkbox",
+    key: "type",
+  },
+  {
+    title: "Residents",
+    values: ["1-15", "16-30", ">30"],
+    type: "checkbox",
+    key: "residents",
+  },
+];
+
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [data, setData] = useState<ResponseData<LocationsItem>>({
     info: emptyPagination,
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;
-
-  const filterConfig: FilterGroupConfig[] = [
-    {
-      title: "Dimension",
-      values: ["Dimension C-137", "Replacement Dimension", "unknown"],
-      type: "checkbox",
-      key: "dimension",
-    },
-    {
-      title: "Type",
-      values: ["Planet", "Cluster", "Microverse", "Space station"],
-      type: "checkbox",
-      key: "type",
-    },
-    {
-      title: "Residents",
-      values: ["1-15", "16-30", ">30"],
-      type: "checkbox",
-      key: "residents",
-    },
-  ];
 
   const buttonAdd = (
     <Link href="/locations/create">

@@ -36,7 +36,6 @@ export default async function handler(
           characters,
           sort = "",
           filterObject = "",
-          dropdown = "",
         }: charactersProps = req.query as charactersProps;
 
         console.log("req.query", req.query);
@@ -84,15 +83,10 @@ export default async function handler(
             count: charsSorted.length,
             pages: Math.ceil(charsSorted.length / PAGE_SIZE),
           };
-
-          if (dropdown) {
-            res.status(200).json(charsFiltered);
-          } else {
-            res.status(200).json({
-              info: infoPage,
-              results: charsPaginated,
-            });
-          }
+          res.status(200).json({
+            info: infoPage,
+            results: charsPaginated,
+          });
         }
       }
       break;

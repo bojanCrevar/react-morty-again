@@ -6,6 +6,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import { LocationsItem } from "../../model/locationsModel";
 import MultipleSelect from "../MultipleSelect";
+import { ChangeEvent } from "react";
 
 type LocationFormProps = {
   submitHandler: (location: LocationsItem) => void;
@@ -107,11 +108,10 @@ function LocationFormComponent({
         </FloatingLabel>
         <MultipleSelect
           name="residents"
-          onChange={(e: any) => {
+          onChange={(e: ChangeEvent<string[]>) => {
             formik.setFieldValue("residents", e);
           }}
           value={formik.values.residents}
-          onBlur={formik.handleBlur}
         />
 
         <div className="flex flex-row p-2">

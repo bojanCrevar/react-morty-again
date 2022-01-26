@@ -1,41 +1,29 @@
 import RMTable from "../RMTable";
-import { Fragment } from "react";
 import { useRouter } from "next/router";
 import useCharacters from "../../hooks/useCharacters";
 import { ActionContext } from "../../context/ActionContext";
-import TableSkeletons from "../skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { EpisodeItem } from "../../model/episodeModel";
+import NoResults from "../NoResults";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];
+  episodeColumns: ColumnCfg<EpisodeItem>[];
 };
 
-const EpisodeList = ({ episodes }: EpisodeListProps) => {
+const EpisodeList = ({ episodes, episodeColumns }: EpisodeListProps) => {
   const router = useRouter();
-  const episodeColumns: ColumnCfg<EpisodeItem>[] = [
-    { key: "name", title: "Title" },
-    { key: "air_date", title: "Release date" },
-    { key: "episode", title: "Episode" },
-    {
-      key: "charactersString",
-      title: "Characters",
-      tooltip: "charactersTooltip",
-    },
-  ];
   const mappedEpisodes = useCharacters(episodes);
   function handleUpdate(id: number) {
     router.push("episodes/edit/" + id);
   }
 
-  return episodes.length ? (
-    <Fragment>
-      <ActionContext.Provider value={{ handleUpdate }}>
-        <RMTable tableData={mappedEpisodes} columnConfig={episodeColumns} />
-      </ActionContext.Provider>
-    </Fragment>
+  return episodes.length > 0 ? (
+    <ActionContext.Provider value={{ handleUpdate }}>
+      <RMTable tableData={mappedEpisodes} columnConfig={episodeColumns} />
+    </ActionContext.Provider>
   ) : (
-    <TableSkeletons amount={10} pageColumns={episodeColumns} />
+    <NoResults />
   );
 };
 

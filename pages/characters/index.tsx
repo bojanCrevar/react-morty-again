@@ -11,8 +11,11 @@ import { ResponseData } from "../../model/ResponseDataModel";
 import { CharactersItem } from "../../model/charactersModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
+import Loader from "../../components/Spinner";
 
 function Characters({ query }: { query: QueryParams }) {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<CharactersItem>>({
     info: emptyPagination,
     results: [],
@@ -42,6 +45,7 @@ function Characters({ query }: { query: QueryParams }) {
       </Button>
     </Link>
   );
+
   return (
     <PageWrapper
       title={"List of characters"}
@@ -51,11 +55,14 @@ function Characters({ query }: { query: QueryParams }) {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"characters"}
+      setSkeleton={setSkeleton as (bool: Boolean) => void}
+      setLoader={setLoader as (bool: Boolean) => void}
     >
-      {chars.length ? (
-        <CharacterList characters={chars} setData={setData} />
+      {skeleton && <CharactersSkeleton amount={10} />}
+      {loader ? (
+        <Loader />
       ) : (
-        <CharactersSkeleton amount={10} />
+        <CharacterList characters={chars} setData={setData} />
       )}
     </PageWrapper>
   );

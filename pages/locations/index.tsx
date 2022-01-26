@@ -10,6 +10,9 @@ import { FilterGroupConfig } from "../../model/filterModel";
 import { LocationsItem } from "../../model/locationsModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
+import Loader from "../../components/Spinner";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
+import { ColumnCfg } from "../../model/columnCfgModel";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -33,11 +36,24 @@ export const filterConfig: FilterGroupConfig[] = [
 ];
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
+  const [skeleton, setSkeleton] = useState<Boolean>(true);
+  const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<LocationsItem>>({
     info: emptyPagination,
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;
+
+  const locationsColumns: ColumnCfg<LocationsItem>[] = [
+    { key: "name", title: "Name" },
+    { key: "dimension", title: "Dimension" },
+    { key: "type", title: "Type" },
+    {
+      key: "charactersString",
+      title: "Residents",
+      tooltip: "charactersTooltip",
+    },
+  ];
 
   const buttonAdd = (
     <Link href="/locations/create">
@@ -56,8 +72,21 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"locations"}
+      setSkeleton={setSkeleton}
+      setLoader={setLoader}
     >
-      <LocationList locations={locations} setData={setData} />
+      {skeleton && (
+        <TableSkeletons amount={20} pageColumns={locationsColumns} />
+      )}
+      {loader ? (
+        <Loader />
+      ) : (
+        <LocationList
+          locations={locations}
+          setData={setData}
+          locationsColumns={locationsColumns}
+        />
+      )}
     </PageWrapper>
   );
 };

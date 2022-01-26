@@ -3,6 +3,7 @@ import CharCard from "./CharCard";
 import axios from "axios";
 import { CharactersItem } from "../../model/charactersModel";
 import { ResponseData } from "../../model/ResponseDataModel";
+import NoResults from "../NoResults";
 
 type CharListProps = {
   characters: CharactersItem[];
@@ -21,9 +22,13 @@ function CharacterList({ characters, setData }: CharListProps) {
   }
   return (
     <>
-      {characters.map((c) => (
-        <CharCard {...c} key={c.id} handleDelete={handleDelete} />
-      ))}
+      {characters.length > 0 ? (
+        characters.map((c) => (
+          <CharCard {...c} key={c.id} handleDelete={handleDelete} />
+        ))
+      ) : (
+        <NoResults />
+      )}
     </>
   );
 }

@@ -21,6 +21,8 @@ interface PageWrapperProps {
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
   api: string;
+  setSkeleton: (bool: Boolean) => void;
+  setLoader: (bool: Boolean) => void;
 }
 
 const PageWrapper = ({
@@ -32,6 +34,8 @@ const PageWrapper = ({
   filterConfig,
   pagesInfo,
   api,
+  setSkeleton,
+  setLoader,
 }: PageWrapperProps) => {
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
@@ -65,12 +69,15 @@ const PageWrapper = ({
       const response = await axios.get(`/api/${api}`, {
         params: { activePage, keyword, sort },
       });
-      setTimeout(() => setData(response.data), 700);
+      setTimeout(() => {
+        setData(response.data);
+        setSkeleton(false);
+        setLoader(false);
+      }, 700);
     }
   }
 
   useEffect(() => {
-    fetchData();
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
@@ -81,6 +88,8 @@ const PageWrapper = ({
         shallow: true,
       }
     );
+    setLoader(true);
+    fetchData();
   }, [activePage, keyword, sort, filterObject]);
 
   useEffect(() => {
@@ -102,7 +111,7 @@ const PageWrapper = ({
     };
   });
 
-  // console.log("mobile", mobile);
+  //console.log("mobile", mobile);
 
   return (
     <div className="flex mb-4 w-full">
@@ -142,7 +151,7 @@ const PageWrapper = ({
           initKeyword={keyword}
           setActivePage={setActivePage}
         />
-        <div className="flex flex-col w-full space-y-2 mt-4 lg:mt-4 lg:flex-row lg:space-y-0">
+        <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
           <div className="flex items-start lg:w-1/2">{buttonAdd}</div>
           <div className="lg:w-1/2">
             <SortComponent setSort={setSort} initSort={sort} />

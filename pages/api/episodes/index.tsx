@@ -62,11 +62,10 @@ export default async function handler(
       {
         const body = req.body;
         const insertObj = {
-          id: episodesRepo.getAll().length + 1,
+          id: episodesRepo.getAll().reduce((a, b) => Math.max(a, b.id), 0) + 1,
           ...body,
         };
         episodesRepo.create(insertObj);
-
         res.status(200).json("success");
       }
       break;

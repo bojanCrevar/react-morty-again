@@ -11,6 +11,9 @@ import { EpisodeItem } from "../../model/episodeModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
 import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
+import { ColumnCfg } from "../../model/columnCfgModel";
+import Loader from "../../components/Spinner";
+import TableSkeletons from "../../components/skeletons/TableSkeletons";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -27,9 +30,6 @@ export const filterConfig: FilterGroupConfig[] = [
     operatorType: FILTER_CONFIG_COMPARISON_COUNT,
   },
 ];
-import { ColumnCfg } from "../../model/columnCfgModel";
-import Loader from "../../components/Spinner";
-import TableSkeletons from "../../components/skeletons/TableSkeletons";
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);

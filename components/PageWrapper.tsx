@@ -55,26 +55,19 @@ const PageWrapper = ({
   }
 
   async function fetchData() {
-    if (filterObject) {
-      const response = await axios.get(`/api/${api}`, {
-        params: { activePage, keyword, sort, filterObject },
-        paramsSerializer: (params) => {
-          return `activePage=${params.activePage}&keyword=${
-            params.keyword
-          }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
-        },
-      });
+    const response = await axios.get(`/api/${api}`, {
+      params: { activePage, keyword, sort, filterObject },
+      paramsSerializer: (params) => {
+        return `activePage=${params.activePage}&keyword=${
+          params.keyword
+        }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
+      },
+    });
+    setTimeout(() => {
       setData(response.data);
-    } else {
-      const response = await axios.get(`/api/${api}`, {
-        params: { activePage, keyword, sort },
-      });
-      setTimeout(() => {
-        setData(response.data);
-        setSkeleton(false);
-        setLoader(false);
-      }, 700);
-    }
+      setSkeleton(false);
+      setLoader(false);
+    }, 700);
   }
 
   useEffect(() => {

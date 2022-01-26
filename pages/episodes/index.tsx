@@ -10,9 +10,26 @@ import { FilterGroupConfig } from "../../model/filterModel";
 import { EpisodeItem } from "../../model/episodeModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
+import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
+
+export const filterConfig: FilterGroupConfig[] = [
+  {
+    title: "Season",
+    values: ["S01", "S02", "S03"],
+    type: "checkbox",
+    key: "episode",
+  },
+  {
+    title: "Characters count",
+    values: ["0-15", "16-30", ">30"],
+    type: "checkbox",
+    key: "characters",
+    operatorType: FILTER_CONFIG_COMPARISON_COUNT,
+  },
+];
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
@@ -30,21 +47,6 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       </Button>
     </Link>
   );
-
-  const filterConfig: FilterGroupConfig[] = [
-    {
-      title: "Dimension",
-      values: ["Dimension C-137", "Replacement Dimension", "unknown"],
-      type: "checkbox",
-      key: "dimension",
-    },
-    {
-      title: "Type",
-      values: ["Planet", "Cluster", "Microverse", "Space station"],
-      type: "checkbox",
-      key: "type",
-    },
-  ];
 
   const episodeColumns: ColumnCfg<EpisodeItem>[] = [
     { key: "name", title: "Title" },

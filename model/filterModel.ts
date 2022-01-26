@@ -7,10 +7,11 @@ export interface FilterGroupConfig {
   values: string[];
   type: "checkbox" | "radio";
   key: string;
+  operatorType?: string;
 }
 
 export interface FilterPanelProps {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
-  submitFilterHandler: (e: any) => void;
+  setFilterObject: (e: FilterModel) => void;
 }

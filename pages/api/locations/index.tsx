@@ -1,5 +1,7 @@
 import locationsRepo from "../../../utils/locations-repo";
 import { NextApiRequest, NextApiResponse } from "next";
+import { filterConfig } from "../../locations";
+import filter from "../../../utils/sidebarFilter";
 
 const PAGE_SIZE = 20;
 
@@ -27,11 +29,8 @@ export default async function handler(
         //console.log("req.query", req.query);
 
         const allLocations = locationsRepo.getAll();
-        const locationsFiltered = keyword
-          ? allLocations.filter((loc) =>
-              loc.name.toLowerCase().includes(keyword)
-            )
-          : allLocations;
+
+        const locationsFiltered = filter(allLocations, req.query, filterConfig);
 
         const locationsSorted =
           sort === "id"

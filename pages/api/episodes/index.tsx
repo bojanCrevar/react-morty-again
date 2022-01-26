@@ -1,5 +1,8 @@
 import episodesRepo from "../../../utils/episodes-repo";
 import { NextApiRequest, NextApiResponse } from "next";
+import { string } from "yup";
+import filter from "../../../utils/sidebarFilter";
+import { filterConfig } from "../../episodes";
 
 const PAGE_SIZE = 20;
 
@@ -23,11 +26,11 @@ export default async function handler(
           sort = "",
         }: episodeProps = req.query as episodeProps;
         keyword = keyword.toLowerCase();
+        console.log("req.query API", req.query);
 
         const allEpisodes = episodesRepo.getAll();
-        const episodesFiltered = keyword
-          ? allEpisodes.filter((ch) => ch.name.toLowerCase().includes(keyword))
-          : allEpisodes;
+
+        const episodesFiltered = filter(allEpisodes, req.query, filterConfig);
 
         const episodesSorted =
           sort === "id"

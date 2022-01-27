@@ -20,7 +20,6 @@ function LocationFormComponent({
   function submitFunction(submittedLocationsData: LocationsItem) {
     submittedLocationsData.id = initialData.id;
     submitHandler(submittedLocationsData);
-    console.log("submittedLocationsData", submittedLocationsData);
   }
 
   const locationsSchema = Yup.object({

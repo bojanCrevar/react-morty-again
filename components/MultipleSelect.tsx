@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
 import makeAnimated from "react-select/animated";
 import { CharactersItem } from "../model/charactersModel";
-import { RMItem } from "../model/RMItem";
+import { debounce } from "lodash";
 
 const animatedComponents = makeAnimated();
 
@@ -17,20 +17,25 @@ type MultipleSelectProps = {
   };
   value: [] | undefined;
 };
-
+type CharOptions = {
+  value: number;
+  label: string;
+};
 const MultipleSelect = ({
   name,
   onChange,
   value: initValues,
 }: MultipleSelectProps) => {
-  const [charOptions, setCharOptions] = useState([]);
-  const [defaultOptions, setDefaultOptions] = useState([]);
+  const [charOptions, setCharOptions] = useState<CharOptions[]>([]);
+  const [defaultOptions, setDefaultOptions] = useState<CharOptions[]>([]);
 
   const charIds = initValues!.map((charUrl: string) =>
     charUrl.substring(charUrl.lastIndexOf("/") + 1)
   );
 
-  async function getCharacters(characterIds: string[]) {
+  async function getCharacters(
+    characterIds: string[]
+  ): Promise<CharactersItem[]> {
     const response = await axios.get("/api/characters/", {
       params: { characterIds },
       paramsSerializer: (params) => {
@@ -41,7 +46,8 @@ const MultipleSelect = ({
     if (response.status === 200) return response.data.characters;
     else return [];
   }
-  async function loadChars(inputValue?: string) {
+
+  async function loadChars(inputValue?: string): Promise<CharOptions[]> {
     const response = await axios.get("/api/characters", {
       params: { sort: "asc", keyword: inputValue },
     });
@@ -55,7 +61,7 @@ const MultipleSelect = ({
 
   async function getCharactersName() {
     if (charIds.length > 0) {
-      const characters: any = await getCharacters(charIds);
+      const characters: CharactersItem[] = await getCharacters(charIds);
 
       setCharOptions(
         characters.map((char: CharactersItem) => {
@@ -66,13 +72,11 @@ const MultipleSelect = ({
   }
 
   const promiseOptions = (inputValue: string) =>
-    new Promise((resolve) => {
-      loadChars(inputValue).then((data) => resolve(data));
-      //resolve(loadChars(inputValue));
-      // setTimeout(() => {
+    loadChars(inputValue).then((data) => data);
 
-      // }, 1000);
-    });
+  const debouncedPromiseOptions = debounce((input, resolve) => {
+    promiseOptions(input).then(resolve);
+  }, 500);
 
   useEffect(() => {
     getCharactersName();
@@ -81,10 +85,8 @@ const MultipleSelect = ({
 
   useEffect(() => {
     if (charOptions) {
-      let newArrayChar = charOptions.map((char: any) => {
-        return (
-          "https://rickandmortyapi.com/api/character/" + parseInt(char.value)
-        );
+      let newArrayChar = charOptions.map((char: CharOptions) => {
+        return "https://rickandmortyapi.com/api/character/" + char.value;
       });
 
       onChange(newArrayChar);
@@ -98,12 +100,12 @@ const MultipleSelect = ({
   return (
     <AsyncSelect
       onChange={onSelect}
-      closeMenuOnSelect={false}
+      closeMenuOnSelect={true}
       components={animatedComponents}
       isMulti
       value={charOptions}
       defaultOptions={defaultOptions}
-      loadOptions={promiseOptions}
+      loadOptions={debouncedPromiseOptions}
     />
   );
 };

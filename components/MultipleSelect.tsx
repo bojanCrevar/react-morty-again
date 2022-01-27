@@ -29,7 +29,7 @@ const MultipleSelect = ({
   const [charOptions, setCharOptions] = useState<CharOptions[]>([]);
   const [defaultOptions, setDefaultOptions] = useState<CharOptions[]>([]);
 
-  const charIds = initValues!.map((charUrl: string) =>
+  const charIds = (initValues ?? []).map((charUrl: string) =>
     charUrl.substring(charUrl.lastIndexOf("/") + 1)
   );
 

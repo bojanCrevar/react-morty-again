@@ -3,8 +3,14 @@ import LocationsFormComponent from "../locations/FormComponent";
 
 describe("Testing Locations Form Component", () => {
   test("rendering create button in form component", () => {
-    let initialData = { id: -2, name: "", dimension: "", type: "" };
-    const submitHandler = ({ id, name, dimension, type }) => {};
+    let initialData = {
+      id: -2,
+      name: "",
+      dimension: "",
+      type: "",
+      residents: "",
+    };
+    const submitHandler = ({ id, name, dimension, type, residents }) => {};
 
     render(
       <LocationsFormComponent
@@ -17,7 +23,7 @@ describe("Testing Locations Form Component", () => {
     expect(outputElem).toBeInTheDocument();
   });
 
-  test("rendering update button in form component", () => {
+  test.only("rendering update button in form component", () => {
     let initialData = {
       id: 10,
       name: "Earth",
@@ -37,8 +43,14 @@ describe("Testing Locations Form Component", () => {
     expect(outputElem).toBeInTheDocument();
   });
 
-  test("creating new location", async () => {
-    let initialData = { id: -2, name: "", dimension: "", type: "" };
+  test.only("creating new location", async () => {
+    let initialData = {
+      id: -2,
+      name: "",
+      dimension: "",
+      type: "",
+      residents: [],
+    };
     const submitHandler = jest.fn();
 
     render(
@@ -59,7 +71,10 @@ describe("Testing Locations Form Component", () => {
     const type = screen.getByTestId("type");
     fireEvent.change(type, { target: { value: "Planet" } });
     expect(type.value).toBe("Planet");
-
+    await waitFor(() => {
+      expect(screen.getByRole("combobox")).toHaveValue("[]");
+      screen.debug(screen.getByRole("combobox"));
+    });
     fireEvent.click(screen.getByRole("button", { name: "Add new location!" }));
 
     await waitFor(() => {
@@ -70,12 +85,19 @@ describe("Testing Locations Form Component", () => {
         name: "Earth-23",
         dimension: "C-23",
         type: "Planet",
+        residents: [],
       });
     });
   });
 
   test("error when creating new location", async () => {
-    let initialData = { id: -2, name: "", dimension: "", type: "" };
+    let initialData = {
+      id: -2,
+      name: "",
+      dimension: "",
+      type: "",
+      residents: [],
+    };
     const submitHandler = jest.fn();
 
     render(

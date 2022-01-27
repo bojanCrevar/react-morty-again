@@ -14,6 +14,27 @@ import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 
+export const filterConfig: FilterGroupConfig[] = [
+  {
+    title: "Dimension",
+    values: ["Dimension C-137", "Replacement Dimension", "unknown"],
+    type: "checkbox",
+    key: "dimension",
+  },
+  {
+    title: "Type",
+    values: ["Planet", "Cluster", "Microverse", "Space station"],
+    type: "checkbox",
+    key: "type",
+  },
+  {
+    title: "Residents",
+    values: ["1-15", "16-30", ">30"],
+    type: "checkbox",
+    key: "residents",
+  },
+];
+
 const LocationsPage = ({ query }: { query: QueryParams }) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
   const [loader, setLoader] = useState<Boolean>(false);
@@ -22,27 +43,6 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     results: [],
   });
   const { results: locations, info: pagesInfo } = data;
-
-  const filterConfig: FilterGroupConfig[] = [
-    {
-      title: "Dimension",
-      values: ["Dimension C-137", "Replacement Dimension", "unknown"],
-      type: "checkbox",
-      key: "dimension",
-    },
-    {
-      title: "Type",
-      values: ["Planet", "Cluster", "Microverse", "Space station"],
-      type: "checkbox",
-      key: "type",
-    },
-    {
-      title: "Residents",
-      values: ["1-15", "16-30", ">30"],
-      type: "checkbox",
-      key: "residents",
-    },
-  ];
 
   const locationsColumns: ColumnCfg<LocationsItem>[] = [
     { key: "name", title: "Name" },

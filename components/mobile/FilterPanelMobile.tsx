@@ -23,7 +23,7 @@ function MyVerticallyCenteredModal(props: any) {
 export default function FilterPanelMobile({
   filterConfig,
   date,
-  submitFilterHandler,
+  setFilterObject,
 }: FilterPanelProps) {
   const [modalShow, setModalShow] = useState(false);
 
@@ -43,7 +43,7 @@ export default function FilterPanelMobile({
         content={
           <FilterPanel
             filterConfig={filterConfig}
-            submitFilterHandler={submitFilterHandler}
+            setFilterObject={setFilterObject}
           />
         }
       />

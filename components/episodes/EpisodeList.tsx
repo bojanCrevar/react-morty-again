@@ -13,7 +13,6 @@ type EpisodeListProps = {
 
 const EpisodeList = ({ episodes, episodeColumns }: EpisodeListProps) => {
   const router = useRouter();
-
   const mappedEpisodes = useCharacters(episodes);
   function handleUpdate(id: number) {
     router.push("episodes/edit/" + id);

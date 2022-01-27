@@ -42,9 +42,11 @@ const PageWrapper = ({
   const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
+  const [filterObject, setFilterObject] = useState<FilterModel>({});
 
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";
+
     for (let key in filterObject) {
       let value = filterObject[key];
       value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
@@ -52,47 +54,40 @@ const PageWrapper = ({
     return filterQuery;
   }
 
-  async function fetchData(filterObject?: FilterModel) {
-    if (filterObject) {
-      const response = await axios.get(`/api/${api}`, {
-        params: { activePage, keyword, sort, filterObject },
-        paramsSerializer: (params) => {
-          return `activePage=${params.activePage}&keyword=${
-            params.keyword
-          }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
-        },
-      });
+  async function fetchData() {
+    const response = await axios.get(`/api/${api}`, {
+      params: { activePage, keyword, sort, filterObject },
+      paramsSerializer: (params) => {
+        return `activePage=${params.activePage}&keyword=${
+          params.keyword
+        }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
+      },
+    });
+    setTimeout(() => {
       setData(response.data);
-    } else {
-      const response = await axios.get(`/api/${api}`, {
-        params: { activePage, keyword, sort },
-      });
-      setTimeout(() => {
-        setData(response.data);
-        setSkeleton(false);
-        setLoader(false);
-      }, 700);
-    }
+      setSkeleton(false);
+      setLoader(false);
+    }, 700);
   }
 
   useEffect(() => {
-    fetchData();
-
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
-      `?activePage=${activePage}${keywordQuery}&sort=${sort}`,
+      `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
+        filterObject
+      )}`,
       undefined,
       {
         shallow: true,
       }
     );
-
     setLoader(true);
-  }, [activePage, keyword, sort]);
+    fetchData();
+  }, [activePage, keyword, sort, filterObject]);
 
   useEffect(() => {
     function handleResize() {
-      //console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
+      // console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
 
       if (window.innerWidth < 1024) {
         setMobile(true);
@@ -118,7 +113,7 @@ const PageWrapper = ({
           <div className="w-1/2 ml-28 mt-44">
             <FilterPanel
               filterConfig={filterConfig}
-              submitFilterHandler={fetchData}
+              setFilterObject={setFilterObject}
             />
           </div>
         </div>
@@ -127,7 +122,7 @@ const PageWrapper = ({
       )}
       <div className="w-10/12 lg:w-1/2">
         <h5 className="p-4 text-4xl text-center">
-          {title} - {pagesInfo.count}
+          {title} : {pagesInfo.count}
         </h5>
         <div className="flex lg:flex-row space-x-2">
           <div className="w-2/3">
@@ -140,7 +135,7 @@ const PageWrapper = ({
           {mobile ? (
             <FilterPanelMobile
               filterConfig={filterConfig}
-              submitFilterHandler={fetchData}
+              setFilterObject={setFilterObject}
             />
           ) : null}
         </div>

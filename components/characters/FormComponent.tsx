@@ -206,7 +206,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
           </Link>
 
           <Button
-            variant="btn btn-outline-success w-1/2"
+            variant="btn btn-success w-1/2"
             type="submit"
             disabled={!formik.isValid}
             data-testid="submit"

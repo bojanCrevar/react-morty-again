@@ -1,5 +1,7 @@
 import characterRepo from "../../../utils/character-repo";
 import { NextApiRequest, NextApiResponse } from "next";
+import { filterConfig } from "../../characters/index";
+import filter from "../../../utils/sidebarFilter";
 
 //const rmAPI = "https://rickandmortyapi.com/api/character";
 const PAGE_SIZE = 20;
@@ -57,11 +59,7 @@ export default async function handler(
             characters: mappedChars,
           });
         } else {
-          keyword = keyword.toLowerCase();
-
-          const charsFiltered = keyword
-            ? allChars.filter((ch) => ch.name.toLowerCase().includes(keyword))
-            : allChars;
+          const charsFiltered = filter(allChars, req.query, filterConfig);
 
           const charsSorted =
             sort === "id"

@@ -108,7 +108,7 @@ function LocationFormComponent({
             <Button variant="btn btn-outline-danger w-1/2 mr-2">Back</Button>
           </Link>
           <Button
-            variant="btn btn-outline-success w-1/2"
+            variant="btn btn-success w-1/2"
             type="submit"
             disabled={!formik.isValid}
           >

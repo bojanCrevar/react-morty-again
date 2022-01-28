@@ -30,7 +30,7 @@ const RMTable = <T extends RMItemWithChars>({
                 {data[cfg.key]}
               </span>
               {i === lastColumn ? (
-                <span className="position: absolute right-1">
+                <span className="position: absolute right-1 ">
                   <ActionButton id={data.id} hovered={hovered === data.id} />
                 </span>
               ) : null}

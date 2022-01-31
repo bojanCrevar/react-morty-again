@@ -9,7 +9,6 @@ type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
-  setSubmitButtonClick: (val: boolean) => void;
 };
 
 type GroupValueRefsMap = {
@@ -20,7 +19,6 @@ export default function FilterPanel({
   filterConfig,
   date,
   setFilterObject,
-  setSubmitButtonClick,
 }: FilterPanelProps) {
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
@@ -31,13 +29,9 @@ export default function FilterPanel({
 
   function onSubmitClick(e: any) {
     e.preventDefault();
-
-    setSubmitButtonClick(true);
-  }
-
-  function onChangeState() {
     const returnObject: FilterModel = {};
     filterConfig.forEach((group) => {
+      console.log("group", group);
       const groupValues = groupRefs.current[group.key]
         .filter((refValue) => refValue.current!.checked)
         .map((refValue) => refValue.current!.id);
@@ -52,7 +46,7 @@ export default function FilterPanel({
 
   return (
     <div className="bg-white rounded-md p-2">
-      <form onSubmit={(e) => onSubmitClick(e)} onChange={() => onChangeState()}>
+      <form onSubmit={(e) => onSubmitClick(e)}>
         <div className="font-bold text-center pt-2 text-lg">Filter panel</div>
         <div className="overflow-y-auto max-h-[510px] ">
           {filterConfig.map((object) => (

@@ -43,7 +43,6 @@ const PageWrapper = ({
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [filterObject, setFilterObject] = useState<FilterModel>({});
-  const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";
@@ -84,8 +83,7 @@ const PageWrapper = ({
     );
     setLoader(true);
     fetchData();
-    setSubmitButtonClick(false);
-  }, [activePage, sort, submitButtonClick]);
+  }, [activePage, keyword, sort, filterObject]);
 
   useEffect(() => {
     function handleResize() {
@@ -106,6 +104,8 @@ const PageWrapper = ({
     };
   });
 
+  //console.log("mobile", mobile);
+
   return (
     <div className="flex mb-4 w-full">
       {!mobile ? (
@@ -114,7 +114,6 @@ const PageWrapper = ({
             <FilterPanel
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
-              setSubmitButtonClick={setSubmitButtonClick}
             />
           </div>
         </div>
@@ -144,7 +143,6 @@ const PageWrapper = ({
           setKeyword={setKeyword}
           initKeyword={keyword}
           setActivePage={setActivePage}
-          setSubmitButtonClick={setSubmitButtonClick}
         />
         <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
           <div className="flex items-start lg:w-1/2">{buttonAdd}</div>

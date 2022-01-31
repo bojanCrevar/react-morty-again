@@ -17,14 +17,14 @@ const ActionButton = ({ id, hovered }: ActionButtonProps) => {
   const deleteButton = onDelete ? (
     <FontAwesomeIcon
       icon={faTrashAlt}
-      className={`hover:text-red-600 text-gray-700 text-2xl ${visibilityClass}`}
+      className={`hover:text-red-600 text-gray-700 text-2xl ${visibilityClass} hover:cursor-pointer`}
       onClick={() => onDelete(id)}
     />
   ) : null;
   const updateButton = onUpdate ? (
     <FontAwesomeIcon
       icon={faEdit}
-      className={`hover:text-green-600 text-gray-700 text-2xl ${visibilityClass}`}
+      className={`hover:text-green-600 text-gray-700 text-2xl ${visibilityClass} hover:cursor-pointer`}
       onClick={() => onUpdate(id)}
     />
   ) : null;

@@ -133,12 +133,13 @@ const PageWrapper = ({
               setActivePage={setActivePage}
             />
           </div>
-          {mobile ? (
+          {mobile && (
             <FilterPanelMobile
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              setSubmitButtonClick={setSubmitButtonClick}
             />
-          ) : null}
+          )}
         </div>
         <Searchbar
           setKeyword={setKeyword}

@@ -24,8 +24,15 @@ export default function FilterPanelMobile({
   filterConfig,
   date,
   setFilterObject,
+  setSubmitButtonClick,
 }: FilterPanelProps) {
   const [modalShow, setModalShow] = useState(false);
+
+  function onSubmitClick(e: any) {
+    e.preventDefault();
+
+    setSubmitButtonClick(true);
+  }
 
   return (
     <div className="w-1/3 items-end">
@@ -44,6 +51,7 @@ export default function FilterPanelMobile({
           <FilterPanel
             filterConfig={filterConfig}
             setFilterObject={setFilterObject}
+            setSubmitButtonClick={setSubmitButtonClick}
           />
         }
       />

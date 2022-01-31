@@ -14,4 +14,5 @@ export interface FilterPanelProps {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
+  setSubmitButtonClick: (arg: boolean) => void;
 }

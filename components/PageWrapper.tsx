@@ -73,8 +73,7 @@ const PageWrapper = ({
   useEffect(() => {
     if (activePage > pagesInfo.pages) {
       setActivePage(pagesInfo.pages);
-    }
-    fetchData();
+    } else fetchData();
   }, [pagesInfo.pages, pagesInfo.count]); // it's working when I separate pagesInfo to its two values
   // but when I put it as an object, this useEffect creates a loop
 

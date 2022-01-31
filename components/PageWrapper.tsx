@@ -43,7 +43,6 @@ const PageWrapper = ({
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [filterObject, setFilterObject] = useState<FilterModel>({});
-  const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";

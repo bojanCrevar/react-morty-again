@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { filterConfig } from "../../locations";
 import filter from "../../../utils/sidebarFilter";
 
-const PAGE_SIZE = 20;
+export const PAGE_SIZE = 20;
 
 type locationProps = {
   activePage: string;

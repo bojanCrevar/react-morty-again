@@ -117,6 +117,7 @@ const PageWrapper = ({
             <FilterPanel
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              setActivePage={setActivePage}
             />
           </div>
         </div>
@@ -139,6 +140,7 @@ const PageWrapper = ({
             <FilterPanelMobile
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              setActivePage={setActivePage}
             />
           ) : null}
         </div>

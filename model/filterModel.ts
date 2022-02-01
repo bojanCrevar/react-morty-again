@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface FilterModel {
   [key: string]: string[];
 }
@@ -14,4 +16,5 @@ export interface FilterPanelProps {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
+  setActivePage: (arg: React.SetStateAction<number>) => void;
 }

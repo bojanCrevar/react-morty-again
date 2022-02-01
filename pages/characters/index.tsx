@@ -62,7 +62,7 @@ function Characters({ query }: { query: QueryParams }) {
       {loader ? (
         <Loader />
       ) : (
-        <CharacterList characters={chars} setData={setData} />
+        <CharacterList characters={chars} setData={setData} setLoader={setLoader}/>
       )}
     </PageWrapper>
   );

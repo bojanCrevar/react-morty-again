@@ -10,7 +10,7 @@ describe("Testing Locations Form Component", () => {
       type: "",
       residents: "",
     };
-    const submitHandler = ({ id, name, dimension, type, residents }) => {};
+    const submitHandler = () => {};
 
     render(
       <LocationsFormComponent
@@ -23,14 +23,14 @@ describe("Testing Locations Form Component", () => {
     expect(outputElem).toBeInTheDocument();
   });
 
-  test.only("rendering update button in form component", () => {
+  test("rendering update button in form component", () => {
     let initialData = {
       id: 10,
       name: "Earth",
       dimension: "C-34",
       type: "Planet",
     };
-    const submitHandler = ({ id, name, dimension, type }) => {};
+    const submitHandler = () => {};
 
     render(
       <LocationsFormComponent
@@ -43,7 +43,7 @@ describe("Testing Locations Form Component", () => {
     expect(outputElem).toBeInTheDocument();
   });
 
-  test.only("creating new location", async () => {
+  test("creating new location", async () => {
     let initialData = {
       id: -2,
       name: "",
@@ -73,7 +73,6 @@ describe("Testing Locations Form Component", () => {
     expect(type.value).toBe("Planet");
     await waitFor(() => {
       expect(screen.getByRole("combobox")).toHaveValue("[]");
-      screen.debug(screen.getByRole("combobox"));
     });
     fireEvent.click(screen.getByRole("button", { name: "Add new location!" }));
 

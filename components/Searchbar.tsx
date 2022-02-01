@@ -45,6 +45,7 @@ const Searchbar: React.FC<SearchBarProps> = ({
               placeholder="Search"
               ref={searchKeyword}
               defaultValue={initKeyword}
+              data-testid="keywordInput"
             />
           </div>
           <div className="flex lg:w-1/4 ">

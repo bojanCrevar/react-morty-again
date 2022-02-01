@@ -1,16 +1,11 @@
 import episodesRepo from "../../../utils/episodes-repo";
 import { NextApiRequest, NextApiResponse } from "next";
-import { string } from "yup";
-import filter from "../../../utils/sidebarFilter";
 import { filterConfig } from "../../episodes";
-
-const PAGE_SIZE = 20;
-
-type episodeProps = {
-  activePage: string;
-  keyword: string;
-  sort: string;
-};
+import {
+  buildInfoPage,
+  prepareItems,
+  returnResult,
+} from "../../../utils/apiResponse";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,42 +15,14 @@ export default async function handler(
     default:
     case "GET":
       {
-        let {
-          activePage = "1",
-          keyword = "",
-          sort = "",
-        }: episodeProps = req.query as episodeProps;
-        keyword = keyword.toLowerCase();
-        console.log("req.query API", req.query);
+        const itemsPaginatedAndSorted = prepareItems(
+          episodesRepo.getAll(),
+          req.query,
+          filterConfig
+        );
+        const infoPage = buildInfoPage(itemsPaginatedAndSorted);
 
-        const allEpisodes = episodesRepo.getAll();
-
-        const episodesFiltered = filter(allEpisodes, req.query, filterConfig);
-
-        const episodesSorted =
-          sort === "id"
-            ? episodesFiltered.sort((a, b) => {
-                return a.id - b.id;
-              })
-            : episodesFiltered.sort((a, b) => {
-                const isReversed = sort === "asc" ? 1 : -1;
-                return isReversed * a.name.localeCompare(b.name);
-              });
-
-        let startIndex = (+activePage - 1) * PAGE_SIZE;
-        let endIndex = Math.min(startIndex + PAGE_SIZE, episodesSorted.length);
-
-        const episodesPaginated = episodesSorted.slice(startIndex, endIndex);
-
-        const infoPage = {
-          count: episodesSorted.length,
-          pages: Math.ceil(episodesSorted.length / PAGE_SIZE),
-        };
-
-        res.status(200).json({
-          info: infoPage,
-          results: episodesPaginated,
-        });
+        returnResult(infoPage, itemsPaginatedAndSorted, res);
       }
       break;
     case "POST":

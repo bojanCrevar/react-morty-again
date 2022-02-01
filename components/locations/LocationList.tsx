@@ -13,6 +13,7 @@ import { PAGE_SIZE } from "../../pages/api/locations";
 type LocationsProps = {
   locations: LocationsItem[];
   setData: Dispatch<SetStateAction<ResponseData<LocationsItem>>>;
+  setLoader: Dispatch<SetStateAction<Boolean>>;
   locationsColumns: ColumnCfg<LocationsItem>[];
 };
 
@@ -20,6 +21,7 @@ const LocationList = ({
   locations,
   setData,
   locationsColumns,
+  setLoader
 }: LocationsProps) => {
   const mappedLocations = useCharacters(locations);
   function handleUpdate(id: number) {
@@ -30,9 +32,9 @@ const LocationList = ({
       `/api/locations/${encodeURIComponent(id)}`
     );
     if (response.status === 200) {
+      setLoader(true);
       setData((prev) => ({
         ...prev,
-        results: mappedLocations.filter((x) => x.id !== id),
         info: {
           count: prev.info.count - 1,
           pages:

@@ -85,6 +85,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
           locations={locations}
           setData={setData}
           locationsColumns={locationsColumns}
+          setLoader={setLoader}
         />
       )}
     </PageWrapper>

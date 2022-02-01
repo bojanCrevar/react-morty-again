@@ -4,7 +4,7 @@ import { filterConfig } from "../../characters/index";
 import filter from "../../../utils/sidebarFilter";
 
 //const rmAPI = "https://rickandmortyapi.com/api/character";
-const PAGE_SIZE = 20;
+export const PAGE_SIZE = 20;
 const rickChar = characterRepo.getAll()[0];
 
 function generateDummyChar(charId: string) {

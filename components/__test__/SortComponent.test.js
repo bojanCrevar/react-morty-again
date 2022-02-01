@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import SortComponent from "../SortComponent";
 
-describe("sort test wrapper", () => {
+describe("sort tests", () => {
   let sort;
   let setSort;
   beforeEach(() => {

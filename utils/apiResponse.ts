@@ -1,4 +1,4 @@
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { FilterGroupConfig } from "../model/filterModel";
 import { RMItem } from "../model/RMItem";
 import filter from "./sidebarFilter";
@@ -21,18 +21,19 @@ export function prepareItems(
     requestQuery as itemsParams;
 
   const itemsFiltered = filter(allItems, requestQuery, filterConfig);
+
   const itemsSorted = sortItems(sort, itemsFiltered);
+
   const itemsPaginated = paginateItems(activePage, itemsSorted);
 
-  return itemsPaginated;
+  return { itemsSorted, itemsPaginated };
 }
 
 function paginateItems(activePage: string, itemsSorted: RMItem[]) {
   let startIndex = (+activePage - 1) * PAGE_SIZE;
   let endIndex = Math.min(startIndex + PAGE_SIZE, itemsSorted.length);
 
-  const itemsPaginated = itemsSorted.slice(startIndex, endIndex);
-  return itemsPaginated;
+  return itemsSorted.slice(startIndex, endIndex);
 }
 
 export function sortItems(sort: string, itemsFiltered: RMItem[]) {
@@ -61,5 +62,12 @@ export function buildInfoPage(itemsSorted: RMItem[]) {
   return {
     count: itemsSorted.length,
     pages: Math.ceil(itemsSorted.length / PAGE_SIZE),
+  };
+}
+
+export function createObject(body: NextApiRequest, allItems: RMItem[]) {
+  return {
+    ...body,
+    id: allItems.reduce((a, b) => Math.max(a, b.id), 0) + 1,
   };
 }

@@ -1,10 +1,12 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Link from "next/link";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import * as Yup from "yup";
 import { LocationsItem } from "../../model/locationsModel";
+import MultipleSelect from "../MultipleSelect";
+import { ChangeEvent } from "react";
 
 type LocationFormProps = {
   submitHandler: (location: LocationsItem) => void;
@@ -37,6 +39,7 @@ function LocationFormComponent({
     name: initialData.name || "",
     dimension: initialData.dimension || "",
     type: initialData.type || "",
+    residents: initialData.residents || [],
   };
 
   const formik = useFormik({
@@ -102,6 +105,13 @@ function LocationFormComponent({
             {formik.errors.type}
           </Form.Control.Feedback>
         </FloatingLabel>
+        <MultipleSelect
+          name="residents"
+          onChange={(e: ChangeEvent<string[]>) => {
+            formik.setFieldValue("residents", e);
+          }}
+          value={formik.values.residents}
+        />
 
         <div className="flex flex-row p-2">
           <Link href="/locations">

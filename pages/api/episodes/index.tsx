@@ -15,14 +15,14 @@ export default async function handler(
     default:
     case "GET":
       {
-        const itemsPaginatedAndSorted = prepareItems(
+        const { itemsSorted, itemsPaginated } = prepareItems(
           episodesRepo.getAll(),
           req.query,
           filterConfig
         );
-        const infoPage = buildInfoPage(itemsPaginatedAndSorted);
+        const infoPage = buildInfoPage(itemsSorted);
 
-        returnResult(infoPage, itemsPaginatedAndSorted, res);
+        returnResult(infoPage, itemsPaginated, res);
       }
       break;
     case "POST":

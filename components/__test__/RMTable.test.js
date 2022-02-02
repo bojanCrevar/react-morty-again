@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RMTable from "../RMTable";
+import { ActionContext } from "../../context/ActionContext";
 
 describe("RMTable component test", () => {
   let tableData;
@@ -36,7 +37,7 @@ describe("RMTable component test", () => {
       { key: "type", title: "Type" },
       {
         key: "charactersString",
-        title: "Residents"
+        title: "Residents",
       },
     ];
   });
@@ -48,7 +49,14 @@ describe("RMTable component test", () => {
   });
 
   test("Showing update button when hovered", () => {
-    render(<RMTable tableData={tableData} columnConfig={columnCfg} />);
+    const handleUpdate = jest.fn();
+    const handleDelete = jest.fn();
+
+    render(
+      <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+        <RMTable tableData={tableData} columnConfig={columnCfg} />{" "}
+      </ActionContext.Provider>
+    );
 
     let rowElement = screen.getByRole("row", {
       name: "Earth C-2 Planet Rick, Morty",
@@ -60,6 +68,10 @@ describe("RMTable component test", () => {
     expect(rowElement.getElementsByClassName("fa-edit visible")).toHaveLength(
       1
     );
+
+    expect(
+      rowElement.getElementsByClassName("fa-trash-alt visible")
+    ).toHaveLength(1);
   });
 
   test("Getting elements with class invisible which are not hovered", () => {

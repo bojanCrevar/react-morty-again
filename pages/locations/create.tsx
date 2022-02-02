@@ -5,11 +5,17 @@ import Wrapper from "../../components/Wrapper";
 import { LocationsItem, emptyLocationItem } from "../../model/locationsModel";
 
 export default function CreateLocation() {
-  async function submitHandler({ name, dimension, type }: LocationsItem) {
+  async function submitHandler({
+    name,
+    dimension,
+    type,
+    residents,
+  }: LocationsItem) {
     const location = {
       name: name,
       dimension: dimension,
       type: type,
+      residents: residents,
     };
     const response = await axios.post("/api/locations", location);
     if (response.status === 200) {

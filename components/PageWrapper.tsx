@@ -71,11 +71,10 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
-    if (activePage > pagesInfo.pages) {
+    if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
       setActivePage(pagesInfo.pages);
     } else fetchData();
-  }, [pagesInfo.pages, pagesInfo.count]); // it's working when I separate pagesInfo to its two values
-  // but when I put it as an object, this useEffect creates a loop
+  }, [pagesInfo.pages, pagesInfo.count]);
 
   useEffect(() => {
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";

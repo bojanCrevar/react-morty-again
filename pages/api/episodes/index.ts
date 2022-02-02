@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { filterConfig } from "../../episodes";
 import {
   buildInfoPage,
+  createObject,
   prepareItems,
   returnResult,
 } from "../../../utils/apiResponse";
@@ -27,11 +28,7 @@ export default async function handler(
       break;
     case "POST":
       {
-        const body = req.body;
-        const insertObj = {
-          id: episodesRepo.getAll().reduce((a, b) => Math.max(a, b.id), 0) + 1,
-          ...body,
-        };
+        const insertObj = createObject(req.body, episodesRepo.getAll());
         episodesRepo.create(insertObj);
         res.status(200).json("success");
       }

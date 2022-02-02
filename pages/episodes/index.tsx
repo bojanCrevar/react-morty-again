@@ -79,6 +79,7 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
           episodes={episodes}
           episodeColumns={episodeColumns}
           setData={setData}
+          setLoader={setLoader}
         />
       )}
     </PageWrapper>

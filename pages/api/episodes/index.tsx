@@ -1,10 +1,10 @@
-import episodesRepo from "../../../utils/episodes-repo";
+import episodesRepo from "../../../utils/episode-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { string } from "yup";
 import filter from "../../../utils/sidebarFilter";
 import { filterConfig } from "../../episodes";
 
-const PAGE_SIZE = 20;
+export const PAGE_SIZE = 20;
 
 type episodeProps = {
   activePage: string;
@@ -66,14 +66,6 @@ export default async function handler(
           ...body,
         };
         episodesRepo.create(insertObj);
-        res.status(200).json("success");
-      }
-      break;
-    case "DELETE":
-      {
-        let { id } = req.query;
-        episodesRepo.delete(id);
-
         res.status(200).json("success");
       }
       break;

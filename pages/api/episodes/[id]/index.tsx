@@ -1,4 +1,4 @@
-import episodesRepo from "../../../../utils/episodes-repo";
+import episodesRepo from "../../../../utils/episode-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -22,6 +22,14 @@ export default async function handler(
       {
         const body = req.body;
         episodesRepo.update(body);
+        res.status(200).json("success");
+      }
+      break;
+    case "DELETE":
+      {
+        let { id } = req.query;
+        episodesRepo.delete(id);
+
         res.status(200).json("success");
       }
       break;

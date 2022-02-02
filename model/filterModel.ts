@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface FilterModel {
   [key: string]: string[];
 }
@@ -15,4 +17,6 @@ export interface FilterPanelProps {
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
   setSubmitButtonClick: (arg: boolean) => void;
+  setActivePage: (arg: React.SetStateAction<number>) => void;
+  triggerSearch: () => void;
 }

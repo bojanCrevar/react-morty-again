@@ -13,6 +13,7 @@ import { RMItem } from "../../model/RMItem";
 import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
+import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -28,10 +29,11 @@ export const filterConfig: FilterGroupConfig[] = [
     key: "type",
   },
   {
-    title: "Residents",
-    values: ["1-15", "16-30", ">30"],
+    title: "Residents count",
+    values: ["0-15", "16-30", ">30"],
     type: "checkbox",
     key: "residents",
+    operatorType: FILTER_CONFIG_COMPARISON_COUNT,
   },
 ];
 
@@ -85,6 +87,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
           locations={locations}
           setData={setData}
           locationsColumns={locationsColumns}
+          setLoader={setLoader}
         />
       )}
     </PageWrapper>

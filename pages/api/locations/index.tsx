@@ -3,13 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { filterConfig } from "../../locations";
 import filter from "../../../utils/sidebarFilter";
 
-const PAGE_SIZE = 20;
+export const PAGE_SIZE = 20;
 
 type locationProps = {
   activePage: string;
-  keyword: string;
   sort: string;
-  filterObject: string;
 };
 
 export default async function handler(
@@ -19,14 +17,8 @@ export default async function handler(
   switch (req.method) {
     case "GET":
       {
-        let {
-          activePage = "1",
-          keyword = "",
-          sort = "",
-          filterObject = "",
-        }: locationProps = req.query as locationProps;
-        keyword = keyword.toLowerCase();
-        //console.log("req.query", req.query);
+        let { activePage = "1", sort = "" }: locationProps =
+          req.query as locationProps;
 
         const allLocations = locationsRepo.getAll();
 

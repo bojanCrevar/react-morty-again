@@ -45,6 +45,10 @@ const PageWrapper = ({
   const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
+  function triggerSearch() {
+    setSubmitButtonClick(!submitButtonClick);
+  }
+
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";
 
@@ -72,6 +76,12 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
+    if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+      setActivePage(pagesInfo.pages);
+    } else fetchData();
+  }, [pagesInfo.pages, pagesInfo.count]);
+
+  useEffect(() => {
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
@@ -84,13 +94,10 @@ const PageWrapper = ({
     );
     setLoader(true);
     fetchData();
-    setSubmitButtonClick(false);
   }, [activePage, sort, submitButtonClick]);
 
   useEffect(() => {
     function handleResize() {
-      // console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
-
       if (window.innerWidth < 1024) {
         setMobile(true);
       } else {
@@ -114,7 +121,8 @@ const PageWrapper = ({
             <FilterPanel
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
-              setSubmitButtonClick={setSubmitButtonClick}
+              triggerSearch={triggerSearch}
+              setActivePage={setActivePage}
             />
           </div>
         </div>
@@ -137,7 +145,8 @@ const PageWrapper = ({
             <FilterPanelMobile
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
-              setSubmitButtonClick={setSubmitButtonClick}
+              triggerSearch={triggerSearch}
+              setActivePage={setActivePage}
             />
           )}
         </div>
@@ -145,7 +154,7 @@ const PageWrapper = ({
           setKeyword={setKeyword}
           initKeyword={keyword}
           setActivePage={setActivePage}
-          setSubmitButtonClick={setSubmitButtonClick}
+          triggerSearch={triggerSearch}
         />
         <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
           <div className="flex items-start lg:w-1/2">{buttonAdd}</div>

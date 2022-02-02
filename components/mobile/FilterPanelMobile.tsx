@@ -24,14 +24,13 @@ export default function FilterPanelMobile({
   filterConfig,
   date,
   setFilterObject,
-  setSubmitButtonClick,
+  triggerSearch,
+  setActivePage,
 }: FilterPanelProps) {
   const [modalShow, setModalShow] = useState(false);
 
-  function onSubmitClick(e: any) {
-    e.preventDefault();
-
-    setSubmitButtonClick(true);
+  function closeModal() {
+    setModalShow(false);
   }
 
   return (
@@ -51,7 +50,9 @@ export default function FilterPanelMobile({
           <FilterPanel
             filterConfig={filterConfig}
             setFilterObject={setFilterObject}
-            setSubmitButtonClick={setSubmitButtonClick}
+            setActivePage={setActivePage}
+            triggerSearch={triggerSearch}
+            closeModal={closeModal}
           />
         }
       />

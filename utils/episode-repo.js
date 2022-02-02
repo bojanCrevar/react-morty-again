@@ -20,7 +20,7 @@ function create(episode) {
   episodes.push(episode);
 }
 
-function update({ id, name, air_date, episode }) {
+function update({ id, name, air_date, episode, characters }) {
   const episodeObject = this.getById(id);
   const index = episodes.findIndex((x) => x.id.toString() === id.toString());
 
@@ -29,6 +29,7 @@ function update({ id, name, air_date, episode }) {
     name: name,
     air_date: air_date,
     episode: episode,
+    characters: characters,
   };
 }
 

@@ -17,4 +17,5 @@ export interface FilterPanelProps {
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
   setActivePage: (arg: React.SetStateAction<number>) => void;
+  triggerSearch: () => void;
 }

@@ -10,7 +10,8 @@ type FilterPanelProps = {
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
   setActivePage: (arg: React.SetStateAction<number>) => void;
-  onSearchClick?: () => void;
+  triggerSearch: () => void;
+  closeModal?: () => void;
 };
 
 type GroupValueRefsMap = {
@@ -21,8 +22,9 @@ export default function FilterPanel({
   filterConfig,
   date,
   setFilterObject,
+  triggerSearch,
   setActivePage,
-  onSearchClick,
+  closeModal,
 }: FilterPanelProps) {
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
@@ -33,9 +35,13 @@ export default function FilterPanel({
 
   function onSubmitClick(e: any) {
     e.preventDefault();
+    triggerSearch();
+    setActivePage(1);
+  }
+
+  function onChangeState() {
     const returnObject: FilterModel = {};
     filterConfig.forEach((group) => {
-      console.log("group", group);
       const groupValues = groupRefs.current[group.key]
         .filter((refValue) => refValue.current!.checked)
         .map((refValue) => refValue.current!.id);
@@ -46,12 +52,11 @@ export default function FilterPanel({
     });
 
     setFilterObject(returnObject);
-    setActivePage(1);
   }
 
   return (
     <div className="bg-white rounded-md p-2">
-      <form onSubmit={(e) => onSubmitClick(e)}>
+      <form onSubmit={(e) => onSubmitClick(e)} onChange={() => onChangeState()}>
         <div className="font-bold text-center pt-2 text-lg">Filter panel</div>
         <div className="overflow-y-auto max-h-[510px] ">
           {filterConfig.map((object) => (
@@ -107,7 +112,7 @@ export default function FilterPanel({
             className="w-full"
             variant="primary"
             type="submit"
-            onClick={onSearchClick}
+            onClick={closeModal}
           >
             Search
           </Button>

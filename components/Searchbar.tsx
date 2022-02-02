@@ -6,19 +6,19 @@ type SearchBarProps = {
   setKeyword: (keyword: string) => void;
   initKeyword: string;
   setActivePage: (activePage: number) => void;
-  setSubmitButtonClick: (val: boolean) => void;
+  triggerSearch: () => void;
 };
 
 const Searchbar: React.FC<SearchBarProps> = ({
   setKeyword,
   initKeyword,
   setActivePage,
-  setSubmitButtonClick,
+  triggerSearch,
 }) => {
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
     setActivePage(1);
-    setSubmitButtonClick(true);
+    triggerSearch();
   }
 
   function onChangeState() {
@@ -29,7 +29,6 @@ const Searchbar: React.FC<SearchBarProps> = ({
     setKeyword("");
     setActivePage(1);
     searchKeyword.current!.value = "";
-    setSubmitButtonClick(true);
   }
 
   const searchKeyword = useRef<HTMLInputElement>(null);

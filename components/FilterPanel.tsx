@@ -9,9 +9,9 @@ type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
-  setSubmitButtonClick: (val: boolean) => void;
   setActivePage: (arg: React.SetStateAction<number>) => void;
-  onSearchClick?: () => void;
+  triggerSearch: () => void;
+  closeModal?: () => void;
 };
 
 type GroupValueRefsMap = {
@@ -22,9 +22,9 @@ export default function FilterPanel({
   filterConfig,
   date,
   setFilterObject,
-  setSubmitButtonClick,
+  triggerSearch,
   setActivePage,
-  onSearchClick,
+  closeModal,
 }: FilterPanelProps) {
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
@@ -35,8 +35,8 @@ export default function FilterPanel({
 
   function onSubmitClick(e: any) {
     e.preventDefault();
-
-    setSubmitButtonClick(true);
+    triggerSearch();
+    setActivePage(1);
   }
 
   function onChangeState() {
@@ -52,7 +52,6 @@ export default function FilterPanel({
     });
 
     setFilterObject(returnObject);
-    setActivePage(1);
   }
 
   return (
@@ -113,7 +112,7 @@ export default function FilterPanel({
             className="w-full"
             variant="primary"
             type="submit"
-            onClick={onSearchClick}
+            onClick={closeModal}
           >
             Search
           </Button>

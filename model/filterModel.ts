@@ -16,7 +16,6 @@ export interface FilterPanelProps {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
-  setSubmitButtonClick: (arg: boolean) => void;
   setActivePage: (arg: React.SetStateAction<number>) => void;
   triggerSearch: () => void;
 }

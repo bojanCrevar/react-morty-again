@@ -1,4 +1,4 @@
-import episodesRepo from "../../../../utils/episode-repo";
+import episodesRepo from "../../../../utils/episodes-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

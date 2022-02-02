@@ -4,8 +4,8 @@ const episodesRepo = {
   getAll,
   getById,
   create,
-  //update,
-  //delete: _delete,
+  update,
+  delete: _delete,
 };
 
 function getAll() {
@@ -20,23 +20,21 @@ function create(episode) {
   episodes.push(episode);
 }
 
-/*function update({ id, name, status, gender, species, location }) {
-  const user = characters.find((x) => x.id.toString() === id.toString());
-  const index = characters.findIndex((x) => x.id.toString() === id.toString());
+function update({ id, name, air_date, episode }) {
+  const episodeObject = this.getById(id);
+  const index = episodes.findIndex((x) => x.id.toString() === id.toString());
 
-  characters[index] = {
-    ...user,
+  episodes[index] = {
+    ...episodeObject,
     name: name,
-    location: { ...user.location, name: location },
-    status: status,
-    gender: gender,
-    species: species,
+    air_date: air_date,
+    episode: episode,
   };
 }
 
 function _delete(id) {
-  // filter out deleted user and save
-  characters = characters.filter((x) => x.id.toString() !== id.toString());
+  // filter out deleted episode and save
+  episodes = episodes.filter((x) => x.id.toString() !== id.toString());
 }
-*/
+
 export default episodesRepo;

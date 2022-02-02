@@ -75,7 +75,11 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       {loader ? (
         <Loader />
       ) : (
-        <EpisodeList episodes={episodes} episodeColumns={episodeColumns} />
+        <EpisodeList
+          episodes={episodes}
+          episodeColumns={episodeColumns}
+          setData={setData}
+        />
       )}
     </PageWrapper>
   );

@@ -69,5 +69,13 @@ export default async function handler(
         res.status(200).json("success");
       }
       break;
+    case "DELETE":
+      {
+        let { id } = req.query;
+        episodesRepo.delete(id);
+
+        res.status(200).json("success");
+      }
+      break;
   }
 }

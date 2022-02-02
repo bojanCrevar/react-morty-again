@@ -13,6 +13,22 @@ import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
 import Loader from "../../components/Spinner";
 
+export const filterConfig: FilterGroupConfig[] = [
+  {
+    title: "Gender",
+    values: ["Male", "Female", "Unknown"],
+    type: "checkbox",
+    key: "gender",
+  },
+
+  {
+    title: "Status",
+    values: ["Dead", "Alive", "Unknown"],
+    type: "checkbox",
+    key: "status",
+  },
+];
+
 function Characters({ query }: { query: QueryParams }) {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
   const [loader, setLoader] = useState<Boolean>(false);
@@ -21,22 +37,6 @@ function Characters({ query }: { query: QueryParams }) {
     results: [],
   });
   const { results: chars, info: pagesInfo } = data;
-
-  const filterConfig: FilterGroupConfig[] = [
-    {
-      title: "Gender",
-      values: ["Male", "Female", "Unknown"],
-      type: "checkbox",
-      key: "gender",
-    },
-
-    {
-      title: "Status",
-      values: ["Dead", "Alive", "Unknown"],
-      type: "checkbox",
-      key: "status",
-    },
-  ];
 
   const buttonAdd = (
     <Link href="/characters/create">
@@ -62,7 +62,7 @@ function Characters({ query }: { query: QueryParams }) {
       {loader ? (
         <Loader />
       ) : (
-        <CharacterList characters={chars} setData={setData} />
+        <CharacterList characters={chars} setData={setData} setLoader={setLoader}/>
       )}
     </PageWrapper>
   );

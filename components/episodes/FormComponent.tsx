@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import moment from "moment";
 import { EpisodeItem, UNDEFINED_ID } from "../../model/episodeModel";
 import EpisodeFormComponentInput from "../../model/episodeFormComponentInput";
+import { ChangeEvent } from "react";
+import MultipleSelect from "../MultipleSelect";
 
 function FormComponent({
   submitHandler,
@@ -104,6 +106,13 @@ function FormComponent({
             {formik.errors.episode}
           </Form.Control.Feedback>
         </FloatingLabel>
+        <MultipleSelect
+          name="characters"
+          onChange={(e: ChangeEvent<string[]>) => {
+            formik.setFieldValue("characters", e);
+          }}
+          value={formik.values.characters}
+        />
 
         <div className="flex flex-row p-2">
           <Link href="/episodes">

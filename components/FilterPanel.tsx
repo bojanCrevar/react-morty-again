@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Button from "react-bootstrap/Button";
-import { useRef, createRef, RefObject } from "react";
+import React, { useRef, createRef, RefObject } from "react";
 import { FilterModel } from "../model/filterModel";
 import { FilterGroupConfig } from "../model/filterModel";
 
@@ -9,6 +9,8 @@ type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
+  setActivePage: (arg: React.SetStateAction<number>) => void;
+  onSearchClick?: () => void;
 };
 
 type GroupValueRefsMap = {
@@ -19,6 +21,8 @@ export default function FilterPanel({
   filterConfig,
   date,
   setFilterObject,
+  setActivePage,
+  onSearchClick,
 }: FilterPanelProps) {
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
@@ -42,6 +46,7 @@ export default function FilterPanel({
     });
 
     setFilterObject(returnObject);
+    setActivePage(1);
   }
 
   return (
@@ -98,7 +103,12 @@ export default function FilterPanel({
         <hr className="solid" />
 
         <div className="mt-2">
-          <Button className="w-full" variant="primary" type="submit">
+          <Button
+            className="w-full"
+            variant="primary"
+            type="submit"
+            onClick={onSearchClick}
+          >
             Search
           </Button>
         </div>

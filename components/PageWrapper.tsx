@@ -71,6 +71,13 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
+    if (activePage > pagesInfo.pages) {
+      setActivePage(pagesInfo.pages);
+    } else fetchData();
+  }, [pagesInfo.pages, pagesInfo.count]); // it's working when I separate pagesInfo to its two values
+  // but when I put it as an object, this useEffect creates a loop
+
+  useEffect(() => {
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
@@ -87,8 +94,6 @@ const PageWrapper = ({
 
   useEffect(() => {
     function handleResize() {
-      // console.log("resized to: ", window.innerWidth, "x", window.innerHeight);
-
       if (window.innerWidth < 1024) {
         setMobile(true);
       } else {
@@ -104,8 +109,6 @@ const PageWrapper = ({
     };
   });
 
-  //console.log("mobile", mobile);
-
   return (
     <div className="flex mb-4 w-full">
       {!mobile ? (
@@ -114,6 +117,7 @@ const PageWrapper = ({
             <FilterPanel
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              setActivePage={setActivePage}
             />
           </div>
         </div>
@@ -136,6 +140,7 @@ const PageWrapper = ({
             <FilterPanelMobile
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              setActivePage={setActivePage}
             />
           ) : null}
         </div>

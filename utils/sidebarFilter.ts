@@ -1,4 +1,5 @@
 import { FilterGroupConfig } from "../model/filterModel";
+import { RMItem } from "../model/RMItem";
 
 export const FILTER_CONFIG_COMPARISON_COUNT = "comparison.count";
 export const FILTER_CONFIG_EXACT = "exact";
@@ -33,12 +34,12 @@ function setupFilterValues(query: { [key: string]: string | string[] }) {
 }
 
 export default function filter(
-  allItems: Item[],
+  allItems: RMItem[],
   query: {
     [key: string]: string | string[];
   },
   filterConfig: FilterGroupConfig[]
-) {
+): RMItem[] {
   const filterValues = setupFilterValues(query);
 
   if (Object.keys(filterValues).length === 0) {

@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { FilterGroupConfig } from "../model/filterModel";
+import { PaginationModel } from "../model/paginationModel";
 import { RMItem } from "../model/RMItem";
 import filter from "./sidebarFilter";
 
@@ -26,7 +27,7 @@ export function prepareItems(
 
   const itemsPaginated = paginateItems(activePage, itemsSorted);
 
-  return { itemsSorted, itemsPaginated };
+  return { numberOfItems: itemsFiltered.length, preparedItems: itemsPaginated };
 }
 
 function paginateItems(activePage: string, itemsSorted: RMItem[]) {
@@ -48,24 +49,24 @@ export function sortItems(sort: string, itemsFiltered: RMItem[]) {
 }
 
 export function returnResult(
-  infoPage: { count: number; pages: number },
-  itemsPaginated: RMItem[],
+  infoPage: PaginationModel,
+  preparedItems: RMItem[],
   res: NextApiResponse
 ) {
   res.status(200).json({
     info: infoPage,
-    results: itemsPaginated,
+    results: preparedItems,
   });
 }
 
-export function buildInfoPage(itemsSorted: RMItem[]) {
+export function buildInfoPage(numberOfItems: number) {
   return {
-    count: itemsSorted.length,
-    pages: Math.ceil(itemsSorted.length / PAGE_SIZE),
+    count: numberOfItems,
+    pages: Math.ceil(numberOfItems / PAGE_SIZE),
   };
 }
 
-export function createObject(body: NextApiRequest, allItems: RMItem[]) {
+export function createObject(body: RMItem, allItems: RMItem[]) {
   return {
     ...body,
     id: allItems.reduce((a, b) => Math.max(a, b.id), 0) + 1,

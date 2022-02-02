@@ -15,15 +15,15 @@ export default async function handler(
   switch (req.method) {
     case "GET":
       {
-        const { itemsSorted, itemsPaginated } = prepareItems(
+        const { numberOfItems, preparedItems } = prepareItems(
           locationsRepo.getAll(),
           req.query,
           filterConfig
         );
 
-        const infoPage = buildInfoPage(itemsSorted);
+        const infoPage = buildInfoPage(numberOfItems);
 
-        returnResult(infoPage, itemsPaginated, res);
+        returnResult(infoPage, preparedItems, res);
       }
       break;
 

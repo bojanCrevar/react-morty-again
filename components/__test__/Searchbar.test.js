@@ -9,7 +9,7 @@ describe("Searchbar component test", () => {
     let setActivePage;
     let activePage;
     let keyword;
-    let setSubmitButtonClick;
+    let triggerSearch;
 
     keyword = "";
     setActivePage = jest.fn((activeArg) => (activePage = activeArg));
@@ -18,14 +18,14 @@ describe("Searchbar component test", () => {
       keyword = keyword;
     });
 
-    setSubmitButtonClick = jest.fn();
+    triggerSearch = jest.fn();
 
     render(
       <Searchbar
         setKeyword={setKeyword}
         setActivePage={setActivePage}
         initKeyword={keyword}
-        setSubmitButtonClick={setSubmitButtonClick}
+        triggerSearch={triggerSearch}
       />
     );
 
@@ -39,7 +39,7 @@ describe("Searchbar component test", () => {
     fireEvent.click(buttonElement);
 
     expect(input.value).toBe("Rick");
-    expect(setSubmitButtonClick).toHaveBeenCalled();
+    expect(triggerSearch).toHaveBeenCalled();
     expect(setKeyword).toHaveBeenCalledWith("Rick");
     expect(setActivePage).toHaveBeenCalledWith(1);
   });

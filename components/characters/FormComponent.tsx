@@ -42,8 +42,6 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
     image: initialData.image || "",
   };
 
-  console.log("initialValue.location", initialValues.location);
-
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: charactersSchema,

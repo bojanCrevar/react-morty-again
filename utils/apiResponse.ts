@@ -3,6 +3,7 @@ import { FilterGroupConfig } from "../model/filterModel";
 import { PaginationModel } from "../model/paginationModel";
 import { RMItem } from "../model/RMItem";
 import filter from "./sidebarFilter";
+import _ from "lodash";
 
 export const PAGE_SIZE = 20;
 
@@ -69,6 +70,7 @@ export function buildInfoPage(numberOfItems: number) {
 export function createObject(body: RMItem, allItems: RMItem[]) {
   return {
     ...body,
-    id: allItems.reduce((a, b) => Math.max(a, b.id), 0) + 1,
+    //id: allItems.reduce((a, b) => Math.max(a, b.id), 0) + 1,
+    id: allItems.length > 0 ? _.maxBy(allItems, "id")!.id + 1 : 1,
   };
 }

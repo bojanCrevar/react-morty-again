@@ -26,7 +26,6 @@ export default async function handler(
           sort = "",
         }: episodeProps = req.query as episodeProps;
         keyword = keyword.toLowerCase();
-        console.log("req.query API", req.query);
 
         const allEpisodes = episodesRepo.getAll();
 

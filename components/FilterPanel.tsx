@@ -31,7 +31,6 @@ export default function FilterPanel({
     e.preventDefault();
     const returnObject: FilterModel = {};
     filterConfig.forEach((group) => {
-      console.log("group", group);
       const groupValues = groupRefs.current[group.key]
         .filter((refValue) => refValue.current!.checked)
         .map((refValue) => refValue.current!.id);

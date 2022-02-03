@@ -37,8 +37,6 @@ export default async function handler(
           filterObject = "",
         }: charactersProps = req.query as charactersProps;
 
-        //console.log("req.query", req.query);
-
         let allChars = characterRepo.getAll();
 
         if (characters) {

@@ -24,12 +24,15 @@ export default function FilterPanelMobile({
   filterConfig,
   date,
   setFilterObject,
+  triggerSearch,
   setActivePage,
 }: FilterPanelProps) {
   const [modalShow, setModalShow] = useState(false);
-  const onSearchClick = () => {
+
+  function closeModal() {
     setModalShow(false);
-  };
+  }
+
   return (
     <div className="w-1/3 items-end">
       <Button
@@ -48,7 +51,8 @@ export default function FilterPanelMobile({
             filterConfig={filterConfig}
             setFilterObject={setFilterObject}
             setActivePage={setActivePage}
-            onSearchClick={onSearchClick}
+            triggerSearch={triggerSearch}
+            closeModal={closeModal}
           />
         }
       />

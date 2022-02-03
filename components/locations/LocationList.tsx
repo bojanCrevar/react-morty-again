@@ -8,7 +8,7 @@ import { LocationsItem } from "../../model/locationsModel";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
-import { PAGE_SIZE } from "../../pages/api/locations";
+import { PAGE_SIZE } from "../../utils/apiResponse";
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -21,7 +21,7 @@ const LocationList = ({
   locations,
   setData,
   locationsColumns,
-  setLoader
+  setLoader,
 }: LocationsProps) => {
   const mappedLocations = useCharacters(locations);
   function handleUpdate(id: number) {

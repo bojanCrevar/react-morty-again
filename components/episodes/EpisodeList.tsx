@@ -8,7 +8,7 @@ import NoResults from "../NoResults";
 import axios from "axios";
 import { ResponseData } from "../../model/ResponseDataModel";
 import React, { Dispatch, SetStateAction } from "react";
-import { PAGE_SIZE } from "../../pages/api/episodes";
+import { PAGE_SIZE } from "../../utils/apiResponse";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];

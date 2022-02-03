@@ -58,6 +58,7 @@ function FormComponent({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             isInvalid={!!(formik.touched.name && formik.errors.name)}
+            data-testid="name"
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.name}
@@ -78,6 +79,7 @@ function FormComponent({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             isInvalid={!!(formik.touched.air_date && formik.errors.air_date)}
+            data-testid="air_date"
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.air_date}
@@ -98,6 +100,7 @@ function FormComponent({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             isInvalid={!!(formik.touched.episode && formik.errors.episode)}
+            data-testid="episode"
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.episode}
@@ -119,6 +122,7 @@ function FormComponent({
             variant="btn btn-outline-success w-1/2"
             type="submit"
             disabled={!formik.isValid}
+            data-testid="button"
           >
             {initialData.id === UNDEFINED_ID
               ? "Create episode"

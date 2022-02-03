@@ -1,4 +1,4 @@
-import episodesRepo from "../../../utils/episodes-repo";
+import episodesRepo from "../../../utils/episode-repo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { filterConfig } from "../../episodes";
 import {

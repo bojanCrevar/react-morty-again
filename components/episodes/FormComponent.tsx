@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import moment from "moment";
 import { EpisodeItem, UNDEFINED_ID } from "../../model/episodeModel";
 import EpisodeFormComponentInput from "../../model/episodeFormComponentInput";
+import { ChangeEvent } from "react";
+import MultipleSelect from "../MultipleSelect";
 
 function FormComponent({
   submitHandler,
@@ -56,6 +58,7 @@ function FormComponent({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             isInvalid={!!(formik.touched.name && formik.errors.name)}
+            data-testid="name"
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.name}
@@ -76,6 +79,7 @@ function FormComponent({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             isInvalid={!!(formik.touched.air_date && formik.errors.air_date)}
+            data-testid="air_date"
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.air_date}
@@ -96,11 +100,19 @@ function FormComponent({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             isInvalid={!!(formik.touched.episode && formik.errors.episode)}
+            data-testid="episode"
           />
           <Form.Control.Feedback type="invalid">
             {formik.errors.episode}
           </Form.Control.Feedback>
         </FloatingLabel>
+        <MultipleSelect
+          name="characters"
+          onChange={(e: ChangeEvent<string[]>) => {
+            formik.setFieldValue("characters", e);
+          }}
+          value={formik.values.characters}
+        />
 
         <div className="flex flex-row p-2">
           <Link href="/episodes">
@@ -110,8 +122,9 @@ function FormComponent({
             variant="btn btn-outline-success w-1/2"
             type="submit"
             disabled={!formik.isValid}
+            data-testid="button"
           >
-            {initialData.id == UNDEFINED_ID
+            {initialData.id === UNDEFINED_ID
               ? "Create episode"
               : "Update episode"}
           </Button>

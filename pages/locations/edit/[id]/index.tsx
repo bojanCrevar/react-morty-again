@@ -19,12 +19,14 @@ const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
     name,
     dimension,
     type,
+    residents,
   }: LocationsItem) => {
     const location = {
       id: id,
       name: name,
       dimension: dimension,
       type: type,
+      residents: residents,
     };
 
     const response = await axios.put(

@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Button from "react-bootstrap/Button";
-import { useRef, createRef, RefObject } from "react";
+import React, { useRef, createRef, RefObject } from "react";
 import { FilterModel } from "../model/filterModel";
 import { FilterGroupConfig } from "../model/filterModel";
 
@@ -9,6 +9,9 @@ type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setFilterObject: (e: FilterModel) => void;
+  setActivePage: (arg: React.SetStateAction<number>) => void;
+  triggerSearch: () => void;
+  closeModal?: () => void;
 };
 
 type GroupValueRefsMap = {
@@ -19,6 +22,9 @@ export default function FilterPanel({
   filterConfig,
   date,
   setFilterObject,
+  triggerSearch,
+  setActivePage,
+  closeModal,
 }: FilterPanelProps) {
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
@@ -29,6 +35,11 @@ export default function FilterPanel({
 
   function onSubmitClick(e: any) {
     e.preventDefault();
+    triggerSearch();
+    setActivePage(1);
+  }
+
+  function onChangeState() {
     const returnObject: FilterModel = {};
     filterConfig.forEach((group) => {
       const groupValues = groupRefs.current[group.key]
@@ -45,7 +56,7 @@ export default function FilterPanel({
 
   return (
     <div className="bg-white rounded-md p-2">
-      <form onSubmit={(e) => onSubmitClick(e)}>
+      <form onSubmit={(e) => onSubmitClick(e)} onChange={() => onChangeState()}>
         <div className="font-bold text-center pt-2 text-lg">Filter panel</div>
         <div className="overflow-y-auto max-h-[510px] ">
           {filterConfig.map((object) => (
@@ -97,7 +108,12 @@ export default function FilterPanel({
         <hr className="solid" />
 
         <div className="mt-2">
-          <Button className="w-full" variant="primary" type="submit">
+          <Button
+            className="w-full"
+            variant="primary"
+            type="submit"
+            onClick={closeModal}
+          >
             Search
           </Button>
         </div>

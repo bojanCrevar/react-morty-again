@@ -11,9 +11,14 @@ const SortComponent = ({ setSort, initSort }: SortCOmponentParams) => {
         onChange={(e) => setSort(e.target.value)}
         className="rounded w-2/5 text-left text-base ml-1 p-1 bg-gray-300 lg:w-3/4 lg:ml-0"
         defaultValue={initSort}
+        data-testid="select"
       >
-        <option value="id">ID</option>
-        <option value="asc">Name ascending</option>
+        <option data-testid="id" value="id">
+          ID
+        </option>
+        <option data-testid="asc" value="asc">
+          Name ascending
+        </option>
         <option value="desc">Name descending</option>
       </select>
     </div>

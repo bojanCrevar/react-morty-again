@@ -43,6 +43,11 @@ const PageWrapper = ({
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [filterObject, setFilterObject] = useState<FilterModel>({});
+  const [submitButtonClick, setSubmitButtonClick] = useState(false);
+
+  function triggerSearch() {
+    setSubmitButtonClick(!submitButtonClick);
+  }
 
   function constructFilterQuery(filterObject: FilterModel) {
     let filterQuery = "";
@@ -71,6 +76,12 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
+    if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+      setActivePage(pagesInfo.pages);
+    } else fetchData();
+  }, [pagesInfo.pages, pagesInfo.count]);
+
+  useEffect(() => {
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
@@ -83,7 +94,7 @@ const PageWrapper = ({
     );
     setLoader(true);
     fetchData();
-  }, [activePage, keyword, sort, filterObject]);
+  }, [activePage, sort, submitButtonClick]);
 
   useEffect(() => {
     function handleResize() {
@@ -110,6 +121,8 @@ const PageWrapper = ({
             <FilterPanel
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              triggerSearch={triggerSearch}
+              setActivePage={setActivePage}
             />
           </div>
         </div>
@@ -128,17 +141,20 @@ const PageWrapper = ({
               setActivePage={setActivePage}
             />
           </div>
-          {mobile ? (
+          {mobile && (
             <FilterPanelMobile
               filterConfig={filterConfig}
               setFilterObject={setFilterObject}
+              triggerSearch={triggerSearch}
+              setActivePage={setActivePage}
             />
-          ) : null}
+          )}
         </div>
         <Searchbar
           setKeyword={setKeyword}
           initKeyword={keyword}
           setActivePage={setActivePage}
+          triggerSearch={triggerSearch}
         />
         <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
           <div className="flex items-start lg:w-1/2">{buttonAdd}</div>

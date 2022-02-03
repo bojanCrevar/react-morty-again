@@ -12,12 +12,19 @@ import episodesRepo from "../../../../utils/episode-repo";
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();
 
-  async function submitHandler({ id, name, air_date, episode }: EpisodeItem) {
+  async function submitHandler({
+    id,
+    name,
+    air_date,
+    episode,
+    characters,
+  }: EpisodeItem) {
     const episodeForApi = {
       id: id,
       name: name,
       air_date: moment(new Date(air_date)).format("MMMM DD, yyyy"),
       episode: episode,
+      characters: characters,
     };
 
     const response = await axios.put(

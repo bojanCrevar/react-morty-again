@@ -48,7 +48,7 @@ describe("RMTable component test", () => {
     expect(rowsElements).toHaveLength(4);
   });
 
-  test("Showing update button when hovered", () => {
+  test("Showing update and delete button when hovered", () => {
     const handleUpdate = jest.fn();
     const handleDelete = jest.fn();
 

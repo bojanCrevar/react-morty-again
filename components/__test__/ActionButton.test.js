@@ -38,6 +38,6 @@ describe("Action Button test", () => {
 
     const editIcon = screen.getByTestId("editIcon");
     expect(editIcon).toBeInTheDocument();
-    expect(() => screen.getByTestId("deleteIcon").toThrow());
+    expect(screen.queryByTestId("deleteIcon")).not.toBeInTheDocument();
   });
 });

@@ -80,7 +80,7 @@ describe("Episode FormComponent tests", () => {
 
     let newName = "Rick In A New Episode";
     let newAirDate = "2020-08-09";
-    let newEpisode = "WRONGFORMAT";
+    let wrongNewEpisode = "WRONGFORMAT";
 
     const inputName = screen.getByTestId("name");
     fireEvent.change(inputName, { target: { value: newName } });
@@ -91,8 +91,8 @@ describe("Episode FormComponent tests", () => {
     expect(inputAirDate.value).toBe(newAirDate);
 
     const inputEpisode = screen.getByTestId("episode");
-    fireEvent.change(inputEpisode, { target: { value: newEpisode } });
-    expect(inputEpisode.value).toBe(newEpisode);
+    fireEvent.change(inputEpisode, { target: { value: wrongNewEpisode } });
+    expect(inputEpisode.value).toBe(wrongNewEpisode);
 
     fireEvent.click(screen.getByTestId("button"));
 

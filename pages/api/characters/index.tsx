@@ -3,6 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { filterConfig } from "../../characters/index";
 import filter from "../../../utils/sidebarFilter";
 
+import {
+  buildInfoPage,
+  createObject,
+  prepareItems,
+  returnResult,
+} from "../../../utils/apiResponse";
 //const rmAPI = "https://rickandmortyapi.com/api/character";
 export const PAGE_SIZE = 20;
 const rickChar = characterRepo.getAll()[0];
@@ -31,59 +37,14 @@ export default async function handler(
     default:
     case "GET":
       {
-        let {
-          activePage = "1",
-          keyword = "",
-          characters,
-          sort = "",
-          filterObject = "",
-        }: charactersProps = req.query as charactersProps;
+        const { numberOfItems, preparedItems } = prepareItems(
+          characterRepo.getAll(),
+          req.query,
+          filterConfig
+        );
+        const infoPage = buildInfoPage(numberOfItems);
 
-        let allChars = characterRepo.getAll();
-
-        if (characters) {
-          const characterIds = characters.split(",");
-
-          const mappedChars = characterIds
-            .map((charId) => {
-              const foundChar = allChars.find(
-                (x) => x.id.toString() === charId.toString()
-              );
-              return foundChar ? foundChar : generateDummyChar(charId);
-            })
-            .filter((c) => c);
-
-          res.status(200).json({
-            characters: mappedChars,
-          });
-        } else {
-          const charsFiltered = filter(allChars, req.query, filterConfig);
-
-          const charsSorted =
-            sort === "id"
-              ? charsFiltered.sort((a, b) => {
-                  return a.id - b.id;
-                })
-              : charsFiltered.sort((a, b) => {
-                  const isReversed = sort === "asc" ? 1 : -1;
-                  return isReversed * a.name.localeCompare(b.name);
-                });
-
-          let startIndex = (+activePage - 1) * PAGE_SIZE;
-          let endIndex = Math.min(startIndex + PAGE_SIZE, charsSorted.length);
-
-          const charsPaginated = charsSorted.slice(startIndex, endIndex);
-
-          const infoPage = {
-            count: charsSorted.length,
-            pages: Math.ceil(charsSorted.length / PAGE_SIZE),
-          };
-
-          res.status(200).json({
-            info: infoPage,
-            results: charsPaginated,
-          });
-        }
+        returnResult(infoPage, preparedItems, res);
       }
       break;
     case "POST":

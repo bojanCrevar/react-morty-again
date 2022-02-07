@@ -1,24 +1,8 @@
-import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import FilterPanel from "../FilterPanel";
 import { FilterPanelProps } from "../../model/filterModel";
-
-function MyVerticallyCenteredModal(props: any) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body>{props.content}</Modal.Body>
-      <Modal.Header>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Header>
-    </Modal>
-  );
-}
+import GenericModal from "../GenericModal";
 
 export default function FilterPanelMobile({
   filterConfig,
@@ -42,20 +26,15 @@ export default function FilterPanelMobile({
       >
         Filter
       </Button>
-
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        content={
-          <FilterPanel
-            filterConfig={filterConfig}
-            setFilterObject={setFilterObject}
-            setActivePage={setActivePage}
-            triggerSearch={triggerSearch}
-            closeModal={closeModal}
-          />
-        }
-      />
+      <GenericModal modalShow={modalShow} setModalShow={setModalShow}>
+        <FilterPanel
+          filterConfig={filterConfig}
+          setFilterObject={setFilterObject}
+          setActivePage={setActivePage}
+          triggerSearch={triggerSearch}
+          closeModal={closeModal}
+        />
+      </GenericModal>
     </div>
   );
 }

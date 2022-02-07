@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import styles from "./CharCard.module.css";
+import { useSelector } from "react-redux";
 
 interface CharCardProps extends CharactersItem {
   handleDelete: (id: number) => void;
@@ -25,6 +26,7 @@ const CharCard = ({
   favourite,
 }: CharCardProps) => {
   const [favouriteState, setFavouriteState] = useState(favourite || false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   function checkStatus(status: string) {
     if (status === "Alive") {
@@ -106,7 +108,10 @@ const CharCard = ({
         </div>
         <div className="w-1/3 sm:w-full">
           <Link href={"characters/edit/" + id}>
-            <Button variant="outline-info" className="btn-char">
+            <Button
+              variant="outline-info"
+              className={`btn-char ${!isAuthenticated && "disabled"}`}
+            >
               <div className="flex justify-center md:space-x-2">
                 <div>
                   <FontAwesomeIcon icon={faEdit} />
@@ -120,7 +125,7 @@ const CharCard = ({
         </div>
         <div className="w-1/3 sm:w-full">
           <Button
-            className="btn-char"
+            className={`btn-char ${!isAuthenticated && "disabled"}`}
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}
           >

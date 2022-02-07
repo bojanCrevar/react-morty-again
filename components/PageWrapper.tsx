@@ -8,7 +8,7 @@ import Searchbar from "./Searchbar";
 import Pagination from "./Pagination";
 import { QueryParams } from "../model/queryParams";
 import FilterPanelMobile from "./mobile/FilterPanelMobile";
-import { PaginationModel } from "../model/paginationModel";
+import { emptyPagination, PaginationModel } from "../model/paginationModel";
 import { ResponseData } from "../model/ResponseDataModel";
 import { RMItem } from "../model/RMItem";
 
@@ -75,10 +75,15 @@ const PageWrapper = ({
     }, 700);
   }
 
+  console.log("activePage", activePage);
+  console.log("pagesInfo", pagesInfo);
+
   useEffect(() => {
-    if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
-      setActivePage(pagesInfo.pages);
-    } else fetchData();
+    if (pagesInfo !== emptyPagination) {
+      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+        setActivePage(pagesInfo.pages);
+      } else fetchData();
+    }
   }, [pagesInfo.pages, pagesInfo.count]);
 
   useEffect(() => {
@@ -162,7 +167,7 @@ const PageWrapper = ({
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
         </div>
-        <div className="mt-1">{children}</div>
+        <div className="mt-3 mt-md-1">{children}</div>
       </div>
     </div>
   );

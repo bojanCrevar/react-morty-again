@@ -28,6 +28,7 @@ const Searchbar: React.FC<SearchBarProps> = ({
   function clearHandler() {
     setKeyword("");
     setActivePage(1);
+    triggerSearch();
     searchKeyword.current!.value = "";
   }
 

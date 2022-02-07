@@ -46,7 +46,7 @@ const PageWrapper = ({
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function triggerSearch() {
-    setSubmitButtonClick(!submitButtonClick);
+    setSubmitButtonClick((prev) => !prev);
   }
 
   function constructFilterQuery(filterObject: FilterModel) {
@@ -74,9 +74,6 @@ const PageWrapper = ({
       setLoader(false);
     }, 700);
   }
-
-  console.log("activePage", activePage);
-  console.log("pagesInfo", pagesInfo);
 
   useEffect(() => {
     if (pagesInfo !== emptyPagination) {

@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../_styles/App.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Provider } from "react-redux";
-import store from "../store/index";
+import store from "../store/index.ts";
 import NavMenu from "../components/NavMenu.tsx";
 import "react-loading-skeleton/dist/skeleton.css";
 

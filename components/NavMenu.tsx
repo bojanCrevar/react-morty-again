@@ -7,13 +7,15 @@ import styles from "./NavMenu.module.css";
 import GenericModal from "./GenericModal";
 import LoginForm from "./LoginForm";
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../store/index";
+import { authActions } from "../store/index.ts";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const username = useSelector((state) => state.auth.username);
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
+  const username = useSelector((state: any) => state.auth.username);
 
   const [modalShow, setModalShow] = useState(false);
 

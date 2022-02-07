@@ -26,7 +26,9 @@ const CharCard = ({
   favourite,
 }: CharCardProps) => {
   const [favouriteState, setFavouriteState] = useState(favourite || false);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
 
   function checkStatus(status: string) {
     if (status === "Alive") {

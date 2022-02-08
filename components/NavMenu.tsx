@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginActions } from "../store";
 import GenericModal from "./GenericModal";
 import LoginForm from "./LoginForm";
+import Link from "next/link";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
@@ -26,24 +27,27 @@ const NavMenu = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">
+        <Link href="/">
           <img
             alt="Rick and Morty logo"
             src="/logo.png"
             width="30"
             height="30"
-            className="d-inline-block align-top"
+            className="d-inline-block align-top mr-2"
             style={{ borderRadius: "50%" }}
           />
-        </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {navLinks.map((nav) => {
               return (
-                <Nav.Link href={nav.path} key={nav.name}>
-                  {nav.name}
-                </Nav.Link>
+                // <Nav.Link href={nav.path} key={nav.name}>
+                //   {nav.name}
+                // </Nav.Link>
+                <Link href={nav.path} key={nav.name} passHref>
+                  <Nav.Link>{nav.name}</Nav.Link>
+                </Link>
               );
             })}
           </Nav>
@@ -52,7 +56,9 @@ const NavMenu = () => {
           <div className="space-x-4">
             {isAuthenticated ? (
               <>
-                <Navbar.Text>Signed in as: {userName}</Navbar.Text>
+                <Navbar.Text>
+                  Signed in as: <span className="font-bold">{userName}</span>
+                </Navbar.Text>
                 <Navbar.Text>
                   <button
                     className="px-3 pb-1 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"

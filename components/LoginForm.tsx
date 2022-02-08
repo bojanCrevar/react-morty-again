@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { loginActions } from "../store";
 
@@ -35,8 +36,10 @@ function LoginForm() {
             placeholder={"Enter password"}
             className="border-1 border-opacity-25 border-gray-400 rounded w-full px-3 py-2 focus focus:border-blue-600 focus:outline-none active:outline-none active:border-blue-600 focus:placeholder-blue-600"
           />
+          <Button className="btn btn-secondary py-2 px-4" type="submit">
+            Login
+          </Button>
         </div>
-        <button type="submit">Login</button>
       </div>
     </form>
   );

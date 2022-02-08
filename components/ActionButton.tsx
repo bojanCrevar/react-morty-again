@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { ActionContext } from "../context/ActionContext";
+import { useSelector } from "react-redux";
 
 type ActionButtonProps = {
   id: number;
@@ -10,6 +11,10 @@ type ActionButtonProps = {
 };
 
 const ActionButton = ({ id, hovered }: ActionButtonProps) => {
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
+
   const { handleDelete: onDelete, handleUpdate: onUpdate } =
     useContext(ActionContext);
 
@@ -31,10 +36,12 @@ const ActionButton = ({ id, hovered }: ActionButtonProps) => {
     />
   ) : null;
 
-  return (
+  return isAuthenticated ? (
     <div>
       {updateButton} {deleteButton}
     </div>
+  ) : (
+    <></>
   );
 };
 

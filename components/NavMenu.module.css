@@ -1,0 +1,10 @@
+.divider {
+  border-bottom: 2px solid;
+  border-color: lightgray;
+}
+
+@media only screen and (max-width: 767px) {
+  .divider {
+    display: none;
+  }
+}

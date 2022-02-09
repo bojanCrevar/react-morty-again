@@ -7,6 +7,7 @@ import moment from "moment";
 import { EditEpisodeProps, EpisodeItem } from "../../../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
 import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
+import episodesRepo from "../../../../utils/episode-repo";
 
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();
@@ -64,5 +65,13 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
 export async function getServerSideProps({
   params,
 }: GetServerSidePropsContext) {
+  const id = params!.id;
+
+  let episode = episodesRepo.getById(id);
+
+  if (!episode) {
+    return { notFound: true };
+  }
+
   return { props: params || {} };
 }

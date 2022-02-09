@@ -37,6 +37,7 @@ const PageWrapper = ({
   setSkeleton,
   setLoader,
 }: PageWrapperProps) => {
+
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [keyword, setKeyword] = useState(query?.keyword || "");
@@ -44,7 +45,7 @@ const PageWrapper = ({
   const [mobile, setMobile] = useState<Boolean>(true);
   const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
-
+  console.log('keyword', keyword)
   function triggerSearch() {
     setSubmitButtonClick((prev) => !prev);
   }
@@ -98,22 +99,24 @@ const PageWrapper = ({
     fetchData();
   }, [activePage, sort, submitButtonClick]);
 
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth < 1024) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
+  function handleResize() {
+    if (window.innerWidth < 1024 && !mobile) {
+      setMobile(true);
+    } else if (window.innerWidth >= 1024 && mobile) {
+      setMobile( false);
     }
+  }
 
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
-    handleResize();
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   });
+
+  useEffect(() => {
+    handleResize();
+  }, []);
 
   return (
     <div className="flex mb-4 w-full">

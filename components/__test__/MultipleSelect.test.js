@@ -1,8 +1,11 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import MultipleSelect from "../MultipleSelect";
+import axios from "axios";
+
+jest.mock("axios");
 
 describe("Testing MultipleSelect", () => {
-  test("rendering create button in form component", () => {
+  test("rendering multiselect", () => {
     let onChange;
     let value = [
       "https://rickandmortyapi.com/api/character/38",
@@ -11,7 +14,7 @@ describe("Testing MultipleSelect", () => {
 
     onChange = jest.fn();
 
-    const { rerender } = render(
+    render(
       <MultipleSelect name="characters" onChange={onChange} value={value} />
     );
 
@@ -21,4 +24,24 @@ describe("Testing MultipleSelect", () => {
 
     expect(multiSelect).toBeInTheDocument();
   });
+
+  it("testing backend call", async () => {
+    // given
+    const users = [
+      { id: 1, name: "John" },
+      { id: 2, name: "Andrew" },
+    ];
+    axios.get.mockResolvedValueOnce(users);
+
+    // when
+    const result = await fetchUsers();
+
+    // then
+    expect(axios.get).toHaveBeenCalled();
+    //expect(result).toEqual(users);
+  });
 });
+
+//check if onchange is called on selection Change
+//on first load check if axios was called once with empty init values and twice with init initValues
+//check if backend was called when filtering input with IDs

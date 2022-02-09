@@ -29,11 +29,11 @@ const MultipleSelect = ({
   const [charOptions, setCharOptions] = useState<CharOptions[]>([]);
   const [defaultOptions, setDefaultOptions] = useState<CharOptions[]>([]);
 
-  const charIds = (initValues ?? []).map((charUrl: string) =>
+  const initialCharacterIDs = (initValues ?? []).map((charUrl: string) =>
     charUrl.substring(charUrl.lastIndexOf("/") + 1)
   );
 
-  async function getCharacters(
+  async function fetchCharactersByID(
     characterIds: string[]
   ): Promise<CharactersItem[]> {
     const response = await axios.get("/api/characters/", {
@@ -47,7 +47,9 @@ const MultipleSelect = ({
     else return [];
   }
 
-  async function loadChars(inputValue?: string): Promise<CharOptions[]> {
+  async function fetchFilteredCharactersByInput(
+    inputValue?: string
+  ): Promise<CharOptions[]> {
     const response = await axios.get("/api/characters", {
       params: { sort: "asc", keyword: inputValue },
     });
@@ -59,9 +61,11 @@ const MultipleSelect = ({
     } else return [];
   }
 
-  async function getCharactersName() {
-    if (charIds.length > 0) {
-      const characters: CharactersItem[] = await getCharacters(charIds);
+  async function getInitialCharactersFromIDs() {
+    if (initialCharacterIDs.length > 0) {
+      const characters: CharactersItem[] = await fetchCharactersByID(
+        initialCharacterIDs
+      );
 
       setCharOptions(
         characters.map((char: CharactersItem) => {
@@ -72,15 +76,17 @@ const MultipleSelect = ({
   }
 
   const promiseOptions = (inputValue: string) =>
-    loadChars(inputValue).then((data) => data);
+    fetchFilteredCharactersByInput(inputValue).then((data) => data);
 
   const debouncedPromiseOptions = debounce((input, resolve) => {
     promiseOptions(input).then(resolve);
   }, 500);
 
   useEffect(() => {
-    getCharactersName();
-    loadChars().then((loadedChars) => setDefaultOptions(loadedChars));
+    getInitialCharactersFromIDs();
+    fetchFilteredCharactersByInput().then((loadedChars) =>
+      setDefaultOptions(loadedChars)
+    );
   }, []);
 
   useEffect(() => {

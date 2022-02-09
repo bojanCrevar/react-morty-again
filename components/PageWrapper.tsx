@@ -8,7 +8,7 @@ import Searchbar from "./Searchbar";
 import Pagination from "./Pagination";
 import { QueryParams } from "../model/queryParams";
 import FilterPanelMobile from "./mobile/FilterPanelMobile";
-import { PaginationModel } from "../model/paginationModel";
+import { emptyPagination, PaginationModel } from "../model/paginationModel";
 import { ResponseData } from "../model/ResponseDataModel";
 import { RMItem } from "../model/RMItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +40,7 @@ const PageWrapper = ({
   setSkeleton,
   setLoader,
 }: PageWrapperProps) => {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
   const keyword = useSelector((state: RootState) => state.filter.keyword);
   const filterObject = useSelector(
@@ -56,9 +56,9 @@ const PageWrapper = ({
   const [mobile, setMobile] = useState<Boolean>(true);
   //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
-
+  console.log("keyword", keyword);
   function triggerSearch() {
-    setSubmitButtonClick(!submitButtonClick);
+    setSubmitButtonClick((prev) => !prev);
   }
 
   function constructFilterQuery(filterObject: FilterModel) {
@@ -88,9 +88,11 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
-    if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
-      setActivePage(pagesInfo.pages);
-    } else fetchData();
+    if (pagesInfo !== emptyPagination) {
+      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+        setActivePage(pagesInfo.pages);
+      } else fetchData();
+    }
   }, [pagesInfo.pages, pagesInfo.count]);
 
   useEffect(() => {
@@ -108,22 +110,24 @@ const PageWrapper = ({
     fetchData();
   }, [activePage, sort, submitButtonClick]);
 
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth < 1024) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
+  function handleResize() {
+    if (window.innerWidth < 1024 && !mobile) {
+      setMobile(true);
+    } else if (window.innerWidth >= 1024 && mobile) {
+      setMobile(false);
     }
+  }
 
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
-    handleResize();
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   });
+
+  useEffect(() => {
+    handleResize();
+  }, []);
 
   return (
     <div className="flex mb-4 w-full">
@@ -171,7 +175,7 @@ const PageWrapper = ({
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
         </div>
-        <div className="mt-1">{children}</div>
+        <div className="mt-3 mt-md-1">{children}</div>
       </div>
     </div>
   );

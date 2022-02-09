@@ -9,6 +9,7 @@ import {
   LocationsItem,
 } from "../../../../model/locationsModel";
 import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
+import locationsRepo from "../../../../utils/locations-repo";
 
 const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   const [location, setLocation] = useState<LocationsItem>();
@@ -67,5 +68,12 @@ export default EditLocation;
 export async function getServerSideProps({
   params,
 }: GetServerSidePropsContext) {
+  const id = params!.id;
+
+  let location = locationsRepo.getById(id);
+
+  if (!location) {
+    return { notFound: true };
+  }
   return { props: params || {} };
 }

@@ -37,7 +37,7 @@ export default async function handler(
               const foundChar = allChars.find(
                 (x) => x.id.toString() === charId.toString()
               );
-              return foundChar ? foundChar : generateDummyChar(charId);
+              return foundChar ?? generateDummyChar(charId);
             })
             .filter((c) => c);
 

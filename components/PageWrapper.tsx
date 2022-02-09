@@ -11,6 +11,9 @@ import FilterPanelMobile from "./mobile/FilterPanelMobile";
 import { PaginationModel } from "../model/paginationModel";
 import { ResponseData } from "../model/ResponseDataModel";
 import { RMItem } from "../model/RMItem";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../model/storeModel";
+import { filterActions } from "../store/filter-slice";
 
 interface PageWrapperProps {
   children: React.ReactNode;
@@ -37,12 +40,21 @@ const PageWrapper = ({
   setSkeleton,
   setLoader,
 }: PageWrapperProps) => {
+  const dispatch = useDispatch();
+
+  const keyword = useSelector((state: RootState) => state.filter.keyword);
+  const filterObject = useSelector(
+    (state: RootState) => state.filter.filterObject
+  );
+
+  //dispatch(filterActions.setKeyword(query?.keyword || keyword)); // nije u potpunosti riješilo
+
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
-  const [keyword, setKeyword] = useState(query?.keyword || "");
+  //const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
-  const [filterObject, setFilterObject] = useState<FilterModel>({});
+  //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function triggerSearch() {
@@ -120,7 +132,6 @@ const PageWrapper = ({
           <div className="w-1/2 ml-28 mt-44">
             <FilterPanel
               filterConfig={filterConfig}
-              setFilterObject={setFilterObject}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}
             />
@@ -144,14 +155,12 @@ const PageWrapper = ({
           {mobile && (
             <FilterPanelMobile
               filterConfig={filterConfig}
-              setFilterObject={setFilterObject}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}
             />
           )}
         </div>
         <Searchbar
-          setKeyword={setKeyword}
           initKeyword={keyword}
           setActivePage={setActivePage}
           triggerSearch={triggerSearch}

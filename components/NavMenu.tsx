@@ -4,24 +4,25 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { navLinks } from "../utils/navLinks";
 import { useDispatch, useSelector } from "react-redux";
-import { loginActions } from "../store";
+import { authActions } from "../store/auth-slice";
 import GenericModal from "./GenericModal";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
+import { RootState } from "../model/storeModel";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
 
   const [modalShow, setModalShow] = useState(false);
 
-  const userName = useSelector((state: any) => state.auth.userName);
+  const userName = useSelector((state: RootState) => state.auth.userName);
   const isAuthenticated = useSelector(
-    (state: any) => state.auth.isAuthenticated
+    (state: RootState) => state.auth.isAuthenticated
   );
 
   const logoutHandler = () => {
     setModalShow(false);
-    dispatch(loginActions.logout());
+    dispatch(authActions.logout());
   };
 
   return (

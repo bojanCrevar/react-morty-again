@@ -1,20 +1,22 @@
 import React, { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
+import { useDispatch } from "react-redux";
+import { filterActions } from "../store/filter-slice";
 
 type SearchBarProps = {
-  setKeyword: (keyword: string) => void;
   initKeyword: string;
   setActivePage: (activePage: number) => void;
   triggerSearch: () => void;
 };
 
 const Searchbar: React.FC<SearchBarProps> = ({
-  setKeyword,
   initKeyword,
   setActivePage,
   triggerSearch,
 }) => {
+  const dispatch = useDispatch();
+
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
     setActivePage(1);
@@ -22,12 +24,13 @@ const Searchbar: React.FC<SearchBarProps> = ({
   }
 
   function onChangeState() {
-    setKeyword(searchKeyword.current!.value);
+    dispatch(filterActions.setKeyword(searchKeyword.current!.value));
   }
 
   function clearHandler() {
-    setKeyword("");
+    dispatch(filterActions.setKeyword(""));
     setActivePage(1);
+    triggerSearch();
     searchKeyword.current!.value = "";
   }
 
@@ -35,7 +38,7 @@ const Searchbar: React.FC<SearchBarProps> = ({
 
   return (
     <div>
-      <form onSubmit={submitHandler} onChange={() => onChangeState()}>
+      <form onSubmit={submitHandler} onChange={onChangeState}>
         <div className="flex flex-col space-y-1 w-full lg:flex-row lg:space-x-1 lg:space-y-0">
           <div className="lg:w-3/4">
             <FormControl

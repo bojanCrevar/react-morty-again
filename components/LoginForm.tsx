@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { loginActions } from "../store";
+import { authActions } from "../store/auth-slice";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -10,7 +10,7 @@ function LoginForm() {
   function loginHandler(e: any) {
     e.preventDefault();
     if (!username) return;
-    dispatch(loginActions.login(username));
+    dispatch(authActions.login(username));
   }
 
   return (

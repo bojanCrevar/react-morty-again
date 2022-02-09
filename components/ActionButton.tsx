@@ -4,6 +4,7 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { ActionContext } from "../context/ActionContext";
 import { useSelector } from "react-redux";
+import { RootState } from "../model/storeModel";
 
 type ActionButtonProps = {
   id: number;
@@ -12,7 +13,7 @@ type ActionButtonProps = {
 
 const ActionButton = ({ id, hovered }: ActionButtonProps) => {
   const isAuthenticated = useSelector(
-    (state: any) => state.auth.isAuthenticated
+    (state: RootState) => state.auth.isAuthenticated
   );
 
   const { handleDelete: onDelete, handleUpdate: onUpdate } =

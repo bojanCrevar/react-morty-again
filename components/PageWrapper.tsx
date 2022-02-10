@@ -46,10 +46,7 @@ const PageWrapper = ({
   const filterObject = useSelector(
     (state: RootState) => state.filter.filterObject
   );
-
-  if (query?.keyword) {
-    dispatch(filterActions.setKeyword(query.keyword));
-  }
+  console.log("keyword", keyword);
 
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
@@ -109,7 +106,7 @@ const PageWrapper = ({
     );
     setLoader(true);
     fetchData();
-  }, [activePage, sort, submitButtonClick]);
+  }, [activePage, sort, keyword, submitButtonClick]);
 
   function handleResize() {
     if (window.innerWidth < 1024 && !mobile) {
@@ -128,6 +125,11 @@ const PageWrapper = ({
 
   useEffect(() => {
     handleResize();
+    if (keyword === "") {
+      if (query?.keyword) {
+        dispatch(filterActions.setKeyword(query.keyword));
+      }
+    }
   }, []);
 
   return (

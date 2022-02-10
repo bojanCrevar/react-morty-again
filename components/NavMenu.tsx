@@ -43,12 +43,12 @@ const NavMenu = () => {
           <Nav className="me-auto">
             {navLinks.map((nav) => {
               return (
-                // <Nav.Link href={nav.path} key={nav.name}>
-                //   {nav.name}
-                // </Nav.Link>
-                <Link href={nav.path} key={nav.name} passHref>
-                  <Nav.Link>{nav.name}</Nav.Link>
-                </Link>
+                <Nav.Link href={nav.path} key={nav.name}>
+                  {nav.name}
+                </Nav.Link>
+                // <Link href={nav.path} key={nav.name} passHref>
+                //   <Nav.Link>{nav.name}</Nav.Link>
+                // </Link>
               );
             })}
           </Nav>

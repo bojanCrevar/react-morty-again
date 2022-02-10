@@ -1,11 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-
+import { fireEvent, render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
 import Searchbar from "../Searchbar";
+import store from "../../store";
 
 describe("Searchbar component test", () => {
   test("render Searchbar on screen", () => {
-    let setKeyword;
     let setActivePage;
     let activePage;
     let keyword;
@@ -13,34 +12,37 @@ describe("Searchbar component test", () => {
 
     keyword = "";
     setActivePage = jest.fn((activeArg) => (activePage = activeArg));
-
-    setKeyword = jest.fn((keyword) => {
-      keyword = keyword;
-    });
-
     triggerSearch = jest.fn();
 
     render(
-      <Searchbar
-        setKeyword={setKeyword}
-        setActivePage={setActivePage}
-        initKeyword={keyword}
-        triggerSearch={triggerSearch}
-      />
+      <Provider store={store}>
+        <Searchbar
+          setActivePage={setActivePage}
+          initKeyword={keyword}
+          triggerSearch={triggerSearch}
+        />
+      </Provider>
     );
 
     const input = screen.getByTestId("keywordInput");
+    expect(input.value).toBe("");
+
     fireEvent.change(input, { target: { value: "Rick" } });
+    expect(input.value).toBe("Rick");
 
     const buttonElement = screen.getByRole("button", {
       name: "Search",
     });
-
     fireEvent.click(buttonElement);
 
-    expect(input.value).toBe("Rick");
     expect(triggerSearch).toHaveBeenCalled();
-    expect(setKeyword).toHaveBeenCalledWith("Rick");
+    expect(setActivePage).toHaveBeenCalledWith(1);
+
+    const clearButton = screen.getByRole("button", { name: "Clear" });
+    fireEvent.click(clearButton);
+
+    expect(input.value).toBe("");
+    expect(triggerSearch).toHaveBeenCalled();
     expect(setActivePage).toHaveBeenCalledWith(1);
   });
 });

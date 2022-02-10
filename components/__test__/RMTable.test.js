@@ -7,50 +7,44 @@ import store from "../../store/index";
 import * as redux from "react-redux";
 
 describe("RMTable component test", () => {
-  let tableData;
-  let columnCfg;
-  let handleUpdate;
-  let handleDelete;
+  const handleUpdate = jest.fn();
+  const handleDelete = jest.fn();
   let spy;
-
+  const tableData = [
+    {
+      id: 1,
+      name: "Earth",
+      dimension: "C-2",
+      type: "Planet",
+      charactersString: "Rick, Morty",
+    },
+    {
+      id: 2,
+      name: "Earth c-54",
+      dimension: "C-54",
+      type: "Planetoid",
+      charactersString: "Morty",
+    },
+    {
+      id: 3,
+      name: "Earth c-1",
+      dimension: "C1",
+      type: "Planet",
+      charactersString: "Rick",
+    },
+  ];
+  const columnCfg = [
+    { key: "name", title: "Name" },
+    { key: "dimension", title: "Dimension" },
+    { key: "type", title: "Type" },
+    {
+      key: "charactersString",
+      title: "Residents",
+    },
+  ];
   beforeEach(() => {
     spy = jest.spyOn(redux, "useSelector");
-    handleUpdate = jest.fn();
-    handleDelete = jest.fn();
-    tableData = [
-      {
-        id: 1,
-        name: "Earth",
-        dimension: "C-2",
-        type: "Planet",
-        charactersString: "Rick, Morty",
-      },
-      {
-        id: 2,
-        name: "Earth c-54",
-        dimension: "C-54",
-        type: "Planetoid",
-        charactersString: "Morty",
-      },
-      {
-        id: 3,
-        name: "Earth c-1",
-        dimension: "C1",
-        type: "Planet",
-        charactersString: "Rick",
-      },
-    ];
-    columnCfg = [
-      { key: "name", title: "Name" },
-      { key: "dimension", title: "Dimension" },
-      { key: "type", title: "Type" },
-      {
-        key: "charactersString",
-        title: "Residents",
-      },
-    ];
   });
-
   afterEach(() => {
     jest.restoreAllMocks();
   });

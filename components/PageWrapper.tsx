@@ -47,8 +47,8 @@ const PageWrapper = ({
     (state: RootState) => state.filter.filterObject
   );
 
-  if (query.keyword) {
-    dispatch(filterActions.setKeyword(query?.keyword));
+  if (query?.keyword) {
+    dispatch(filterActions.setKeyword(query.keyword));
   }
 
   const router = useRouter();

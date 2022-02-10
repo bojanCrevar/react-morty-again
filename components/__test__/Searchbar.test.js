@@ -6,12 +6,11 @@ import store from "../../store";
 describe("Searchbar component test", () => {
   test("render Searchbar on screen", () => {
     let setActivePage;
-    let activePage;
     let keyword;
     let triggerSearch;
 
     keyword = "";
-    setActivePage = jest.fn((activeArg) => (activePage = activeArg));
+    setActivePage = jest.fn((activeArg) => activeArg);
     triggerSearch = jest.fn();
 
     render(
@@ -29,6 +28,7 @@ describe("Searchbar component test", () => {
 
     fireEvent.change(input, { target: { value: "Rick" } });
     expect(input.value).toBe("Rick");
+    expect(store.getState().filter.keyword).toEqual("Rick");
 
     const buttonElement = screen.getByRole("button", {
       name: "Search",

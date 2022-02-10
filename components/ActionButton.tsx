@@ -12,10 +12,6 @@ type ActionButtonProps = {
 };
 
 const ActionButton = ({ id, hovered }: ActionButtonProps) => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-
   const { handleDelete: onDelete, handleUpdate: onUpdate } =
     useContext(ActionContext);
 
@@ -37,12 +33,10 @@ const ActionButton = ({ id, hovered }: ActionButtonProps) => {
     />
   ) : null;
 
-  return isAuthenticated ? (
+  return (
     <div>
       {updateButton} {deleteButton}
     </div>
-  ) : (
-    <></>
   );
 };
 

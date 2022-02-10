@@ -2,12 +2,21 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RMTable from "../RMTable";
 import { ActionContext } from "../../context/ActionContext";
+import { Provider } from "react-redux";
+import store from "../../store/index";
+import * as redux from "react-redux";
 
 describe("RMTable component test", () => {
   let tableData;
   let columnCfg;
+  let handleUpdate;
+  let handleDelete;
+  let spy;
 
   beforeEach(() => {
+    spy = jest.spyOn(redux, "useSelector");
+    handleUpdate = jest.fn();
+    handleDelete = jest.fn();
     tableData = [
       {
         id: 1,
@@ -41,21 +50,32 @@ describe("RMTable component test", () => {
       },
     ];
   });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   test("rendering all rows", () => {
-    render(<RMTable tableData={tableData} columnConfig={columnCfg} />);
+    render(
+      <Provider store={store}>
+        <RMTable tableData={tableData} columnConfig={columnCfg} />
+      </Provider>
+    );
 
     const rowsElements = screen.getAllByRole("row");
+
     expect(rowsElements).toHaveLength(4);
   });
 
   test("Showing update and delete button when hovered", () => {
-    const handleUpdate = jest.fn();
-    const handleDelete = jest.fn();
+    spy.mockReturnValue({ isAuthenticated: true });
 
     render(
-      <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
-        <RMTable tableData={tableData} columnConfig={columnCfg} />{" "}
-      </ActionContext.Provider>
+      <Provider store={store}>
+        <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+          <RMTable tableData={tableData} columnConfig={columnCfg} />
+        </ActionContext.Provider>
+      </Provider>
     );
 
     let rowElement = screen.getByRole("row", {
@@ -75,8 +95,14 @@ describe("RMTable component test", () => {
   });
 
   test("Getting elements with class invisible which are not hovered", () => {
+    spy.mockReturnValue({ isAuthenticated: true });
+
     const { container } = render(
-      <RMTable tableData={tableData} columnConfig={columnCfg} />
+      <Provider store={store}>
+        <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+          <RMTable tableData={tableData} columnConfig={columnCfg} />
+        </ActionContext.Provider>
+      </Provider>
     );
 
     let rowElement = screen.getByRole("row", {
@@ -85,6 +111,30 @@ describe("RMTable component test", () => {
 
     userEvent.hover(rowElement);
 
-    expect(container.getElementsByClassName("invisible").length).toBe(2);
+    expect(container.getElementsByClassName("invisible").length).toBe(4);
+  });
+
+  test("Doesn't render update and delete buttons when hovering, because user is not logged in", () => {
+    render(
+      <Provider store={store}>
+        <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+          <RMTable tableData={tableData} columnConfig={columnCfg} />
+        </ActionContext.Provider>
+      </Provider>
+    );
+
+    let rowElement = screen.getByRole("row", {
+      name: "Earth C-2 Planet Rick, Morty",
+    });
+    expect(rowElement).toBeInTheDocument();
+
+    userEvent.hover(rowElement);
+
+    expect(rowElement.getElementsByClassName("fa-edit visible")).toHaveLength(
+      0
+    );
+    expect(
+      rowElement.getElementsByClassName("fa-trash-alt visible")
+    ).toHaveLength(0);
   });
 });

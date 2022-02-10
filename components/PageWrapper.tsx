@@ -40,23 +40,24 @@ const PageWrapper = ({
   setSkeleton,
   setLoader,
 }: PageWrapperProps) => {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const keyword = useSelector((state: RootState) => state.filter.keyword);
   const filterObject = useSelector(
     (state: RootState) => state.filter.filterObject
   );
 
-  //dispatch(filterActions.setKeyword(query?.keyword || keyword)); // nije u potpunosti riješilo
+  if (query.keyword) {
+    dispatch(filterActions.setKeyword(query?.keyword));
+  }
 
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
-  //const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
   //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
-  console.log("keyword", keyword);
+
   function triggerSearch() {
     setSubmitButtonClick((prev) => !prev);
   }

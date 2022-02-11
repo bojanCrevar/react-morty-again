@@ -90,7 +90,7 @@ const MultipleSelect = ({
   }, []);
 
   useEffect(() => {
-    if (charOptions) {
+    if (charOptions.length) {
       let newArrayChar = charOptions.map((char: CharOptions) => {
         return "https://rickandmortyapi.com/api/character/" + char.value;
       });

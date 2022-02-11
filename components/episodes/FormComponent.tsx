@@ -30,6 +30,17 @@ function FormComponent({
         /^S[0-9][1-9]E[0-9][1-9]$/,
         "Please enter an episode in proper format S01E01"
       )
+      .test(
+        "checkUniqueEpisode",
+        "This episode is already existing",
+        (value) => {
+          const response = await axios.get("/api/episode/check", {
+            params: { episode: "TEST" },
+          });
+
+          if (response.contains === true) return false;
+        }
+      )
       .required("Required"),
   });
 

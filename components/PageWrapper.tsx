@@ -125,11 +125,11 @@ const PageWrapper = ({
 
   useEffect(() => {
     handleResize();
-    if (keyword === "") {
-      if (query?.keyword) {
-        dispatch(filterActions.setKeyword(query.keyword));
-      }
+    //if (keyword === "") {
+    if (query?.keyword) {
+      dispatch(filterActions.setKeyword(query.keyword));
     }
+    //}
   }, []);
 
   return (

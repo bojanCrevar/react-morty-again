@@ -4,9 +4,7 @@ import "../_styles/App.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import store from "../store";
 import { Provider } from "react-redux";
-
 import NavMenu from "../components/NavMenu.tsx";
-import "react-loading-skeleton/dist/skeleton.css";
 
 function MyApp({ Component, pageProps }) {
   return (

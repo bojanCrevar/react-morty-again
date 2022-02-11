@@ -9,6 +9,7 @@ import GenericModal from "./GenericModal";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
 import { RootState } from "../model/storeModel";
+import styles from "./NavMenu.module.css";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
@@ -43,17 +44,19 @@ const NavMenu = () => {
           <Nav className="me-auto">
             {navLinks.map((nav) => {
               return (
-                <Nav.Link href={nav.path} key={nav.name}>
-                  {nav.name}
-                </Nav.Link>
-                // <Link href={nav.path} key={nav.name} passHref>
-                //   <Nav.Link>{nav.name}</Nav.Link>
-                // </Link>
+                // <Nav.Link href={nav.path} key={nav.name}>
+                //   {nav.name}
+                // </Nav.Link>
+                <Link href={nav.path} key={nav.name} passHref>
+                  <Nav.Link>{nav.name}</Nav.Link>
+                </Link>
               );
             })}
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
+          <div className={styles.divider}></div>
+
           <div className="space-x-4">
             {isAuthenticated ? (
               <>

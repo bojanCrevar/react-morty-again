@@ -47,7 +47,7 @@ const PageWrapper = ({
     (state: RootState) => state.filter.filterObject
   );
   console.log("keyword", keyword);
-
+  console.log("filterObject", filterObject);
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [sort, setSort] = useState(query?.sort || "id");
@@ -127,9 +127,15 @@ const PageWrapper = ({
     handleResize();
     if (keyword === "") {
       if (query?.keyword) {
+        console.log("query", query);
         dispatch(filterActions.setKeyword(query.keyword));
       }
     }
+    /* if (filterObject === "") {
+      if (query?.filter) {
+        dispatch(filterActions.setFilter(query?.filter));
+      }
+    } */
   }, []);
 
   return (

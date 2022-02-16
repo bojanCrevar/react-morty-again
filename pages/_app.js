@@ -8,11 +8,11 @@ import store from "../store";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
-import { fetchUserOnReload, updateAuthData } from "../store/auth-actions";
+import { fetchUserOnReload } from "../store/auth-actions";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  //const dispatch = useDispatch();
+
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       if (!shallow) {
@@ -20,12 +20,6 @@ function MyApp({ Component, pageProps }) {
       }
     };
     router.events.on("routeChangeStart", handleRouteChange);
-
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
-    // return () => {
-    //   router.events.off("routeChangeStart", handleRouteChange);
-    // };
   }, []);
 
   useEffect(() => {

@@ -17,16 +17,13 @@ const NavMenu = () => {
 
   const [modalShow, setModalShow] = useState(false);
   const auth = useSelector((state: RootState) => state.auth);
-  const userName = useSelector((state: RootState) => state.auth.userName);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
 
+  //console.log("auth", auth);
   const logoutHandler = () => {
     setModalShow(false);
-    dispatch(authActions.logout(userName));
+
+    dispatch(authActions.logout());
   };
-  console.log("auth nav", auth);
   useEffect(() => {
     if (auth.changed === "login") {
       dispatch(validateAuth(auth));
@@ -67,10 +64,11 @@ const NavMenu = () => {
           <div className={styles.divider}></div>
 
           <div className="space-x-4">
-            {isAuthenticated ? (
+            {auth.isAuthenticated ? (
               <>
                 <Navbar.Text>
-                  Signed in as: <span className="font-bold">{userName}</span>
+                  Signed in as:{" "}
+                  <span className="font-bold">{auth.userName}</span>
                 </Navbar.Text>
                 <Navbar.Text>
                   <button

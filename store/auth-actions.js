@@ -1,5 +1,3 @@
-import { authActions } from "./auth-slice";
-import axios from "axios";
 import { db } from "../firebase/index";
 import {
   collection,
@@ -9,75 +7,96 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+import { authActions } from "./auth-slice";
 
 const users = collection(db, "users");
+
+const fetchData = async (q, auth) => {
+  let document;
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    if (auth) {
+      if (doc.data().password === auth.password) {
+        document = { id: doc.id, data: doc.data() };
+      } else {
+        throw new Error("Wrong password");
+      }
+    } else {
+      document = { id: doc.id, data: doc.data() };
+    }
+  });
+
+  return document;
+};
 
 export const fetchUserOnReload = () => {
   const q = query(users, where("isAuthenticated", "==", true));
   return async (dispatch) => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(q);
-      let document;
-      querySnapshot.forEach((doc) => {
-        document = { id: doc.id, data: doc.data() };
-      });
-      console.log("doc", document);
-      return document;
-    };
+    //fetchData(q);
+    // const fetchData = async () => {
+    //   let document;
+    //   const querySnapshot = await getDocs(q);
+    //   querySnapshot.forEach((doc) => {
+    //     document = { id: doc.id, data: doc.data() };
+    //   });
+
+    //   return document;
+    // };
 
     try {
-      const userData = await fetchData();
-      if (!userData) {
-        throw new Error("Whoops!");
-      }
+      const userData = await fetchData(q);
       dispatch(
         authActions.replaceLogin({
           isAuthenticated: userData.data.isAuthenticated,
           userName: userData.data.userName,
+          password: userData.data.password,
           changed: "",
         })
       );
     } catch (error) {
-      console.log("Cannot find the user: ", error);
+      if (error instanceof TypeError) {
+        return;
+      } else {
+        console.log(error.name + ": " + error.message);
+      }
     }
   };
 };
 
 export const validateAuth = (auth) => {
   const q = query(users, where("userName", "==", auth.userName));
-  console.log("auth validate");
   return async (dispatch) => {
-    const sendRequest = async () => {
-      const querySnapshot = await getDocs(q);
-      let document;
-      querySnapshot.forEach((doc) => {
-        document = { id: doc.id, data: doc.data() };
-      });
+    // const sendRequest = async () => {
+    //   // let document;
+    //   // const querySnapshot = await getDocs(q);
+    //   // querySnapshot.forEach((doc) => {
+    //   //   if (doc.data().password === auth.password) {
+    //   //     document = { id: doc.id, data: doc.data() };
+    //   //   } else {
+    //   //     throw new Error("Wrong password!");
+    //   //   }
+    //   });
 
-      return document;
-    };
+    //   return document;
+    //};
     try {
-      const { id, data } = await sendRequest();
-      const userDocRef = doc(db, "users", id);
+      const userData = await fetchData(q, auth);
+      const userDocRef = doc(db, "users", userData.id);
       updateDoc(userDocRef, { isAuthenticated: true });
       dispatch(
         authActions.replaceLogin({
           isAuthenticated: true,
-          userName: data.userName,
+          userName: userData.data.userName,
+          password: userData.data.password,
           changed: "login",
         })
       );
-
-      console.log("success");
     } catch (error) {
-      // dispatch(
-      //   uiActions.showNotification({
-      //     status: "error",
-      //     title: "Error!",
-      //     message: "Fetching cart data failed!",
-      //   })
-      // );
-      console.log("error", error);
+      if (error instanceof TypeError) {
+        return;
+      } else {
+        console.log(error.name + ": " + error.message);
+      }
     }
   };
 };
@@ -85,29 +104,27 @@ export const validateAuth = (auth) => {
 export const updateBaseOnLogout = (auth) => {
   const q = query(users, where("userName", "==", auth.userName));
   return async (dispatch) => {
-    const updateReq = async () => {
-      console.log("isAuth update", auth);
-      const querySnapshot = await getDocs(q);
-      let document;
-      querySnapshot.forEach((doc) => {
-        document = { id: doc.id, data: doc.data() };
-      });
+    // const updateReq = async () => {
+    //   const querySnapshot = await getDocs(q);
+    //   let document;
+    //   querySnapshot.forEach((doc) => {
+    //     document = { id: doc.id, data: doc.data() };
+    //   });
 
-      return document;
-    };
+    //   return document;
+    // };
     try {
-      const { id, data } = await updateReq();
-      const userDocRef = doc(db, "users", id);
+      const userData = await fetchData(q);
+      const userDocRef = doc(db, "users", userData.id);
       updateDoc(userDocRef, { isAuthenticated: false });
       dispatch(
         authActions.replaceLogin({
           isAuthenticated: false,
           userName: "",
+          password: "",
           changed: "",
         })
       );
-
-      console.log("success");
     } catch (error) {
       console.log("error", error);
     }

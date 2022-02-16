@@ -5,12 +5,13 @@ import { authActions } from "../store/auth-slice";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   function loginHandler(e: any) {
     e.preventDefault();
     if (!username) return;
-    dispatch(authActions.login(username));
+    dispatch(authActions.login({ userName: username, password }));
   }
 
   return (
@@ -34,6 +35,8 @@ function LoginForm() {
           <input
             type="password"
             placeholder={"Enter password"}
+            onChange={(e) => setPassword(e.target.value)}
+            required
             className="border-1 border-opacity-25 border-gray-400 rounded w-full px-3 py-2 focus focus:border-blue-600 focus:outline-none active:outline-none active:border-blue-600 focus:placeholder-blue-600"
           />
           <Button className="btn btn-secondary py-2 px-4" type="submit">

@@ -5,6 +5,7 @@ const authInitalState = {
   userName: "",
   password: "",
   changed: "",
+  warningMessage: "",
 };
 
 const authSlice = createSlice({
@@ -15,15 +16,21 @@ const authSlice = createSlice({
       state.userName = action.payload.userName;
       state.password = action.payload.password;
       state.changed = "login";
+      state.warningMessage = "";
     },
     logout(state) {
       state.changed = "logout";
+      state.warningMessage = "";
     },
     replaceLogin(state, action) {
       state.isAuthenticated = action.payload.isAuthenticated;
       state.userName = action.payload.userName;
       state.password = action.payload.password;
       state.changed = action.payload.changed;
+      state.warningMessage = "";
+    },
+    warningUserLogin(state, action) {
+      state.warningMessage = action.payload.warningMessage;
     },
   },
 });

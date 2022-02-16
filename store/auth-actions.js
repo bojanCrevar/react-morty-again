@@ -14,6 +14,9 @@ const users = collection(db, "users");
 const fetchData = async (q, auth) => {
   let document;
   const querySnapshot = await getDocs(q);
+  if (auth && querySnapshot.empty) {
+    throw new Error("No user found in database!");
+  }
   querySnapshot.forEach((doc) => {
     if (auth) {
       if (doc.data().password === auth.password) {
@@ -57,7 +60,7 @@ export const fetchUserOnReload = () => {
       if (error instanceof TypeError) {
         return;
       } else {
-        console.log(error.name + ": " + error.message);
+        console.log("Error", error);
       }
     }
   };
@@ -95,7 +98,11 @@ export const validateAuth = (auth) => {
       if (error instanceof TypeError) {
         return;
       } else {
-        console.log(error.name + ": " + error.message);
+        dispatch(
+          authActions.warningUserLogin({
+            warningMessage: error.message,
+          })
+        );
       }
     }
   };

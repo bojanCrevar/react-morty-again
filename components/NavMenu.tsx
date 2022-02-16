@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -10,12 +10,13 @@ import LoginForm from "./LoginForm";
 import Link from "next/link";
 import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
+import { validateAuth, updateBaseOnLogout } from "../store/auth-actions";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
 
   const [modalShow, setModalShow] = useState(false);
-
+  const auth = useSelector((state: RootState) => state.auth);
   const userName = useSelector((state: RootState) => state.auth.userName);
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -23,8 +24,16 @@ const NavMenu = () => {
 
   const logoutHandler = () => {
     setModalShow(false);
-    dispatch(authActions.logout());
+    dispatch(authActions.logout(userName));
   };
+  console.log("auth nav", auth);
+  useEffect(() => {
+    if (auth.changed === "login") {
+      dispatch(validateAuth(auth));
+    } else if (auth.changed === "logout") {
+      dispatch(updateBaseOnLogout(auth));
+    }
+  }, [auth]);
 
   return (
     <Navbar bg="light" expand="lg">

@@ -46,7 +46,6 @@ const PageWrapper = ({
   const filterObject = useSelector(
     (state: RootState) => state.filter.filterObject
   );
-  console.log("keyword", keyword);
 
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
@@ -85,15 +84,7 @@ const PageWrapper = ({
     }, 700);
   }
 
-  useEffect(() => {
-    if (pagesInfo !== emptyPagination) {
-      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
-        setActivePage(pagesInfo.pages);
-      } else fetchData();
-    }
-  }, [pagesInfo.pages, pagesInfo.count]);
-
-  useEffect(() => {
+  function createQuery(keyword: string) {
     const keywordQuery = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
@@ -104,9 +95,7 @@ const PageWrapper = ({
         shallow: true,
       }
     );
-    setLoader(true);
-    fetchData();
-  }, [activePage, sort, keyword, submitButtonClick]);
+  }
 
   function handleResize() {
     if (window.innerWidth < 1024 && !mobile) {
@@ -117,20 +106,33 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
+    handleResize();
+    if (query?.keyword) {
+      createQuery(query.keyword);
+      dispatch(filterActions.setKeyword(query.keyword));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pagesInfo !== emptyPagination) {
+      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+        setActivePage(pagesInfo.pages);
+      } else fetchData();
+    }
+  }, [pagesInfo.pages, pagesInfo.count]);
+
+  useEffect(() => {
+    createQuery(keyword);
+    setLoader(true);
+    fetchData();
+  }, [activePage, sort, submitButtonClick]);
+
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   });
-
-  useEffect(() => {
-    handleResize();
-    //if (keyword === "") {
-    if (query?.keyword) {
-      dispatch(filterActions.setKeyword(query.keyword));
-    }
-    //}
-  }, []);
 
   return (
     <div className="flex mb-4 w-full">

@@ -21,10 +21,11 @@ const Searchbar: React.FC<SearchBarProps> = ({
     e.preventDefault();
     setActivePage(1);
     triggerSearch();
-    dispatch(filterActions.setKeyword(searchKeyword.current!.value));
   }
 
-  function onChangeState() {}
+  function onChangeState() {
+    dispatch(filterActions.setKeyword(searchKeyword.current!.value));
+  }
 
   function clearHandler() {
     searchKeyword.current!.value = "";

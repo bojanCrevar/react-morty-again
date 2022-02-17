@@ -42,11 +42,22 @@ const PageWrapper = ({
 }: PageWrapperProps) => {
   const dispatch = useDispatch();
 
-  const keyword = useSelector((state: RootState) => state.filter.keyword);
+
+  function selectFromReduxOrQuery(propName: keyof QueryParams, stateValue: any, setAction: (payload: any) => {payload: any, type: string}) {
+    const queryValue = query ? query[propName ] : null;
+    if (queryValue && stateValue !== queryValue) {
+      dispatch(setAction(queryValue));
+    }
+    const value = queryValue || stateValue;
+    console.log('selectFromReduxOrQuery', value)
+    return value;
+  }
+
+  const keyword = selectFromReduxOrQuery('keyword', useSelector((state: RootState) => state.filter.keyword), filterActions.setKeyword);
+
   const filterObject = useSelector(
     (state: RootState) => state.filter.filterObject
   );
-  console.log("keyword", keyword);
 
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
@@ -85,16 +96,8 @@ const PageWrapper = ({
     }, 700);
   }
 
-  useEffect(() => {
-    if (pagesInfo !== emptyPagination) {
-      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
-        setActivePage(pagesInfo.pages);
-      } else fetchData();
-    }
-  }, [pagesInfo.pages, pagesInfo.count]);
-
-  useEffect(() => {
-    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+  function createQuery(keyword: string) {
+    const keywordQuery: string = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
         filterObject
@@ -104,9 +107,7 @@ const PageWrapper = ({
         shallow: true,
       }
     );
-    setLoader(true);
-    fetchData();
-  }, [activePage, sort, keyword, submitButtonClick]);
+  }
 
   function handleResize() {
     if (window.innerWidth < 1024 && !mobile) {
@@ -117,20 +118,29 @@ const PageWrapper = ({
   }
 
   useEffect(() => {
+    handleResize();
+  }, []);
+
+  useEffect(() => {
+    if (pagesInfo !== emptyPagination) {
+      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+        setActivePage(pagesInfo.pages);
+      } else fetchData();
+    }
+  }, [pagesInfo.pages, pagesInfo.count]);
+
+  useEffect(() => {
+    createQuery(keyword);
+    setLoader(true);
+    fetchData();
+  }, [activePage, sort, submitButtonClick]);
+
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   });
-
-  useEffect(() => {
-    handleResize();
-    if (keyword === "") {
-      if (query?.keyword) {
-        dispatch(filterActions.setKeyword(query.keyword));
-      }
-    }
-  }, []);
 
   return (
     <div className="flex mb-4 w-full">

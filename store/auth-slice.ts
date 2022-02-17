@@ -1,17 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const authInitalState = { isAuthenticated: false, userName: "" };
+const authInitalState = {
+  isAuthenticated: false,
+  userName: "",
+  password: "",
+  warningMessage: "",
+};
 
 const authSlice = createSlice({
   name: "authentication",
   initialState: authInitalState,
   reducers: {
-    login(state, action) {
-      state.isAuthenticated = true;
-      state.userName = action.payload;
+    replaceLogin(state, action) {
+      state.isAuthenticated = action.payload.isAuthenticated;
+      state.userName = action.payload.userName;
+      state.password = action.payload.password;
+      state.warningMessage = "";
     },
-    logout(state) {
-      state.isAuthenticated = false;
+    warningUserLogin(state, action) {
+      state.warningMessage = action.payload.warningMessage;
     },
   },
 });

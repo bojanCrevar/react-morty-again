@@ -12,6 +12,10 @@ const filterKeywordSlice = createSlice({
     setFilter(state, action) {
       state.filterObject = action.payload;
     },
+    resetKeywordandFilter(state) {
+      state.keyword = filterInitialState.keyword;
+      state.filterObject = filterInitialState.filterObject;
+    },
   },
 });
 

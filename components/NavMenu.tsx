@@ -4,26 +4,32 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { navLinks } from "../utils/navLinks";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth-slice";
 import GenericModal from "./GenericModal";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
 import { RootState } from "../model/storeModel";
+import styles from "./NavMenu.module.css";
+import { updateBaseOnLogout } from "../store/auth-actions";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
 
   const [modalShow, setModalShow] = useState(false);
+  const auth = useSelector((state: RootState) => state.auth);
 
-  const userName = useSelector((state: RootState) => state.auth.userName);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-
+  //console.log("auth", auth);
   const logoutHandler = () => {
     setModalShow(false);
-    dispatch(authActions.logout());
+
+    dispatch(updateBaseOnLogout(auth));
   };
+  // useEffect(() => {
+  //   if (auth.changed === "login") {
+  //     dispatch(validateAuth(auth));
+  //   } else if (auth.changed === "logout") {
+  //     // dispatch();
+  //   }
+  // }, [auth]);
 
   return (
     <Navbar bg="light" expand="lg">
@@ -43,22 +49,25 @@ const NavMenu = () => {
           <Nav className="me-auto">
             {navLinks.map((nav) => {
               return (
-                <Nav.Link href={nav.path} key={nav.name}>
-                  {nav.name}
-                </Nav.Link>
-                // <Link href={nav.path} key={nav.name} passHref>
-                //   <Nav.Link>{nav.name}</Nav.Link>
-                // </Link>
+                // <Nav.Link href={nav.path} key={nav.name}>
+                //   {nav.name}
+                // </Nav.Link>
+                <Link href={nav.path} key={nav.name} passHref>
+                  <Nav.Link>{nav.name}</Nav.Link>
+                </Link>
               );
             })}
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
+          <div className={styles.divider}></div>
+
           <div className="space-x-4">
-            {isAuthenticated ? (
+            {auth.isAuthenticated ? (
               <>
                 <Navbar.Text>
-                  Signed in as: <span className="font-bold">{userName}</span>
+                  Signed in as:{" "}
+                  <span className="font-bold">{auth.userName}</span>
                 </Navbar.Text>
                 <Navbar.Text>
                   <button

@@ -4,7 +4,6 @@ import {
   query,
   where,
   getDocs,
-  doc,
   updateDoc,
 } from "firebase/firestore";
 import { authActions } from "./auth-slice";
@@ -14,13 +13,11 @@ const users = collection(db, "users");
 const fetchData = async (q) => {
   let document;
   const querySnapshot = await getDocs(q);
-  console.log('Fetch Data')
   if (querySnapshot.empty) {
-    console.log('Setting Wrong Cred')
     throw new Error("Wrong Credentials");
   }
   querySnapshot.forEach((doc) => {
-      document = { id: doc.id, data: doc.data() };
+    document = { id: doc.id, data: doc.data(), ref: doc.ref };
   });
 
   return document;
@@ -39,9 +36,7 @@ export const fetchUserOnReload = () => {
         })
       );
     } catch (error) {
-      if (error instanceof TypeError) {
-        return;
-      } else {
+      if (!(error instanceof TypeError)) {
         console.log("Error", error);
       }
     }
@@ -49,12 +44,15 @@ export const fetchUserOnReload = () => {
 };
 
 export const validateAuth = (auth) => {
-  const q = query(users, where("userName", "==", auth.userName), where("password", "==", auth.password));
+  const q = query(
+    users,
+    where("userName", "==", auth.userName),
+    where("password", "==", auth.password)
+  );
   return async (dispatch) => {
     try {
       const userData = await fetchData(q);
-      const userDocRef = doc(db, "users", userData.id);
-      updateDoc(userDocRef, { isAuthenticated: true });
+      updateDoc(userData.ref, { isAuthenticated: true });
       dispatch(
         authActions.replaceLogin({
           isAuthenticated: true,
@@ -63,9 +61,7 @@ export const validateAuth = (auth) => {
         })
       );
     } catch (error) {
-      if (error instanceof TypeError) {
-        return;
-      } else {
+      if (!(error instanceof TypeError)) {
         dispatch(
           authActions.warningUserLogin({
             warningMessage: error.message,
@@ -81,7 +77,7 @@ export const updateBaseOnLogout = (auth) => {
   return async (dispatch) => {
     try {
       const userData = await fetchData(q);
-      const userDocRef = doc(db, "users", userData.id);
+      const userDocRef = userData.ref;
       await updateDoc(userDocRef, { isAuthenticated: false });
       dispatch(
         authActions.replaceLogin({

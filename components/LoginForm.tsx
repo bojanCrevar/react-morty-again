@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
-import { authActions } from "../store/auth-slice";
+import { validateAuth } from "../store/auth-actions";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -12,7 +12,7 @@ function LoginForm() {
   function loginHandler(e: any) {
     e.preventDefault();
     if (!username) return;
-    dispatch(authActions.login({ userName: username, password }));
+    dispatch(validateAuth({ userName: username, password }));
   }
 
   const warningMessage = useSelector(

@@ -11,22 +11,16 @@ import { authActions } from "./auth-slice";
 
 const users = collection(db, "users");
 
-const fetchData = async (q, auth) => {
+const fetchData = async (q) => {
   let document;
   const querySnapshot = await getDocs(q);
-  if (auth && querySnapshot.empty) {
-    throw new Error("No user found in database!");
+  console.log('Fetch Data')
+  if (querySnapshot.empty) {
+    console.log('Setting Wrong Cred')
+    throw new Error("Wrong Credentials");
   }
   querySnapshot.forEach((doc) => {
-    if (auth) {
-      if (doc.data().password === auth.password) {
-        document = { id: doc.id, data: doc.data() };
-      } else {
-        throw new Error("Wrong password");
-      }
-    } else {
       document = { id: doc.id, data: doc.data() };
-    }
   });
 
   return document;
@@ -35,17 +29,6 @@ const fetchData = async (q, auth) => {
 export const fetchUserOnReload = () => {
   const q = query(users, where("isAuthenticated", "==", true));
   return async (dispatch) => {
-    //fetchData(q);
-    // const fetchData = async () => {
-    //   let document;
-    //   const querySnapshot = await getDocs(q);
-    //   querySnapshot.forEach((doc) => {
-    //     document = { id: doc.id, data: doc.data() };
-    //   });
-
-    //   return document;
-    // };
-
     try {
       const userData = await fetchData(q);
       dispatch(
@@ -53,7 +36,6 @@ export const fetchUserOnReload = () => {
           isAuthenticated: userData.data.isAuthenticated,
           userName: userData.data.userName,
           password: userData.data.password,
-          changed: "",
         })
       );
     } catch (error) {
@@ -67,23 +49,10 @@ export const fetchUserOnReload = () => {
 };
 
 export const validateAuth = (auth) => {
-  const q = query(users, where("userName", "==", auth.userName));
+  const q = query(users, where("userName", "==", auth.userName), where("password", "==", auth.password));
   return async (dispatch) => {
-    // const sendRequest = async () => {
-    //   // let document;
-    //   // const querySnapshot = await getDocs(q);
-    //   // querySnapshot.forEach((doc) => {
-    //   //   if (doc.data().password === auth.password) {
-    //   //     document = { id: doc.id, data: doc.data() };
-    //   //   } else {
-    //   //     throw new Error("Wrong password!");
-    //   //   }
-    //   });
-
-    //   return document;
-    //};
     try {
-      const userData = await fetchData(q, auth);
+      const userData = await fetchData(q);
       const userDocRef = doc(db, "users", userData.id);
       updateDoc(userDocRef, { isAuthenticated: true });
       dispatch(
@@ -91,7 +60,6 @@ export const validateAuth = (auth) => {
           isAuthenticated: true,
           userName: userData.data.userName,
           password: userData.data.password,
-          changed: "login",
         })
       );
     } catch (error) {
@@ -111,25 +79,15 @@ export const validateAuth = (auth) => {
 export const updateBaseOnLogout = (auth) => {
   const q = query(users, where("userName", "==", auth.userName));
   return async (dispatch) => {
-    // const updateReq = async () => {
-    //   const querySnapshot = await getDocs(q);
-    //   let document;
-    //   querySnapshot.forEach((doc) => {
-    //     document = { id: doc.id, data: doc.data() };
-    //   });
-
-    //   return document;
-    // };
     try {
       const userData = await fetchData(q);
       const userDocRef = doc(db, "users", userData.id);
-      updateDoc(userDocRef, { isAuthenticated: false });
+      await updateDoc(userDocRef, { isAuthenticated: false });
       dispatch(
         authActions.replaceLogin({
           isAuthenticated: false,
           userName: "",
           password: "",
-          changed: "",
         })
       );
     } catch (error) {

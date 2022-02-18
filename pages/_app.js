@@ -2,7 +2,7 @@ import "tailwindcss/tailwind.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../_styles/App.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import {useEffect, useRef} from "react";
+import { useEffect, useRef} from "react";
 import { useRouter } from "next/router";
 import store from "../store";
 import { Provider } from "react-redux";

@@ -42,7 +42,26 @@ const PageWrapper = ({
 }: PageWrapperProps) => {
   const dispatch = useDispatch();
 
-  const keyword = useSelector((state: RootState) => state.filter.keyword);
+  function selectFromReduxOrQuery(
+    propName: keyof QueryParams,
+    stateValue: any,
+    setAction: (payload: any) => { payload: any; type: string }
+  ) {
+    const queryValue = query ? query[propName] : null;
+    if (queryValue && stateValue !== queryValue) {
+      dispatch(setAction(queryValue));
+    }
+    const value = queryValue || stateValue;
+    console.log("selectFromReduxOrQuery", value);
+    return value;
+  }
+
+  const keyword = selectFromReduxOrQuery(
+    "keyword",
+    useSelector((state: RootState) => state.filter.keyword),
+    filterActions.setKeyword
+  );
+
   const filterObject = useSelector(
     (state: RootState) => state.filter.filterObject
   );
@@ -85,7 +104,7 @@ const PageWrapper = ({
   }
 
   function createQuery(keyword: string) {
-    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+    const keywordQuery: string = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
         filterObject
@@ -107,10 +126,6 @@ const PageWrapper = ({
 
   useEffect(() => {
     handleResize();
-    if (query?.keyword) {
-      createQuery(query.keyword);
-      dispatch(filterActions.setKeyword(query.keyword));
-    }
   }, []);
 
   useEffect(() => {

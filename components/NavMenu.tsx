@@ -4,13 +4,12 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { navLinks } from "../utils/navLinks";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth-slice";
 import GenericModal from "./GenericModal";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
 import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
-import { validateAuth, updateBaseOnLogout } from "../store/auth-actions";
+import { updateBaseOnLogout } from "../store/auth-actions";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
@@ -22,15 +21,15 @@ const NavMenu = () => {
   const logoutHandler = () => {
     setModalShow(false);
 
-    dispatch(authActions.logout());
+    dispatch(updateBaseOnLogout(auth));
   };
-  useEffect(() => {
-    if (auth.changed === "login") {
-      dispatch(validateAuth(auth));
-    } else if (auth.changed === "logout") {
-      dispatch(updateBaseOnLogout(auth));
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   if (auth.changed === "login") {
+  //     dispatch(validateAuth(auth));
+  //   } else if (auth.changed === "logout") {
+  //     // dispatch();
+  //   }
+  // }, [auth]);
 
   return (
     <Navbar bg="light" expand="lg">

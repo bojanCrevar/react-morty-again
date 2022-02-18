@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { authActions } from "../store/auth-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../model/storeModel";
+import { validateAuth } from "../store/auth-actions";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -11,8 +12,12 @@ function LoginForm() {
   function loginHandler(e: any) {
     e.preventDefault();
     if (!username) return;
-    dispatch(authActions.login({ userName: username, password }));
+    dispatch(validateAuth({ userName: username, password }));
   }
+
+  const warningMessage = useSelector(
+    (state: RootState) => state.auth.warningMessage
+  );
 
   return (
     <form onSubmit={loginHandler}>
@@ -29,6 +34,7 @@ function LoginForm() {
             required
             className="border-1 border-opacity-25 border-gray-400 rounded w-full px-3 py-2 focus focus:border-blue-600 focus:outline-none active:outline-none active:border-blue-600 focus:placeholder-blue-600"
           />
+
           <label className="text-left w-full text-sm font-semibold">
             Password
           </label>
@@ -39,6 +45,9 @@ function LoginForm() {
             required
             className="border-1 border-opacity-25 border-gray-400 rounded w-full px-3 py-2 focus focus:border-blue-600 focus:outline-none active:outline-none active:border-blue-600 focus:placeholder-blue-600"
           />
+          {warningMessage && (
+            <span className="text-sm text-red-600">{warningMessage}</span>
+          )}
           <Button className="btn btn-secondary py-2 px-4" type="submit">
             Login
           </Button>

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
 import { updateBaseOnLogout } from "../store/auth-actions";
+import { authActions } from "../store/auth-slice";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
@@ -17,19 +18,11 @@ const NavMenu = () => {
   const [modalShow, setModalShow] = useState(false);
   const auth = useSelector((state: RootState) => state.auth);
 
-  //console.log("auth", auth);
   const logoutHandler = () => {
     setModalShow(false);
 
-    dispatch(updateBaseOnLogout(auth));
+    dispatch(authActions.logOut());
   };
-  // useEffect(() => {
-  //   if (auth.changed === "login") {
-  //     dispatch(validateAuth(auth));
-  //   } else if (auth.changed === "logout") {
-  //     // dispatch();
-  //   }
-  // }, [auth]);
 
   return (
     <Navbar bg="light" expand="lg">
@@ -49,9 +42,6 @@ const NavMenu = () => {
           <Nav className="me-auto">
             {navLinks.map((nav) => {
               return (
-                // <Nav.Link href={nav.path} key={nav.name}>
-                //   {nav.name}
-                // </Nav.Link>
                 <Link href={nav.path} key={nav.name} passHref>
                   <Nav.Link>{nav.name}</Nav.Link>
                 </Link>
@@ -63,11 +53,11 @@ const NavMenu = () => {
           <div className={styles.divider}></div>
 
           <div className="space-x-4">
-            {auth.isAuthenticated ? (
+            {auth.isLoggedIn ? (
               <>
                 <Navbar.Text>
                   Signed in as:{" "}
-                  <span className="font-bold">{auth.userName}</span>
+                  <span className="font-bold">{auth.username}</span>
                 </Navbar.Text>
                 <Navbar.Text>
                   <button
@@ -86,6 +76,7 @@ const NavMenu = () => {
                 >
                   Login
                 </button>
+
                 <GenericModal modalShow={modalShow} setModalShow={setModalShow}>
                   <LoginForm />
                 </GenericModal>

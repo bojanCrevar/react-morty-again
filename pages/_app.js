@@ -9,9 +9,17 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
 import { fetchUserOnReload } from "../store/auth-actions";
+import { authActions } from "../store/auth-slice";
+import axios from "axios";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
+  let token;
+  //it doesn't work without this IF
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
 
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
@@ -23,8 +31,20 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    store.dispatch(fetchUserOnReload());
-  }, []);
+    axios
+      .post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDgSgwMAcWL70VjDE-XxOR5bjPsHqFNdpg",
+        { idToken: token }
+      )
+      .then((response) => {
+        store.dispatch(
+          authActions.logIn({
+            token: token,
+            username: response.data.users[0].email,
+          })
+        );
+      });
+  }, [token]);
 
   return (
     <Provider store={store}>

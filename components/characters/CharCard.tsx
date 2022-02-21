@@ -27,9 +27,7 @@ const CharCard = ({
   favourite,
 }: CharCardProps) => {
   const [favouriteState, setFavouriteState] = useState(favourite || false);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   function checkStatus(status: string) {
     if (status === "Alive") {
@@ -113,7 +111,7 @@ const CharCard = ({
           <Link href={"characters/edit/" + id}>
             <Button
               variant="outline-info"
-              className={`btn-char ${!isAuthenticated && "disabled"}`}
+              className={`btn-char ${!isLoggedIn && "disabled"}`}
             >
               <div className="flex justify-center md:space-x-2">
                 <div>
@@ -128,7 +126,7 @@ const CharCard = ({
         </div>
         <div className="w-1/3 sm:w-full">
           <Button
-            className={`btn-char ${!isAuthenticated && "disabled"}`}
+            className={`btn-char ${!isLoggedIn && "disabled"}`}
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}
           >

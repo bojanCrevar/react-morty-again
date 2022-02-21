@@ -11,9 +11,7 @@ const RMTable = <T extends RMItemWithChars>({
   columnConfig,
   tableData,
 }: ColumnModel<T>) => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const [hovered, setHovered] = useState<number | null>(null);
   const lastColumn = columnConfig.length - 1;
@@ -37,7 +35,7 @@ const RMTable = <T extends RMItemWithChars>({
               </span>
               {i === lastColumn ? (
                 <span className="position: absolute right-1 ">
-                  {isAuthenticated && (
+                  {isLoggedIn && (
                     <ActionButton id={data.id} hovered={hovered === data.id} />
                   )}
                 </span>

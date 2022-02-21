@@ -9,6 +9,7 @@ import { EpisodeItem, UNDEFINED_ID } from "../../model/episodeModel";
 import EpisodeFormComponentInput from "../../model/episodeFormComponentInput";
 import { ChangeEvent } from "react";
 import MultipleSelect from "../MultipleSelect";
+import axios, { AxiosResponse } from "axios";
 
 function FormComponent({
   submitHandler,
@@ -33,12 +34,19 @@ function FormComponent({
       .test(
         "checkUniqueEpisode",
         "This episode is already existing",
-        (value) => {
-          const response = await axios.get("/api/episode/check", {
-            params: { episode: "TEST" },
-          });
+        async (value) => {
+          if (value == initialData.episode) {
+            return true;
+          }
 
-          if (response.contains === true) return false;
+          const response: AxiosResponse<{ exists: boolean }> = await axios.get(
+            "/api/episodes/check",
+            {
+              params: { episode: value },
+            }
+          );
+
+          return !response.data.exists;
         }
       )
       .required("Required"),

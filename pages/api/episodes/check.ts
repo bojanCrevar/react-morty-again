@@ -1,6 +1,6 @@
-import episodesRepo from "../../../../../utils/episode-repo";
 import { NextApiRequest, NextApiResponse } from "next";
-import { EpisodeItem } from "../../../../../model/episodeModel";
+import { EpisodeItem } from "../../../model/episodeModel";
+import episodesRepo from "../../../utils/episode-repo";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,18 +13,14 @@ export default async function handler(
         if (!episodeFromQuery) {
           res.status(404).json({ error: "No episode!" });
         }
-        const episodes = episodesRepo.getAll();
+        const episodes: EpisodeItem[] = episodesRepo.getAll();
 
-        episodes.find((episode) => {
-          if (episode!.episode == episodeFromQuery) {
-            res.status(200).json({
-              contains: true,
-            });
-          }
-        });
-        episodes;
+        const foundItem = episodes.find(
+          (episode: EpisodeItem) => episode!.episode == episodeFromQuery
+        );
+
         res.status(200).json({
-          contains: false,
+          exists: !!foundItem,
         });
       }
       break;

@@ -23,7 +23,6 @@ function MyVerticallyCenteredModal(props: any) {
 export default function FilterPanelMobile({
   filterConfig,
   date,
-  setFilterObject,
   triggerSearch,
   setActivePage,
 }: FilterPanelProps) {
@@ -49,7 +48,6 @@ export default function FilterPanelMobile({
         content={
           <FilterPanel
             filterConfig={filterConfig}
-            setFilterObject={setFilterObject}
             setActivePage={setActivePage}
             triggerSearch={triggerSearch}
             closeModal={closeModal}

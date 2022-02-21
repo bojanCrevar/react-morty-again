@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { ActionContext } from "../context/ActionContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../model/storeModel";
 
 type ActionButtonProps = {
   id: number;

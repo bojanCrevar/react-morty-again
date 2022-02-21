@@ -2,60 +2,77 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RMTable from "../RMTable";
 import { ActionContext } from "../../context/ActionContext";
+<<<<<<< HEAD
+=======
+import { Provider } from "react-redux";
+import store from "../../store/index";
+import * as redux from "react-redux";
+>>>>>>> origin/master
 
 describe("RMTable component test", () => {
-  let tableData;
-  let columnCfg;
-
+  const handleUpdate = jest.fn();
+  const handleDelete = jest.fn();
+  let spy;
+  const tableData = [
+    {
+      id: 1,
+      name: "Earth",
+      dimension: "C-2",
+      type: "Planet",
+      charactersString: "Rick, Morty",
+    },
+    {
+      id: 2,
+      name: "Earth c-54",
+      dimension: "C-54",
+      type: "Planetoid",
+      charactersString: "Morty",
+    },
+    {
+      id: 3,
+      name: "Earth c-1",
+      dimension: "C1",
+      type: "Planet",
+      charactersString: "Rick",
+    },
+  ];
+  const columnCfg = [
+    { key: "name", title: "Name" },
+    { key: "dimension", title: "Dimension" },
+    { key: "type", title: "Type" },
+    {
+      key: "charactersString",
+      title: "Residents",
+    },
+  ];
   beforeEach(() => {
-    tableData = [
-      {
-        id: 1,
-        name: "Earth",
-        dimension: "C-2",
-        type: "Planet",
-        charactersString: "Rick, Morty",
-      },
-      {
-        id: 2,
-        name: "Earth c-54",
-        dimension: "C-54",
-        type: "Planetoid",
-        charactersString: "Morty",
-      },
-      {
-        id: 3,
-        name: "Earth c-1",
-        dimension: "C1",
-        type: "Planet",
-        charactersString: "Rick",
-      },
-    ];
-    columnCfg = [
-      { key: "name", title: "Name" },
-      { key: "dimension", title: "Dimension" },
-      { key: "type", title: "Type" },
-      {
-        key: "charactersString",
-        title: "Residents",
-      },
-    ];
+    spy = jest.spyOn(redux, "useSelector");
   });
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   test("rendering all rows", () => {
-    render(<RMTable tableData={tableData} columnConfig={columnCfg} />);
+    render(
+      <Provider store={store}>
+        <RMTable tableData={tableData} columnConfig={columnCfg} />
+      </Provider>
+    );
 
     const rowsElements = screen.getAllByRole("row");
+
     expect(rowsElements).toHaveLength(4);
   });
 
   test("Showing update and delete button when hovered", () => {
-    const handleUpdate = jest.fn();
-    const handleDelete = jest.fn();
+    spy.mockReturnValue({ isAuthenticated: true });
 
     render(
-      <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
-        <RMTable tableData={tableData} columnConfig={columnCfg} />{" "}
-      </ActionContext.Provider>
+      <Provider store={store}>
+        <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+          <RMTable tableData={tableData} columnConfig={columnCfg} />
+        </ActionContext.Provider>
+      </Provider>
     );
 
     let rowElement = screen.getByRole("row", {
@@ -75,8 +92,14 @@ describe("RMTable component test", () => {
   });
 
   test("Getting elements with class invisible which are not hovered", () => {
+    spy.mockReturnValue({ isAuthenticated: true });
+
     const { container } = render(
-      <RMTable tableData={tableData} columnConfig={columnCfg} />
+      <Provider store={store}>
+        <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+          <RMTable tableData={tableData} columnConfig={columnCfg} />
+        </ActionContext.Provider>
+      </Provider>
     );
 
     let rowElement = screen.getByRole("row", {
@@ -85,6 +108,30 @@ describe("RMTable component test", () => {
 
     userEvent.hover(rowElement);
 
-    expect(container.getElementsByClassName("invisible").length).toBe(2);
+    expect(container.getElementsByClassName("invisible").length).toBe(4);
+  });
+
+  test("Doesn't render update and delete buttons when hovering, because user is not logged in", () => {
+    render(
+      <Provider store={store}>
+        <ActionContext.Provider value={{ handleUpdate, handleDelete }}>
+          <RMTable tableData={tableData} columnConfig={columnCfg} />
+        </ActionContext.Provider>
+      </Provider>
+    );
+
+    let rowElement = screen.getByRole("row", {
+      name: "Earth C-2 Planet Rick, Morty",
+    });
+    expect(rowElement).toBeInTheDocument();
+
+    userEvent.hover(rowElement);
+
+    expect(rowElement.getElementsByClassName("fa-edit visible")).toHaveLength(
+      0
+    );
+    expect(
+      rowElement.getElementsByClassName("fa-trash-alt visible")
+    ).toHaveLength(0);
   });
 });

@@ -15,9 +15,7 @@ export default async function handler(
         }
 
         let character = myCharactersRepo.getById(id);
-        if (!character) {
-          character = myCharactersRepo.getById(1);
-        }
+
         res.status(200).json({
           character: character,
         });

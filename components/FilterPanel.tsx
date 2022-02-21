@@ -4,11 +4,12 @@ import Button from "react-bootstrap/Button";
 import React, { useRef, createRef, RefObject } from "react";
 import { FilterModel } from "../model/filterModel";
 import { FilterGroupConfig } from "../model/filterModel";
+import { useDispatch } from "react-redux";
+import { filterActions } from "../store/filter-slice";
 
 type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
-  setFilterObject: (e: FilterModel) => void;
   setActivePage: (arg: React.SetStateAction<number>) => void;
   triggerSearch: () => void;
   closeModal?: () => void;
@@ -21,11 +22,12 @@ type GroupValueRefsMap = {
 export default function FilterPanel({
   filterConfig,
   date,
-  setFilterObject,
   triggerSearch,
   setActivePage,
   closeModal,
 }: FilterPanelProps) {
+  const dispatch = useDispatch();
+
   const groupRefs = useRef<GroupValueRefsMap>(
     filterConfig.reduce((prev: GroupValueRefsMap, item) => {
       prev[item.key] = item.values.map(() => createRef<HTMLInputElement>());
@@ -51,7 +53,7 @@ export default function FilterPanel({
       }
     });
 
-    setFilterObject(returnObject);
+    dispatch(filterActions.setFilter(returnObject));
   }
 
   return (

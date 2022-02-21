@@ -8,9 +8,12 @@ import Searchbar from "./Searchbar";
 import Pagination from "./Pagination";
 import { QueryParams } from "../model/queryParams";
 import FilterPanelMobile from "./mobile/FilterPanelMobile";
-import { PaginationModel } from "../model/paginationModel";
+import { emptyPagination, PaginationModel } from "../model/paginationModel";
 import { ResponseData } from "../model/ResponseDataModel";
 import { RMItem } from "../model/RMItem";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../model/storeModel";
+import { filterActions } from "../store/filter-slice";
 
 interface PageWrapperProps {
   children: React.ReactNode;
@@ -37,16 +40,41 @@ const PageWrapper = ({
   setSkeleton,
   setLoader,
 }: PageWrapperProps) => {
+  const dispatch = useDispatch();
+
+  function selectFromReduxOrQuery(
+    propName: keyof QueryParams,
+    stateValue: any,
+    setAction: (payload: any) => { payload: any; type: string }
+  ) {
+    const queryValue = query ? query[propName] : null;
+    if (queryValue && stateValue !== queryValue) {
+      dispatch(setAction(queryValue));
+    }
+    const value = queryValue || stateValue;
+    console.log("selectFromReduxOrQuery", value);
+    return value;
+  }
+
+  const keyword = selectFromReduxOrQuery(
+    "keyword",
+    useSelector((state: RootState) => state.filter.keyword),
+    filterActions.setKeyword
+  );
+
+  const filterObject = useSelector(
+    (state: RootState) => state.filter.filterObject
+  );
+
   const router = useRouter();
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
-  const [keyword, setKeyword] = useState(query?.keyword || "");
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
-  const [filterObject, setFilterObject] = useState<FilterModel>({});
+  //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function triggerSearch() {
-    setSubmitButtonClick(!submitButtonClick);
+    setSubmitButtonClick((prev) => !prev);
   }
 
   function constructFilterQuery(filterObject: FilterModel) {
@@ -75,14 +103,8 @@ const PageWrapper = ({
     }, 700);
   }
 
-  useEffect(() => {
-    if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
-      setActivePage(pagesInfo.pages);
-    } else fetchData();
-  }, [pagesInfo.pages, pagesInfo.count]);
-
-  useEffect(() => {
-    const keywordQuery = keyword ? `&keyword=${keyword}` : "";
+  function createQuery(keyword: string) {
+    const keywordQuery: string = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
         filterObject
@@ -92,22 +114,36 @@ const PageWrapper = ({
         shallow: true,
       }
     );
+  }
+
+  function handleResize() {
+    if (window.innerWidth < 1024 && !mobile) {
+      setMobile(true);
+    } else if (window.innerWidth >= 1024 && mobile) {
+      setMobile(false);
+    }
+  }
+
+  useEffect(() => {
+    handleResize();
+  }, []);
+
+  useEffect(() => {
+    if (pagesInfo !== emptyPagination) {
+      if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
+        setActivePage(pagesInfo.pages);
+      } else fetchData();
+    }
+  }, [pagesInfo.pages, pagesInfo.count]);
+
+  useEffect(() => {
+    createQuery(keyword);
     setLoader(true);
     fetchData();
   }, [activePage, sort, submitButtonClick]);
 
   useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth < 1024) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
-    }
-
     window.addEventListener("resize", handleResize);
-    handleResize();
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -120,7 +156,6 @@ const PageWrapper = ({
           <div className="w-1/2 ml-28 mt-44">
             <FilterPanel
               filterConfig={filterConfig}
-              setFilterObject={setFilterObject}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}
             />
@@ -144,14 +179,12 @@ const PageWrapper = ({
           {mobile && (
             <FilterPanelMobile
               filterConfig={filterConfig}
-              setFilterObject={setFilterObject}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}
             />
           )}
         </div>
         <Searchbar
-          setKeyword={setKeyword}
           initKeyword={keyword}
           setActivePage={setActivePage}
           triggerSearch={triggerSearch}
@@ -162,7 +195,7 @@ const PageWrapper = ({
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
         </div>
-        <div className="mt-1">{children}</div>
+        <div className="mt-3 mt-md-1">{children}</div>
       </div>
     </div>
   );

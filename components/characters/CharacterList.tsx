@@ -4,7 +4,7 @@ import axios from "axios";
 import { CharactersItem } from "../../model/charactersModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
-import { PAGE_SIZE } from "../../pages/api/characters";
+import { PAGE_SIZE } from "../../utils/apiResponse";
 
 type CharListProps = {
   characters: CharactersItem[];

@@ -4,11 +4,17 @@ import ActionButton from "./ActionButton";
 import styles from "./RMTable.module.css";
 import { ColumnModel } from "../model/columnCfgModel";
 import { RMItemWithChars } from "../model/RMItem";
+import { RootState } from "../model/storeModel";
+import { useSelector } from "react-redux";
 
 const RMTable = <T extends RMItemWithChars>({
   columnConfig,
   tableData,
 }: ColumnModel<T>) => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
   const [hovered, setHovered] = useState<number | null>(null);
   const lastColumn = columnConfig.length - 1;
   const dataRender = tableData.map((data) => {
@@ -17,7 +23,7 @@ const RMTable = <T extends RMItemWithChars>({
         key={data.id}
         onMouseEnter={() => setHovered(data.id)}
         onMouseLeave={() => setHovered(null)}
-        className="flex flex-col md:flex-row even:bg-gray-500 md:even:bg-gray-400"
+        className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4"
       >
         {columnConfig.map((cfg, i) => {
           return (
@@ -31,7 +37,9 @@ const RMTable = <T extends RMItemWithChars>({
               </span>
               {i === lastColumn ? (
                 <span className="position: absolute right-1 ">
-                  <ActionButton id={data.id} hovered={hovered === data.id} />
+                  {isAuthenticated && (
+                    <ActionButton id={data.id} hovered={hovered === data.id} />
+                  )}
                 </span>
               ) : null}
             </td>
@@ -42,9 +50,9 @@ const RMTable = <T extends RMItemWithChars>({
   });
 
   return (
-    <Table bordered hover striped responsive className={styles.rmtable}>
-      <thead className="hidden md:block">
-        <tr className="flex flex-col md:flex-row">
+    <Table hover borderless responsive className={styles.rmtable}>
+      <thead className="hidden md:block border-b-2 border-gray-200">
+        <tr className="flex flex-col md:flex-row text-gray-600 border-gray-400">
           {columnConfig.map((cfg, i) => {
             return (
               <th key={cfg.key as string} className="w-full">

@@ -2,12 +2,9 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RMTable from "../RMTable";
 import { ActionContext } from "../../context/ActionContext";
-<<<<<<< HEAD
-=======
 import { Provider } from "react-redux";
 import store from "../../store/index";
 import * as redux from "react-redux";
->>>>>>> origin/master
 
 describe("RMTable component test", () => {
   const handleUpdate = jest.fn();

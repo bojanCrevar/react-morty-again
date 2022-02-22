@@ -1,8 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { emptyEpisodeItem } from "../../model/episodeModel";
 import FormComponent from "../episodes/FormComponent";
+import mockAxios from "jest-mock-axios";
 
-describe("Episode FormComponent tests", () => {
+describe.only("Episode FormComponent tests", () => {
   const submitHandler = jest.fn();
   let initialData = {
     id: 4,
@@ -11,7 +12,12 @@ describe("Episode FormComponent tests", () => {
     episode: "S01E02",
     characters: [],
   };
-
+  afterEach(() => {
+    mockAxios.reset();
+  });
+  beforeEach(() => {
+    mockAxios.get.mockResolvedValue({ data: { exists: false }, response: 200 });
+  })
   it("shoud be a 'Create episode' button on the page", () => {
     render(
       <FormComponent

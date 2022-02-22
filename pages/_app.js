@@ -31,19 +31,23 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    axios
-      .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDgSgwMAcWL70VjDE-XxOR5bjPsHqFNdpg",
-        { idToken: token }
-      )
-      .then((response) => {
-        store.dispatch(
-          authActions.logIn({
-            token: token,
-            username: response.data.users[0].email,
-          })
-        );
-      });
+    if (token) {
+      axios
+        .post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${process.env.NEXT_PUBLIC_FIREBASE}`,
+          { idToken: token }
+        )
+        .then((response) => {
+          console.log("response", response);
+          store.dispatch(
+            authActions.logIn({
+              token: token,
+              username: response.data.users[0].email,
+            })
+          );
+        })
+        .catch((error) => console.log("error: ", error.message));
+    }
   }, [token]);
 
   return (

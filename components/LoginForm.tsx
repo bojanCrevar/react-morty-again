@@ -12,7 +12,7 @@ function LoginForm() {
 
   const firebaseEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:${
     isLogin ? "signInWithPassword" : "signUp"
-  }?key=AIzaSyDgSgwMAcWL70VjDE-XxOR5bjPsHqFNdpg`;
+  }?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
 
   const dispatch = useDispatch();
 

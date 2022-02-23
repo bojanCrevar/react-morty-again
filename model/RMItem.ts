@@ -7,6 +7,6 @@ export interface RMItemWithChars extends RMItem {
   charactersIds?: string[];
   charactersTooltip?: string;
   charactersString?: string;
-  characters?: [];
-  residents?: [];
+  characters?: string[];
+  residents?: string[];
 }

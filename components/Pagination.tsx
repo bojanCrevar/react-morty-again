@@ -3,7 +3,6 @@ import Pagination from "react-bootstrap/Pagination";
 import { useSelector } from "react-redux";
 import { PaginationModel } from "../model/paginationModel";
 import { RootState } from "../model/storeModel";
-import styles from "./Pagination.module.css";
 
 type paginationProps = {
   setActivePage: (arg: React.SetStateAction<number>) => void;

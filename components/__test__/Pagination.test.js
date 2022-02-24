@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-
+import { Provider } from "react-redux";
 import Pagination from "../Pagination.tsx";
+import store from "../../store";
 
 describe("Paginaton component", () => {
   let activePage;
@@ -21,11 +22,13 @@ describe("Paginaton component", () => {
     activePage = 1;
 
     render(
-      <Pagination
-        activePage={activePage}
-        pagesInfo={pagesInfo}
-        setActivePage={setActivePage}
-      />
+      <Provider store={store}>
+        <Pagination
+          activePage={activePage}
+          pagesInfo={pagesInfo}
+          setActivePage={setActivePage}
+        />
+      </Provider>
     );
 
     const buttonElements = screen.getAllByRole("listitem");
@@ -37,11 +40,13 @@ describe("Paginaton component", () => {
     let activePage = 2;
 
     render(
-      <Pagination
-        activePage={activePage}
-        pagesInfo={pagesInfo}
-        setActivePage={setActivePage}
-      />
+      <Provider store={store}>
+        <Pagination
+          activePage={activePage}
+          pagesInfo={pagesInfo}
+          setActivePage={setActivePage}
+        />
+      </Provider>
     );
 
     const buttonElements = screen.getAllByRole("listitem");
@@ -53,11 +58,13 @@ describe("Paginaton component", () => {
     let activePage = 3;
 
     render(
-      <Pagination
-        activePage={activePage}
-        pagesInfo={pagesInfo}
-        setActivePage={setActivePage}
-      />
+      <Provider store={store}>
+        <Pagination
+          activePage={activePage}
+          pagesInfo={pagesInfo}
+          setActivePage={setActivePage}
+        />
+      </Provider>
     );
 
     const buttonElements = screen.getAllByRole("listitem");
@@ -71,20 +78,24 @@ describe("Paginaton component", () => {
     setActivePage = (activePageFn) => {
       activePage = activePageFn(activePage);
       rerender(
+        <Provider store={store}>
+          <Pagination
+            activePage={activePage}
+            pagesInfo={pagesInfo}
+            setActivePage={setActivePage}
+          />
+        </Provider>
+      );
+    };
+
+    const { rerender } = render(
+      <Provider store={store}>
         <Pagination
           activePage={activePage}
           pagesInfo={pagesInfo}
           setActivePage={setActivePage}
         />
-      );
-    };
-
-    const { rerender } = render(
-      <Pagination
-        activePage={activePage}
-        pagesInfo={pagesInfo}
-        setActivePage={setActivePage}
-      />
+      </Provider>
     );
 
     const buttonElement = screen.getByRole("button", { name: "Next" });

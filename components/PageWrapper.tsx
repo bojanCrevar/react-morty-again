@@ -14,8 +14,8 @@ import { RMItem } from "../model/RMItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
 import { filterActions } from "../store/filter-slice";
-import { ParsedUrlQuery } from 'querystring';
-import { setupFilterValues } from '../utils/sidebarFilter';
+import { ParsedUrlQuery } from "querystring";
+import { setupFilterValues } from "../utils/sidebarFilter";
 
 interface PageWrapperProps {
   children: React.ReactNode;
@@ -29,7 +29,9 @@ interface PageWrapperProps {
   setSkeleton: (bool: Boolean) => void;
   setLoader: (bool: Boolean) => void;
 }
+
 let initialLoad = true;
+
 const PageWrapper = ({
   queryFromUrl,
   title,
@@ -52,13 +54,14 @@ const PageWrapper = ({
     setAction: (payload: any) => { payload: any; type: string }
   ) {
     const valueFromQuery = query ? query[propName] : null;
-    console.log('YY selectFromReduxOrQuery', {valueFromQuery, valueFromState});
     if (initialLoad && valueFromQuery && valueFromState !== valueFromQuery) {
       dispatch(setAction(valueFromQuery));
     }
 
-    const value = initialLoad ? valueFromQuery || valueFromState : valueFromState;
-    console.log("selectFromReduxOrQuery", value);
+    const value = initialLoad
+      ? valueFromQuery || valueFromState
+      : valueFromState;
+
     return value;
   }
 
@@ -74,13 +77,12 @@ const PageWrapper = ({
     filterActions.setFilter
   );
 
-  console.log('ZZ filterValue', filterValue)
-
   const router = useRouter();
-  const [activePage, setActivePage] = useState(query?.activePage ? +query?.activePage : 1 );
+  const [activePage, setActivePage] = useState(
+    query?.activePage ? +query?.activePage : 1
+  );
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
-  //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function triggerSearch() {
@@ -159,7 +161,7 @@ const PageWrapper = ({
     };
   });
 
-  if(initialLoad) {
+  if (initialLoad) {
     initialLoad = false;
   }
   return (
@@ -168,6 +170,7 @@ const PageWrapper = ({
         <div className="w-1/4">
           <div className="w-1/2 ml-28 mt-44">
             <FilterPanel
+              initFilterValue={filterValue}
               filterConfig={filterConfig}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}
@@ -191,6 +194,7 @@ const PageWrapper = ({
           </div>
           {mobile && (
             <FilterPanelMobile
+              initFilterValue={filterValue}
               filterConfig={filterConfig}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}

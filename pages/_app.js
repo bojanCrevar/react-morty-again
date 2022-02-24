@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
   if(resetQuery.current) {
     resetQuery.current = false;
-    store.dispatch(filterActions.resetKeywordandFilter());
+    store.dispatch(filterActions.resetKeywordAndFilter());
   }
 
   useEffect(() => {

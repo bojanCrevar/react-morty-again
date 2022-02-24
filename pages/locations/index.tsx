@@ -3,7 +3,6 @@ import LocationList from "../../components/locations/LocationList";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Button from "react-bootstrap/Button";
-import { QueryParams } from "../../model/queryParams";
 import { ResponseData } from "../../model/ResponseDataModel";
 import PageWrapper from "../../components/PageWrapper";
 import { FilterGroupConfig } from "../../model/filterModel";
@@ -14,6 +13,7 @@ import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
+import { ParsedUrlQuery } from 'querystring';
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -37,7 +37,7 @@ export const filterConfig: FilterGroupConfig[] = [
   },
 ];
 
-const LocationsPage = ({ query }: { query: QueryParams }) => {
+const LocationsPage = ({ query }: {query: ParsedUrlQuery}) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
   const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<LocationsItem>>({
@@ -69,7 +69,7 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     <PageWrapper
       title={"List of locations"}
       buttonAdd={buttonAdd}
-      query={query}
+      queryFromUrl={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}

@@ -48,7 +48,10 @@ function LoginForm() {
           {warningMessage && (
             <span className="text-sm text-red-600">{warningMessage}</span>
           )}
-          <Button className="btn btn-secondary py-2 px-4" type="submit">
+          <Button
+            className="btn btn-secondary py-2 px-4 dark:bg-gray-700"
+            type="submit"
+          >
             Login
           </Button>
         </div>

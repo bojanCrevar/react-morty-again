@@ -38,18 +38,15 @@ function Characters({ query }: { query: QueryParams }) {
   });
   const { results: chars, info: pagesInfo } = data;
 
-  const buttonAdd = (
-    <Link href="/characters/create">
-      <Button variant="success w-full lg:w-4/5" type="submit">
-        Add character
-      </Button>
-    </Link>
-  );
+  const addNewItemBtn = {
+    href: "/characters/create",
+    content: "Add character",
+  };
 
   return (
     <PageWrapper
       title={"List of characters"}
-      buttonAdd={buttonAdd}
+      addNewItemBtn={addNewItemBtn}
       query={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}
@@ -62,7 +59,11 @@ function Characters({ query }: { query: QueryParams }) {
       {loader ? (
         <Loader />
       ) : (
-        <CharacterList characters={chars} setData={setData} setLoader={setLoader}/>
+        <CharacterList
+          characters={chars}
+          setData={setData}
+          setLoader={setLoader}
+        />
       )}
     </PageWrapper>
   );

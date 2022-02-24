@@ -37,7 +37,7 @@ const FavouriteIcon = ({
 
   return (
     <Button
-      className="btn-char"
+      className="btn-char dark:hover:bg-[#c4a23b]"
       type="button"
       variant={"btn " + getStyle()}
       onClick={() => {
@@ -55,7 +55,11 @@ const FavouriteIcon = ({
           />
         </div>
 
-        <div className={"font-semibold" + showFave && "text-red-700 "}>
+        <div
+          className={
+            "font-semibold" + showFave && "text-red-700 dark:text-white "
+          }
+        >
           <span className="hidden md:block">
             {!showFave ? "Add to favorites!" : "Favorited"}
           </span>

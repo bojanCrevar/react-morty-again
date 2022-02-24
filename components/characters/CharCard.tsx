@@ -33,11 +33,11 @@ const CharCard = ({
 
   function checkStatus(status: string) {
     if (status === "Alive") {
-      return "text-green-700";
+      return "text-green-700 dark:text-green-500";
     } else if (status === "Dead") {
-      return "text-red-700";
+      return "text-red-700 dark:text-red-500";
     } else {
-      return "text-gray-700";
+      return "text-gray-700 dark:text-gray-900";
     }
   }
 
@@ -63,7 +63,7 @@ const CharCard = ({
   }
 
   return (
-    <div className="bg-white rounded mt-2 p-2 flex flex-col sm:flex-row">
+    <div className="bg-[#fff] dark:bg-gray-600 rounded mt-2 p-2 flex flex-col sm:flex-row">
       <div className="flex space-x-4 w-full">
         <div className="w-1/2 sm:w-1/3 lg:w-1/4 h-36 relative">
           {image ? (
@@ -101,7 +101,7 @@ const CharCard = ({
       </div>
 
       <div
-        className={`w-full sm:w-1/4 md:w-2/4 mt-2 space-x-4 sm:space-x-0 sm:space-y-2 flex  ${styles.button}`}
+        className={`w-full sm:w-1/4 md:w-2/4 mt-2 space-x-4 sm:space-x-0 sm:space-y-2 flex ${styles.button}`}
       >
         <div className="w-1/3 sm:w-full">
           <FavouriteIcon
@@ -113,14 +113,18 @@ const CharCard = ({
           <Link href={"characters/edit/" + id}>
             <Button
               variant="outline-info"
-              className={`btn-char ${!isAuthenticated && "disabled"}`}
+              className={`btn-char ${
+                !isAuthenticated && "disabled"
+              } dark:hover:bg-[#2f899c] `}
             >
               <div className="flex justify-center md:space-x-2">
                 <div>
                   <FontAwesomeIcon icon={faEdit} />
                 </div>
                 <div>
-                  <span className="hidden md:block">Edit character</span>
+                  <span className="hidden md:block dark:text-white ">
+                    Edit character
+                  </span>
                 </div>
               </div>
             </Button>
@@ -128,7 +132,9 @@ const CharCard = ({
         </div>
         <div className="w-1/3 sm:w-full">
           <Button
-            className={`btn-char ${!isAuthenticated && "disabled"}`}
+            className={`btn-char ${
+              !isAuthenticated && "disabled"
+            } dark:bg-[#a82733] dark:hover:bg-[#82111c]`}
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}
           >

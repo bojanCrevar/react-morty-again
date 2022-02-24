@@ -1,7 +1,9 @@
-import { PreviewData } from "next";
 import React from "react";
 import Pagination from "react-bootstrap/Pagination";
+import { useSelector } from "react-redux";
 import { PaginationModel } from "../model/paginationModel";
+import { RootState } from "../model/storeModel";
+import styles from "./Pagination.module.css";
 
 type paginationProps = {
   setActivePage: (arg: React.SetStateAction<number>) => void;
@@ -9,12 +11,13 @@ type paginationProps = {
   pagesInfo: PaginationModel;
 };
 
-//first destructure props then set type
 const PaginationBar = ({
   setActivePage,
   activePage,
   pagesInfo,
 }: paginationProps) => {
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
   const prevButtonTemplate =
     activePage > 1 ? (
       <Pagination.Prev onClick={() => setActivePage((prev) => prev - 1)} />
@@ -26,7 +29,7 @@ const PaginationBar = ({
     ) : null;
 
   return (
-    <Pagination className="mb-1 mb-lg-2">
+    <Pagination className={"mb-1 mb-lg-2" + (theme ? " dark" : "")}>
       {prevButtonTemplate}
       <Pagination.Item>{activePage}</Pagination.Item>
       {nextButtonTemplate}

@@ -10,29 +10,31 @@ import Link from "next/link";
 import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
 import { updateBaseOnLogout } from "../store/auth-actions";
+import { Button } from "react-bootstrap";
+import { themeActions } from "../store/theme-slice";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
-
   const [modalShow, setModalShow] = useState(false);
   const auth = useSelector((state: RootState) => state.auth);
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
-  //console.log("auth", auth);
   const logoutHandler = () => {
     setModalShow(false);
 
     dispatch(updateBaseOnLogout(auth));
   };
-  // useEffect(() => {
-  //   if (auth.changed === "login") {
-  //     dispatch(validateAuth(auth));
-  //   } else if (auth.changed === "logout") {
-  //     // dispatch();
-  //   }
-  // }, [auth]);
+
+  const toggleTheme = () => {
+    dispatch(themeActions.toggleDarkTheme(!theme));
+  };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar
+      variant={theme ? "dark" : "light"}
+      expand="lg"
+      className="bg-[#fff] dark:bg-gray-800"
+    >
       <Container>
         <Link href="/">
           <img
@@ -49,9 +51,6 @@ const NavMenu = () => {
           <Nav className="me-auto">
             {navLinks.map((nav) => {
               return (
-                // <Nav.Link href={nav.path} key={nav.name}>
-                //   {nav.name}
-                // </Nav.Link>
                 <Link href={nav.path} key={nav.name} passHref>
                   <Nav.Link>{nav.name}</Nav.Link>
                 </Link>
@@ -60,6 +59,13 @@ const NavMenu = () => {
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
+          {/* toggle */}
+          <Navbar.Text>
+            <Button variant="primary" onClick={toggleTheme}>
+              Toggle theme
+            </Button>
+          </Navbar.Text>
+          {/* delete */}
           <div className={styles.divider}></div>
 
           <div className="space-x-4">

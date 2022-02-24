@@ -18,7 +18,7 @@ const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
       skeletons.push(
         <tr
           key={i}
-          className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4"
+          className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-gray-400 dark:text-gray-700 dark:border-gray-800 dark:border-opacity-80"
         >
           {pageColumns.map((column) => (
             <td
@@ -41,11 +41,11 @@ const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
       baseColor="#a6a6a6"
       highlightColor="#c2c2c2"
       borderRadius="1"
-      duration={2}
+      duration={1}
     >
       <Table hover borderless responsive className={styles.rmtable}>
-        <thead className="hidden md:block border-b-2 border-gray-200">
-          <tr className="flex flex-col md:flex-row text-gray-600 border-gray-400">
+        <thead className="hidden md:block border-b-2 border-gray-200 dark:border-gray-400">
+          <tr className="flex flex-col md:flex-row text-gray-600  dark:text-gray-400 ">
             {pageColumns.map((column) => (
               <th key={column.key} className="w-full">
                 {column.title}

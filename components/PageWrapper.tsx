@@ -14,12 +14,13 @@ import { RMItem } from "../model/RMItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
 import { filterActions } from "../store/filter-slice";
-
+import Link from "next/link";
+import { Button } from "react-bootstrap";
 interface PageWrapperProps {
   children: React.ReactNode;
   title: string;
   query: QueryParams;
-  buttonAdd: React.ReactNode;
+  addNewItemBtn: { href: string; content: string };
   setData: (data: ResponseData<RMItem>) => void;
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
@@ -32,7 +33,7 @@ const PageWrapper = ({
   query,
   title,
   children,
-  buttonAdd,
+  addNewItemBtn,
   setData,
   filterConfig,
   pagesInfo,
@@ -52,7 +53,6 @@ const PageWrapper = ({
       dispatch(setAction(queryValue));
     }
     const value = queryValue || stateValue;
-    console.log("selectFromReduxOrQuery", value);
     return value;
   }
 
@@ -190,7 +190,13 @@ const PageWrapper = ({
           triggerSearch={triggerSearch}
         />
         <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
-          <div className="flex items-start lg:w-1/2">{buttonAdd}</div>
+          <div className="flex items-start lg:w-1/2">
+            <Link href={addNewItemBtn.href}>
+              <Button variant="success w-full lg:w-4/5" type="submit">
+                {addNewItemBtn.content}
+              </Button>
+            </Link>
+          </div>
           <div className="lg:w-1/2">
             <SortComponent setSort={setSort} initSort={sort} />
           </div>

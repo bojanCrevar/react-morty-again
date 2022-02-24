@@ -3,14 +3,18 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import FilterPanel from "../FilterPanel";
 import { FilterPanelProps } from "../../model/filterModel";
+import { useSelector } from "react-redux";
+import { RootState } from "../../model/storeModel";
 
 function MyVerticallyCenteredModal(props: any) {
+  const theme = useSelector((state: RootState) => state.theme.theme);
   return (
     <Modal
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      dialogClassName={theme ? "dark" : ""}
     >
       <Modal.Body>{props.content}</Modal.Body>
       <Modal.Header>

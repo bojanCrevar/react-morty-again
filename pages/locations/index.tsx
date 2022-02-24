@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import LocationList from "../../components/locations/LocationList";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
-import Button from "react-bootstrap/Button";
 import { QueryParams } from "../../model/queryParams";
 import { ResponseData } from "../../model/ResponseDataModel";
 import PageWrapper from "../../components/PageWrapper";
@@ -57,18 +55,12 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
     },
   ];
 
-  const buttonAdd = (
-    <Link href="/locations/create">
-      <Button variant="success w-full lg:w-4/5" type="submit">
-        Add location
-      </Button>
-    </Link>
-  );
+  const addNewItemBtn = { href: "/locations/create", content: "Add location" };
 
   return (
     <PageWrapper
       title={"List of locations"}
-      buttonAdd={buttonAdd}
+      addNewItemBtn={addNewItemBtn}
       query={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}

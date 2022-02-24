@@ -9,8 +9,11 @@ export default function CharactersSkeleton(props: CharactersSkeletonProps) {
     let skeletons = [];
     for (let i = 0; i < amount; i++) {
       skeletons.push(
-        <div className="flex flex-row space-x-4 mt-4 border-2 bg-white" key={i}>
-          <div className="w-1/6 h-36">
+        <div
+          className="flex flex-row space-x-4 mt-4 border-2 bg-[#fff] dark:bg-gray-600"
+          key={i}
+        >
+          <div className="w-1/6 h-36 ">
             <Skeleton height="95%" />
           </div>
 
@@ -35,7 +38,7 @@ export default function CharactersSkeleton(props: CharactersSkeletonProps) {
       baseColor="#a6a6a6"
       highlightColor="#c2c2c2"
       borderRadius="1"
-      duration={2}
+      duration={1}
     >
       {displaySkeletons}
     </SkeletonTheme>

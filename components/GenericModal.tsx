@@ -1,5 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { useSelector } from "react-redux";
+import { RootState } from "../model/storeModel";
 
 type GenericModalProps = {
   modalShow: boolean;
@@ -8,12 +10,14 @@ type GenericModalProps = {
 };
 
 function MyVerticallyCenteredModal(props: any) {
+  const theme = useSelector((state: RootState) => state.theme.theme);
   return (
     <Modal
       {...props}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      dialogClassName={theme ? " dark" : ""}
     >
       <Modal.Body>{props.content}</Modal.Body>
       <Modal.Header>

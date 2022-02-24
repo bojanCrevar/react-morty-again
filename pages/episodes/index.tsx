@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import EpisodeList from "../../components/episodes/EpisodeList";
-import Link from "next/link";
-import Button from "react-bootstrap/Button";
 import { ResponseData } from "../../model/ResponseDataModel";
 import { GetServerSideProps } from "next";
 import PageWrapper from "../../components/PageWrapper";
@@ -40,13 +38,10 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
   });
   const { results: episodes, info: pagesInfo } = data;
 
-  const buttonAdd = (
-    <Link href="/episodes/create">
-      <Button variant="success w-full lg:w-4/5" type="submit">
-        Add episode
-      </Button>
-    </Link>
-  );
+  const addNewItemBtn = {
+    href: "/episodes/create",
+    content: "Add episode",
+  };
 
   const episodeColumns: ColumnCfg<EpisodeItem>[] = [
     { key: "name", title: "Title" },
@@ -62,7 +57,7 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
   return (
     <PageWrapper
       title={"List of episodes"}
-      buttonAdd={buttonAdd}
+      addNewItemBtn={addNewItemBtn}
       query={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}

@@ -38,11 +38,10 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
             <span>Profile</span>
           </Link>
         </NavDropdown.Item>
-        <NavDropdown.Item>DarkMode toggle</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item className="group">
           <Navbar.Text onClick={logoutHandler}>
-            <span className="group-hover:text-red-600 ">
+            <span className="group-hover:text-red-600">
               Logout
               <FontAwesomeIcon icon={faArrowAltCircleRight} className="ml-1 " />
             </span>

@@ -8,7 +8,7 @@ const authInitialState = {
 
 const authSlice = createSlice({
   name: "authentication",
-  initialState: authInitialState,
+  initialState: () => authInitialState,
   reducers: {
     logIn(state, action) {
       state.token = action.payload.token;

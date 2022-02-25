@@ -23,7 +23,7 @@ const RMTable = <T extends RMItemWithChars>({
         key={data.id}
         onMouseEnter={() => setHovered(data.id)}
         onMouseLeave={() => setHovered(null)}
-        className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-gray-400 dark:text-gray-700 dark:border-gray-800 dark:border-opacity-80"
+        className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:text-gray-300  dark:border-[#252E38]"
       >
         {columnConfig.map((cfg, i) => {
           return (
@@ -52,7 +52,7 @@ const RMTable = <T extends RMItemWithChars>({
   return (
     <Table hover borderless responsive className={styles.rmtable}>
       <thead className="hidden md:block border-b-2 border-gray-200 dark:border-gray-400">
-        <tr className="flex flex-col md:flex-row text-gray-600  dark:text-gray-400 ">
+        <tr className="flex flex-col md:flex-row text-gray-600 dark:text-gray-300 ">
           {columnConfig.map((cfg, i) => {
             return (
               <th key={cfg.key as string} className="w-full">

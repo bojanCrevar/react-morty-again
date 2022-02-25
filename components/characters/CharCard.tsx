@@ -33,9 +33,9 @@ const CharCard = ({
 
   function checkStatus(status: string) {
     if (status === "Alive") {
-      return "text-green-700 dark:text-green-500";
+      return "text-green-700 dark:text-green-400";
     } else if (status === "Dead") {
-      return "text-red-700 dark:text-red-500";
+      return "text-red-700 dark:text-red-400";
     } else {
       return "text-gray-700 dark:text-gray-900";
     }

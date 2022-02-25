@@ -13,29 +13,43 @@ body,
 }
 
 .dark .form-control {
-  background-color: rgb(156 163 175);
+  background-color: #a8adb3;
+  color: black;
 }
 
 .dark .form-select {
-  background-color: rgb(156 163 175);
+  background-color: #a8adb3;
+  color: black;
+}
+
+.css-14el2xx-placeholder {
+  color: black !important;
 }
 
 .dark div.css-b62m3t-container > div {
-  background-color: rgb(156 163 175);
-  color: rgb(31 41 55);
+  background-color: #a8adb3;
+  color: black;
 }
 
+.dark .form-floating > label {
+  color: black;
+}
+
+.dark #react-select-2-listbox {
+  color: black;
+}
 .dark .modal-content {
-  background-color: rgb(107 114 128);
+  background-color: #41464f;
+  color: rgb(209 213 219);
 }
 
 .dark .modal-content input {
-  background-color: rgb(156 163 175);
+  background-color: #6f737b;
 }
 
 .dark .page-link {
-  background-color: rgb(156 163 175);
-  color: rgb(31 41 55);
+  background-color: #6f737b;
+  color: white;
 }
 
 .dark .page-link:hover {

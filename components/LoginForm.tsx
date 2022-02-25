@@ -49,7 +49,7 @@ function LoginForm() {
             <span className="text-sm text-red-600">{warningMessage}</span>
           )}
           <Button
-            className="btn btn-secondary py-2 px-4 dark:bg-gray-700"
+            className="btn btn-secondary py-2 px-4 dark:bg-[#585B62]"
             type="submit"
           >
             Login

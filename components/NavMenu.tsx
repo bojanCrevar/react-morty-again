@@ -33,7 +33,7 @@ const NavMenu = () => {
     <Navbar
       variant={theme ? "dark" : "light"}
       expand="lg"
-      className="bg-[#fff] dark:bg-gray-800"
+      className="bg-[#fff] dark:bg-[#142D3E]"
     >
       <Container>
         <Link href="/">

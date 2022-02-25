@@ -48,7 +48,7 @@ const Searchbar: React.FC<SearchBarProps> = ({
               ref={searchKeyword}
               defaultValue={initKeyword}
               data-testid="keywordInput"
-              className="dark:bg-gray-400 dark:text-gray-800"
+              className="dark:bg-gray-400 dark:text-white"
             />
           </div>
           <div className="flex lg:w-1/4 ">

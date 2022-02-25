@@ -57,19 +57,17 @@ export default function FilterPanel({
   }
 
   return (
-    <div className="bg-[#fff] dark:bg-gray-400 rounded-md p-2 ">
+    <div className="bg-[#fff] dark:bg-[#6F737B] rounded-md p-2 ">
       <form onSubmit={(e) => onSubmitClick(e)} onChange={() => onChangeState()}>
-        <div className="font-bold text-center pt-2 text-lg dark:text-gray-600">
-          Filter panel
-        </div>
+        <div className="font-bold text-center pt-2 text-lg">Filter panel</div>
         <div className="overflow-y-auto max-h-[510px] ">
           {filterConfig.map((object) => (
             <div key={object.title}>
               <hr className="solid" />
-              <div className="text-gray-700 font-semibold mb-2">
+              <div className="text-gray-900 font-semibold mb-2">
                 {object.title}
               </div>
-              <div className="text-gray-500 dark:text-gray-700">
+              <div className="text-gray-500 dark:text-white">
                 {object.values.map((value, index) => (
                   <Form.Check
                     label={value}

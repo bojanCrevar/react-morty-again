@@ -65,7 +65,7 @@ export default function FilterPanel({
                     label={value}
                     name={object.key + index}
                     type={object.type}
-                    id={object.key + index}
+                    id={value}
                     key={value}
                     data-value={value}
                     ref={groupRefs.current[object.key][index]}

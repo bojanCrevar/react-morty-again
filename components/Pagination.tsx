@@ -15,7 +15,9 @@ const PaginationBar = ({
   activePage,
   pagesInfo,
 }: paginationProps) => {
-  const theme = useSelector((state: RootState) => state.theme.theme);
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.profile.isDarkTheme
+  );
 
   const prevButtonTemplate =
     activePage > 1 ? (
@@ -28,7 +30,7 @@ const PaginationBar = ({
     ) : null;
 
   return (
-    <Pagination className={"mb-1 mb-lg-2" + (theme ? " dark" : "")}>
+    <Pagination className={"mb-1 mb-lg-2" + (isDarkTheme ? " dark" : "")}>
       {prevButtonTemplate}
       <Pagination.Item>{activePage}</Pagination.Item>
       {nextButtonTemplate}

@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./auth-slice";
 import filterKeywordSlice from "./filter-slice";
-import themeSlice from "./theme-slice";
+import profileSlice from "./profile-slice";
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     filter: filterKeywordSlice.reducer,
-    theme: themeSlice.reducer,
+    profile: profileSlice.reducer,
   },
 });
 

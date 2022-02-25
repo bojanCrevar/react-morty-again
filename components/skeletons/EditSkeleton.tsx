@@ -5,11 +5,13 @@ import { RootState } from "../../model/storeModel";
 const additionalStyle = { marginTop: "20px" };
 
 export default function EditSkeleton({ count }: { count?: number }) {
-  const theme = useSelector((state: RootState) => state.theme.theme);
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.profile.isDarkTheme
+  );
   return (
     <Skeleton
       count={count ?? 1}
-      baseColor={theme ? "#9ca3af" : "#ddd"}
+      baseColor={isDarkTheme ? "#9ca3af" : "#ddd"}
       highlightColor="#fff"
       borderRadius="0.5rem"
       height={60}

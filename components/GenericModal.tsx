@@ -10,14 +10,16 @@ type GenericModalProps = {
 };
 
 function MyVerticallyCenteredModal(props: any) {
-  const theme = useSelector((state: RootState) => state.theme.theme);
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.profile.isDarkTheme
+  );
   return (
     <Modal
       {...props}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      dialogClassName={theme ? " dark" : ""}
+      dialogClassName={isDarkTheme ? " dark" : ""}
     >
       <Modal.Body>{props.content}</Modal.Body>
       <Modal.Header>

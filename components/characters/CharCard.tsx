@@ -27,9 +27,7 @@ const CharCard = ({
   favourite,
 }: CharCardProps) => {
   const [favouriteState, setFavouriteState] = useState(favourite || false);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   function checkStatus(status: string) {
     if (status === "Alive") {
@@ -114,7 +112,7 @@ const CharCard = ({
             <Button
               variant="outline-info"
               className={`btn-char ${
-                !isAuthenticated && "disabled"
+                !isLoggedIn && "disabled"
               } dark:hover:bg-[#2f899c] `}
             >
               <div className="flex justify-center md:space-x-2">
@@ -133,7 +131,7 @@ const CharCard = ({
         <div className="w-1/3 sm:w-full">
           <Button
             className={`btn-char ${
-              !isAuthenticated && "disabled"
+              !isLoggedIn && "disabled"
             } dark:bg-[#a82733] dark:hover:bg-[#82111c]`}
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}

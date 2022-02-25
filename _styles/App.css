@@ -22,11 +22,11 @@ body,
   color: black;
 }
 
-.css-14el2xx-placeholder {
-  color: black !important;
+div.multipleselect > div > div > div {
+  color: black;
 }
 
-.dark div.css-b62m3t-container > div {
+.dark div.multipleselect > div {
   background-color: #a8adb3;
   color: black;
 }

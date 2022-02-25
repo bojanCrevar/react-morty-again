@@ -9,11 +9,12 @@ import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
 import { PAGE_SIZE } from "../../utils/apiResponse";
+import { LoadersType } from "../../model/loaderModel";
 
 type LocationsProps = {
   locations: LocationsItem[];
   setData: Dispatch<SetStateAction<ResponseData<LocationsItem>>>;
-  setLoader: Dispatch<SetStateAction<Boolean>>;
+  setLoaders: Dispatch<SetStateAction<LoadersType>>;
   locationsColumns: ColumnCfg<LocationsItem>[];
 };
 
@@ -21,7 +22,7 @@ const LocationList = ({
   locations,
   setData,
   locationsColumns,
-  setLoader,
+  setLoaders,
 }: LocationsProps) => {
   const mappedLocations = useCharacters(locations);
   function handleUpdate(id: number) {
@@ -32,7 +33,7 @@ const LocationList = ({
       `/api/locations/${encodeURIComponent(id)}`
     );
     if (response.status === 200) {
-      setLoader(true);
+      setLoaders((prev) => ({ ...prev, spinLoader: true }));
       setData((prev) => ({
         ...prev,
         info: {

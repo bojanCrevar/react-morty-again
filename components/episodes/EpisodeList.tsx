@@ -9,18 +9,19 @@ import axios from "axios";
 import { ResponseData } from "../../model/ResponseDataModel";
 import React, { Dispatch, SetStateAction } from "react";
 import { PAGE_SIZE } from "../../utils/apiResponse";
+import { LoadersType } from "../../model/loaderModel";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];
   setData: Dispatch<SetStateAction<ResponseData<EpisodeItem>>>;
-  setLoader: Dispatch<SetStateAction<Boolean>>;
+  setLoaders: Dispatch<SetStateAction<LoadersType>>;
   episodeColumns: ColumnCfg<EpisodeItem>[];
 };
 
 const EpisodeList = ({
   episodes,
   setData,
-  setLoader,
+  setLoaders,
   episodeColumns,
 }: EpisodeListProps) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const EpisodeList = ({
       `/api/episodes/${encodeURIComponent(id)}`
     );
     if (response.status === 200) {
-      setLoader(true);
+      setLoaders((prev) => ({ ...prev, spinLoader: true }));
       setData((prev) => ({
         ...prev,
         info: {

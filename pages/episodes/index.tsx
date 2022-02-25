@@ -14,6 +14,7 @@ import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
+import { LoadersType } from "../../model/loaderModel";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -32,12 +33,15 @@ export const filterConfig: FilterGroupConfig[] = [
 ];
 
 const EpisodesPage = ({ query }: { query: QueryParams }) => {
-  const [skeleton, setSkeleton] = useState<Boolean>(true);
-  const [loader, setLoader] = useState<Boolean>(false);
+  const [loaders, setLoaders] = useState<LoadersType>({
+    spinLoader: false,
+    skeletonLoader: true,
+  });
   const [data, setData] = useState<ResponseData<EpisodeItem>>({
     results: [],
     info: emptyPagination,
   });
+  const { spinLoader, skeletonLoader } = loaders;
   const { results: episodes, info: pagesInfo } = data;
 
   const buttonAdd = (
@@ -68,18 +72,19 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"episodes"}
-      setLoader={setLoader}
-      setSkeleton={setSkeleton}
+      setLoaders={setLoaders}
     >
-      {skeleton && <TableSkeletons amount={20} pageColumns={episodeColumns} />}
-      {loader ? (
+      {skeletonLoader && (
+        <TableSkeletons amount={20} pageColumns={episodeColumns} />
+      )}
+      {spinLoader ? (
         <Loader />
       ) : (
         <EpisodeList
           episodes={episodes}
           episodeColumns={episodeColumns}
           setData={setData}
-          setLoader={setLoader}
+          setLoaders={setLoaders}
         />
       )}
     </PageWrapper>

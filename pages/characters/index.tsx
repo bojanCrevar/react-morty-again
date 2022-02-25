@@ -12,6 +12,7 @@ import { CharactersItem } from "../../model/charactersModel";
 import { emptyPagination } from "../../model/paginationModel";
 import { RMItem } from "../../model/RMItem";
 import Loader from "../../components/Spinner";
+import { LoadersType } from "../../model/loaderModel";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -30,12 +31,15 @@ export const filterConfig: FilterGroupConfig[] = [
 ];
 
 function Characters({ query }: { query: QueryParams }) {
-  const [skeleton, setSkeleton] = useState<Boolean>(true);
-  const [loader, setLoader] = useState<Boolean>(false);
+  const [loaders, setLoaders] = useState<LoadersType>({
+    spinLoader: false,
+    skeletonLoader: true,
+  });
   const [data, setData] = useState<ResponseData<CharactersItem>>({
     info: emptyPagination,
     results: [],
   });
+  const { spinLoader, skeletonLoader } = loaders;
   const { results: chars, info: pagesInfo } = data;
 
   const buttonAdd = (
@@ -55,14 +59,17 @@ function Characters({ query }: { query: QueryParams }) {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"characters"}
-      setSkeleton={setSkeleton as (bool: Boolean) => void}
-      setLoader={setLoader as (bool: Boolean) => void}
+      setLoaders={setLoaders}
     >
-      {skeleton && <CharactersSkeleton amount={10} />}
-      {loader ? (
+      {skeletonLoader && <CharactersSkeleton amount={10} />}
+      {spinLoader ? (
         <Loader />
       ) : (
-        <CharacterList characters={chars} setData={setData} setLoader={setLoader}/>
+        <CharacterList
+          characters={chars}
+          setData={setData}
+          setLoaders={setLoaders}
+        />
       )}
     </PageWrapper>
   );

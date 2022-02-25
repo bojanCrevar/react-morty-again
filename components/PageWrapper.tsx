@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FilterModel, FilterGroupConfig } from "../model/filterModel";
 import FilterPanel from "./FilterPanel";
@@ -14,7 +14,13 @@ import { RMItem } from "../model/RMItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
 import { filterActions } from "../store/filter-slice";
+import Link from "next/link";
+import { Button } from "react-bootstrap";
 
+type LoadersType = {
+  spinLoader: Boolean;
+  skeletonLoader: Boolean;
+};
 interface PageWrapperProps {
   children: React.ReactNode;
   title: string;
@@ -24,8 +30,7 @@ interface PageWrapperProps {
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
   api: string;
-  setSkeleton: (bool: Boolean) => void;
-  setLoader: (bool: Boolean) => void;
+  setLoaders: Dispatch<SetStateAction<LoadersType>>;
 }
 
 const PageWrapper = ({
@@ -37,8 +42,7 @@ const PageWrapper = ({
   filterConfig,
   pagesInfo,
   api,
-  setSkeleton,
-  setLoader,
+  setLoaders,
 }: PageWrapperProps) => {
   const dispatch = useDispatch();
 
@@ -52,7 +56,6 @@ const PageWrapper = ({
       dispatch(setAction(queryValue));
     }
     const value = queryValue || stateValue;
-    console.log("selectFromReduxOrQuery", value);
     return value;
   }
 
@@ -70,7 +73,6 @@ const PageWrapper = ({
   const [activePage, setActivePage] = useState(+query?.activePage || 1);
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
-  //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function triggerSearch() {
@@ -98,8 +100,11 @@ const PageWrapper = ({
     });
     setTimeout(() => {
       setData(response.data);
-      setSkeleton(false);
-      setLoader(false);
+      setLoaders((prev) => ({
+        ...prev,
+        spinLoader: false,
+        skeletonLoader: false,
+      }));
     }, 700);
   }
 
@@ -138,7 +143,8 @@ const PageWrapper = ({
 
   useEffect(() => {
     createQuery(keyword);
-    setLoader(true);
+    setLoaders((prev) => ({ ...prev, spinLoader: true }));
+    //setLoader(true);
     fetchData();
   }, [activePage, sort, submitButtonClick]);
 

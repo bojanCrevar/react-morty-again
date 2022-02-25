@@ -5,20 +5,21 @@ import { CharactersItem } from "../../model/charactersModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
 import { PAGE_SIZE } from "../../utils/apiResponse";
+import { LoadersType } from "../../model/loaderModel";
 
 type CharListProps = {
   characters: CharactersItem[];
   setData: Dispatch<SetStateAction<ResponseData<CharactersItem>>>;
-  setLoader: Dispatch<SetStateAction<Boolean>>;
+  setLoaders: Dispatch<SetStateAction<LoadersType>>;
 };
 
-function CharacterList({ characters, setData, setLoader }: CharListProps) {
+function CharacterList({ characters, setData, setLoaders }: CharListProps) {
   async function handleDelete(id: number) {
     const response = await axios.delete(
       `/api/characters/${encodeURIComponent(id)}`
     );
     if (response.status === 200) {
-      setLoader(true);
+      setLoaders((prev) => ({ ...prev, spinLoader: true }));
       setData((prev) => ({
         ...prev,
         info: {

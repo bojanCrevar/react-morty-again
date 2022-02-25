@@ -14,6 +14,7 @@ import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
+import { LoadersType } from "../../model/loaderModel";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -38,12 +39,15 @@ export const filterConfig: FilterGroupConfig[] = [
 ];
 
 const LocationsPage = ({ query }: { query: QueryParams }) => {
-  const [skeleton, setSkeleton] = useState<Boolean>(true);
-  const [loader, setLoader] = useState<Boolean>(false);
+  const [loaders, setLoaders] = useState<LoadersType>({
+    spinLoader: false,
+    skeletonLoader: true,
+  });
   const [data, setData] = useState<ResponseData<LocationsItem>>({
     info: emptyPagination,
     results: [],
   });
+  const { spinLoader, skeletonLoader } = loaders;
   const { results: locations, info: pagesInfo } = data;
 
   const locationsColumns: ColumnCfg<LocationsItem>[] = [
@@ -74,20 +78,19 @@ const LocationsPage = ({ query }: { query: QueryParams }) => {
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}
       api={"locations"}
-      setSkeleton={setSkeleton}
-      setLoader={setLoader}
+      setLoaders={setLoaders}
     >
-      {skeleton && (
+      {skeletonLoader && (
         <TableSkeletons amount={20} pageColumns={locationsColumns} />
       )}
-      {loader ? (
+      {spinLoader ? (
         <Loader />
       ) : (
         <LocationList
           locations={locations}
           setData={setData}
           locationsColumns={locationsColumns}
-          setLoader={setLoader}
+          setLoaders={setLoaders}
         />
       )}
     </PageWrapper>

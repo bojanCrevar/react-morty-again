@@ -65,8 +65,9 @@ export default function FilterPanel({
                     label={value}
                     name={object.key + index}
                     type={object.type}
-                    id={value}
+                    id={object.key + index}
                     key={value}
+                    data-value={value}
                     ref={groupRefs.current[object.key][index]}
                     defaultChecked={initFilterValue[object.key]?.includes(
                       value

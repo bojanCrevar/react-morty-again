@@ -54,7 +54,7 @@ const PageWrapper = ({
     setAction: (payload: any) => { payload: any; type: string }
   ) {
     const valueFromQuery = query ? query[propName] : null;
-    if (initialLoad && valueFromQuery && valueFromState !== valueFromQuery) {
+    if (initialLoad && valueFromQuery) {
       dispatch(setAction(valueFromQuery));
     }
 

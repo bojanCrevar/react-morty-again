@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -9,14 +9,15 @@ import LoginForm from "./LoginForm";
 import Link from "next/link";
 import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
-import { updateBaseOnLogout } from "../store/auth-actions";
 import { authActions } from "../store/auth-slice";
+import NavMenuDropdown from "./NavMenuDropdown";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
 
   const [modalShow, setModalShow] = useState(false);
   const auth = useSelector((state: RootState) => state.auth);
+  const profile = useSelector((state: RootState) => state.profile);
 
   const logoutHandler = () => {
     setModalShow(false);
@@ -52,22 +53,12 @@ const NavMenu = () => {
         <Navbar.Collapse className="justify-content-end">
           <div className={styles.divider}></div>
 
-          <div className="space-x-4">
+          <div className="space-x-4 flex">
             {auth.isLoggedIn ? (
-              <>
-                <Navbar.Text>
-                  Signed in as:{" "}
-                  <span className="font-bold">{auth.username}</span>
-                </Navbar.Text>
-                <Navbar.Text>
-                  <button
-                    className="px-3 pb-1 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
-                    onClick={logoutHandler}
-                  >
-                    Logout
-                  </button>
-                </Navbar.Text>
-              </>
+              <NavMenuDropdown
+                profile={profile}
+                logoutHandler={logoutHandler}
+              />
             ) : (
               <Navbar.Text>
                 <button

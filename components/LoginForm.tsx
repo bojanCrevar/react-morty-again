@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { authActions } from "../store/auth-slice";
+import { dispatchProfile } from "../store/auth-actions";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -26,12 +27,17 @@ function LoginForm() {
         returnSecureToken: true,
       })
       .then((response) => {
+        console.log("responz", response);
+
         dispatch(
           authActions.logIn({
             token: response.data.idToken,
             username: response.data.email,
+            localId: response.data.localId,
+            refreshToken: response.data.refreshToken,
           })
         );
+        dispatch(dispatchProfile(response.data.localId, response.data));
       })
       .catch(function (error) {
         if (error.response) {

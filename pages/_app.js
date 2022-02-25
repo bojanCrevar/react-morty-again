@@ -5,12 +5,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import store from "../store";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
-import { fetchUserOnReload } from "../store/auth-actions";
-import { authActions } from "../store/auth-slice";
-import axios from "axios";
+import { getUserByToken } from "../utils/getUserByToken";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -32,27 +30,13 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (token) {
-      axios
-        .post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${process.env.NEXT_PUBLIC_FIREBASE}`,
-          { idToken: token }
-        )
-        .then((response) => {
-          console.log("response", response);
-          store.dispatch(
-            authActions.logIn({
-              token: token,
-              username: response.data.users[0].email,
-            })
-          );
-        })
-        .catch((error) => console.log("error: ", error.message));
+      getUserByToken(token);
     }
   }, [token]);
 
   return (
     <Provider store={store}>
-      <div className="bg-gray-400 h-full">
+      <div className="bg-gradient-to-b from-white via-gray-400 to-gray-700 h-full">
         <NavMenu />
         <div
           className="flex overflow-auto"

@@ -35,7 +35,7 @@ function FormComponent({
         "checkUniqueEpisode",
         "This episode is already existing",
         async (value) => {
-          if (value == initialData.episode) {
+          if (!value) {
             return true;
           }
 

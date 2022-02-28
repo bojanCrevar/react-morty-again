@@ -24,7 +24,7 @@ body,
   -webkit-box-shadow: 0 0 0 1000px #a8adb3 inset !important;
 }
 
-.multipleselect {
+.multipleselect > div > div:nth-child(1) {
   overflow-y: auto;
   max-height: 150px;
 }
@@ -49,14 +49,17 @@ div.multipleselect > div > div > div {
   color: black;
 }
 
-div.multipleselect > div {
+.multipleselect {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dark .multipleselect {
+  box-shadow: 0 0.5rem 1rem rgba(163, 163, 163, 0.35);
 }
 
 .dark div.multipleselect > div {
   background-color: #a8adb3;
   color: black;
-  box-shadow: 0 0.5rem 1rem rgba(163, 163, 163, 0.35);
 }
 
 .dark .form-floating > label {

@@ -13,7 +13,7 @@ interface NavMenuDropdownProps {
 function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
   return (
     <div className="flex">
-      <Navbar.Text>
+      <Navbar.Text className="mt-0.5">
         Signed in as:{" "}
         <span className="font-bold">
           {profile.displayName.length ? profile.displayName : profile.userEmail}

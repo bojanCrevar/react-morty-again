@@ -5,9 +5,9 @@ type WrapperProps = {
 
 export default function Wrapper({ title, children }: WrapperProps) {
   return (
-    <div className="m-auto w-4/5 md:w-3/5 lg:w-1/2">
-      <h5 className="p-4 text-4xl	text-center">{title}</h5>
-      {children}
+    <div className="m-auto w-full sm:w-3/4 xl:w-1/2">
+      <h5 className="p-4 text-2xl md:text-4xl	text-center">{title}</h5>
+      <div className="px-4 ">{children}</div>
     </div>
   );
 }

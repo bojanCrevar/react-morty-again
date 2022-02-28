@@ -9,6 +9,7 @@ import { EpisodeItem, UNDEFINED_ID } from "../../model/episodeModel";
 import EpisodeFormComponentInput from "../../model/episodeFormComponentInput";
 import { ChangeEvent } from "react";
 import MultipleSelect from "../MultipleSelect";
+import axios, { AxiosResponse } from "axios";
 
 function FormComponent({
   submitHandler,
@@ -29,6 +30,24 @@ function FormComponent({
       .matches(
         /^S[0-9][1-9]E[0-9][1-9]$/,
         "Please enter an episode in proper format S01E01"
+      )
+      .test(
+        "checkUniqueEpisode",
+        "This episode is already existing",
+        async (value) => {
+          if (value == initialData.episode) {
+            return true;
+          }
+
+          const response: AxiosResponse<{ exists: boolean }> = await axios.get(
+            "/api/episodes/check",
+            {
+              params: { episode: value },
+            }
+          );
+
+          return !response.data.exists;
+        }
       )
       .required("Required"),
   });
@@ -119,7 +138,7 @@ function FormComponent({
             <Button variant="btn btn-outline-danger  w-1/2 mr-2">Back</Button>
           </Link>
           <Button
-            variant="btn btn-outline-success w-1/2"
+            variant="success w-1/2"
             type="submit"
             disabled={!formik.isValid}
             data-testid="button"

@@ -75,22 +75,24 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
           </Form.Control.Feedback>
         </FloatingLabel>
 
-        <div className="pb-2">
+        <div className="pb-2 flex flex-col sm:flex-row justify-around">
           {["Alive", "Dead", "unknown"].map((type) => (
-            <Form.Check
-              data-testid={"status_" + type}
-              key={type}
-              inline
-              label={type}
-              name="status"
-              type="radio"
-              id={`inline-radio-${type}`}
-              value={type}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isInvalid={!!(formik.touched.status && formik.errors.status)}
-              defaultChecked={type === formik.values.status}
-            />
+            <div>
+              <Form.Check
+                data-testid={"status_" + type}
+                key={type}
+                inline
+                label={type}
+                name="status"
+                type="radio"
+                id={`inline-radio-${type}`}
+                value={type}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={!!(formik.touched.status && formik.errors.status)}
+                defaultChecked={type === formik.values.status}
+              />
+            </div>
           ))}
           <Form.Control.Feedback
             type="invalid"

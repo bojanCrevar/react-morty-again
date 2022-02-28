@@ -24,6 +24,11 @@ body,
   -webkit-box-shadow: 0 0 0 1000px #a8adb3 inset !important;
 }
 
+.multipleselect {
+  overflow-y: auto;
+  max-height: 150px;
+}
+
 .dark .form-control {
   background-color: #a8adb3;
   color: black;

@@ -65,7 +65,7 @@ const NavMenu = () => {
             ) : (
               <Navbar.Text>
                 <button
-                  className="px-3 pb-1 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
+                  className="px-3 pb-0.5 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
                   onClick={() => setModalShow(true)}
                 >
                   Login

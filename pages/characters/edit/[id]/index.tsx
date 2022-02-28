@@ -63,7 +63,7 @@ export default function EditCharacter(props: EditCharacterProps) {
   console.log("isLogd", isLoggedIn);
 
   return character ? (
-    <Wrapper title={"Edit character: " + character.name}>
+    <Wrapper title={`Edit character: ${character.name}`}>
       <FormComponent submitHandler={submitHandler} initialData={character} />
     </Wrapper>
   ) : (

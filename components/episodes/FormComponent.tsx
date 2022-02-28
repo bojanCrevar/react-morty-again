@@ -133,12 +133,12 @@ function FormComponent({
           value={formik.values.characters}
         />
 
-        <div className="flex flex-row p-2">
+        <div className="flex flex-col sm:flex-row p-2 space-y-2 sm:space-y-0 sm:space-x-2">
           <Link href="/episodes">
-            <Button variant="btn btn-outline-danger  w-1/2 mr-2">Back</Button>
+            <Button variant="danger w-full">Back</Button>
           </Link>
           <Button
-            variant="btn btn-outline-success w-1/2"
+            variant="success w-full"
             type="submit"
             disabled={!formik.isValid}
             data-testid="button"

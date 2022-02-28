@@ -12,6 +12,11 @@ body,
   @apply w-full transition-all ease-in-out duration-300 hover:scale-105;
 }
 
+.multipleselect {
+  overflow-y: auto;
+  max-height: 150px;
+}
+
 .dark .form-control {
   background-color: #a8adb3;
   color: black;

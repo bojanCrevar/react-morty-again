@@ -38,8 +38,7 @@ export default function FilterPanel({
     filterConfig.forEach((group) => {
       const groupValues = groupRefs.current[group.key]
         .filter((refValue) => refValue.current!.checked)
-        .map((refValue) => refValue.current!.id);
-
+        .map((refValue) => refValue.current!.getAttribute("data-value")!);
       if (groupValues.length) {
         returnObject[group.key] = groupValues;
       }
@@ -65,7 +64,7 @@ export default function FilterPanel({
                     label={value}
                     name={object.key + index}
                     type={object.type}
-                    id={value}
+                    id={object.key + index}
                     key={value}
                     data-value={value}
                     ref={groupRefs.current[object.key][index]}

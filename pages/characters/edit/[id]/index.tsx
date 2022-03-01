@@ -7,6 +7,8 @@ import { CharactersItem } from "../../../../model/charactersModel";
 import { GetServerSidePropsContext } from "next/types";
 import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 import charRepo from "../../../../utils/character-repo";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../model/storeModel";
 
 type EditCharacterProps = {
   params: {
@@ -15,6 +17,8 @@ type EditCharacterProps = {
 };
 
 export default function EditCharacter(props: EditCharacterProps) {
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
   const [character, setCharacter] = useState<CharactersItem>();
 
   async function submitHandler({
@@ -55,6 +59,8 @@ export default function EditCharacter(props: EditCharacterProps) {
   useEffect(() => {
     getCharacter();
   }, []);
+
+  console.log("isLogd", isLoggedIn);
 
   return character ? (
     <Wrapper title={"Edit character: " + character.name}>

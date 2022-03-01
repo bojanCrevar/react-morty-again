@@ -16,12 +16,13 @@ import { RootState } from "../model/storeModel";
 import { filterActions } from "../store/filter-slice";
 import { ParsedUrlQuery } from "querystring";
 import { setupFilterValues } from "../utils/sidebarFilter";
-
+import Link from "next/link";
+import { Button } from "react-bootstrap";
 interface PageWrapperProps {
   children: React.ReactNode;
   title: string;
   queryFromUrl: ParsedUrlQuery;
-  buttonAdd: React.ReactNode;
+  addNewItemBtn: { href: string; content: string };
   setData: (data: ResponseData<RMItem>) => void;
   filterConfig: FilterGroupConfig[];
   pagesInfo: PaginationModel;
@@ -36,7 +37,7 @@ const PageWrapper = ({
   queryFromUrl,
   title,
   children,
-  buttonAdd,
+  addNewItemBtn,
   setData,
   filterConfig,
   pagesInfo,
@@ -210,7 +211,13 @@ const PageWrapper = ({
           triggerSearch={triggerSearch}
         />
         <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
-          <div className="flex items-start lg:w-1/2">{buttonAdd}</div>
+          <div className="flex items-start lg:w-1/2">
+            <Link href={addNewItemBtn.href}>
+              <Button variant="success w-full lg:w-4/5" type="submit">
+                {addNewItemBtn.content}
+              </Button>
+            </Link>
+          </div>
           <div className="lg:w-1/2">
             <SortComponent setSort={setSort} initSort={sort} />
           </div>

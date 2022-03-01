@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import LocationList from "../../components/locations/LocationList";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
-import Button from "react-bootstrap/Button";
 import { ResponseData } from "../../model/ResponseDataModel";
 import PageWrapper from "../../components/PageWrapper";
 import { FilterGroupConfig } from "../../model/filterModel";
@@ -13,7 +11,7 @@ import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
-import { ParsedUrlQuery } from 'querystring';
+import { ParsedUrlQuery } from "querystring";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -37,7 +35,7 @@ export const filterConfig: FilterGroupConfig[] = [
   },
 ];
 
-const LocationsPage = ({ query }: {query: ParsedUrlQuery}) => {
+const LocationsPage = ({ query }: { query: ParsedUrlQuery }) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
   const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<LocationsItem>>({
@@ -57,18 +55,12 @@ const LocationsPage = ({ query }: {query: ParsedUrlQuery}) => {
     },
   ];
 
-  const buttonAdd = (
-    <Link href="/locations/create">
-      <Button variant="success w-full lg:w-4/5" type="submit">
-        Add location
-      </Button>
-    </Link>
-  );
+  const addNewItemBtn = { href: "/locations/create", content: "Add location" };
 
   return (
     <PageWrapper
       title={"List of locations"}
-      buttonAdd={buttonAdd}
+      addNewItemBtn={addNewItemBtn}
       queryFromUrl={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}

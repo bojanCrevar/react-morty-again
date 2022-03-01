@@ -106,6 +106,7 @@ const MultipleSelect = ({
       value={charOptions}
       defaultOptions={defaultOptions}
       loadOptions={debouncedPromiseOptions}
+      className="multipleselect"
     />
   );
 };

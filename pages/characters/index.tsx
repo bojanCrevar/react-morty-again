@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Link from "next/link";
-import Button from "react-bootstrap/Button";
 import CharacterList from "../../components/characters/CharacterList";
 import CharactersSkeleton from "../../components/skeletons/CharactersSkeleton";
 import { FilterGroupConfig } from "../../model/filterModel";
@@ -38,18 +36,15 @@ function Characters({ query }: { query: ParsedUrlQuery }) {
   });
   const { results: chars, info: pagesInfo } = data;
 
-  const buttonAdd = (
-    <Link href="/characters/create">
-      <Button variant="success w-full lg:w-4/5" type="submit">
-        Add character
-      </Button>
-    </Link>
-  );
+  const addNewItemBtn = {
+    href: "/characters/create",
+    content: "Add character",
+  };
 
   return (
     <PageWrapper
       title={"List of characters"}
-      buttonAdd={buttonAdd}
+      addNewItemBtn={addNewItemBtn}
       queryFromUrl={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}

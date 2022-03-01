@@ -11,3 +11,48 @@ body,
 .btn-char {
   @apply w-full transition-all ease-in-out duration-300 hover:scale-105;
 }
+
+.dark .form-control {
+  background-color: #a8adb3;
+  color: black;
+}
+
+.dark .form-select {
+  background-color: #a8adb3;
+  color: black;
+}
+
+div.multipleselect > div > div > div {
+  color: black;
+}
+
+.dark div.multipleselect > div {
+  background-color: #a8adb3;
+  color: black;
+}
+
+.dark .form-floating > label {
+  color: black;
+}
+
+.dark #react-select-2-listbox {
+  color: black;
+}
+.dark .modal-content {
+  background-color: #41464f;
+  color: rgb(209 213 219);
+}
+
+.dark .modal-content input {
+  background-color: #6f737b;
+}
+
+.dark .page-link {
+  background-color: #6f737b;
+  color: white;
+}
+
+.dark .page-link:hover {
+  color: rgb(31 41 55);
+  background-color: rgb(209 213 219);
+}

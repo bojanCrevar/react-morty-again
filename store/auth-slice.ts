@@ -1,24 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const authInitalState = {
-  isAuthenticated: false,
-  userName: "",
-  password: "",
-  warningMessage: "",
+const authInitialState = {
+  token: "",
+  isLoggedIn: false,
+  localId: "",
 };
 
 const authSlice = createSlice({
   name: "authentication",
-  initialState: authInitalState,
+  initialState: () => authInitialState,
   reducers: {
-    replaceLogin(state, action) {
-      state.isAuthenticated = action.payload.isAuthenticated;
-      state.userName = action.payload.userName;
-      state.password = action.payload.password;
-      state.warningMessage = "";
+    logIn(state, action) {
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+      state.localId = action.payload.localId;
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("refresh_token", action.payload.refreshToken);
     },
-    warningUserLogin(state, action) {
-      state.warningMessage = action.payload.warningMessage;
+    logOut(state) {
+      state.token = "";
+      state.isLoggedIn = false;
+      state.localId = "";
+      localStorage.removeItem("token");
+      localStorage.removeItem("refresh_token");
+    },
+    replaceToken(state, action) {
+      state.localId = action.payload.newLocalId;
+      localStorage.setItem("token", action.payload.newLocalId);
+      localStorage.setItem("refresh_token", action.payload.refreshToken);
     },
   },
 });

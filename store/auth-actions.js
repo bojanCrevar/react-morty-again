@@ -1,93 +1,45 @@
 import { db } from "../firebase/index";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
-import { authActions } from "./auth-slice";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { profileActions } from "./profile-slice";
 
-const users = collection(db, "users");
+export const getUserProfile = async (userLocalId, userResponse) => {
+  const docRef = doc(db, "users", userLocalId);
+  try {
+    let docSnap = await getDoc(docRef);
 
-const fetchData = async (q) => {
-  let document;
-  const querySnapshot = await getDocs(q);
-  if (querySnapshot.empty) {
-    throw new Error("Wrong Credentials");
+    if (!docSnap.exists()) {
+      await setDoc(docRef, {
+        displayName: userResponse.displayName ?? "",
+        email: userResponse.email,
+        avatar: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+        isDarkTheme: false,
+      });
+      docSnap = await getDoc(docRef);
+      console.log("Created new user in firestore!");
+    }
+
+    return docSnap.data();
+  } catch (error) {
+    console.log("Error", error);
   }
-  querySnapshot.forEach((doc) => {
-    document = { id: doc.id, data: doc.data(), ref: doc.ref };
-  });
-
-  return document;
 };
 
-export const fetchUserOnReload = () => {
-  const q = query(users, where("isAuthenticated", "==", true));
+export const dispatchProfile = (userLocalId, userResponse) => {
   return async (dispatch) => {
+    console.log("dispatchProfile");
     try {
-      const userData = await fetchData(q);
+      const userData = await getUserProfile(userLocalId, userResponse);
+
       dispatch(
-        authActions.replaceLogin({
-          isAuthenticated: userData.data.isAuthenticated,
-          userName: userData.data.userName,
-          password: userData.data.password,
+        profileActions.initProfile({
+          displayName: userData.displayName,
+          userEmail: userData.email,
+          avatar: userData.avatar,
+          isDarkTheme: userData.isDarkTheme,
         })
       );
     } catch (error) {
-      if (!(error instanceof TypeError)) {
-        console.log("Error", error);
-      }
-    }
-  };
-};
-
-export const validateAuth = (auth) => {
-  const q = query(
-    users,
-    where("userName", "==", auth.userName),
-    where("password", "==", auth.password)
-  );
-  return async (dispatch) => {
-    try {
-      const userData = await fetchData(q);
-      updateDoc(userData.ref, { isAuthenticated: true });
-      dispatch(
-        authActions.replaceLogin({
-          isAuthenticated: true,
-          userName: userData.data.userName,
-          password: userData.data.password,
-        })
-      );
-    } catch (error) {
-      if (!(error instanceof TypeError)) {
-        dispatch(
-          authActions.warningUserLogin({
-            warningMessage: error.message,
-          })
-        );
-      }
-    }
-  };
-};
-
-export const updateBaseOnLogout = (auth) => {
-  const q = query(users, where("userName", "==", auth.userName));
-  return async (dispatch) => {
-    try {
-      const userData = await fetchData(q);
-      const userDocRef = userData.ref;
-      await updateDoc(userDocRef, { isAuthenticated: false });
-      dispatch(
-        authActions.replaceLogin({
-          isAuthenticated: false,
-          userName: "",
-          password: "",
-        })
-      );
-    } catch (error) {
-      console.log("error", error);
+      console.log(error.message);
     }
   };
 };

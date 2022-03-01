@@ -2,24 +2,16 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Button from "react-bootstrap/Button";
 import React, { useRef, createRef, RefObject } from "react";
-import { FilterModel } from "../model/filterModel";
-import { FilterGroupConfig } from "../model/filterModel";
+import { FilterModel, FilterPanelProps } from "../model/filterModel";
 import { useDispatch } from "react-redux";
 import { filterActions } from "../store/filter-slice";
-
-type FilterPanelProps = {
-  filterConfig: FilterGroupConfig[];
-  date?: boolean;
-  setActivePage: (arg: React.SetStateAction<number>) => void;
-  triggerSearch: () => void;
-  closeModal?: () => void;
-};
 
 type GroupValueRefsMap = {
   [key: string]: RefObject<HTMLInputElement>[];
 };
 
 export default function FilterPanel({
+  initFilterValue,
   filterConfig,
   date,
   triggerSearch,
@@ -46,8 +38,7 @@ export default function FilterPanel({
     filterConfig.forEach((group) => {
       const groupValues = groupRefs.current[group.key]
         .filter((refValue) => refValue.current!.checked)
-        .map((refValue) => refValue.current!.id);
-
+        .map((refValue) => refValue.current!.getAttribute("data-value")!);
       if (groupValues.length) {
         returnObject[group.key] = groupValues;
       }
@@ -58,7 +49,7 @@ export default function FilterPanel({
 
   return (
     <div className="bg-[#fff] dark:bg-[#6F737B] rounded-md p-2 ">
-      <form onSubmit={(e) => onSubmitClick(e)} onChange={() => onChangeState()}>
+      <form onSubmit={(e) => onSubmitClick(e)} onChange={onChangeState}>
         <div className="font-bold text-center pt-2 text-lg">Filter panel</div>
         <div className="overflow-y-auto max-h-[510px] ">
           {filterConfig.map((object) => (
@@ -71,11 +62,15 @@ export default function FilterPanel({
                 {object.values.map((value, index) => (
                   <Form.Check
                     label={value}
-                    name={"group" + index}
+                    name={object.key + index}
                     type={object.type}
-                    id={value}
-                    key={value}
+                    id={object.key + index}
+                    key={object.key + index}
+                    data-value={value}
                     ref={groupRefs.current[object.key][index]}
+                    defaultChecked={initFilterValue[object.key]?.includes(
+                      value
+                    )}
                   />
                 ))}
               </div>

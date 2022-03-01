@@ -1,5 +1,6 @@
 import { FilterGroupConfig } from "../model/filterModel";
 import { RMItem } from "../model/RMItem";
+import { ParsedUrlQuery } from 'querystring';
 
 export const FILTER_CONFIG_COMPARISON_COUNT = "comparison.count";
 export const FILTER_CONFIG_EXACT = "exact";
@@ -9,11 +10,11 @@ interface FilterValues {
 
 type Item = { [prop: string]: any };
 
-function setupFilterValues(query: { [key: string]: string | string[] }) {
+export function setupFilterValues(query: ParsedUrlQuery, withKeyword: boolean = true) {
   let filterValues: FilterValues = {};
-  for (var key in query) {
+  for (let key in query) {
     if (key.includes("filter.") && typeof key === "string") {
-      var filterKey = key.substring(key.indexOf(".") + 1).replace("[]", "");
+      const filterKey = key.substring(key.indexOf(".") + 1).replace("[]", "");
 
       //select one filter value
       if (typeof query[key] == "string") {
@@ -26,7 +27,7 @@ function setupFilterValues(query: { [key: string]: string | string[] }) {
 
   const keyword = query.keyword;
 
-  if (keyword) {
+  if (keyword && withKeyword) {
     filterValues["name"] = [keyword as string];
   }
 
@@ -101,10 +102,7 @@ function range(criteria: string, filterKeyCount: number) {
   let criteriaArray = criteria.split("-");
   let min = +criteriaArray[0];
   let max = +criteriaArray[1];
-  if (filterKeyCount >= min && filterKeyCount <= max) {
-    // console.log("filterKeyCount min max", filterKeyCount);
-    return true;
-  }
+  return filterKeyCount >= min && filterKeyCount <= max;
 
-  return false;
+
 }

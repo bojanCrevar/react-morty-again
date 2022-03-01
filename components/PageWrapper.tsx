@@ -46,13 +46,16 @@ const PageWrapper = ({
 }: PageWrapperProps) => {
   const dispatch = useDispatch();
   const query: QueryParams = queryFromUrl as QueryParams;
-  query.filter = setupFilterValues(queryFromUrl, false);
 
   function selectFromReduxOrQuery(
     propName: keyof QueryParams,
     valueFromState: any,
     setAction: (payload: any) => { payload: any; type: string }
   ) {
+    if (initialLoad) {
+      query.filter = setupFilterValues(queryFromUrl, false);
+    }
+
     const valueFromQuery = query ? query[propName] : null;
     if (initialLoad && valueFromQuery) {
       dispatch(setAction(valueFromQuery));

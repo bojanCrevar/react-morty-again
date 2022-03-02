@@ -13,7 +13,9 @@ export interface FilterGroupConfig {
 }
 
 export interface FilterPanelProps {
+  initFilterValue: any;
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   triggerSearch: () => void;
+  closeModal?: () => void;
 }

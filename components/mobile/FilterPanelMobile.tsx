@@ -27,6 +27,7 @@ function MyVerticallyCenteredModal(props: any) {
 }
 
 export default function FilterPanelMobile({
+  initFilterValue,
   filterConfig,
   date,
   triggerSearch,
@@ -52,6 +53,7 @@ export default function FilterPanelMobile({
         onHide={() => setModalShow(false)}
         content={
           <FilterPanel
+            initFilterValue={initFilterValue}
             filterConfig={filterConfig}
             triggerSearch={triggerSearch}
             closeModal={closeModal}

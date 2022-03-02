@@ -10,6 +10,7 @@ import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
+import { profileActions } from "../store/profile-slice";
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -18,8 +19,12 @@ const MyApp = ({ Component, pageProps }) => {
   const isDarkTheme = useSelector((state) => state.profile.isDarkTheme);
 
   let token;
+  let isDarkThemeFromLocalStorage;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("token");
+    isDarkThemeFromLocalStorage =
+      localStorage.getItem("isDarkTheme") === "true"; //convert string from localStorage to boolean
+    //dispatch(profileActions.toggleTheme(isDarkThemeFromLocalStorage));
   }
 
   useEffect(() => {
@@ -41,6 +46,10 @@ const MyApp = ({ Component, pageProps }) => {
       getUserByToken(token);
     }
   }, [token]);
+
+  useEffect(() => {
+    dispatch(profileActions.toggleTheme(isDarkThemeFromLocalStorage));
+  }, []);
 
   return (
     <div className={"bg-gray-400 h-full " + (isDarkTheme && "dark")}>

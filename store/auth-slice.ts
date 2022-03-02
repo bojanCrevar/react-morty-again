@@ -23,6 +23,7 @@ const authSlice = createSlice({
       state.localId = "";
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
+      localStorage.removeItem("isDarkTheme");
     },
     replaceToken(state, action) {
       state.localId = action.payload.newLocalId;

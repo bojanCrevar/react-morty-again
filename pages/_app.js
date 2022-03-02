@@ -10,6 +10,7 @@ import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
+import BootstrapToast from "../components/BootstrapToast";
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const MyApp = ({ Component, pageProps }) => {
 
   if (resetQuery.current) {
     resetQuery.current = false;
-    dispatch(filterActions.resetKeywordandFilter());
+    store.dispatch(filterActions.resetKeywordAndFilter());
   }
 
   useEffect(() => {
@@ -50,6 +51,8 @@ const MyApp = ({ Component, pageProps }) => {
         style={{ height: "calc(100% - 62.05px)" }}
       >
         <Component {...pageProps} />
+
+        <BootstrapToast />
       </div>
     </div>
   );

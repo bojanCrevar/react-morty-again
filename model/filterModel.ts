@@ -13,8 +13,10 @@ export interface FilterGroupConfig {
 }
 
 export interface FilterPanelProps {
+  initFilterValue: any;
   filterConfig: FilterGroupConfig[];
   date?: boolean;
   setActivePage: (arg: React.SetStateAction<number>) => void;
   triggerSearch: () => void;
+  closeModal?: () => void;
 }

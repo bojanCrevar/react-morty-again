@@ -81,6 +81,7 @@ function LoginForm() {
             <button
               className="py-2 hover:cursor-pointer underline underline-offset-2 decoration-blue-500 text-blue-500 decoration-1"
               onClick={() => setIsLogin((prev) => !prev)}
+              type="button"
             >
               {isLogin ? "Create new user" : "Login"}
             </button>

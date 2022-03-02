@@ -113,12 +113,12 @@ function LocationFormComponent({
           value={formik.values.residents}
         />
 
-        <div className="flex flex-col sm:flex-row p-2 space-y-2 sm:space-y-0 sm:space-x-2">
+        <div className="flex flex-row p-2">
           <Link href="/locations">
-            <Button variant="btn btn-outline-danger w-1/2">Back</Button>
+            <Button variant="btn btn-outline-danger w-1/2 mr-2">Back</Button>
           </Link>
           <Button
-            variant="btn btn-success w-1/2"
+            variant="success w-1/2"
             type="submit"
             disabled={!formik.isValid}
           >

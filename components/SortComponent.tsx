@@ -1,14 +1,22 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { filterActions } from "../store/filter-slice";
 
-type SortCOmponentParams = { setSort: (e: string) => void; initSort: string };
+type SortCOmponentParams = { initSort: string };
 
 //destructure and set type
-const SortComponent = ({ setSort, initSort }: SortCOmponentParams) => {
+const SortComponent = ({ initSort }: SortCOmponentParams) => {
+  const dispatch = useDispatch();
+
+  function dispatchSort(e: any) {
+    dispatch(filterActions.setSort(e.target.value));
+  }
+
   return (
     <div className="w-full">
       <label className="w-1/3 text-right pr-2 lg:w-1/4">Sort by: </label>
       <select
-        onChange={(e) => setSort(e.target.value)}
+        onChange={(e) => dispatchSort(e)}
         className="rounded w-2/5 text-left text-base ml-1 p-1 bg-gray-300 dark:bg-[#6F737B] lg:w-3/4 lg:ml-0"
         defaultValue={initSort}
         data-testid="select"

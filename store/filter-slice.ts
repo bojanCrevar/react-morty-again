@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const filterInitialState = { keyword: "", filterValue: {} };
+const filterInitialState = { keyword: "", filterValue: {}, sort: "id" };
 
 const filterKeywordSlice = createSlice({
   name: "filter&keyword",
@@ -11,6 +11,9 @@ const filterKeywordSlice = createSlice({
     },
     setFilter(state, action) {
       state.filterValue = action.payload;
+    },
+    setSort(state, action) {
+      state.sort = action.payload;
     },
     resetKeywordAndFilter(state) {
       state.keyword = filterInitialState.keyword;

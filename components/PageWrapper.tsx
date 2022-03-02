@@ -81,11 +81,16 @@ const PageWrapper = ({
     filterActions.setFilter
   );
 
+  const sort = selectFromReduxOrQuery(
+    "sort",
+    useSelector((state: RootState) => state.filter.sort),
+    filterActions.setSort
+  );
+
   const router = useRouter();
   const [activePage, setActivePage] = useState(
     query?.activePage ? +query?.activePage : 1
   );
-  const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
@@ -219,7 +224,7 @@ const PageWrapper = ({
             </Link>
           </div>
           <div className="lg:w-1/2">
-            <SortComponent setSort={setSort} initSort={sort} />
+            <SortComponent initSort={sort} />
           </div>
         </div>
         <div className="mt-3 mt-md-1">{children}</div>

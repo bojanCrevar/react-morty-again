@@ -110,7 +110,7 @@ function Profile() {
           Profile:{" "}
           {profile.displayName.length ? profile.displayName : profile.userEmail}
         </h1>
-        <div className="w-full my-3 md:w-3/4 lg:w-1/2 px-8 sm:px-16 md:px-8">
+        <div className="w-full mt-3 mt-md-5 mb-3 md:w-3/4 lg:w-1/2 px-8 sm:px-16 md:px-8">
           <form
             className="bg-[#fff] dark:bg-[#6b707a] shadow-md rounded px-4 sm:px-16 md:px-8 pt-6 pb-8 md:w-full"
             onSubmit={formik.handleSubmit}

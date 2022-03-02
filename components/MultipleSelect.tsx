@@ -107,6 +107,7 @@ const MultipleSelect = ({
       defaultOptions={defaultOptions}
       loadOptions={debouncedPromiseOptions}
       className="multipleselect"
+      instanceId="multipleselect"
     />
   );
 };

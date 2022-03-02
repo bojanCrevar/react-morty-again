@@ -1,32 +1,41 @@
 import React from "react";
 import Pagination from "react-bootstrap/Pagination";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PaginationModel } from "../model/paginationModel";
 import { RootState } from "../model/storeModel";
+import { paginationActions } from "../store/pagination-slice";
 
 type paginationProps = {
-  setActivePage: (arg: React.SetStateAction<number>) => void;
-  activePage: number;
   pagesInfo: PaginationModel;
 };
 
-const PaginationBar = ({
-  setActivePage,
-  activePage,
-  pagesInfo,
-}: paginationProps) => {
+const PaginationBar = ({ pagesInfo }: paginationProps) => {
+  const dispatch = useDispatch();
+
+  const activePage = useSelector(
+    (state: RootState) => state.pagination.activePage
+  );
+
   const isDarkTheme = useSelector(
     (state: RootState) => state.profile.isDarkTheme
   );
 
   const prevButtonTemplate =
     activePage > 1 ? (
-      <Pagination.Prev onClick={() => setActivePage((prev) => prev - 1)} />
+      <Pagination.Prev
+        onClick={() =>
+          dispatch(paginationActions.setActivePage(activePage - 1))
+        }
+      />
     ) : null;
 
   const nextButtonTemplate =
     activePage < pagesInfo.pages ? (
-      <Pagination.Next onClick={() => setActivePage((prev) => prev + 1)} />
+      <Pagination.Next
+        onClick={() =>
+          dispatch(paginationActions.setActivePage(activePage + 1))
+        }
+      />
     ) : null;
 
   return (

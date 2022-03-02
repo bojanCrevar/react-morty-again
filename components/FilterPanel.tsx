@@ -6,11 +6,11 @@ import { FilterModel } from "../model/filterModel";
 import { FilterGroupConfig } from "../model/filterModel";
 import { useDispatch } from "react-redux";
 import { filterActions } from "../store/filter-slice";
+import { paginationActions } from "../store/pagination-slice";
 
 type FilterPanelProps = {
   filterConfig: FilterGroupConfig[];
   date?: boolean;
-  setActivePage: (arg: React.SetStateAction<number>) => void;
   triggerSearch: () => void;
   closeModal?: () => void;
 };
@@ -23,7 +23,6 @@ export default function FilterPanel({
   filterConfig,
   date,
   triggerSearch,
-  setActivePage,
   closeModal,
 }: FilterPanelProps) {
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ export default function FilterPanel({
   function onSubmitClick(e: any) {
     e.preventDefault();
     triggerSearch();
-    setActivePage(1);
+    dispatch(paginationActions.setActivePage(1));
   }
 
   function onChangeState() {

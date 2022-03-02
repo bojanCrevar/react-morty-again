@@ -47,6 +47,7 @@ function Profile() {
       then: Yup.string()
         .required("Field is required")
         .oneOf([Yup.ref("password"), null], "Passwords must match"),
+      otherwise: Yup.string().oneOf(["", null], "Passwords must match"),
     }),
     avatar: Yup.string().matches(
       /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,

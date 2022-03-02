@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
@@ -16,6 +15,8 @@ export default function BootstrapToast() {
           onClose={() => dispatch(notificationActions.hideNotification())}
           show={notification.isShown}
           bg={notification.bgColor}
+          delay={6000}
+          autohide
         >
           <Toast.Header>
             <strong className="me-auto">{notification.header}</strong>

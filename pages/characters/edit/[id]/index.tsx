@@ -17,9 +17,8 @@ type EditCharacterProps = {
 };
 
 export default function EditCharacter(props: EditCharacterProps) {
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-
   const [character, setCharacter] = useState<CharactersItem>();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   async function submitHandler({
     id,
@@ -57,10 +56,11 @@ export default function EditCharacter(props: EditCharacterProps) {
   }
 
   useEffect(() => {
-    getCharacter();
+    if (isLoggedIn) {
+      getCharacter();
+    }
+    Router.push("/characters");
   }, []);
-
-  console.log("isLogd", isLoggedIn);
 
   return character ? (
     <Wrapper title={`Edit character: ${character.name}`}>

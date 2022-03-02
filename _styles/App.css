@@ -20,7 +20,7 @@ body,
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-.form-control:-webkit-autofill {
+.dark .form-control:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #a8adb3 inset !important;
 }
 

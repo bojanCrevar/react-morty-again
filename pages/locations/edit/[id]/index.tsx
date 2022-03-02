@@ -10,9 +10,12 @@ import {
 } from "../../../../model/locationsModel";
 import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 import locationsRepo from "../../../../utils/locations-repo";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../model/storeModel";
 
 const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   const [location, setLocation] = useState<LocationsItem>();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const submitHandler = async ({
     id,
@@ -46,7 +49,10 @@ const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   };
 
   useEffect(() => {
-    getLocation();
+    if (isLoggedIn) {
+      getLocation();
+    }
+    Router.push("/locations");
   }, []);
 
   return location ? (

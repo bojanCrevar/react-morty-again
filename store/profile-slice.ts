@@ -27,7 +27,6 @@ const profileSlice = createSlice({
     toggleTheme(state, action) {
       console.log("toggle trigger", action.payload);
       state.isDarkTheme = action.payload;
-      localStorage.setItem("isDarkTheme", action.payload);
     },
   },
 });

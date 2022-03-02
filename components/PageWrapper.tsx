@@ -14,12 +14,14 @@ import { RMItem } from "../model/RMItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
 import { filterActions } from "../store/filter-slice";
+import { ParsedUrlQuery } from "querystring";
+import { setupFilterValues } from "../utils/sidebarFilter";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
 interface PageWrapperProps {
   children: React.ReactNode;
   title: string;
-  query: QueryParams;
+  queryFromUrl: ParsedUrlQuery;
   addNewItemBtn: { href: string; content: string };
   setData: (data: ResponseData<RMItem>) => void;
   filterConfig: FilterGroupConfig[];
@@ -29,8 +31,10 @@ interface PageWrapperProps {
   setLoader: (bool: Boolean) => void;
 }
 
+let initialLoad = true;
+
 const PageWrapper = ({
-  query,
+  queryFromUrl,
   title,
   children,
   addNewItemBtn,
@@ -42,17 +46,26 @@ const PageWrapper = ({
   setLoader,
 }: PageWrapperProps) => {
   const dispatch = useDispatch();
+  const query: QueryParams = queryFromUrl as QueryParams;
 
   function selectFromReduxOrQuery(
     propName: keyof QueryParams,
-    stateValue: any,
+    valueFromState: any,
     setAction: (payload: any) => { payload: any; type: string }
   ) {
-    const queryValue = query ? query[propName] : null;
-    if (queryValue && stateValue !== queryValue) {
-      dispatch(setAction(queryValue));
+    if (initialLoad) {
+      query.filter = setupFilterValues(queryFromUrl, false);
     }
-    const value = queryValue || stateValue;
+
+    const valueFromQuery = query ? query[propName] : null;
+    if (initialLoad && valueFromQuery) {
+      dispatch(setAction(valueFromQuery));
+    }
+
+    const value = initialLoad
+      ? valueFromQuery || valueFromState
+      : valueFromState;
+
     return value;
   }
 
@@ -62,26 +75,29 @@ const PageWrapper = ({
     filterActions.setKeyword
   );
 
-  const filterObject = useSelector(
-    (state: RootState) => state.filter.filterObject
+  const filterValue = selectFromReduxOrQuery(
+    "filter",
+    useSelector((state: RootState) => state.filter.filterValue),
+    filterActions.setFilter
   );
 
   const router = useRouter();
-  const [activePage, setActivePage] = useState(+query?.activePage || 1);
+  const [activePage, setActivePage] = useState(
+    query?.activePage ? +query?.activePage : 1
+  );
   const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
-  //const [filterObject, setFilterObject] = useState<FilterModel>({});
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
   function triggerSearch() {
     setSubmitButtonClick((prev) => !prev);
   }
 
-  function constructFilterQuery(filterObject: FilterModel) {
+  function constructFilterQuery(filterValue: FilterModel) {
     let filterQuery = "";
 
-    for (let key in filterObject) {
-      let value = filterObject[key];
+    for (let key in filterValue) {
+      let value = filterValue[key];
       value.forEach((val) => (filterQuery += `&filter.${key}[]=${val}`));
     }
     return filterQuery;
@@ -89,11 +105,11 @@ const PageWrapper = ({
 
   async function fetchData() {
     const response = await axios.get(`/api/${api}`, {
-      params: { activePage, keyword, sort, filterObject },
+      params: { activePage, keyword, sort, filterValue },
       paramsSerializer: (params) => {
         return `activePage=${params.activePage}&keyword=${
           params.keyword
-        }&sort=${params.sort}${constructFilterQuery(params.filterObject)}`;
+        }&sort=${params.sort}${constructFilterQuery(params.filterValue)}`;
       },
     });
     setTimeout(() => {
@@ -103,11 +119,11 @@ const PageWrapper = ({
     }, 700);
   }
 
-  function createQuery(keyword: string) {
+  function pushStateToUrlQuery() {
     const keywordQuery: string = keyword ? `&keyword=${keyword}` : "";
     router.push(
       `?activePage=${activePage}${keywordQuery}&sort=${sort}${constructFilterQuery(
-        filterObject
+        filterValue
       )}`,
       undefined,
       {
@@ -137,7 +153,7 @@ const PageWrapper = ({
   }, [pagesInfo.pages, pagesInfo.count]);
 
   useEffect(() => {
-    createQuery(keyword);
+    pushStateToUrlQuery();
     setLoader(true);
     fetchData();
   }, [activePage, sort, submitButtonClick]);
@@ -149,12 +165,16 @@ const PageWrapper = ({
     };
   });
 
+  if (initialLoad) {
+    initialLoad = false;
+  }
   return (
     <div className="flex mb-4 w-full">
       {!mobile ? (
         <div className="w-1/4">
           <div className="w-1/2 ml-28 mt-44">
             <FilterPanel
+              initFilterValue={filterValue}
               filterConfig={filterConfig}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}
@@ -178,6 +198,7 @@ const PageWrapper = ({
           </div>
           {mobile && (
             <FilterPanelMobile
+              initFilterValue={filterValue}
               filterConfig={filterConfig}
               triggerSearch={triggerSearch}
               setActivePage={setActivePage}

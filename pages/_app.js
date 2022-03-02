@@ -34,7 +34,7 @@ const MyApp = ({ Component, pageProps }) => {
 
   if (resetQuery.current) {
     resetQuery.current = false;
-    dispatch(filterActions.resetKeywordandFilter());
+    store.dispatch(filterActions.resetKeywordAndFilter());
   }
 
   useEffect(() => {

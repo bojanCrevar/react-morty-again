@@ -15,7 +15,7 @@ type MultipleSelectProps = {
       ? void
       : (e: any) => void;
   };
-  value: [] | undefined;
+  value: string[] | undefined;
 };
 type CharOptions = {
   value: number;
@@ -38,7 +38,7 @@ const MultipleSelect = ({
   ): Promise<CharactersItem[]> {
     const response = await axios.get("/api/characters/", {
       params: { characterIds },
-      paramsSerializer: (params) => {
+      paramsSerializer: () => {
         return `characters=${characterIds}`;
       },
     });

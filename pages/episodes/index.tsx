@@ -3,7 +3,6 @@ import EpisodeList from "../../components/episodes/EpisodeList";
 import { ResponseData } from "../../model/ResponseDataModel";
 import { GetServerSideProps } from "next";
 import PageWrapper from "../../components/PageWrapper";
-import { QueryParams } from "../../model/queryParams";
 import { FilterGroupConfig } from "../../model/filterModel";
 import { EpisodeItem } from "../../model/episodeModel";
 import { emptyPagination } from "../../model/paginationModel";
@@ -12,6 +11,7 @@ import { FILTER_CONFIG_COMPARISON_COUNT } from "../../utils/sidebarFilter";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import Loader from "../../components/Spinner";
 import TableSkeletons from "../../components/skeletons/TableSkeletons";
+import { ParsedUrlQuery } from "querystring";
 
 export const filterConfig: FilterGroupConfig[] = [
   {
@@ -29,7 +29,7 @@ export const filterConfig: FilterGroupConfig[] = [
   },
 ];
 
-const EpisodesPage = ({ query }: { query: QueryParams }) => {
+const EpisodesPage = ({ query }: { query: ParsedUrlQuery }) => {
   const [skeleton, setSkeleton] = useState<Boolean>(true);
   const [loader, setLoader] = useState<Boolean>(false);
   const [data, setData] = useState<ResponseData<EpisodeItem>>({
@@ -58,7 +58,7 @@ const EpisodesPage = ({ query }: { query: QueryParams }) => {
     <PageWrapper
       title={"List of episodes"}
       addNewItemBtn={addNewItemBtn}
-      query={query}
+      queryFromUrl={query}
       setData={setData as (data: ResponseData<RMItem>) => void}
       filterConfig={filterConfig}
       pagesInfo={pagesInfo}

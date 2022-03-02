@@ -43,10 +43,10 @@ const MyApp = ({ Component, pageProps }) => {
   }, [token]);
 
   return (
-    <div className={"bg-gray-400 h-full " + (isDarkTheme && "dark")}>
+    <div className={"h-full" + (isDarkTheme ? " dark" : "")}>
       <NavMenu />
       <div
-        className="flex overflow-auto dark:bg-[#414b55] dark:text-white"
+        className="flex overflow-auto bg-gray-400 dark:bg-[#414b55] dark:text-white"
         style={{ height: "calc(100% - 62.05px)" }}
       >
         <Component {...pageProps} />

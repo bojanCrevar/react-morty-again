@@ -106,24 +106,51 @@ function Profile() {
   return (
     <div className="w-full">
       <div className="flex flex-col w-full items-center">
-        <h1 className="pt-2 pt-md-4 pb-3 text-3xl text-center">
+        <h1 className="pt-2 pt-md-4 text-3xl text-center md:hidden">
           Profile:{" "}
           {profile.displayName.length ? profile.displayName : profile.userEmail}
         </h1>
-        <div className="w-full mb-3 md:w-3/4 lg:w-1/2 px-8 sm:px-16 md:px-8">
+        <div className="w-full my-3 md:w-3/4 lg:w-1/2 px-8 sm:px-16 md:px-8">
           <form
-            className="bg-[#fff] dark:bg-[#6b707a] shadow-md rounded px-4 sm:px-16 md:px-8 pt-6 pb-8"
+            className="bg-[#fff] dark:bg-[#6b707a] shadow-md rounded px-4 sm:px-16 md:px-8 pt-6 pb-8 md:w-full"
             onSubmit={formik.handleSubmit}
           >
-            <div className="flex justify-center mb-3">
-              <div className="w-24 h-24 relative rounded-full">
-                {profile.avatar.length && (
-                  <Image
-                    src={profile.avatar}
-                    layout="fill"
-                    className="rounded-full"
-                  />
-                )}
+            <div className="flex justify-center md:justify-between md:px-4 mb-3 md:w-full">
+              <div className="flex justify-start md:w-1/3">
+                <h1 className="pt-md-4 text-2xl hidden md:block">
+                  Profile:{" "}
+                  <span className="text-[#989aa0] dark:text-[#243038]">
+                    {profile.displayName.length
+                      ? profile.displayName
+                      : profile.userEmail}
+                  </span>
+                </h1>
+              </div>
+              <div className="flex justify-center md:w-1/3">
+                <div className="w-24 h-24 relative rounded-full">
+                  {profile.avatar.length && (
+                    <Image
+                      src={profile.avatar}
+                      layout="fill"
+                      className="rounded-full"
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end md:w-1/3">
+                <div className="hidden md:block">
+                  <button
+                    className={`${
+                      profile.isDarkTheme ? "bg-gray-600" : "bg-yellow-200"
+                    } rounded-full py-2 px-2.5 mt-4`}
+                    onClick={themeHandler}
+                    type="button"
+                  >
+                    <FontAwesomeIcon
+                      icon={profile.isDarkTheme ? faMoon : faSun}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -205,23 +232,25 @@ function Profile() {
               </Form.Control.Feedback>
             </FloatingLabel>
 
-            {/* <div className="flex justify-between px-16"> */}
-            <div>
-              <button
-                className={`${
-                  profile.isDarkTheme ? "bg-gray-600" : "bg-yellow-200"
-                } rounded-full py-2 px-2.5 mt-3`}
-                onClick={themeHandler}
-                type="button"
-              >
-                <FontAwesomeIcon icon={profile.isDarkTheme ? faMoon : faSun} />
-              </button>
+            <div className="flex justify-center ">
+              <div className="md:hidden">
+                <button
+                  className={`${
+                    profile.isDarkTheme ? "bg-gray-600" : "bg-yellow-200"
+                  } rounded-full py-2 px-2.5 mt-3`}
+                  onClick={themeHandler}
+                  type="button"
+                >
+                  <FontAwesomeIcon
+                    icon={profile.isDarkTheme ? faMoon : faSun}
+                  />
+                </button>
+              </div>
             </div>
-            {/* </div> */}
 
             <div className="flex items-center justify-between mt-4">
               <Link href="/">
-                <span className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 dark:text-blue-900 dark:hover:text-blue-700 hover:cursor-pointer">
+                <span className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 dark:text-gray-200 dark:hover:text-gray-700 hover:cursor-pointer">
                   Go back
                 </span>
               </Link>

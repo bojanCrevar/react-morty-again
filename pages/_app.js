@@ -23,8 +23,7 @@ const MyApp = ({ Component, pageProps }) => {
   if (typeof window !== "undefined") {
     token = localStorage.getItem("token");
     isDarkThemeFromLocalStorage =
-      localStorage.getItem("isDarkTheme") === "true"; //convert string from localStorage to boolean
-    //dispatch(profileActions.toggleTheme(isDarkThemeFromLocalStorage));
+      localStorage.getItem("isDarkTheme") === "true";
   }
 
   useEffect(() => {
@@ -34,11 +33,13 @@ const MyApp = ({ Component, pageProps }) => {
       }
     };
     router.events.on("routeChangeStart", handleRouteChange);
+
+    dispatch(profileActions.toggleTheme(isDarkThemeFromLocalStorage)); //on reload to avoid flicker
   }, []);
 
   if (resetQuery.current) {
     resetQuery.current = false;
-    store.dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(filterActions.resetKeywordAndFilter());
   }
 
   useEffect(() => {
@@ -46,10 +47,6 @@ const MyApp = ({ Component, pageProps }) => {
       getUserByToken(token);
     }
   }, [token]);
-
-  useEffect(() => {
-    dispatch(profileActions.toggleTheme(isDarkThemeFromLocalStorage));
-  }, []);
 
   return (
     <div className={"bg-gray-400 h-full " + (isDarkTheme && "dark")}>

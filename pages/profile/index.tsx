@@ -21,6 +21,7 @@ function Profile() {
   const auth = useSelector((state: RootState) => state.auth);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [darkThemeToggler, setDarkThemeToggler] = useState(profile.isDarkTheme);
 
   useEffect(() => {
     if (auth.isLoggedIn === false) {
@@ -56,7 +57,8 @@ function Profile() {
   });
 
   function themeHandler() {
-    dispatch(profileActions.toggleTheme(!profile.isDarkTheme));
+    //dispatch(profileActions.toggleTheme(!profile.isDarkTheme));
+    setDarkThemeToggler((prev) => !prev);
   }
 
   async function submitHandler(submittedProfileData: any) {
@@ -85,14 +87,14 @@ function Profile() {
         await updateDoc(docRef, {
           displayName: submittedProfileData.displayName,
           avatar: submittedProfileData.avatar,
-          isDarkTheme: profile.isDarkTheme,
+          isDarkTheme: darkThemeToggler,
         });
 
         dispatch(
           profileActions.initProfile({
             displayName: submittedProfileData.displayName,
             avatar: submittedProfileData.avatar,
-            isDarkTheme: profile.isDarkTheme,
+            isDarkTheme: darkThemeToggler,
           })
         );
         console.log("Updated user in firestore!");
@@ -202,14 +204,12 @@ function Profile() {
               <div>
                 <button
                   className={`${
-                    profile.isDarkTheme ? "bg-gray-200" : "bg-yellow-200"
+                    darkThemeToggler ? "bg-gray-200" : "bg-yellow-200"
                   } rounded px-2 py-3 mt-3`}
                   onClick={themeHandler}
                   type="button"
                 >
-                  <FontAwesomeIcon
-                    icon={profile.isDarkTheme ? faMoon : faSun}
-                  />{" "}
+                  <FontAwesomeIcon icon={darkThemeToggler ? faMoon : faSun} />{" "}
                   Change theme
                 </button>
               </div>

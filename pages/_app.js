@@ -11,6 +11,7 @@ import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
 import BootstrapToast from "../components/BootstrapToast";
+import { paginationActions } from "../store/pagination-slice";
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -35,6 +36,7 @@ const MyApp = ({ Component, pageProps }) => {
   if (resetQuery.current) {
     resetQuery.current = false;
     dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(paginationActions.resetActivePage());
   }
 
   useEffect(() => {

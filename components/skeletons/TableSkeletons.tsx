@@ -18,7 +18,7 @@ const TableSkeletons = ({ amount, pageColumns }: TableSkeletonsProps) => {
       skeletons.push(
         <tr
           key={i}
-          className="flex flex-col md:flex-row bg-gray-200 border-gray-400 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:border-[#252E38]"
+          className="flex flex-col md:flex-row bg-gray-200 border-gray-400 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:border-[#414b55]"
         >
           {pageColumns.map((column) => (
             <td

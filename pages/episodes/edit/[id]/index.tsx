@@ -8,9 +8,12 @@ import { EditEpisodeProps, EpisodeItem } from "../../../../model/episodeModel";
 import { GetServerSidePropsContext } from "next/types";
 import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
 import episodesRepo from "../../../../utils/episode-repo";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../model/storeModel";
 
 export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   const [episodeObj, setEpisodeObj] = useState<EpisodeItem>();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   async function submitHandler({
     id,
@@ -45,7 +48,10 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   }
 
   useEffect(() => {
-    getEpisode();
+    if (isLoggedIn) {
+      getEpisode();
+    }
+    Router.push("/episodes");
   }, []);
 
   return episodeObj ? (

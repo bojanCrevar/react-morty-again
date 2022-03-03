@@ -10,8 +10,6 @@ export function getUserByToken(token: string) {
       { idToken: token }
     )
     .then((response) => {
-      console.log("response", response);
-
       store.dispatch(
         authActions.logIn({
           token: token,

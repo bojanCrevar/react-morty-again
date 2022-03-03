@@ -35,8 +35,8 @@ const MyApp = ({ Component, pageProps }) => {
 
   if (resetQuery.current) {
     resetQuery.current = false;
-    store.dispatch(filterActions.resetKeywordAndFilter());
-    store.dispatch(paginationActions.resetActivePage());
+    dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(paginationActions.resetActivePage());
   }
 
   useEffect(() => {
@@ -46,11 +46,11 @@ const MyApp = ({ Component, pageProps }) => {
   }, [token]);
 
   return (
-    <div className={"bg-gray-400 h-full " + (isDarkTheme && "dark")}>
+    <div className={"h-full" + (isDarkTheme ? " dark" : "")}>
       <NavMenu />
       <div
-        className="flex overflow-auto dark:bg-[#252E38] dark:opacity-80 dark:text-white"
-        style={{ height: "calc(100% - 56px)" }}
+        className="flex overflow-auto bg-gray-400 dark:bg-[#414b55] dark:text-white"
+        style={{ height: "calc(100% - 62.05px)" }}
       >
         <Component {...pageProps} />
 

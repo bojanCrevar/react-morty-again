@@ -21,7 +21,7 @@ const RMTable = <T extends RMItemWithChars>({
         key={data.id}
         onMouseEnter={() => setHovered(data.id)}
         onMouseLeave={() => setHovered(null)}
-        className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:text-gray-300  dark:border-[#252E38]"
+        className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:text-gray-300  dark:border-[#414b55]"
       >
         {columnConfig.map((cfg, i) => {
           return (

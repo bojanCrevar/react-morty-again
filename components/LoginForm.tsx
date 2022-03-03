@@ -27,8 +27,6 @@ function LoginForm() {
         returnSecureToken: true,
       })
       .then((response) => {
-        console.log("responz", response);
-
         dispatch(
           authActions.logIn({
             token: response.data.idToken,
@@ -41,7 +39,6 @@ function LoginForm() {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.data.error.message);
           setWarnings(error.response.data.error.message);
         }
       });

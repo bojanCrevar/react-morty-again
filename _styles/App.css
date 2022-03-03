@@ -12,18 +12,49 @@ body,
   @apply w-full transition-all ease-in-out duration-300 hover:scale-105;
 }
 
+.form-control {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.form-select {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dark .form-control:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #a8adb3 inset !important;
+}
+
+.multipleselect > div > div:nth-child(1) {
+  overflow-y: auto;
+  max-height: 150px;
+}
+
 .dark .form-control {
   background-color: #a8adb3;
   color: black;
+  box-shadow: 0 0.5rem 1rem rgba(163, 163, 163, 0.35);
+}
+
+.dark .dropdown-menu {
+  background-color: #a8adb3;
 }
 
 .dark .form-select {
   background-color: #a8adb3;
   color: black;
+  box-shadow: 0 0.5rem 1rem rgba(163, 163, 163, 0.35);
 }
 
 div.multipleselect > div > div > div {
   color: black;
+}
+
+.multipleselect {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dark .multipleselect {
+  box-shadow: 0 0.5rem 1rem rgba(163, 163, 163, 0.35);
 }
 
 .dark div.multipleselect > div {

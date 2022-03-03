@@ -41,7 +41,7 @@ function FormComponent({
             return false;
           }
 
-          if (value == initialData.episode) {
+          if (value === initialData.episode) {
             return true;
           }
 
@@ -143,7 +143,7 @@ function FormComponent({
             <Button variant="btn btn-outline-danger  w-1/2 mr-2">Back</Button>
           </Link>
           <Button
-            variant="btn btn-outline-success w-1/2"
+            variant="success w-1/2"
             type="submit"
             disabled={!formik.isValid}
             data-testid="button"

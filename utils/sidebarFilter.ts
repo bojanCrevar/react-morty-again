@@ -1,6 +1,6 @@
 import { FilterGroupConfig } from "../model/filterModel";
 import { RMItem } from "../model/RMItem";
-import { ParsedUrlQuery } from 'querystring';
+import { ParsedUrlQuery } from "querystring";
 
 export const FILTER_CONFIG_COMPARISON_COUNT = "comparison.count";
 export const FILTER_CONFIG_EXACT = "exact";
@@ -10,7 +10,10 @@ interface FilterValues {
 
 type Item = { [prop: string]: any };
 
-export function setupFilterValues(query: ParsedUrlQuery, withKeyword: boolean = true) {
+export function setupFilterValues(
+  query: ParsedUrlQuery,
+  withKeyword: boolean = true
+) {
   let filterValues: FilterValues = {};
   for (let key in query) {
     if (key.includes("filter.") && typeof key === "string") {
@@ -74,9 +77,8 @@ export default function filter(
             itemFilteredByKey[key] = greaterThan(criteria, itemCount);
           }
         } else if (operatorType === FILTER_CONFIG_EXACT) {
-          itemFilteredByKey[key] = item[key]
-            .toLowerCase()
-            .includes(criteria.toLowerCase());
+          itemFilteredByKey[key] =
+            item[key].toLowerCase() === criteria.toLowerCase();
         }
       });
     }
@@ -103,6 +105,4 @@ function range(criteria: string, filterKeyCount: number) {
   let min = +criteriaArray[0];
   let max = +criteriaArray[1];
   return filterKeyCount >= min && filterKeyCount <= max;
-
-
 }

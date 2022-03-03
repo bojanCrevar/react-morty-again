@@ -75,7 +75,6 @@ function Profile() {
           password: submittedProfileData.password,
           returnSecureToken: true,
         });
-
         if (response.status === 200) {
           submittedProfileData.password = "";
           submittedProfileData.passwordConfirm = "";

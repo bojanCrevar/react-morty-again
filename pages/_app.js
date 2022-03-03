@@ -18,35 +18,34 @@ const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.profile.isDarkTheme);
 
-  let token;
-  let isDarkThemeFromLocalStorage;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("token");
-    isDarkThemeFromLocalStorage =
-      localStorage.getItem("isDarkTheme") === "true";
-  }
-
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       if (!shallow) {
         resetQuery.current = true;
       }
     };
-    router.events.on("routeChangeStart", handleRouteChange);
 
-    dispatch(profileActions.toggleTheme(isDarkThemeFromLocalStorage)); //on reload to avoid flicker
-  }, []);
+    router.events.on("routeChangeStart", handleRouteChange);
+  }, [dispatch, router.events]);
 
   if (resetQuery.current) {
     resetQuery.current = false;
     dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(
+      profileActions.toggleTheme(localStorage.getItem("isDarkTheme") === "true")
+    );
   }
 
   useEffect(() => {
-    if (token) {
-      getUserByToken(token);
+    if (typeof window !== "undefined") {
+      getUserByToken(localStorage.getItem("token"));
+      dispatch(
+        profileActions.toggleTheme(
+          localStorage.getItem("isDarkTheme") === "true"
+        )
+      );
     }
-  }, [token]);
+  }, [dispatch]);
 
   return (
     <div className={"bg-gray-400 h-full " + (isDarkTheme && "dark")}>

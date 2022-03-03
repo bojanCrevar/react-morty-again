@@ -31,7 +31,6 @@ export default function FilterPanelMobile({
   filterConfig,
   date,
   triggerSearch,
-  setActivePage,
 }: FilterPanelProps) {
   const [modalShow, setModalShow] = useState(false);
 
@@ -56,7 +55,6 @@ export default function FilterPanelMobile({
           <FilterPanel
             initFilterValue={initFilterValue}
             filterConfig={filterConfig}
-            setActivePage={setActivePage}
             triggerSearch={triggerSearch}
             closeModal={closeModal}
           />

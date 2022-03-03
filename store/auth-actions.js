@@ -31,7 +31,7 @@ export const dispatchProfile = (userLocalId, userResponse) => {
       const userData = await getUserProfile(userLocalId, userResponse);
 
       dispatch(
-        profileActions.initProfile({
+        profileActions.setProfile({
           displayName: userData.displayName,
           userEmail: userData.email,
           avatar: userData.avatar,

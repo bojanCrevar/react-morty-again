@@ -10,6 +10,7 @@ import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
+import BootstrapToast from "../components/BootstrapToast";
 import { paginationActions } from "../store/pagination-slice";
 
 const MyApp = ({ Component, pageProps }) => {
@@ -52,6 +53,8 @@ const MyApp = ({ Component, pageProps }) => {
         style={{ height: "calc(100% - 56px)" }}
       >
         <Component {...pageProps} />
+
+        <BootstrapToast />
       </div>
     </div>
   );

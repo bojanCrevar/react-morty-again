@@ -17,6 +17,7 @@ export function getUserByToken(token: string) {
           token: token,
           userEmail: response.data.users[0].email,
           localId: response.data.users[0].localId,
+          refreshToken: localStorage.getItem("refresh_token"),
         })
       );
       store.dispatch(dispatchProfile(response.data.users[0].localId));

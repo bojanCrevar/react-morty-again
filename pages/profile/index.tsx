@@ -1,7 +1,7 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase";
 import { RootState } from "../../model/storeModel";
@@ -15,6 +15,8 @@ import { faMoon } from "@fortawesome/free-regular-svg-icons";
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { notificationActions } from "../../store/notification-slice";
+import { authActions } from "../../store/auth-slice";
 
 function Profile() {
   const profile = useSelector((state: RootState) => state.profile);
@@ -40,10 +42,13 @@ function Profile() {
   const profileSchema = Yup.object({
     displayName: Yup.string().min(3, "Must be 3 character or more"),
     password: Yup.string().min(6, "Must be 6 character or more"),
-    passwordConfirm: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
+    passwordConfirm: Yup.string().when("password", {
+      is: (value: string) => !!value,
+      then: Yup.string()
+        .required("Field is required")
+        .oneOf([Yup.ref("password"), null], "Passwords must match"),
+      otherwise: Yup.string().oneOf(["", null], "Passwords must match"),
+    }),
     avatar: Yup.string().matches(
       /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
       "Please enter a valid URL"
@@ -63,23 +68,31 @@ function Profile() {
   async function submitHandler(submittedProfileData: any) {
     console.log("submittedProfileData", submittedProfileData);
 
-    if (submittedProfileData.password) {
-      const passwordResetAPI = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
-
-      const response = await axios.post(passwordResetAPI, {
-        idToken: auth.token,
-        password: submittedProfileData.password,
-        returnSecureToken: true,
-      });
-      if (response.status === 200) {
-        submittedProfileData.password = "";
-        submittedProfileData.passwordConfirm = "";
-      }
-      console.log("Changed password!", response);
-    }
-
-    const docRef = doc(db, "users", auth.localId);
     try {
+      if (submittedProfileData.password) {
+        const passwordResetAPI = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
+
+        const response = await axios.post(passwordResetAPI, {
+          idToken: auth.token,
+          password: submittedProfileData.password,
+          returnSecureToken: true,
+        });
+        if (response.status === 200) {
+          submittedProfileData.password = "";
+          submittedProfileData.passwordConfirm = "";
+        }
+        console.log("Changed password!", response);
+
+        dispatch(
+          authActions.replaceToken({
+            token: response.data.idToken,
+            refreshToken: response.data.refreshToken,
+          })
+        );
+      }
+
+      const docRef = doc(db, "users", auth.localId);
+
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -90,17 +103,38 @@ function Profile() {
         });
 
         dispatch(
-          profileActions.initProfile({
+          profileActions.setProfile({
+            userEmail: submittedProfileData.userEmail,
             displayName: submittedProfileData.displayName,
             avatar: submittedProfileData.avatar,
             isDarkTheme: profile.isDarkTheme,
           })
         );
+
+        dispatch(
+          notificationActions.setNotification({
+            bgColor: "success",
+            header: "Success!",
+            body: "Updated user in firestore!",
+            isShown: true,
+          })
+        );
         console.log("Updated user in firestore!");
       }
-    } catch (error) {
-      console.log("Error", error);
+    } catch (error: any) {
+      console.log("Error", error.response.data.error.message);
+
+      dispatch(
+        notificationActions.setNotification({
+          bgColor: "danger",
+          header: "Error!",
+          body: `Updating failed! ${error.response.data.error.message}`,
+          isShown: true,
+        })
+      );
     }
+
+    router.push("/");
   }
 
   return (
@@ -108,7 +142,9 @@ function Profile() {
       <div className="flex flex-col w-full items-center">
         <h1 className="p-4 text-4xl text-center">
           Profile:{" "}
-          {profile.displayName.length ? profile.displayName : profile.userEmail}
+          {profile.displayName.length > 0
+            ? profile.displayName
+            : profile.userEmail}
         </h1>
 
         <div className="w-full md:w-3/4 lg:w-1/2 px-8 sm:px-16 md:px-8">

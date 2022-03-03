@@ -11,6 +11,7 @@ import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
 import { profileActions } from "../store/profile-slice";
+import { paginationActions } from "../store/pagination-slice";
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const MyApp = ({ Component, pageProps }) => {
   if (resetQuery.current) {
     resetQuery.current = false;
     dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(paginationActions.resetActivePage());
     dispatch(
       profileActions.toggleTheme(localStorage.getItem("isDarkTheme") === "true")
     );

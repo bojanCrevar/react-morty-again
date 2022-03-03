@@ -27,6 +27,7 @@ function FormComponent({
       .required("Required")
       .max(new Date(), "Ait Date can not be in future"),
     episode: Yup.string()
+      .required("Required")
       .matches(
         /^S[0-9][1-9]E[0-9][1-9]$/,
         "Please enter an episode in proper format S01E01"
@@ -35,6 +36,11 @@ function FormComponent({
         "checkUniqueEpisode",
         "This episode is already existing",
         async (value) => {
+          //do not call the check on create page initial load
+          if (!value) {
+            return false;
+          }
+
           if (value == initialData.episode) {
             return true;
           }
@@ -48,8 +54,7 @@ function FormComponent({
 
           return !response.data.exists;
         }
-      )
-      .required("Required"),
+      ),
   });
 
   const initialValuesFormatted: EpisodeItem = {

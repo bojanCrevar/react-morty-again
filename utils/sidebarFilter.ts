@@ -77,8 +77,14 @@ export default function filter(
             itemFilteredByKey[key] = greaterThan(criteria, itemCount);
           }
         } else if (operatorType === FILTER_CONFIG_EXACT) {
-          itemFilteredByKey[key] =
-            item[key].toLowerCase() === criteria.toLowerCase();
+          if (key === "name") {
+            itemFilteredByKey[key] = item[key]
+              .toLowerCase()
+              .includes(criteria.toLowerCase());
+          } else {
+            itemFilteredByKey[key] =
+              item[key].toLowerCase() === criteria.toLowerCase();
+          }
         }
       });
     }

@@ -61,7 +61,7 @@ describe("Paginaton component", () => {
     expect(buttonElements).toHaveLength(2);
   });
 
-  test("renders new value of activePage when clicked", async () => {
+  test("renders new value of activePage when clicked test", async () => {
     let activePage = 1;
 
     store.dispatch(paginationActions.setActivePage(activePage));

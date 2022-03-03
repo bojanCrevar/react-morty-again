@@ -3,23 +3,22 @@ import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import { useDispatch } from "react-redux";
 import { filterActions } from "../store/filter-slice";
+import { paginationActions } from "../store/pagination-slice";
 
 type SearchBarProps = {
   initKeyword: string;
-  setActivePage: (activePage: number) => void;
   triggerSearch: () => void;
 };
 
 const Searchbar: React.FC<SearchBarProps> = ({
   initKeyword,
-  setActivePage,
   triggerSearch,
 }) => {
   const dispatch = useDispatch();
 
   function submitHandler(e: React.FormEvent) {
     e.preventDefault();
-    setActivePage(1);
+    dispatch(paginationActions.setActivePage(1));
     triggerSearch();
   }
 
@@ -30,7 +29,7 @@ const Searchbar: React.FC<SearchBarProps> = ({
   function clearHandler() {
     searchKeyword.current!.value = "";
     dispatch(filterActions.setKeyword(""));
-    setActivePage(1);
+    dispatch(paginationActions.setActivePage(1));
     triggerSearch();
   }
 

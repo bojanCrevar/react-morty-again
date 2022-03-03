@@ -3,6 +3,7 @@ import authSlice from "./auth-slice";
 import filterKeywordSlice from "./filter-slice";
 import profileSlice from "./profile-slice";
 import notificationSlice from "./notification-slice";
+import paginationSlice from "./pagination-slice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     filter: filterKeywordSlice.reducer,
     profile: profileSlice.reducer,
     notification: notificationSlice.reducer,
+    pagination: paginationSlice.reducer,
   },
 });
 

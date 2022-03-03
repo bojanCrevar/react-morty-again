@@ -11,6 +11,7 @@ import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
 import { profileActions } from "../store/profile-slice";
+import BootstrapToast from "../components/BootstrapToast";
 import { paginationActions } from "../store/pagination-slice";
 
 const MyApp = ({ Component, pageProps }) => {
@@ -50,13 +51,15 @@ const MyApp = ({ Component, pageProps }) => {
   }, [dispatch]);
 
   return (
-    <div className={"bg-gray-400 h-full " + (isDarkTheme && "dark")}>
+    <div className={"h-full" + (isDarkTheme ? " dark" : "")}>
       <NavMenu />
       <div
-        className="flex overflow-auto dark:bg-[#252E38] dark:opacity-80 dark:text-white"
-        style={{ height: "calc(100% - 56px)" }}
+        className="flex overflow-auto bg-gray-400 dark:bg-[#414b55] dark:text-white"
+        style={{ height: "calc(100% - 62.05px)" }}
       >
         <Component {...pageProps} />
+
+        <BootstrapToast />
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ interface NavMenuDropdownProps {
 function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
   return (
     <div className="flex">
-      <Navbar.Text>
+      <Navbar.Text className="mt-0.5">
         Signed in as:{" "}
         <span className="font-bold">
           {profile.displayName.length ? profile.displayName : profile.userEmail}
@@ -34,14 +34,16 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
         }
       >
         <NavDropdown.Item>
-          <Link href="/profile">
-            <span>Profile</span>
-          </Link>
+          <Navbar.Text>
+            <Link href="/profile">
+              <span className="dark:text-black">Profile</span>
+            </Link>
+          </Navbar.Text>
         </NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item className="group">
           <Navbar.Text onClick={logoutHandler}>
-            <span className="group-hover:text-red-600">
+            <span className="dark:text-[#000] group-hover:text-red-600">
               Logout
               <FontAwesomeIcon icon={faArrowAltCircleRight} className="ml-1 " />
             </span>

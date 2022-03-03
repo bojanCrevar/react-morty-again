@@ -28,18 +28,20 @@ const NavMenu = () => {
     <Navbar
       variant={profile.isDarkTheme ? "dark" : "light"}
       expand="lg"
-      className="bg-[#fff] dark:bg-[#142D3E]"
+      className="bg-[#fff] dark:bg-[#243038]"
     >
       <Container>
-        <Link href="/">
-          <img
-            alt="Rick and Morty logo"
-            src="/logo.png"
-            width="30"
-            height="30"
-            className="d-inline-block align-top mr-2"
-            style={{ borderRadius: "50%" }}
-          />
+        <Link href="/" passHref>
+          <Nav.Link>
+            <img
+              alt="Rick and Morty logo"
+              src="/logo.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top mr-2"
+              style={{ borderRadius: "50%" }}
+            />
+          </Nav.Link>
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -65,7 +67,7 @@ const NavMenu = () => {
             ) : (
               <Navbar.Text>
                 <button
-                  className="px-3 pb-1 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
+                  className="px-3 pb-0.5 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
                   onClick={() => setModalShow(true)}
                 >
                   Login

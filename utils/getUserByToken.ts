@@ -10,13 +10,12 @@ export function getUserByToken(token: string) {
       { idToken: token }
     )
     .then((response) => {
-      console.log("response", response);
-
       store.dispatch(
         authActions.logIn({
           token: token,
           userEmail: response.data.users[0].email,
           localId: response.data.users[0].localId,
+          refreshToken: localStorage.getItem("refresh_token"),
         })
       );
       store.dispatch(dispatchProfile(response.data.users[0].localId));

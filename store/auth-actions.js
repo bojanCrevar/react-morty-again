@@ -15,7 +15,6 @@ export const getUserProfile = async (userLocalId, userResponse) => {
         isDarkTheme: false,
       });
       docSnap = await getDoc(docRef);
-      console.log("Created new user in firestore!");
     }
 
     return docSnap.data();
@@ -26,12 +25,11 @@ export const getUserProfile = async (userLocalId, userResponse) => {
 
 export const dispatchProfile = (userLocalId, userResponse) => {
   return async (dispatch) => {
-    console.log("dispatchProfile");
     try {
       const userData = await getUserProfile(userLocalId, userResponse);
 
       dispatch(
-        profileActions.initProfile({
+        profileActions.setProfile({
           displayName: userData.displayName,
           userEmail: userData.email,
           avatar: userData.avatar,

@@ -24,7 +24,7 @@ const FavouriteIcon = ({
   const [showWarning, setShowWarning] = useState("");
 
   function getStyle() {
-    return showFave ? "btn-warning" : "btn-outline-warning";
+    return showFave ? "btn-warning dark:bg-[#c4a23b]" : "btn-outline-warning";
   }
 
   function updateFinished(error: any) {
@@ -37,7 +37,7 @@ const FavouriteIcon = ({
 
   return (
     <Button
-      className="btn-char dark:hover:bg-[#c4a23b]"
+      className="btn-char dark:focus:bg-[#c4a23b] dark:hover:bg-[#b49538]"
       type="button"
       variant={"btn " + getStyle()}
       onClick={() => {
@@ -57,7 +57,10 @@ const FavouriteIcon = ({
 
         <div
           className={
-            "font-semibold" + showFave && "text-red-700 dark:text-white "
+            "font-semibold" +
+            (showFave
+              ? " text-red-700 dark:text-white "
+              : " text-[#000] dark:text-white ")
           }
         >
           <span className="hidden md:block">

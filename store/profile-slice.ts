@@ -11,7 +11,7 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: profileInitalState,
   reducers: {
-    initProfile(state, action) {
+    setProfile(state, action) {
       state.displayName = action.payload.displayName;
       state.userEmail = action.payload.userEmail;
       state.avatar = action.payload.avatar;
@@ -25,7 +25,6 @@ const profileSlice = createSlice({
       state.isDarkTheme = false;
     },
     toggleTheme(state, action) {
-      console.log("toggle trigger", action.payload);
       state.isDarkTheme = action.payload;
     },
   },

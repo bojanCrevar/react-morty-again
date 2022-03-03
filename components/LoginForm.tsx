@@ -27,8 +27,6 @@ function LoginForm() {
         returnSecureToken: true,
       })
       .then((response) => {
-        console.log("responz", response);
-
         dispatch(
           authActions.logIn({
             token: response.data.idToken,
@@ -41,7 +39,6 @@ function LoginForm() {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.data.error.message);
           setWarnings(error.response.data.error.message);
         }
       });
@@ -81,6 +78,7 @@ function LoginForm() {
             <button
               className="py-2 hover:cursor-pointer underline underline-offset-2 decoration-blue-500 text-blue-500 decoration-1"
               onClick={() => setIsLogin((prev) => !prev)}
+              type="button"
             >
               {isLogin ? "Create new user" : "Login"}
             </button>

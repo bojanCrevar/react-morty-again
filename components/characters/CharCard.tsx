@@ -61,7 +61,7 @@ const CharCard = ({
   }
 
   return (
-    <div className="bg-[#fff] dark:bg-gray-600 rounded mt-2 p-2 flex flex-col sm:flex-row">
+    <div className="bg-[#fff] dark:bg-[#555e68] rounded first:mt-2 mb-2 p-2 flex flex-col sm:flex-row">
       <div className="flex space-x-4 w-full">
         <div className="w-1/2 sm:w-1/3 lg:w-1/4 h-36 relative">
           {image ? (
@@ -112,7 +112,7 @@ const CharCard = ({
             <Button
               variant="outline-info"
               className={`btn-char ${
-                !isLoggedIn && "disabled"
+                !isLoggedIn ? "disabled" : ""
               } dark:hover:bg-[#2f899c] `}
             >
               <div className="flex justify-center md:space-x-2">
@@ -131,7 +131,7 @@ const CharCard = ({
         <div className="w-1/3 sm:w-full">
           <Button
             className={`btn-char ${
-              !isLoggedIn && "disabled"
+              !isLoggedIn ? "disabled" : ""
             } dark:bg-[#a82733] dark:hover:bg-[#82111c]`}
             variant="btn btn-danger"
             onClick={() => handleDelete(id)}

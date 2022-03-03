@@ -218,7 +218,7 @@ const PageWrapper = ({
             <SortComponent setSort={setSort} initSort={sort} />
           </div>
         </div>
-        <div className="mt-3 mt-md-1">{children}</div>
+        <div className="mt-3 mt-md-1 pb-2">{children}</div>
       </div>
     </div>
   );

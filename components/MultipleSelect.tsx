@@ -106,7 +106,7 @@ const MultipleSelect = ({
       value={charOptions}
       defaultOptions={defaultOptions}
       loadOptions={debouncedPromiseOptions}
-      className="multipleselect"
+      className="multipleselect mb-3"
       instanceId="multipleselect"
     />
   );

@@ -51,8 +51,9 @@ const EditLocation = ({ id: idFromUrl }: EditLocationsProps) => {
   useEffect(() => {
     if (isLoggedIn) {
       getLocation();
+    } else {
+      Router.push("/locations");
     }
-    Router.push("/locations");
   }, []);
 
   return location ? (

@@ -58,8 +58,9 @@ export default function EditCharacter(props: EditCharacterProps) {
   useEffect(() => {
     if (isLoggedIn) {
       getCharacter();
+    } else {
+      Router.push("/characters");
     }
-    Router.push("/characters");
   }, []);
 
   return character ? (

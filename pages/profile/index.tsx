@@ -34,7 +34,6 @@ function Profile() {
     displayName: profile.displayName,
     userEmail: profile.userEmail,
     avatar: profile.avatar,
-    isDarkTheme: profile.isDarkTheme,
     password: "",
     passwordConfirm: "",
     userType: profile.userType,

@@ -26,8 +26,6 @@ function LoginForm() {
         password,
       })
       .then((response) => {
-        console.log("responz", response);
-
         dispatch(
           authActions.logIn({
             token: response.data.token,

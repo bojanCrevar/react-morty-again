@@ -17,7 +17,7 @@ const profileSlice = createSlice({
       state.userEmail = action.payload.userEmail;
       state.avatar = action.payload.avatar;
       state.isDarkTheme = action.payload.isDarkTheme;
-      state.userType = action.payload.userType;
+      localStorage.setItem("isDarkTheme", action.payload.isDarkTheme);
     },
     removeProfile(state) {
       state.displayName = "";

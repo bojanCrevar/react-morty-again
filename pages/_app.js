@@ -10,7 +10,9 @@ import NavMenu from "../components/NavMenu.tsx";
 import { filterActions } from "../store/filter-slice";
 import { getUserByToken } from "../utils/getUserByToken";
 import { useDispatch, useSelector } from "react-redux";
+import { profileActions } from "../store/profile-slice";
 import BootstrapToast from "../components/BootstrapToast";
+import { paginationActions } from "../store/pagination-slice";
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -18,17 +20,13 @@ const MyApp = ({ Component, pageProps }) => {
 
   const isDarkTheme = useSelector((state) => state.profile.isDarkTheme);
 
-  let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("token");
-  }
-
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       if (!shallow) {
         resetQuery.current = true;
       }
     };
+
     router.events.on("routeChangeStart", handleRouteChange);
 
     if (token) {
@@ -38,8 +36,23 @@ const MyApp = ({ Component, pageProps }) => {
 
   if (resetQuery.current) {
     resetQuery.current = false;
-    store.dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(filterActions.resetKeywordAndFilter());
+    dispatch(paginationActions.resetActivePage());
+    dispatch(
+      profileActions.toggleTheme(localStorage.getItem("isDarkTheme") === "true")
+    );
   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      getUserByToken(localStorage.getItem("token"));
+      dispatch(
+        profileActions.toggleTheme(
+          localStorage.getItem("isDarkTheme") === "true"
+        )
+      );
+    }
+  }, [dispatch]);
 
   return (
     <div className={"h-full" + (isDarkTheme ? " dark" : "")}>

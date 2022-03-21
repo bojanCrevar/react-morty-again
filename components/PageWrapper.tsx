@@ -18,6 +18,8 @@ import { ParsedUrlQuery } from "querystring";
 import { setupFilterValues } from "../utils/sidebarFilter";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
+import { paginationActions } from "../store/pagination-slice";
+
 interface PageWrapperProps {
   children: React.ReactNode;
   title: string;
@@ -75,6 +77,12 @@ const PageWrapper = ({
     filterActions.setKeyword
   );
 
+  const activePage = selectFromReduxOrQuery(
+    "activePage",
+    useSelector((state: RootState) => state.pagination.activePage),
+    paginationActions.setActivePage
+  );
+
   const filterValue = selectFromReduxOrQuery(
     "filter",
     useSelector((state: RootState) => state.filter.filterValue),
@@ -82,10 +90,8 @@ const PageWrapper = ({
   );
 
   const router = useRouter();
-  const [activePage, setActivePage] = useState(
-    query?.activePage ? +query?.activePage : 1
-  );
-  const [sort, setSort] = useState(query?.sort || "date_asc");
+
+  const [sort, setSort] = useState(query?.sort || "id");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
@@ -145,7 +151,7 @@ const PageWrapper = ({
   useEffect(() => {
     if (pagesInfo !== emptyPagination) {
       if (activePage > pagesInfo.pages && pagesInfo.pages > 0) {
-        setActivePage(pagesInfo.pages);
+        dispatch(paginationActions.setActivePage(pagesInfo.pages));
       } else fetchData();
     }
   }, [pagesInfo.pages, pagesInfo.count]);
@@ -175,7 +181,6 @@ const PageWrapper = ({
               initFilterValue={filterValue}
               filterConfig={filterConfig}
               triggerSearch={triggerSearch}
-              setActivePage={setActivePage}
             />
           </div>
         </div>
@@ -188,26 +193,17 @@ const PageWrapper = ({
         </h5>
         <div className="flex lg:flex-row space-x-2">
           <div className="w-2/3">
-            <Pagination
-              pagesInfo={pagesInfo}
-              activePage={activePage}
-              setActivePage={setActivePage}
-            />
+            <Pagination pagesInfo={pagesInfo} />
           </div>
           {mobile && (
             <FilterPanelMobile
               initFilterValue={filterValue}
               filterConfig={filterConfig}
               triggerSearch={triggerSearch}
-              setActivePage={setActivePage}
             />
           )}
         </div>
-        <Searchbar
-          initKeyword={keyword}
-          setActivePage={setActivePage}
-          triggerSearch={triggerSearch}
-        />
+        <Searchbar initKeyword={keyword} triggerSearch={triggerSearch} />
         <div className="flex flex-col w-full space-y-2 mt-3 lg:flex-row lg:space-y-0">
           <div className="flex items-start lg:w-1/2">
             <Link href={addNewItemBtn.href}>

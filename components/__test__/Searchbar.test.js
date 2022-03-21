@@ -5,21 +5,15 @@ import store from "../../store";
 
 describe("Searchbar component test", () => {
   test("render Searchbar on screen", () => {
-    let setActivePage;
     let keyword;
     let triggerSearch;
 
     keyword = "";
-    setActivePage = jest.fn((activeArg) => activeArg);
     triggerSearch = jest.fn();
 
     render(
       <Provider store={store}>
-        <Searchbar
-          setActivePage={setActivePage}
-          initKeyword={keyword}
-          triggerSearch={triggerSearch}
-        />
+        <Searchbar initKeyword={keyword} triggerSearch={triggerSearch} />
       </Provider>
     );
 
@@ -36,13 +30,11 @@ describe("Searchbar component test", () => {
     fireEvent.click(buttonElement);
 
     expect(triggerSearch).toHaveBeenCalled();
-    expect(setActivePage).toHaveBeenCalledWith(1);
 
     const clearButton = screen.getByRole("button", { name: "Clear" });
     fireEvent.click(clearButton);
 
     expect(input.value).toBe("");
     expect(triggerSearch).toHaveBeenCalled();
-    expect(setActivePage).toHaveBeenCalledWith(1);
   });
 });

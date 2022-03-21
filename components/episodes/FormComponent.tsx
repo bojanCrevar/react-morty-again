@@ -143,7 +143,7 @@ function FormComponent({
             disabled={!formik.isValid}
             data-testid="button"
           >
-            {initialData.id === UNDEFINED_ID
+            {initialData._id === UNDEFINED_ID
               ? "Create episode"
               : "Update episode"}
           </Button>

@@ -1,5 +1,5 @@
 export interface RMItem {
-  id: number;
+  _id: string;
   name: string;
 }
 
@@ -9,4 +9,7 @@ export interface RMItemWithChars extends RMItem {
   charactersString?: string;
   characters?: string[];
   residents?: string[];
+  username?: string;
+  email?: string;
+  userType?: string;
 }

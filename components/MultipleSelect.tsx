@@ -18,7 +18,7 @@ type MultipleSelectProps = {
   value: string[] | undefined;
 };
 type CharOptions = {
-  value: number;
+  value: string;
   label: string;
 };
 const MultipleSelect = ({
@@ -54,7 +54,7 @@ const MultipleSelect = ({
 
     if (response.status === 200) {
       return response.data.results.slice(0, 10).map((char: CharactersItem) => {
-        return { value: char.id, label: char.name };
+        return { value: char._id, label: char.name };
       });
     } else return [];
   }
@@ -65,7 +65,7 @@ const MultipleSelect = ({
 
       setCharOptions(
         characters.map((char: CharactersItem) => {
-          return { value: char.id, label: char.name };
+          return { value: char._id, label: char.name };
         })
       );
     }

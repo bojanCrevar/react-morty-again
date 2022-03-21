@@ -11,9 +11,9 @@ function LoginForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [warnings, setWarnings] = useState("");
 
-  const firebaseEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:${
-    isLogin ? "signInWithPassword" : "signUp"
-  }?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
+  const backendServer = `${process.env.NEXT_PUBLIC_NODE_URL}/user/${
+    isLogin ? "login" : "register"
+  }`;
 
   const dispatch = useDispatch();
 
@@ -21,29 +21,24 @@ function LoginForm() {
     e.preventDefault();
 
     axios
-      .post(firebaseEndpoint, {
+      .post(backendServer, {
         email,
         password,
-        returnSecureToken: true,
       })
       .then((response) => {
         console.log("responz", response);
 
         dispatch(
           authActions.logIn({
-            token: response.data.idToken,
-            username: response.data.email,
-            localId: response.data.localId,
-            refreshToken: response.data.refreshToken,
+            token: response.data.token,
+            localId: response.data.user._id,
           })
         );
-        dispatch(dispatchProfile(response.data.localId, response.data));
+        dispatch(dispatchProfile(response.data.user));
       })
       .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.data.error.message);
-          setWarnings(error.response.data.error.message);
-        }
+        console.log(error.response);
+        setWarnings(error.response.data.msg);
       });
   }
 

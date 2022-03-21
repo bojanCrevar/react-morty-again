@@ -23,7 +23,7 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
         title={
           <span>
             <img
-              alt="Profile logo"
+              alt="Profile avatar"
               src={profile.avatar}
               width="30"
               height="30"
@@ -40,6 +40,16 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
             </Link>
           </Navbar.Text>
         </NavDropdown.Item>
+
+        {profile.userType === "Admin" && (
+          <NavDropdown.Item>
+            <Navbar.Text>
+              <Link href="/modify-users">
+                <span className="dark:text-black">Modify users</span>
+              </Link>
+            </Navbar.Text>
+          </NavDropdown.Item>
+        )}
         <NavDropdown.Divider />
         <NavDropdown.Item className="group">
           <Navbar.Text onClick={logoutHandler}>

@@ -18,7 +18,7 @@ function LocationFormComponent({
   initialData,
 }: LocationFormProps) {
   function submitFunction(submittedLocationsData: LocationsItem) {
-    submittedLocationsData.id = initialData.id;
+    submittedLocationsData._id = initialData._id;
     submitHandler(submittedLocationsData);
   }
 
@@ -35,7 +35,7 @@ function LocationFormComponent({
   });
 
   const initialValues: LocationsItem = {
-    id: initialData.id || 0,
+    _id: initialData._id || "",
     name: initialData.name || "",
     dimension: initialData.dimension || "",
     type: initialData.type || "",
@@ -122,7 +122,7 @@ function LocationFormComponent({
             type="submit"
             disabled={!formik.isValid}
           >
-            {initialData.id < 0 ? "Add new location!" : "Update location"}
+            {initialData._id < "" ? "Add new location!" : "Update location"}
           </Button>
         </div>
       </div>

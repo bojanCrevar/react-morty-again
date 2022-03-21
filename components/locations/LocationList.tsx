@@ -8,7 +8,7 @@ import { LocationsItem } from "../../model/locationsModel";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
-import { PAGE_SIZE } from "../../utils/apiResponse";
+//import { PAGE_SIZE } from "../../utils/apiResponse";
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -24,10 +24,10 @@ const LocationList = ({
   setLoader,
 }: LocationsProps) => {
   const mappedLocations = useCharacters(locations);
-  function handleUpdate(id: number) {
+  function handleUpdate(id: string) {
     Router.push("locations/edit/" + id);
   }
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     const response = await axios.delete(
       `/api/locations/${encodeURIComponent(id)}`
     );
@@ -37,10 +37,7 @@ const LocationList = ({
         ...prev,
         info: {
           count: prev.info.count - 1,
-          pages:
-            prev.info.count % PAGE_SIZE === 1
-              ? prev.info.pages - 1
-              : prev.info.pages,
+          pages: prev.info.pages,
         },
       }));
     }

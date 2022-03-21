@@ -5,6 +5,7 @@ const profileInitalState = {
   userEmail: "",
   avatar: "",
   isDarkTheme: false,
+  userType: "",
 };
 
 const profileSlice = createSlice({
@@ -16,12 +17,14 @@ const profileSlice = createSlice({
       state.userEmail = action.payload.userEmail;
       state.avatar = action.payload.avatar;
       state.isDarkTheme = action.payload.isDarkTheme;
+      state.userType = action.payload.userType;
     },
     removeProfile(state) {
       state.displayName = "";
       state.userEmail = "";
       state.avatar = "";
       state.isDarkTheme = false;
+      state.userType = "";
     },
     toggleTheme(state, action) {
       state.isDarkTheme = action.payload;

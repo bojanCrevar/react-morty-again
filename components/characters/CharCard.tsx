@@ -12,11 +12,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../model/storeModel";
 
 interface CharCardProps extends CharactersItem {
-  handleDelete: (id: number) => void;
+  handleDelete: (id: string) => void;
 }
 
 const CharCard = ({
-  id,
+  _id,
   name,
   image,
   species,
@@ -44,8 +44,8 @@ const CharCard = ({
     finishedCallback: (error?: string) => void
   ) {
     try {
-      await axios.put("api/characters/" + id, {
-        id: id,
+      await axios.put("api/characters/" + _id, {
+        id: _id,
         name: name,
         image: image,
         species: species,
@@ -108,7 +108,7 @@ const CharCard = ({
           />
         </div>
         <div className="w-1/3 sm:w-full">
-          <Link href={"characters/edit/" + id}>
+          <Link href={"characters/edit/" + _id}>
             <Button
               variant="outline-info"
               className={`btn-char ${
@@ -134,7 +134,7 @@ const CharCard = ({
               !isLoggedIn ? "disabled" : ""
             } dark:bg-[#a82733] dark:hover:bg-[#82111c]`}
             variant="btn btn-danger"
-            onClick={() => handleDelete(id)}
+            onClick={() => handleDelete(_id)}
           >
             <div className="flex justify-center md:space-x-2">
               <div>

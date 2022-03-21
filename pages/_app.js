@@ -15,7 +15,7 @@ import BootstrapToast from "../components/BootstrapToast";
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
   const resetQuery = useRef(false);
-  const dispatch = useDispatch();
+
   const isDarkTheme = useSelector((state) => state.profile.isDarkTheme);
 
   let token;
@@ -30,18 +30,16 @@ const MyApp = ({ Component, pageProps }) => {
       }
     };
     router.events.on("routeChangeStart", handleRouteChange);
+
+    if (token) {
+      getUserByToken(token);
+    }
   }, []);
 
   if (resetQuery.current) {
     resetQuery.current = false;
     store.dispatch(filterActions.resetKeywordAndFilter());
   }
-
-  useEffect(() => {
-    if (token) {
-      getUserByToken(token);
-    }
-  }, [token]);
 
   return (
     <div className={"h-full" + (isDarkTheme ? " dark" : "")}>

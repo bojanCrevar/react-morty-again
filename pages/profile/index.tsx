@@ -37,6 +37,7 @@ function Profile() {
     isDarkTheme: profile.isDarkTheme,
     password: "",
     passwordConfirm: "",
+    userType: profile.userType,
   };
 
   const profileSchema = Yup.object({
@@ -66,72 +67,38 @@ function Profile() {
   }
 
   async function submitHandler(submittedProfileData: any) {
-    console.log("submittedProfileData", submittedProfileData);
-
     try {
-      if (submittedProfileData.password) {
-        const passwordResetAPI = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
-
-        const response = await axios.post(passwordResetAPI, {
-          idToken: auth.token,
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_NODE_URL}/user/updateUser`,
+        {
           password: submittedProfileData.password,
-          returnSecureToken: true,
-        });
-        if (response.status === 200) {
-          submittedProfileData.password = "";
-          submittedProfileData.passwordConfirm = "";
-        }
-        console.log("Changed password!", response);
+          avatar: submittedProfileData.avatar,
+          username: submittedProfileData.displayName,
+          isDarkTheme: profile.isDarkTheme,
+        },
+        { headers: { Authorization: `Bearer ${auth.token}` } }
+      );
 
-        dispatch(
-          authActions.replaceToken({
-            token: response.data.idToken,
-            refreshToken: response.data.refreshToken,
-          })
-        );
-      }
-
-      const docRef = doc(db, "users", auth.localId);
-
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
+      dispatch(
+        profileActions.setProfile({
+          userEmail: submittedProfileData.userEmail,
           displayName: submittedProfileData.displayName,
           avatar: submittedProfileData.avatar,
           isDarkTheme: profile.isDarkTheme,
-        });
-
-        dispatch(
-          profileActions.setProfile({
-            userEmail: submittedProfileData.userEmail,
-            displayName: submittedProfileData.displayName,
-            avatar: submittedProfileData.avatar,
-            isDarkTheme: profile.isDarkTheme,
-          })
-        );
-
-        dispatch(
-          notificationActions.setNotification({
-            bgColor: "success",
-            header: "Success!",
-            body: "Updated user in firestore!",
-            isShown: true,
-          })
-        );
-        console.log("Updated user in firestore!");
-      }
-    } catch (error: any) {
-      console.log("Error", error.response.data.error.message);
+          userType: profile.userType,
+        })
+      );
 
       dispatch(
         notificationActions.setNotification({
-          bgColor: "danger",
-          header: "Error!",
-          body: `Updating failed! ${error.response.data.error.message}`,
+          bgColor: "success",
+          header: "Success!",
+          body: "Updated user!",
           isShown: true,
         })
       );
+    } catch (error: any) {
+      console.log("Error", error.response);
     }
 
     router.push("/");

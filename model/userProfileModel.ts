@@ -5,4 +5,5 @@ export interface userProfileModel {
   isDarkTheme: boolean;
   password?: string;
   passwordConfirm?: string;
+  userType: string;
 }

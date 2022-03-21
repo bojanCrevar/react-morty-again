@@ -16,7 +16,7 @@ import { ParsedUrlQuery } from "querystring";
 export const filterConfig: FilterGroupConfig[] = [
   {
     title: "Dimension",
-    values: ["Dimension C-137", "Replacement Dimension", "unknown"],
+    values: ["Dimension C-137", "Replacement Dimension", "Unknown"],
     type: "checkbox",
     key: "dimension",
   },

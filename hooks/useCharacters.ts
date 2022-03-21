@@ -33,7 +33,7 @@ const useCharacters = <T extends RMItemWithChars>(origItemList: T[]) => {
     itemWithChars: RMItemWithChars
   ) {
     const itemCharNames = characters
-      .filter((ch) => itemWithChars.charactersIds?.includes("" + ch.id))
+      .filter((ch) => itemWithChars.charactersIds?.includes("" + ch._id))
       .map((ch) => ch.name);
     itemWithChars.charactersTooltip = itemCharNames.join(", ");
     itemWithChars.charactersString = itemCharNames.slice(0, 3).join(", ");

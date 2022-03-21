@@ -85,7 +85,7 @@ const PageWrapper = ({
   const [activePage, setActivePage] = useState(
     query?.activePage ? +query?.activePage : 1
   );
-  const [sort, setSort] = useState(query?.sort || "id");
+  const [sort, setSort] = useState(query?.sort || "date_asc");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 
@@ -104,14 +104,12 @@ const PageWrapper = ({
   }
 
   async function fetchData() {
-    const response = await axios.get(`/api/${api}`, {
-      params: { activePage, keyword, sort, filterValue },
-      paramsSerializer: (params) => {
-        return `activePage=${params.activePage}&keyword=${
-          params.keyword
-        }&sort=${params.sort}${constructFilterQuery(params.filterValue)}`;
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters`,
+      {
+        params: { activePage, keyword, sort, filterValue },
+      }
+    );
     setTimeout(() => {
       setData(response.data);
       setSkeleton(false);

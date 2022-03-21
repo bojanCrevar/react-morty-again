@@ -7,11 +7,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
 
 type ActionButtonProps = {
-  id: number;
+  _id: string;
   hovered: boolean;
 };
 
-const ActionButton = ({ id, hovered }: ActionButtonProps) => {
+const ActionButton = ({ _id, hovered }: ActionButtonProps) => {
   const { handleDelete: onDelete, handleUpdate: onUpdate } =
     useContext(ActionContext);
 
@@ -21,7 +21,7 @@ const ActionButton = ({ id, hovered }: ActionButtonProps) => {
       icon={faTrashAlt}
       data-testid="deleteIcon"
       className={`hover:text-red-600 text-gray-700 text-2xl ${visibilityClass} hover:cursor-pointer`}
-      onClick={() => onDelete(id)}
+      onClick={() => onDelete(_id)}
     />
   ) : null;
   const updateButton = onUpdate ? (
@@ -29,7 +29,7 @@ const ActionButton = ({ id, hovered }: ActionButtonProps) => {
       icon={faEdit}
       data-testid="editIcon"
       className={`hover:text-green-600 text-gray-700 text-2xl ${visibilityClass} hover:cursor-pointer`}
-      onClick={() => onUpdate(id)}
+      onClick={() => onUpdate(_id)}
     />
   ) : null;
 

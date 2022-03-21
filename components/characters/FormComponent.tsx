@@ -33,7 +33,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
   });
 
   const initialValues: CharactersItemData = {
-    id: initialData.id || 0,
+    _id: initialData._id,
     name: initialData.name || "",
     status: initialData.status || "",
     gender: initialData.gender || "",
@@ -50,7 +50,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
   });
 
   function submitFunction(submittedEpisodeData: CharactersItemData) {
-    submittedEpisodeData.id = initialData.id;
+    submittedEpisodeData._id = initialData._id;
     submittedEpisodeData.location = { name: submittedEpisodeData.locationName };
     submitHandler(submittedEpisodeData);
   }
@@ -76,8 +76,8 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
         </FloatingLabel>
 
         <div className="pb-2 flex flex-col sm:flex-row justify-around">
-          {["Alive", "Dead", "unknown"].map((type) => (
-            <div>
+          {["Alive", "Dead", "Unknown"].map((type) => (
+            <div key={type}>
               <Form.Check
                 data-testid={"status_" + type}
                 key={type}
@@ -124,7 +124,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
             {!initialData.status && (
               <option value={0}>Select character!</option>
             )}
-            {["Male", "Female", "unknown"].map((g) => (
+            {["Male", "Female", "Unknown"].map((g) => (
               <option key={g} value={g}>
                 {g}
               </option>
@@ -211,7 +211,7 @@ function FormComponent({ submitHandler, initialData }: FormComponentProps) {
             disabled={!formik.isValid}
             data-testid="submit"
           >
-            {initialData.id < 0 ? "Add new character!" : "Update character"}
+            {!initialData._id ? "Add new character!" : "Update character"}
           </Button>
         </div>
       </div>

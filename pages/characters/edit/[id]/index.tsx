@@ -35,7 +35,7 @@ export default function EditCharacter({ character }: EditCharacterProps) {
       image: image,
     };
 
-    const response = await axios.put(
+    const response = await axios.patch(
       `${process.env.NEXT_PUBLIC_NODE_URL}/characters/${_id}`,
       character,
       {

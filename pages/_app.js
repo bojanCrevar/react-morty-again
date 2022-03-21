@@ -17,7 +17,7 @@ import { paginationActions } from "../store/pagination-slice";
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
   const resetQuery = useRef(false);
-
+  const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.profile.isDarkTheme);
 
   useEffect(() => {
@@ -28,11 +28,7 @@ const MyApp = ({ Component, pageProps }) => {
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
-
-    if (token) {
-      getUserByToken(token);
-    }
-  }, []);
+  }, [dispatch, router.events]);
 
   if (resetQuery.current) {
     resetQuery.current = false;

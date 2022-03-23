@@ -9,6 +9,8 @@ import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
 import { PAGE_SIZE } from "../../utils/apiResponse";
+import { useSelector } from "react-redux";
+import { RootState } from "../../model/storeModel";
 
 type LocationsProps = {
   locations: LocationsItem[];
@@ -23,13 +25,19 @@ const LocationList = ({
   locationsColumns,
   setLoader,
 }: LocationsProps) => {
+  const token = useSelector((state: RootState) => state.auth.token);
   const mappedLocations = useCharacters(locations);
-  function handleUpdate(id: number) {
+  function handleUpdate(id: string) {
     Router.push("locations/edit/" + id);
   }
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     const response = await axios.delete(
-      `/api/locations/${encodeURIComponent(id)}`
+      `${process.env.NEXT_PUBLIC_NODE_URL}/locations/${encodeURIComponent(id)}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
     );
     if (response.status === 200) {
       setLoader(true);

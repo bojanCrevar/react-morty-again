@@ -24,11 +24,13 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
           <span>
             <img
               alt="Profile logo"
-              src={profile.avatar}
-              width="30"
-              height="30"
-              className="d-inline-block align-top mr-2"
-              style={{ borderRadius: "50%" }}
+              src={`${process.env.NEXT_PUBLIC_ASSETS_URL}/${profile.avatar}`}
+              className="rounded-full self-center d-inline-block align-top mr-2"
+              style={{
+                width: "30px",
+                height: "30px",
+                objectFit: "cover",
+              }}
             />
           </span>
         }

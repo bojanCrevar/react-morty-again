@@ -1,6 +1,7 @@
 export interface RMItem {
-  id: number;
+  _id: string;
   name: string;
+  id?: string;
 }
 
 export interface RMItemWithChars extends RMItem {

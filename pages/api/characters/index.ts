@@ -31,6 +31,8 @@ export default async function handler(
         const { characters } = req.query as { characters?: string };
         if (characters) {
           const characterIds = characters.split(",");
+          console.log("characters", characters);
+          console.log("characterIds", characterIds);
 
           const mappedChars = characterIds
             .map((charId) => {

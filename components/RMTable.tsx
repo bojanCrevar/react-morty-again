@@ -13,13 +13,13 @@ const RMTable = <T extends RMItemWithChars>({
 }: ColumnModel<T>) => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
   const lastColumn = columnConfig.length - 1;
   const dataRender = tableData.map((data) => {
     return (
       <tr
-        key={data.id}
-        onMouseEnter={() => setHovered(data.id)}
+        key={data._id}
+        onMouseEnter={() => setHovered(data._id)}
         onMouseLeave={() => setHovered(null)}
         className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:text-gray-300  dark:border-[#414b55]"
       >
@@ -36,7 +36,10 @@ const RMTable = <T extends RMItemWithChars>({
               {i === lastColumn ? (
                 <span className="position: absolute right-1 ">
                   {isLoggedIn && (
-                    <ActionButton id={data.id} hovered={hovered === data.id} />
+                    <ActionButton
+                      id={data._id}
+                      hovered={hovered === data._id}
+                    />
                   )}
                 </span>
               ) : null}

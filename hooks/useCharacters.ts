@@ -6,15 +6,20 @@ const useCharacters = <T extends RMItemWithChars>(origItemList: T[]) => {
   const [mappedDataFromComponent, setMappedDataFromComponent] =
     useState(origItemList);
   async function getCharacters(characterIds: string[]): Promise<RMItem[]> {
-    const response = await axios.get("api/characters/", {
-      params: { characterIds },
-      paramsSerializer: (params) => {
-        return `characters=${characterIds}`;
-      },
-    });
+    // const response = await axios.get("api/characters/", {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters`,
+      {
+        params: { characterIds },
+        paramsSerializer: (params) => {
+          return `characters=${characterIds}`;
+        },
+      }
+    );
 
-    if (response.status === 200) return response.data.characters;
-    else return [];
+    if (response.status === 200) {
+      return response.data.characters;
+    } else return [];
   }
 
   function getUniqueCharIds(origItemList: T[]): string[] {

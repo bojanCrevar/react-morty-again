@@ -1,4 +1,4 @@
 export interface ActionCtxModel {
-  handleDelete?: (id: number) => void;
-  handleUpdate: (id: number) => void;
+  handleDelete?: (id: string) => void;
+  handleUpdate: (id: string) => void;
 }

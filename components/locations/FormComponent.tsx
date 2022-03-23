@@ -18,7 +18,7 @@ function LocationFormComponent({
   initialData,
 }: LocationFormProps) {
   function submitFunction(submittedLocationsData: LocationsItem) {
-    submittedLocationsData.id = initialData.id;
+    submittedLocationsData._id = initialData._id;
     submitHandler(submittedLocationsData);
   }
 
@@ -30,12 +30,12 @@ function LocationFormComponent({
       .min(3, "Must be 3 characters or more")
       .required("Dimension field is required."),
     type: Yup.string()
-      .min(3, "Must be 3 characters or more")
+      .min(2, "Must be 2 characters or more")
       .required("Type field is required."),
   });
 
   const initialValues: LocationsItem = {
-    id: initialData.id || 0,
+    _id: initialData._id || "",
     name: initialData.name || "",
     dimension: initialData.dimension || "",
     type: initialData.type || "",
@@ -122,7 +122,7 @@ function LocationFormComponent({
             type="submit"
             disabled={!formik.isValid}
           >
-            {initialData.id < 0 ? "Add new location!" : "Update location"}
+            {initialData._id === "" ? "Add new location!" : "Update location"}
           </Button>
         </div>
       </div>

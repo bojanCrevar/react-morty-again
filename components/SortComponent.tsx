@@ -2,7 +2,6 @@ import React from "react";
 
 type SortCOmponentParams = { setSort: (e: string) => void; initSort: string };
 
-//destructure and set type
 const SortComponent = ({ setSort, initSort }: SortCOmponentParams) => {
   return (
     <div className="w-full">
@@ -13,8 +12,11 @@ const SortComponent = ({ setSort, initSort }: SortCOmponentParams) => {
         defaultValue={initSort}
         data-testid="select"
       >
-        <option data-testid="id" value="id">
-          ID
+        <option data-testid="date-asc" value="date-asc">
+          Date created ascending
+        </option>
+        <option data-testid="date-desc" value="date-desc">
+          Date created descending
         </option>
         <option data-testid="asc" value="asc">
           Name ascending

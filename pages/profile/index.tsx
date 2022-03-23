@@ -1,7 +1,7 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase";
 import { RootState } from "../../model/storeModel";
@@ -11,12 +11,12 @@ import { userProfileModel } from "../../model/userProfileModel";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { profileActions } from "../../store/profile-slice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-regular-svg-icons";
-import { faSun } from "@fortawesome/free-regular-svg-icons";
+import { faSun, faMoon } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { notificationActions } from "../../store/notification-slice";
 import { authActions } from "../../store/auth-slice";
+import ImageUpload from "../../components/ImageUpload";
 
 function Profile() {
   const profile = useSelector((state: RootState) => state.profile);
@@ -33,9 +33,9 @@ function Profile() {
   const initialValues: userProfileModel = {
     displayName: profile.displayName,
     userEmail: profile.userEmail,
-    avatar: profile.avatar,
     password: "",
     passwordConfirm: "",
+    avatar: profile.avatar,
   };
 
   const profileSchema = Yup.object({
@@ -48,10 +48,15 @@ function Profile() {
         .oneOf([Yup.ref("password"), null], "Passwords must match"),
       otherwise: Yup.string().oneOf(["", null], "Passwords must match"),
     }),
-    avatar: Yup.string().matches(
-      /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
-      "Please enter a valid URL"
-    ),
+    avatar: Yup.mixed().test("imageCheck", "Invalid image type", (value) => {
+      if (value === profile.avatar) {
+        return true;
+      }
+      if (value && !value.type.includes("image")) {
+        return false;
+      }
+      return true;
+    }),
   });
 
   const formik = useFormik({
@@ -65,66 +70,52 @@ function Profile() {
   }
 
   async function submitHandler(submittedProfileData: any) {
+    console.log(submittedProfileData);
+    const profileData = {
+      username: submittedProfileData.displayName,
+      password: submittedProfileData.password,
+      isDarkTheme: profile.isDarkTheme,
+    };
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(profileData));
+    if (submittedProfileData.avatar) {
+      formData.append("image", submittedProfileData.avatar);
+    }
     try {
-      if (submittedProfileData.password) {
-        const passwordResetAPI = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
+      await axios
+        .patch(
+          `${process.env.NEXT_PUBLIC_NODE_URL}/auth/updateUser`,
+          formData,
+          {
+            headers: {
+              Authorization: "Bearer " + auth.token,
+            },
+          }
+        )
+        .then((response) => {
+          dispatch(authActions.logIn(response.data.token));
 
-        const response = await axios.post(passwordResetAPI, {
-          idToken: auth.token,
-          password: submittedProfileData.password,
-          returnSecureToken: true,
+          dispatch(
+            profileActions.setProfile({
+              userEmail: response.data.user.email,
+              displayName: response.data.user.username,
+              avatar: response.data.user.avatar,
+              isDarkTheme: profile.isDarkTheme,
+            })
+          );
+
+          dispatch(
+            notificationActions.setNotification({
+              bgColor: "success",
+              header: "Success!",
+              body: "Updated user in database!",
+              isShown: true,
+            })
+          );
         });
-        if (response.status === 200) {
-          submittedProfileData.password = "";
-          submittedProfileData.passwordConfirm = "";
-        }
-
-        dispatch(
-          authActions.replaceToken({
-            token: response.data.idToken,
-            refreshToken: response.data.refreshToken,
-          })
-        );
-      }
-
-      const docRef = doc(db, "users", auth.localId);
-
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        await updateDoc(docRef, {
-          displayName: submittedProfileData.displayName,
-          avatar: submittedProfileData.avatar,
-          isDarkTheme: profile.isDarkTheme,
-        });
-
-        dispatch(
-          profileActions.setProfile({
-            userEmail: submittedProfileData.userEmail,
-            displayName: submittedProfileData.displayName,
-            avatar: submittedProfileData.avatar,
-            isDarkTheme: profile.isDarkTheme,
-          })
-        );
-
-        dispatch(
-          notificationActions.setNotification({
-            bgColor: "success",
-            header: "Success!",
-            body: "Updated user in firestore!",
-            isShown: true,
-          })
-        );
-      }
     } catch (error: any) {
-      dispatch(
-        notificationActions.setNotification({
-          bgColor: "danger",
-          header: "Error!",
-          body: `Updating failed! ${error.response.data.error.message}`,
-          isShown: true,
-        })
-      );
+      console.log(error);
     }
 
     router.push("/");
@@ -151,15 +142,15 @@ function Profile() {
               </div>
 
               <div className="flex justify-center md:w-1/3">
-                <div className="w-24 h-24 relative rounded-full">
-                  {profile.avatar.length && (
-                    <Image
-                      src={profile.avatar}
-                      layout="fill"
-                      className="rounded-full"
-                    />
-                  )}
-                </div>
+                <ImageUpload
+                  id="avatar"
+                  name="avatar"
+                  initValue={profile.avatar}
+                  onChange={(e: any) => {
+                    formik.setFieldValue("avatar", e);
+                  }}
+                  value={formik.values.avatar}
+                />
               </div>
 
               <div className="absolute md:relative top-2 sm:top-6 md:top-0 right-2 sm:right-6 md:right-0 md:flex md:justify-end md:w-1/3">
@@ -237,21 +228,6 @@ function Profile() {
               />
               <Form.Control.Feedback type="invalid">
                 {formik.errors.passwordConfirm}
-              </Form.Control.Feedback>
-            </FloatingLabel>
-
-            <FloatingLabel label="Change avatar" className="mb-3">
-              <Form.Control
-                name="avatar"
-                type="text"
-                value={formik.values.avatar}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={!!(formik.touched.avatar && formik.errors.avatar)}
-                autoComplete="off"
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.avatar}
               </Form.Control.Feedback>
             </FloatingLabel>
 

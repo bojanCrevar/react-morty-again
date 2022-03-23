@@ -50,8 +50,9 @@ export default function EditEpisode({ id: idFromUrl }: EditEpisodeProps) {
   useEffect(() => {
     if (isLoggedIn) {
       getEpisode();
+    } else {
+      Router.push("/episodes");
     }
-    Router.push("/episodes");
   }, []);
 
   return episodeObj ? (

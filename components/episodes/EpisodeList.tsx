@@ -25,10 +25,10 @@ const EpisodeList = ({
 }: EpisodeListProps) => {
   const router = useRouter();
   const mappedEpisodes = useCharacters(episodes);
-  function handleUpdate(id: number) {
+  function handleUpdate(id: string) {
     router.push("episodes/edit/" + id);
   }
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     const response = await axios.delete(
       `/api/episodes/${encodeURIComponent(id)}`
     );

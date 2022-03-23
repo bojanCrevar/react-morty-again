@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../model/storeModel";
 
 type ActionButtonProps = {
-  id: number;
+  id: string;
   hovered: boolean;
 };
 

@@ -17,7 +17,7 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
       <Navbar.Text className="mt-0.5">
         Signed in as:{" "}
         <span className="font-bold">
-          {profile.displayName.length ? profile.displayName : profile.userEmail}
+          {profile.displayName?.length ? profile.displayName : profile.email}
         </span>
       </Navbar.Text>
       <NavDropdown

@@ -48,11 +48,11 @@ function LoginForm() {
         </h3>
         <div className="flex flex-col place-items-center space-y-2 mt-8 px-8 ">
           <label className="text-left w-full text-sm font-semibold">
-            Username
+            Email
           </label>
           <input
             type="text"
-            placeholder={"Enter username"}
+            placeholder={"Enter Email"}
             onChange={(e) => setEmail(e.target.value)}
             required
             className="border-1 border-opacity-25 border-gray-400 rounded w-full px-3 py-2 focus focus:border-blue-600 focus:outline-none active:outline-none active:border-blue-600 focus:placeholder-blue-600"

@@ -4,12 +4,12 @@ export const dispatchProfile = (user) => {
   return async (dispatch) => {
     console.log("dispatchProfile", user);
     try {
-      const { username, email, avatar, isDarkTheme, userType } = user;
+      const { displayName, email, avatar, isDarkTheme, userType } = user;
 
       dispatch(
         profileActions.setProfile({
-          displayName: username,
-          userEmail: email,
+          displayName,
+          email,
           avatar,
           isDarkTheme,
           userType,

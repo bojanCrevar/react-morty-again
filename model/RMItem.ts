@@ -9,7 +9,7 @@ export interface RMItemWithChars extends RMItem {
   charactersString?: string;
   characters?: string[];
   residents?: string[];
-  username?: string;
+  displayName?: string;
   email?: string;
   userType?: string;
 }

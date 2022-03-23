@@ -110,14 +110,12 @@ const PageWrapper = ({
   }
 
   async function fetchData() {
-    const response = await axios.get(`/api/${api}`, {
-      params: { activePage, keyword, sort, filterValue },
-      paramsSerializer: (params) => {
-        return `activePage=${params.activePage}&keyword=${
-          params.keyword
-        }&sort=${params.sort}${constructFilterQuery(params.filterValue)}`;
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters`,
+      {
+        params: { activePage, keyword, sort, filterValue },
+      }
+    );
     setTimeout(() => {
       setData(response.data);
       setSkeleton(false);

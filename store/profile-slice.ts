@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const profileInitalState = {
   displayName: "",
-  userEmail: "",
+  email: "",
   avatar: "",
   isDarkTheme: false,
+  userType: "",
 };
 
 const profileSlice = createSlice({
@@ -13,16 +14,18 @@ const profileSlice = createSlice({
   reducers: {
     setProfile(state, action) {
       state.displayName = action.payload.displayName;
-      state.userEmail = action.payload.userEmail;
+      state.email = action.payload.email;
       state.avatar = action.payload.avatar;
       state.isDarkTheme = action.payload.isDarkTheme;
+      state.userType = action.payload.userType;
       localStorage.setItem("isDarkTheme", action.payload.isDarkTheme);
     },
     removeProfile(state) {
       state.displayName = "";
-      state.userEmail = "";
+      state.email = "";
       state.avatar = "";
       state.isDarkTheme = false;
+      state.userType = "";
     },
     toggleTheme(state, action) {
       state.isDarkTheme = action.payload;

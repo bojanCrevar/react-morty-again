@@ -13,13 +13,13 @@ const RMTable = <T extends RMItemWithChars>({
 }: ColumnModel<T>) => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
   const lastColumn = columnConfig.length - 1;
   const dataRender = tableData.map((data) => {
     return (
       <tr
-        key={data.id}
-        onMouseEnter={() => setHovered(data.id)}
+        key={data._id}
+        onMouseEnter={() => setHovered(data._id)}
         onMouseLeave={() => setHovered(null)}
         className="flex flex-col md:flex-row bg-gray-200 border-gray-400 text-gray-600 md:first:border-t-8 border-b-4 dark:bg-[#6F737B] dark:text-gray-300  dark:border-[#414b55]"
       >
@@ -30,13 +30,26 @@ const RMTable = <T extends RMItemWithChars>({
               className={"w-full " + (i === lastColumn ? "relative" : "")}
               data-title={cfg.title + ": "}
             >
-              <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
-                {data[cfg.key]}
-              </span>
+              {cfg.key === "avatar" ? (
+                <img
+                  alt="Profile avatar"
+                  src={data[cfg.key] as any}
+                  width="50%"
+                  className="d-inline-block align-top mr-2"
+                  style={{ borderRadius: "50%" }}
+                />
+              ) : (
+                <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
+                  {data[cfg.key]}
+                </span>
+              )}
               {i === lastColumn ? (
                 <span className="position: absolute right-1 ">
                   {isLoggedIn && (
-                    <ActionButton id={data.id} hovered={hovered === data.id} />
+                    <ActionButton
+                      _id={data._id}
+                      hovered={hovered === data._id}
+                    />
                   )}
                 </span>
               ) : null}
@@ -49,7 +62,7 @@ const RMTable = <T extends RMItemWithChars>({
 
   return (
     <Table hover borderless responsive className={styles.rmtable}>
-      <thead className="hidden md:block border-b-2 border-gray-200 dark:border-gray-400">
+      <thead className="h_idden md:block border-b-2 border-gray-200 dark:border-gray-400">
         <tr className="flex flex-col md:flex-row text-gray-600 dark:text-gray-300 ">
           {columnConfig.map((cfg, i) => {
             return (

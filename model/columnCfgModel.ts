@@ -1,4 +1,4 @@
-import { RMItem, RMItemWithChars } from './RMItem';
+import { RMItem, RMItemWithChars } from "./RMItem";
 
 export interface ColumnCfg<T extends RMItem = RMItemWithChars> {
   key: keyof T;

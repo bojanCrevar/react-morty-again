@@ -11,9 +11,9 @@ function LoginForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [warnings, setWarnings] = useState("");
 
-  const firebaseEndpoint = `https://identitytoolkit.googleapis.com/v1/accounts:${
-    isLogin ? "signInWithPassword" : "signUp"
-  }?key=${process.env.NEXT_PUBLIC_FIREBASE}`;
+  const backendServer = `${process.env.NEXT_PUBLIC_NODE_URL}/user/${
+    isLogin ? "login" : "register"
+  }`;
 
   const dispatch = useDispatch();
 
@@ -21,26 +21,22 @@ function LoginForm() {
     e.preventDefault();
 
     axios
-      .post(firebaseEndpoint, {
+      .post(backendServer, {
         email,
         password,
-        returnSecureToken: true,
       })
       .then((response) => {
         dispatch(
           authActions.logIn({
-            token: response.data.idToken,
-            username: response.data.email,
-            localId: response.data.localId,
-            refreshToken: response.data.refreshToken,
+            token: response.data.token,
+            localId: response.data.user._id,
           })
         );
-        dispatch(dispatchProfile(response.data.localId, response.data));
+        dispatch(dispatchProfile(response.data.user));
       })
       .catch(function (error) {
-        if (error.response) {
-          setWarnings(error.response.data.error.message);
-        }
+        console.log(error.response);
+        setWarnings(error.response.data.msg);
       });
   }
 
@@ -52,11 +48,11 @@ function LoginForm() {
         </h3>
         <div className="flex flex-col place-items-center space-y-2 mt-8 px-8 ">
           <label className="text-left w-full text-sm font-semibold">
-            Username
+            Email
           </label>
           <input
             type="text"
-            placeholder={"Enter username"}
+            placeholder={"Enter Email"}
             onChange={(e) => setEmail(e.target.value)}
             required
             className="border-1 border-opacity-25 border-gray-400 rounded w-full px-3 py-2 focus focus:border-blue-600 focus:outline-none active:outline-none active:border-blue-600 focus:placeholder-blue-600"

@@ -11,9 +11,11 @@ import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
 import { authActions } from "../store/auth-slice";
 import NavMenuDropdown from "./NavMenuDropdown";
+import { useRouter } from "next/router";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [modalShow, setModalShow] = useState(false);
   const auth = useSelector((state: RootState) => state.auth);
   const profile = useSelector((state: RootState) => state.profile);
@@ -22,6 +24,8 @@ const NavMenu = () => {
     setModalShow(false);
 
     dispatch(authActions.logOut());
+
+    router.push("/");
   };
 
   return (

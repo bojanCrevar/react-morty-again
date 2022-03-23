@@ -34,22 +34,22 @@
       "https://rickandmortyapi.com/api/character/394"
     ],
     "url": "https://rickandmortyapi.com/api/location/1",
-    "created": "2017-11-10T12:42:04.162Z"
+    "createdAt": "2017-11-10T12:42:04.162Z"
   },
   {
     "id": 2,
     "name": "Abadango",
     "type": "Cluster",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": ["https://rickandmortyapi.com/api/character/6"],
     "url": "https://rickandmortyapi.com/api/location/2",
-    "created": "2017-11-10T13:06:38.182Z"
+    "createdAt": "2017-11-10T13:06:38.182Z"
   },
   {
     "id": 3,
     "name": "Citadel of Ricks",
     "type": "Space station",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/8",
       "https://rickandmortyapi.com/api/character/14",
@@ -154,13 +154,13 @@
       "https://rickandmortyapi.com/api/character/818"
     ],
     "url": "https://rickandmortyapi.com/api/location/3",
-    "created": "2017-11-10T13:08:13.191Z"
+    "createdAt": "2017-11-10T13:08:13.191Z"
   },
   {
     "id": 4,
     "name": "Worldender's lair",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/10",
       "https://rickandmortyapi.com/api/character/81",
@@ -173,7 +173,7 @@
       "https://rickandmortyapi.com/api/character/395"
     ],
     "url": "https://rickandmortyapi.com/api/location/4",
-    "created": "2017-11-10T13:08:20.569Z"
+    "createdAt": "2017-11-10T13:08:20.569Z"
   },
   {
     "id": 5,
@@ -194,13 +194,13 @@
       "https://rickandmortyapi.com/api/character/300"
     ],
     "url": "https://rickandmortyapi.com/api/location/5",
-    "created": "2017-11-10T13:08:46.060Z"
+    "createdAt": "2017-11-10T13:08:46.060Z"
   },
   {
     "id": 6,
     "name": "Interdimensional Cable",
     "type": "TV",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/20",
       "https://rickandmortyapi.com/api/character/28",
@@ -266,20 +266,20 @@
       "https://rickandmortyapi.com/api/character/711"
     ],
     "url": "https://rickandmortyapi.com/api/location/6",
-    "created": "2017-11-10T13:09:09.102Z"
+    "createdAt": "2017-11-10T13:09:09.102Z"
   },
   {
     "id": 7,
     "name": "Immortality Field Resort",
     "type": "Resort",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/23",
       "https://rickandmortyapi.com/api/character/204",
       "https://rickandmortyapi.com/api/character/320"
     ],
     "url": "https://rickandmortyapi.com/api/location/7",
-    "created": "2017-11-10T13:09:17.136Z"
+    "createdAt": "2017-11-10T13:09:17.136Z"
   },
   {
     "id": 8,
@@ -299,7 +299,7 @@
       "https://rickandmortyapi.com/api/character/342"
     ],
     "url": "https://rickandmortyapi.com/api/location/8",
-    "created": "2017-11-10T13:09:22.551Z"
+    "createdAt": "2017-11-10T13:09:22.551Z"
   },
   {
     "id": 9,
@@ -313,25 +313,25 @@
       "https://rickandmortyapi.com/api/character/273"
     ],
     "url": "https://rickandmortyapi.com/api/location/9",
-    "created": "2017-11-10T13:09:29.566Z"
+    "createdAt": "2017-11-10T13:09:29.566Z"
   },
   {
     "id": 10,
     "name": "Venzenulon 7",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": ["https://rickandmortyapi.com/api/character/33"],
     "url": "https://rickandmortyapi.com/api/location/10",
-    "created": "2017-11-18T11:21:51.643Z"
+    "createdAt": "2017-11-18T11:21:51.643Z"
   },
   {
     "id": 11,
     "name": "Bepis 9",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": ["https://rickandmortyapi.com/api/character/35"],
     "url": "https://rickandmortyapi.com/api/location/11",
-    "created": "2017-11-18T11:26:03.325Z"
+    "createdAt": "2017-11-18T11:26:03.325Z"
   },
   {
     "id": 12,
@@ -340,13 +340,13 @@
     "dimension": "Cronenberg Dimension",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/12",
-    "created": "2017-11-18T11:29:27.857Z"
+    "createdAt": "2017-11-18T11:29:27.857Z"
   },
   {
     "id": 13,
     "name": "Nuptia 4",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/40",
       "https://rickandmortyapi.com/api/character/55",
@@ -361,7 +361,7 @@
       "https://rickandmortyapi.com/api/character/387"
     ],
     "url": "https://rickandmortyapi.com/api/location/13",
-    "created": "2017-11-18T11:30:29.780Z"
+    "createdAt": "2017-11-18T11:30:29.780Z"
   },
   {
     "id": 14,
@@ -374,22 +374,22 @@
       "https://rickandmortyapi.com/api/character/400"
     ],
     "url": "https://rickandmortyapi.com/api/location/14",
-    "created": "2017-11-18T11:31:15.248Z"
+    "createdAt": "2017-11-18T11:31:15.248Z"
   },
   {
     "id": 15,
     "name": "Bird World",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/15",
-    "created": "2017-11-18T11:32:26.752Z"
+    "createdAt": "2017-11-18T11:32:26.752Z"
   },
   {
     "id": 16,
     "name": "St. Gloopy Noops Hospital",
     "type": "Space station",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/105",
       "https://rickandmortyapi.com/api/character/263",
@@ -402,7 +402,7 @@
       "https://rickandmortyapi.com/api/character/460"
     ],
     "url": "https://rickandmortyapi.com/api/location/16",
-    "created": "2017-11-18T11:43:20.075Z"
+    "createdAt": "2017-11-18T11:43:20.075Z"
   },
   {
     "id": 17,
@@ -411,7 +411,7 @@
     "dimension": "Dimension 5-126",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/17",
-    "created": "2017-11-18T11:41:08.486Z"
+    "createdAt": "2017-11-18T11:41:08.486Z"
   },
   {
     "id": 18,
@@ -429,7 +429,7 @@
       "https://rickandmortyapi.com/api/character/396"
     ],
     "url": "https://rickandmortyapi.com/api/location/18",
-    "created": "2017-11-18T11:46:22.933Z"
+    "createdAt": "2017-11-18T11:46:22.933Z"
   },
   {
     "id": 19,
@@ -438,7 +438,7 @@
     "dimension": "Replacement Dimension",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/19",
-    "created": "2017-11-18T11:39:52.165Z"
+    "createdAt": "2017-11-18T11:39:52.165Z"
   },
   {
     "id": 20,
@@ -678,7 +678,7 @@
       "https://rickandmortyapi.com/api/character/826"
     ],
     "url": "https://rickandmortyapi.com/api/location/20",
-    "created": "2017-11-18T19:33:01.173Z"
+    "createdAt": "2017-11-18T19:33:01.173Z"
   },
   {
     "id": 21,
@@ -690,19 +690,19 @@
       "https://rickandmortyapi.com/api/character/436"
     ],
     "url": "https://rickandmortyapi.com/api/location/21",
-    "created": "2017-11-18T19:41:01.605Z"
+    "createdAt": "2017-11-18T19:41:01.605Z"
   },
   {
     "id": 22,
     "name": "Signus 5 Expanse",
-    "type": "unknown",
+    "type": "Unknown",
     "dimension": "Cromulon Dimension",
     "residents": [
       "https://rickandmortyapi.com/api/character/24",
       "https://rickandmortyapi.com/api/character/309"
     ],
     "url": "https://rickandmortyapi.com/api/location/22",
-    "created": "2017-11-18T20:27:26.218Z"
+    "createdAt": "2017-11-18T20:27:26.218Z"
   },
   {
     "id": 23,
@@ -717,7 +717,7 @@
       "https://rickandmortyapi.com/api/character/195"
     ],
     "url": "https://rickandmortyapi.com/api/location/23",
-    "created": "2017-11-18T20:58:15.178Z"
+    "createdAt": "2017-11-18T20:58:15.178Z"
   },
   {
     "id": 24,
@@ -729,20 +729,20 @@
       "https://rickandmortyapi.com/api/character/388"
     ],
     "url": "https://rickandmortyapi.com/api/location/24",
-    "created": "2017-11-30T11:02:41.722Z"
+    "createdAt": "2017-11-30T11:02:41.722Z"
   },
   {
     "id": 25,
     "name": "The Menagerie",
     "type": "Menagerie",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/67",
       "https://rickandmortyapi.com/api/character/490",
       "https://rickandmortyapi.com/api/character/491"
     ],
     "url": "https://rickandmortyapi.com/api/location/25",
-    "created": "2017-11-30T11:13:46.697Z"
+    "createdAt": "2017-11-30T11:13:46.697Z"
   },
   {
     "id": 26,
@@ -751,19 +751,19 @@
     "dimension": "Dimension K-83",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/26",
-    "created": "2017-11-30T11:41:11.452Z"
+    "createdAt": "2017-11-30T11:41:11.452Z"
   },
   {
     "id": 27,
     "name": "Hideout Planet",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/79",
       "https://rickandmortyapi.com/api/character/84"
     ],
     "url": "https://rickandmortyapi.com/api/location/27",
-    "created": "2017-11-30T14:18:16.869Z"
+    "createdAt": "2017-11-30T14:18:16.869Z"
   },
   {
     "id": 28,
@@ -779,7 +779,7 @@
       "https://rickandmortyapi.com/api/character/372"
     ],
     "url": "https://rickandmortyapi.com/api/location/28",
-    "created": "2017-11-30T14:28:54.591Z"
+    "createdAt": "2017-11-30T14:28:54.591Z"
   },
   {
     "id": 29,
@@ -792,13 +792,13 @@
       "https://rickandmortyapi.com/api/character/198"
     ],
     "url": "https://rickandmortyapi.com/api/location/29",
-    "created": "2017-12-01T11:36:16.463Z"
+    "createdAt": "2017-12-01T11:36:16.463Z"
   },
   {
     "id": 30,
     "name": "Earth (Unknown dimension)",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/822",
       "https://rickandmortyapi.com/api/character/823",
@@ -806,7 +806,7 @@
       "https://rickandmortyapi.com/api/character/825"
     ],
     "url": "https://rickandmortyapi.com/api/location/30",
-    "created": "2017-12-01T11:49:43.923Z"
+    "createdAt": "2017-12-01T11:49:43.923Z"
   },
   {
     "id": 31,
@@ -815,7 +815,7 @@
     "dimension": "Dimension J19ζ7",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/31",
-    "created": "2017-12-01T12:29:27.976Z"
+    "createdAt": "2017-12-01T12:29:27.976Z"
   },
   {
     "id": 32,
@@ -830,7 +830,7 @@
       "https://rickandmortyapi.com/api/character/451"
     ],
     "url": "https://rickandmortyapi.com/api/location/32",
-    "created": "2017-12-26T12:46:48.798Z"
+    "createdAt": "2017-12-26T12:46:48.798Z"
   },
   {
     "id": 33,
@@ -839,7 +839,7 @@
     "dimension": "Eric Stoltz Mask Dimension",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/33",
-    "created": "2017-12-26T13:43:29.291Z"
+    "createdAt": "2017-12-26T13:43:29.291Z"
   },
   {
     "id": 34,
@@ -854,7 +854,7 @@
       "https://rickandmortyapi.com/api/character/339"
     ],
     "url": "https://rickandmortyapi.com/api/location/34",
-    "created": "2017-12-26T15:35:20.499Z"
+    "createdAt": "2017-12-26T15:35:20.499Z"
   },
   {
     "id": 35,
@@ -875,22 +875,22 @@
       "https://rickandmortyapi.com/api/character/379"
     ],
     "url": "https://rickandmortyapi.com/api/location/35",
-    "created": "2017-12-26T17:51:53.018Z"
+    "createdAt": "2017-12-26T17:51:53.018Z"
   },
   {
     "id": 36,
     "name": "Glaagablaaga",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/36",
-    "created": "2017-12-26T20:30:45.939Z"
+    "createdAt": "2017-12-26T20:30:45.939Z"
   },
   {
     "id": 37,
     "name": "Resort Planet",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/142",
       "https://rickandmortyapi.com/api/character/296",
@@ -899,50 +899,50 @@
       "https://rickandmortyapi.com/api/character/369"
     ],
     "url": "https://rickandmortyapi.com/api/location/37",
-    "created": "2017-12-27T20:02:59.005Z"
+    "createdAt": "2017-12-27T20:02:59.005Z"
   },
   {
     "id": 38,
     "name": "Interdimensional Customs",
     "type": "Customs",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/144",
       "https://rickandmortyapi.com/api/character/158"
     ],
     "url": "https://rickandmortyapi.com/api/location/38",
-    "created": "2017-12-29T10:37:48.281Z"
+    "createdAt": "2017-12-29T10:37:48.281Z"
   },
   {
     "id": 39,
     "name": "Galactic Federation Prison",
     "type": "Space station",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": ["https://rickandmortyapi.com/api/character/150"],
     "url": "https://rickandmortyapi.com/api/location/39",
-    "created": "2017-12-29T12:02:33.513Z"
+    "createdAt": "2017-12-29T12:02:33.513Z"
   },
   {
     "id": 40,
     "name": "Gazorpazorp",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/168",
       "https://rickandmortyapi.com/api/character/211",
       "https://rickandmortyapi.com/api/character/376"
     ],
     "url": "https://rickandmortyapi.com/api/location/40",
-    "created": "2017-12-29T12:31:50.313Z"
+    "createdAt": "2017-12-29T12:31:50.313Z"
   },
   {
     "id": 41,
     "name": "Hamster in Butt World",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": ["https://rickandmortyapi.com/api/character/153"],
     "url": "https://rickandmortyapi.com/api/location/41",
-    "created": "2017-12-29T15:27:54.209Z"
+    "createdAt": "2017-12-29T15:27:54.209Z"
   },
   {
     "id": 42,
@@ -954,7 +954,7 @@
       "https://rickandmortyapi.com/api/character/160"
     ],
     "url": "https://rickandmortyapi.com/api/location/42",
-    "created": "2017-12-29T16:03:28.720Z"
+    "createdAt": "2017-12-29T16:03:28.720Z"
   },
   {
     "id": 43,
@@ -969,13 +969,13 @@
       "https://rickandmortyapi.com/api/character/253"
     ],
     "url": "https://rickandmortyapi.com/api/location/43",
-    "created": "2017-12-29T16:08:47.694Z"
+    "createdAt": "2017-12-29T16:08:47.694Z"
   },
   {
     "id": 44,
     "name": "Jerryboree",
     "type": "Daycare",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/174",
       "https://rickandmortyapi.com/api/character/257",
@@ -987,7 +987,7 @@
       "https://rickandmortyapi.com/api/character/446"
     ],
     "url": "https://rickandmortyapi.com/api/location/44",
-    "created": "2017-12-29T17:50:19.947Z"
+    "createdAt": "2017-12-29T17:50:19.947Z"
   },
   {
     "id": 45,
@@ -996,7 +996,7 @@
     "dimension": "Replacement Dimension",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/45",
-    "created": "2017-12-29T19:26:06.827Z"
+    "createdAt": "2017-12-29T19:26:06.827Z"
   },
   {
     "id": 46,
@@ -1010,7 +1010,7 @@
       "https://rickandmortyapi.com/api/character/337"
     ],
     "url": "https://rickandmortyapi.com/api/location/46",
-    "created": "2017-12-29T19:40:07.748Z"
+    "createdAt": "2017-12-29T19:40:07.748Z"
   },
   {
     "id": 47,
@@ -1026,7 +1026,7 @@
       "https://rickandmortyapi.com/api/character/422"
     ],
     "url": "https://rickandmortyapi.com/api/location/47",
-    "created": "2017-12-29T19:49:29.228Z"
+    "createdAt": "2017-12-29T19:49:29.228Z"
   },
   {
     "id": 48,
@@ -1040,7 +1040,7 @@
       "https://rickandmortyapi.com/api/character/333"
     ],
     "url": "https://rickandmortyapi.com/api/location/48",
-    "created": "2017-12-29T19:55:54.672Z"
+    "createdAt": "2017-12-29T19:55:54.672Z"
   },
   {
     "id": 49,
@@ -1049,7 +1049,7 @@
     "dimension": "Replacement Dimension",
     "residents": ["https://rickandmortyapi.com/api/character/348"],
     "url": "https://rickandmortyapi.com/api/location/49",
-    "created": "2017-12-29T19:58:44.675Z"
+    "createdAt": "2017-12-29T19:58:44.675Z"
   },
   {
     "id": 50,
@@ -1061,7 +1061,7 @@
       "https://rickandmortyapi.com/api/character/364"
     ],
     "url": "https://rickandmortyapi.com/api/location/50",
-    "created": "2017-12-30T12:36:19.730Z"
+    "createdAt": "2017-12-30T12:36:19.730Z"
   },
   {
     "id": 51,
@@ -1070,7 +1070,7 @@
     "dimension": "Unknown dimension",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/51",
-    "created": "2017-12-30T12:48:19.312Z"
+    "createdAt": "2017-12-30T12:48:19.312Z"
   },
   {
     "id": 52,
@@ -1079,25 +1079,25 @@
     "dimension": "Dimension K-22",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/52",
-    "created": "2017-12-30T16:33:49.507Z"
+    "createdAt": "2017-12-30T16:33:49.507Z"
   },
   {
     "id": 53,
     "name": "Mr. Meeseeks Box",
     "type": "Box",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/53",
-    "created": "2017-12-30T17:52:12.217Z"
+    "createdAt": "2017-12-30T17:52:12.217Z"
   },
   {
     "id": 54,
     "name": "Vindicator's Base",
     "type": "Spacecraft",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": ["https://rickandmortyapi.com/api/character/252"],
     "url": "https://rickandmortyapi.com/api/location/54",
-    "created": "2017-12-31T12:57:37.824Z"
+    "createdAt": "2017-12-31T12:57:37.824Z"
   },
   {
     "id": 55,
@@ -1106,7 +1106,7 @@
     "dimension": "Replacement Dimension",
     "residents": ["https://rickandmortyapi.com/api/character/258"],
     "url": "https://rickandmortyapi.com/api/location/55",
-    "created": "2017-12-31T13:30:33.579Z"
+    "createdAt": "2017-12-31T13:30:33.579Z"
   },
   {
     "id": 56,
@@ -1115,20 +1115,20 @@
     "dimension": "Replacement Dimension",
     "residents": ["https://rickandmortyapi.com/api/character/269"],
     "url": "https://rickandmortyapi.com/api/location/56",
-    "created": "2017-12-31T14:01:44.921Z"
+    "createdAt": "2017-12-31T14:01:44.921Z"
   },
   {
     "id": 57,
     "name": "Gear World",
     "type": "Planet",
-    "dimension": "unknown",
+    "dimension": "Unknown",
     "residents": [
       "https://rickandmortyapi.com/api/character/282",
       "https://rickandmortyapi.com/api/character/447",
       "https://rickandmortyapi.com/api/character/448"
     ],
     "url": "https://rickandmortyapi.com/api/location/57",
-    "created": "2017-12-31T19:21:17.276Z"
+    "createdAt": "2017-12-31T19:21:17.276Z"
   },
   {
     "id": 58,
@@ -1137,7 +1137,7 @@
     "dimension": "Dimension D-99",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/58",
-    "created": "2017-12-31T19:49:55.109Z"
+    "createdAt": "2017-12-31T19:49:55.109Z"
   },
   {
     "id": 59,
@@ -1146,7 +1146,7 @@
     "dimension": "Dimension D716",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/59",
-    "created": "2017-12-31T19:51:33.170Z"
+    "createdAt": "2017-12-31T19:51:33.170Z"
   },
   {
     "id": 60,
@@ -1155,6 +1155,6 @@
     "dimension": "Dimension D716-B",
     "residents": [],
     "url": "https://rickandmortyapi.com/api/location/60",
-    "created": "2017-12-31T19:55:25.026Z"
+    "createdAt": "2017-12-31T19:55:25.026Z"
   }
 ]

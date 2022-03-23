@@ -15,20 +15,12 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.localId = action.payload.localId;
       localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("refresh_token", action.payload.refreshToken);
     },
     logOut(state) {
       state.token = "";
       state.isLoggedIn = false;
       state.localId = "";
       localStorage.removeItem("token");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("isDarkTheme");
-    },
-    replaceToken(state, action) {
-      state.token = action.payload.token;
-      localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("refresh_token", action.payload.refreshToken);
     },
   },
 });

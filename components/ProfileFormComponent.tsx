@@ -15,6 +15,8 @@ import { faMoon } from "@fortawesome/free-regular-svg-icons";
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 import { profileActions } from "../store/profile-slice";
 import { notificationActions } from "../store/notification-slice";
+import { authActions } from "../store/auth-slice";
+import ImageUpload from "./ImageUpload";
 
 type ProfileFormComponentProps = {
   profile: userProfileModel;
@@ -50,10 +52,15 @@ function ProfileFormComponent({ profile, admin }: ProfileFormComponentProps) {
         .oneOf([Yup.ref("password"), null], "Passwords must match"),
       otherwise: Yup.string().oneOf(["", null], "Passwords must match"),
     }),
-    avatar: Yup.string().matches(
-      /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
-      "Please enter a valid URL"
-    ),
+    avatar: Yup.mixed().test("imageCheck", "Invalid image type", (value) => {
+      if (value === profile.avatar) {
+        return true;
+      }
+      if (value && !value.type.includes("image")) {
+        return false;
+      }
+      return true;
+    }),
   });
 
   const formik = useFormik({
@@ -67,38 +74,48 @@ function ProfileFormComponent({ profile, admin }: ProfileFormComponentProps) {
   }
 
   async function submitHandler(submittedProfileData: userProfileModel) {
+    console.log(submittedProfileData);
+    const profileData = {
+      displayName: submittedProfileData.displayName,
+      password: submittedProfileData.password,
+      isDarkTheme: profile.isDarkTheme,
+    };
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(profileData));
+    if (submittedProfileData.avatar) {
+      formData.append("image", submittedProfileData.avatar);
+    }
     try {
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_NODE_URL}/user/updateUser`,
-        {
-          password: submittedProfileData.password,
-          avatar: submittedProfileData.avatar,
-          displayName: submittedProfileData.displayName,
-          isDarkTheme: profile.isDarkTheme,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      dispatch(
-        profileActions.setProfile({
-          email: submittedProfileData.email,
-          displayName: submittedProfileData.displayName,
-          avatar: submittedProfileData.avatar,
-          isDarkTheme: profile.isDarkTheme,
-          userType: profile.userType,
+      await axios
+        .put(`${process.env.NEXT_PUBLIC_NODE_URL}/user/updateUser`, formData, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         })
-      );
+        .then((response) => {
+          dispatch(authActions.logIn(response.data.token));
 
-      dispatch(
-        notificationActions.setNotification({
-          bgColor: "success",
-          header: "Success!",
-          body: "Updated user!",
-          isShown: true,
-        })
-      );
+          dispatch(
+            profileActions.setProfile({
+              email: response.data.user.email,
+              displayName: response.data.user.displayName,
+              avatar: response.data.user.avatar,
+              isDarkTheme: profile.isDarkTheme,
+            })
+          );
+
+          dispatch(
+            notificationActions.setNotification({
+              bgColor: "success",
+              header: "Success!",
+              body: "Updated user in database!",
+              isShown: true,
+            })
+          );
+        });
     } catch (error: any) {
-      console.log("Error", error.response);
+      console.log(error);
     }
 
     Router.push("/");
@@ -134,51 +151,50 @@ function ProfileFormComponent({ profile, admin }: ProfileFormComponentProps) {
 
   return (
     <form
-      className="bg-[#fff] dark:bg-[#6b707a] shadow-md rounded px-4 sm:px-16 md:px-8 pt-6 pb-8 md:w-full"
+      className="bg-[#fff] dark:bg-[#6b707a] shadow-md rounded px-4 sm:px-16 md:px-8 pt-6 pb-8 md:w-full relative"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex justify-center md:justify-between md:px-4 mb-3 md:w-full">
-        <div className="flex justify-start md:w-1/3">
-          <h1 className="pt-md-4 text-2xl hidden md:block">
+      <div className="flex flex-col md:flex-row items-center md:justify-between md:px-4 mb-3 md:w-full ">
+        <div className="flex md:w-1/3">
+          <h1 className="text-2xl">
             Profile:{" "}
-            <span className="text-[#989aa0] dark:text-[#243038]">
+            <span className="text-[#989aa0] dark:text-[#243038] italic">
               {profile.displayName?.length
                 ? profile.displayName
                 : profile.email}
             </span>
           </h1>
         </div>
+
         <div className="flex justify-center md:w-1/3">
-          <div className="w-24 h-24 relative rounded-full">
-            {profile.avatar?.length && (
-              <Image
-                src={profile.avatar}
-                layout="fill"
-                className="rounded-full"
-              />
-            )}
-          </div>
+          <ImageUpload
+            id="avatar"
+            name="avatar"
+            initValue={profile.avatar}
+            onChange={(e: any) => {
+              formik.setFieldValue("avatar", e);
+            }}
+            value={formik.values.avatar}
+          />
         </div>
         {!admin && (
-          <div className="flex justify-end md:w-1/3">
-            <div className="hidden md:block">
-              <button
-                className={`${
-                  profile.isDarkTheme ? "bg-gray-600" : "bg-yellow-200"
-                } rounded-full py-2 px-2.5 mt-4`}
-                onClick={themeHandler}
-                type="button"
-              >
-                <FontAwesomeIcon icon={profile.isDarkTheme ? faMoon : faSun} />
-              </button>
-            </div>
+          <div className="absolute md:relative top-2 sm:top-6 md:top-0 right-2 sm:right-6 md:right-0 md:flex md:justify-end md:w-1/3">
+            <button
+              className={`${
+                profile.isDarkTheme ? "bg-gray-600" : "bg-yellow-200"
+              } rounded-full py-2 px-2.5 `}
+              onClick={themeHandler}
+              type="button"
+            >
+              <FontAwesomeIcon icon={profile.isDarkTheme ? faMoon : faSun} />
+            </button>
           </div>
         )}
       </div>
 
       <FloatingLabel label="Email" className="mb-3">
         <Form.Control
-          name="userEmail"
+          name="email"
           type="text"
           defaultValue={formik.values.email}
           readOnly
@@ -240,20 +256,6 @@ function ProfileFormComponent({ profile, admin }: ProfileFormComponentProps) {
         </>
       )}
 
-      <FloatingLabel label="Change avatar" className="mb-3">
-        <Form.Control
-          name="avatar"
-          type="text"
-          value={formik.values.avatar}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          isInvalid={!!(formik.touched.avatar && formik.errors.avatar)}
-          autoComplete="off"
-        />
-        <Form.Control.Feedback type="invalid">
-          {formik.errors.avatar}
-        </Form.Control.Feedback>
-      </FloatingLabel>
       {admin && (
         <FloatingLabel
           controlId="floatingInput"
@@ -279,20 +281,6 @@ function ProfileFormComponent({ profile, admin }: ProfileFormComponentProps) {
           </Form.Control.Feedback>
         </FloatingLabel>
       )}
-
-      <div className="flex justify-center ">
-        <div className="md:hidden">
-          <button
-            className={`${
-              profile.isDarkTheme ? "bg-gray-600" : "bg-yellow-200"
-            } rounded-full py-2 px-2.5 mt-3`}
-            onClick={themeHandler}
-            type="button"
-          >
-            <FontAwesomeIcon icon={profile.isDarkTheme ? faMoon : faSun} />
-          </button>
-        </div>
-      </div>
 
       <div className="flex items-center justify-between mt-4">
         <Link href={admin ? "/modify-users" : "/"}>

@@ -14,10 +14,10 @@ export function getUserByToken(token: string) {
 
         store.dispatch(
           profileActions.setProfile({
-            displayName: response.data.user.username || "",
-            userEmail: response.data.user.email,
-            avatar: response.data.user.avatar,
-            isDarkTheme: response.data.user.isDarkTheme,
+            displayName: response.data.displayName || "",
+            email: response.data.email,
+            avatar: response.data.avatar,
+            isDarkTheme: response.data.isDarkTheme,
           })
         );
       })

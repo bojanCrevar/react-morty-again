@@ -71,8 +71,8 @@ function LoginForm() {
         dispatch(authActions.logIn(response.data.token));
         dispatch(
           profileActions.setProfile({
-            displayName: response.data.user.username,
-            userEmail: response.data.user.email,
+            displayName: response.data.user.displayName,
+            email: response.data.user.email,
             avatar: response.data.user.avatar,
             isDarkTheme: response.data.user.isDarkTheme,
           })
@@ -80,7 +80,6 @@ function LoginForm() {
       })
       .catch(function (error) {
         console.log(error.response);
-        setWarnings(error.response.data.msg);
       });
   }
 

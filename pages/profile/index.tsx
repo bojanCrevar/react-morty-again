@@ -18,10 +18,10 @@ function Profile() {
   return (
     <div className="w-full">
       <div className="flex flex-col w-full items-center">
-        <h1 className="pt-2 pt-md-4 text-3xl text-center md:hidden">
+        {/* <h1 className="pt-2 pt-md-4 text-3xl text-center md:hidden">
           Profile:{" "}
           {profile.displayName.length > 0 ? profile.displayName : profile.email}
-        </h1>
+        </h1> */}
         <div className="w-full mt-3 mt-md-5 mb-3 md:w-3/4 lg:w-1/2 px-8 sm:px-16 md:px-8">
           <ProfileFormComponent profile={profile} />
         </div>

@@ -77,6 +77,8 @@ export async function getServerSideProps({
     `${process.env.NEXT_PUBLIC_NODE_URL}/locations/${id}`
   );
 
+  console.log("response location");
+
   if (response.status !== 200) {
     return { notFound: true };
   }

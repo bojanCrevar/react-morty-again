@@ -1,7 +1,6 @@
 import { RMItem } from "./RMItem";
 
 export interface CharactersItem extends RMItem {
-  _id: string;
   episode?: string[];
   gender: string;
   image: string;

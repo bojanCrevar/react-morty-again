@@ -62,7 +62,7 @@ const RMTable = <T extends RMItemWithChars>({
 
   return (
     <Table hover borderless responsive className={styles.rmtable}>
-      <thead className="h_idden md:block border-b-2 border-gray-200 dark:border-gray-400">
+      <thead className="hidden md:block border-b-2 border-gray-200 dark:border-gray-400">
         <tr className="flex flex-col md:flex-row text-gray-600 dark:text-gray-300 ">
           {columnConfig.map((cfg, i) => {
             return (

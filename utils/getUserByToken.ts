@@ -6,7 +6,7 @@ import { authActions } from "../store/auth-slice";
 export function getUserByToken(token: string) {
   if (token) {
     axios
-      .post(`${process.env.NEXT_PUBLIC_NODE_URL}/auth/loginOnReload`, null, {
+      .post(`${process.env.NEXT_PUBLIC_NODE_URL}/user/getUser`, null, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {

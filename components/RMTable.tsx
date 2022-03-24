@@ -30,14 +30,24 @@ const RMTable = <T extends RMItemWithChars>({
               className={"w-full " + (i === lastColumn ? "relative" : "")}
               data-title={cfg.title + ": "}
             >
-              <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
-                {data[cfg.key]}
-              </span>
+              {cfg.key === "avatar" ? (
+                <img
+                  alt="Profile avatar"
+                  src={data[cfg.key] as any}
+                  width="50%"
+                  className="d-inline-block align-top mr-2"
+                  style={{ borderRadius: "50%" }}
+                />
+              ) : (
+                <span title={cfg.tooltip ? "" + data[cfg.tooltip] : ""}>
+                  {data[cfg.key]}
+                </span>
+              )}
               {i === lastColumn ? (
                 <span className="position: absolute right-1 ">
                   {isLoggedIn && (
                     <ActionButton
-                      id={data._id}
+                      _id={data._id}
                       hovered={hovered === data._id}
                     />
                   )}
@@ -52,7 +62,7 @@ const RMTable = <T extends RMItemWithChars>({
 
   return (
     <Table hover borderless responsive className={styles.rmtable}>
-      <thead className="hidden md:block border-b-2 border-gray-200 dark:border-gray-400">
+      <thead className="h_idden md:block border-b-2 border-gray-200 dark:border-gray-400">
         <tr className="flex flex-col md:flex-row text-gray-600 dark:text-gray-300 ">
           {columnConfig.map((cfg, i) => {
             return (

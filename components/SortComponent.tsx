@@ -12,11 +12,11 @@ const SortComponent = ({ setSort, initSort }: SortCOmponentParams) => {
         defaultValue={initSort}
         data-testid="select"
       >
-        <option data-testid="date-asc" value="date-asc">
-          Date created ascending
+        <option data-testid="date_asc" value="date_asc">
+          Date (asc)
         </option>
-        <option data-testid="date-desc" value="date-desc">
-          Date created descending
+        <option data-testid="date_desc" value="date_desc">
+          Date (desc)
         </option>
         <option data-testid="asc" value="asc">
           Name ascending

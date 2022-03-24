@@ -8,7 +8,6 @@ import { LocationsItem } from "../../model/locationsModel";
 import { ColumnCfg } from "../../model/columnCfgModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
-import { PAGE_SIZE } from "../../utils/apiResponse";
 import { useSelector } from "react-redux";
 import { RootState } from "../../model/storeModel";
 
@@ -45,10 +44,7 @@ const LocationList = ({
         ...prev,
         info: {
           count: prev.info.count - 1,
-          pages:
-            prev.info.count % PAGE_SIZE === 1
-              ? prev.info.pages - 1
-              : prev.info.pages,
+          pages: prev.info.pages,
         },
       }));
     }

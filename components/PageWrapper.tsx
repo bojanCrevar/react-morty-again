@@ -114,11 +114,6 @@ const PageWrapper = ({
       `${process.env.NEXT_PUBLIC_NODE_URL}/${api}`,
       {
         params: { activePage, keyword, sort, filterValue },
-        // paramsSerializer: (params) => {
-        //   return `activePage=${params.activePage}&keyword=${
-        //     params.keyword
-        //   }&sort=${params.sort}${constructFilterQuery(params.filterValue)}`;
-        // },
       }
     );
     setTimeout(() => {

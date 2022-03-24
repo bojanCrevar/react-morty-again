@@ -4,6 +4,7 @@ import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { userProfileModel } from "../model/userProfileModel";
+import { copyFile } from "fs";
 
 interface NavMenuDropdownProps {
   profile: userProfileModel;
@@ -16,7 +17,7 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
       <Navbar.Text className="mt-0.5">
         Signed in as:{" "}
         <span className="font-bold">
-          {profile.displayName.length ? profile.displayName : profile.userEmail}
+          {profile.displayName?.length ? profile.displayName : profile.email}
         </span>
       </Navbar.Text>
       <NavDropdown
@@ -42,6 +43,16 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
             </Link>
           </Navbar.Text>
         </NavDropdown.Item>
+
+        {profile.userType === "Admin" && (
+          <NavDropdown.Item>
+            <Navbar.Text>
+              <Link href="/modify-users">
+                <span className="dark:text-black">Modify users</span>
+              </Link>
+            </Navbar.Text>
+          </NavDropdown.Item>
+        )}
         <NavDropdown.Divider />
         <NavDropdown.Item className="group">
           <Navbar.Text onClick={logoutHandler}>

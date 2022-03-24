@@ -8,7 +8,7 @@ import NoResults from "../NoResults";
 import axios from "axios";
 import { ResponseData } from "../../model/ResponseDataModel";
 import React, { Dispatch, SetStateAction } from "react";
-import { PAGE_SIZE } from "../../utils/apiResponse";
+//import { PAGE_SIZE } from "../../utils/apiResponse";
 
 type EpisodeListProps = {
   episodes: EpisodeItem[];
@@ -38,10 +38,7 @@ const EpisodeList = ({
         ...prev,
         info: {
           count: prev.info.count - 1,
-          pages:
-            prev.info.count % PAGE_SIZE === 1
-              ? prev.info.pages - 1
-              : prev.info.pages,
+          pages: prev.info.pages,
         },
       }));
     }

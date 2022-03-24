@@ -13,7 +13,7 @@ function LoginForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [warnings, setWarnings] = useState("");
 
-  const backendEndpoint = `${process.env.NEXT_PUBLIC_NODE_URL}/auth/${
+  const backendServer = `${process.env.NEXT_PUBLIC_NODE_URL}/user/${
     isLogin ? "login" : "register"
   }`;
 
@@ -58,7 +58,7 @@ function LoginForm() {
 
     axios
       .post(
-        backendEndpoint,
+        backendServer,
         isLogin
           ? {
               email: submittedLoginData.email,

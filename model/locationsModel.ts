@@ -1,4 +1,5 @@
 import { RMItemWithChars } from "./RMItem";
+const UNDEFINED_ID = "";
 export interface LocationsItem extends RMItemWithChars {
   type: string;
   dimension: string;
@@ -9,7 +10,7 @@ export type EditLocationsProps = {
 };
 
 export const emptyLocationItem: LocationsItem = {
-  _id: "",
+  _id: UNDEFINED_ID,
   name: "",
   type: "",
   dimension: "",

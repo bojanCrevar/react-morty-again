@@ -4,7 +4,6 @@ import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { userProfileModel } from "../model/userProfileModel";
-import { copyFile } from "fs";
 
 interface NavMenuDropdownProps {
   profile: userProfileModel;

@@ -1,12 +1,11 @@
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import RMTable from "../../components/RMTable";
 import { ActionContext } from "../../context/ActionContext";
-import { RMItemWithChars } from "../../model/RMItem";
 import { RootState } from "../../model/storeModel";
 
 function ModifyUsersPage() {

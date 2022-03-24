@@ -12,21 +12,21 @@ describe("RMTable component test", () => {
   let spy;
   const tableData = [
     {
-      id: 1,
+      _id: 1,
       name: "Earth",
       dimension: "C-2",
       type: "Planet",
       charactersString: "Rick, Morty",
     },
     {
-      id: 2,
+      _id: 2,
       name: "Earth c-54",
       dimension: "C-54",
       type: "Planetoid",
       charactersString: "Morty",
     },
     {
-      id: 3,
+      _id: 3,
       name: "Earth c-1",
       dimension: "C1",
       type: "Planet",

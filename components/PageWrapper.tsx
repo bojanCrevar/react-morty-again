@@ -91,7 +91,7 @@ const PageWrapper = ({
 
   const router = useRouter();
 
-  const [sort, setSort] = useState(query?.sort || "date-asc");
+  const [sort, setSort] = useState(query?.sort || "date_asc");
   const [mobile, setMobile] = useState<Boolean>(true);
   const [submitButtonClick, setSubmitButtonClick] = useState(false);
 

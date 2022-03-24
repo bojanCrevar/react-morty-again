@@ -66,7 +66,7 @@ describe("Paginaton component", () => {
 
     store.dispatch(paginationActions.setActivePage(activePage));
 
-    const { rerender } = render(
+    render(
       <Provider store={store}>
         <Pagination pagesInfo={pagesInfo} />
       </Provider>

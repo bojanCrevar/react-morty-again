@@ -73,7 +73,6 @@ function ProfileFormComponent({ profile, admin }: ProfileFormComponentProps) {
   }
 
   async function submitHandler(submittedProfileData: userProfileModel) {
-    console.log(submittedProfileData);
     const profileData = {
       displayName: submittedProfileData.displayName,
       password: submittedProfileData.password,

@@ -31,7 +31,6 @@ function LoginForm() {
       .min(6, "Must be 6 characters or more")
       .required("Password is required"),
     image: Yup.mixed().test("imageCheck", "Invalid image type", (value) => {
-      console.log("value", value);
       if (value && !value.type.includes("image")) {
         setWarnings("Select proper image file");
         return false;
@@ -67,7 +66,6 @@ function LoginForm() {
           : formData
       )
       .then((response) => {
-        console.log(response.data);
         dispatch(authActions.logIn(response.data.token));
         dispatch(
           profileActions.setProfile({

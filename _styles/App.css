@@ -35,6 +35,10 @@ body,
   box-shadow: 0 0.5rem 1rem rgba(163, 163, 163, 0.35);
 }
 
+.dark .form-control:read-only {
+  background-color: #909497cb;
+}
+
 .dark .dropdown-menu {
   background-color: #a8adb3;
 }

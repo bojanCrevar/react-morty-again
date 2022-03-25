@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
 import FormComponent from "../../../../components/characters/FormComponent";
@@ -6,22 +6,19 @@ import Wrapper from "../../../../components/Wrapper";
 import { CharactersItem } from "../../../../model/charactersModel";
 import { GetServerSidePropsContext } from "next/types";
 import EditSkeleton from "../../../../components/skeletons/EditSkeleton";
-import charRepo from "../../../../utils/character-repo";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../model/storeModel";
 
 type EditCharacterProps = {
-  params: {
-    id: string;
-  };
+  character: CharactersItem;
 };
 
-export default function EditCharacter(props: EditCharacterProps) {
-  const [character, setCharacter] = useState<CharactersItem>();
+export default function EditCharacter({ character }: EditCharacterProps) {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const token = useSelector((state: RootState) => state.auth.token);
 
   async function submitHandler({
-    id,
+    _id,
     name,
     status,
     gender,
@@ -30,7 +27,6 @@ export default function EditCharacter(props: EditCharacterProps) {
     image,
   }: CharactersItem) {
     const character = {
-      id: id,
       name: name,
       status: status,
       gender: gender,
@@ -39,27 +35,22 @@ export default function EditCharacter(props: EditCharacterProps) {
       image: image,
     };
 
-    const response = await axios.put(
-      `/api/characters/${encodeURIComponent(id)}`,
-      character
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters/${_id}`,
+      character,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (response.status === 200) {
       Router.push("/characters");
     }
   }
 
-  async function getCharacter() {
-    const response = await axios.get(
-      `/api/characters/${encodeURIComponent(props.params.id)}`
-    );
-    setCharacter(response.data.character);
-  }
-
   useEffect(() => {
-    if (isLoggedIn) {
-      getCharacter();
+    if (!isLoggedIn) {
+      Router.push("/characters");
     }
-    Router.push("/characters");
   }, []);
 
   return character ? (
@@ -78,10 +69,12 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const id = params!.id;
 
-  let character = charRepo.getById(id);
+  const character = await axios(
+    `${process.env.NEXT_PUBLIC_NODE_URL}/characters/${id}`
+  );
 
-  if (!character) {
+  if (!character.data) {
     return { notFound: true };
   }
-  return { props: { params: params || {} } };
+  return { props: { character: character.data || {} } };
 }

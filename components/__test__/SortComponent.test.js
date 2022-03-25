@@ -7,23 +7,25 @@ describe("sort tests", () => {
   let sort;
   let setSort;
   beforeEach(() => {
-    sort = "id";
+    sort = "date_asc";
     setSort = jest.fn(() => {});
   });
 
-  it("should be 3 sort-by options", () => {
+  it("should be 4 sort-by options", () => {
     render(<SortComponent setSort={setSort} initSort={sort} />);
 
-    expect(screen.getAllByRole("option").length).toBe(3);
+    expect(screen.getAllByRole("option").length).toBe(4);
   });
 
-  it("should be sort-by set by default on ID", () => {
+  it("should be sort-by set by default on Date (asc)", () => {
     render(<SortComponent setSort={setSort} initSort={sort} />);
 
-    const outputElem = screen.getByDisplayValue("ID");
+    const outputElem = screen.getByDisplayValue("Date (asc)");
 
     expect(outputElem).toBeInTheDocument();
-    expect(screen.getByRole("option", { name: "ID" }).selected).toBe(true);
+    expect(screen.getByRole("option", { name: "Date (asc)" }).selected).toBe(
+      true
+    );
   });
 
   it("should be possible to change sort-by selection", () => {
@@ -32,6 +34,6 @@ describe("sort tests", () => {
 
     userEvent.selectOptions(select, screen.getByTestId("asc"));
 
-    expect(screen.getAllByRole("option")[1].selected).toBe(true);
+    expect(screen.getAllByRole("option")[2].selected).toBe(true);
   });
 });

@@ -16,7 +16,7 @@ import { ParsedUrlQuery } from "querystring";
 export const filterConfig: FilterGroupConfig[] = [
   {
     title: "Dimension",
-    values: ["Dimension C-137", "Replacement Dimension", "unknown"],
+    values: ["Dimension C-137", "Replacement Dimension", "Unknown"],
     type: "checkbox",
     key: "dimension",
   },
@@ -30,7 +30,7 @@ export const filterConfig: FilterGroupConfig[] = [
     title: "Residents count",
     values: ["0-15", "16-30", ">30"],
     type: "checkbox",
-    key: "residents",
+    key: "$residents",
     operatorType: FILTER_CONFIG_COMPARISON_COUNT,
   },
 ];

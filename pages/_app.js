@@ -20,6 +20,11 @@ const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
   const isDarkTheme = useSelector((state) => state.profile.isDarkTheme);
 
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       if (!shallow) {
@@ -28,6 +33,13 @@ const MyApp = ({ Component, pageProps }) => {
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
+
+    if (token) {
+      getUserByToken(token);
+    }
+    dispatch(
+      profileActions.toggleTheme(localStorage.getItem("isDarkTheme") === "true")
+    );
   }, [dispatch, router.events]);
 
   if (resetQuery.current) {
@@ -38,17 +50,6 @@ const MyApp = ({ Component, pageProps }) => {
       profileActions.toggleTheme(localStorage.getItem("isDarkTheme") === "true")
     );
   }
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      getUserByToken(localStorage.getItem("token"));
-      dispatch(
-        profileActions.toggleTheme(
-          localStorage.getItem("isDarkTheme") === "true"
-        )
-      );
-    }
-  }, [dispatch]);
 
   return (
     <div className={"h-full" + (isDarkTheme ? " dark" : "")}>

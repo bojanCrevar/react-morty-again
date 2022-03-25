@@ -1,12 +1,11 @@
 import { screen, render, fireEvent, waitFor } from "@testing-library/react";
-import { debug } from "console";
 import FormComponent from "../characters/FormComponent";
 
 describe("Characters FormComponent test", () => {
   test("Check if creating new character button is rendered", () => {
     let initialData = {
       gender: "",
-      id: -55,
+      _id: "",
       image: "",
       name: "",
       species: "",
@@ -26,7 +25,7 @@ describe("Characters FormComponent test", () => {
   test("Check if updating character button is rendered", () => {
     let initialData = {
       gender: "Male",
-      id: 1,
+      _id: 1,
       image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
       name: "Rick",
       species: "Human",
@@ -46,7 +45,7 @@ describe("Characters FormComponent test", () => {
   test("Checking if button gets enabled after entering correct values and submiting form", async () => {
     let initialData = {
       gender: "",
-      id: -55,
+      _id: "",
       image: "",
       name: "",
       species: "",
@@ -68,8 +67,8 @@ describe("Characters FormComponent test", () => {
     expect(inputStatus).toBeChecked();
 
     const inputGender = screen.getByTestId("gender");
-    fireEvent.change(inputGender, { target: { value: "unknown" } });
-    expect(inputGender.value).toBe("unknown");
+    fireEvent.change(inputGender, { target: { value: "Unknown" } });
+    expect(inputGender.value).toBe("Unknown");
 
     const inputSpecies = screen.getByTestId("species");
     fireEvent.change(inputSpecies, { target: { value: "Human" } });
@@ -95,10 +94,10 @@ describe("Characters FormComponent test", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
 
       expect(submitHandler).toBeCalledWith({
-        id: -55,
+        _id: "",
         name: "Rick",
         status: "Dead",
-        gender: "unknown",
+        gender: "Unknown",
         species: "Human",
         location: { name: "Slovenija" },
         locationName: "Slovenija",
@@ -110,7 +109,7 @@ describe("Characters FormComponent test", () => {
   test("Checking if button is disabled when entering wrong values", async () => {
     let initialData = {
       gender: "",
-      id: -55,
+      _id: "",
       image: "",
       name: "",
       species: "",
@@ -132,8 +131,8 @@ describe("Characters FormComponent test", () => {
     expect(inputStatus).toBeChecked();
 
     const inputGender = screen.getByTestId("gender");
-    fireEvent.change(inputGender, { target: { value: "unknown" } });
-    expect(inputGender.value).toBe("unknown");
+    fireEvent.change(inputGender, { target: { value: "Unknown" } });
+    expect(inputGender.value).toBe("Unknown");
 
     const inputSpecies = screen.getByTestId("species");
     fireEvent.change(inputSpecies, { target: { value: "Human" } });

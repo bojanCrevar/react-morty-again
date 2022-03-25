@@ -18,7 +18,7 @@ type MultipleSelectProps = {
   value: string[] | undefined;
 };
 type CharOptions = {
-  value: number;
+  value: string;
   label: string;
 };
 const MultipleSelect = ({
@@ -36,21 +36,27 @@ const MultipleSelect = ({
   async function getCharacters(
     characterIds: string[]
   ): Promise<CharactersItem[]> {
-    const response = await axios.get("/api/characters/", {
-      params: { characterIds },
-      paramsSerializer: () => {
-        return `characters=${characterIds}`;
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters`,
+      {
+        params: { characterIds },
+        paramsSerializer: () => {
+          return `characters=${characterIds}`;
+        },
+      }
+    );
 
     if (response.status === 200) return response.data.characters;
     else return [];
   }
 
   async function loadChars(inputValue?: string): Promise<CharOptions[]> {
-    const response = await axios.get("/api/characters", {
-      params: { sort: "asc", keyword: inputValue },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters`,
+      {
+        params: { sort: "asc", keyword: inputValue },
+      }
+    );
 
     if (response.status === 200) {
       return response.data.results.slice(0, 10).map((char: CharactersItem) => {
@@ -65,7 +71,7 @@ const MultipleSelect = ({
 
       setCharOptions(
         characters.map((char: CharactersItem) => {
-          return { value: char.id, label: char.name };
+          return { value: char.id!, label: char.name };
         })
       );
     }

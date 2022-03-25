@@ -4,7 +4,7 @@ import LocationsFormComponent from "../locations/FormComponent";
 describe("Testing Locations Form Component", () => {
   test("rendering create button in form component", () => {
     let initialData = {
-      id: -2,
+      _id: "",
       name: "",
       dimension: "",
       type: "",
@@ -25,7 +25,7 @@ describe("Testing Locations Form Component", () => {
 
   test("rendering update button in form component", () => {
     let initialData = {
-      id: 10,
+      _id: 10,
       name: "Earth",
       dimension: "C-34",
       type: "Planet",
@@ -45,7 +45,7 @@ describe("Testing Locations Form Component", () => {
 
   test("creating new location", async () => {
     let initialData = {
-      id: -2,
+      _id: "",
       name: "",
       dimension: "",
       type: "",
@@ -80,7 +80,7 @@ describe("Testing Locations Form Component", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
 
       expect(submitHandler).toBeCalledWith({
-        id: -2,
+        _id: "",
         name: "Earth-23",
         dimension: "C-23",
         type: "Planet",
@@ -91,7 +91,7 @@ describe("Testing Locations Form Component", () => {
 
   test("error when creating new location", async () => {
     let initialData = {
-      id: -2,
+      _id: "",
       name: "",
       dimension: "",
       type: "",

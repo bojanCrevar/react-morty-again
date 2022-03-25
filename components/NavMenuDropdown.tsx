@@ -16,7 +16,7 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
       <Navbar.Text className="mt-0.5">
         Signed in as:{" "}
         <span className="font-bold">
-          {profile.displayName.length ? profile.displayName : profile.userEmail}
+          {profile.displayName?.length ? profile.displayName : profile.email}
         </span>
       </Navbar.Text>
       <NavDropdown
@@ -24,11 +24,13 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
           <span>
             <img
               alt="Profile logo"
-              src={profile.avatar}
-              width="30"
-              height="30"
-              className="d-inline-block align-top mr-2"
-              style={{ borderRadius: "50%" }}
+              src={`${process.env.NEXT_PUBLIC_ASSETS_URL}/${profile.avatar}`}
+              className="rounded-full self-center d-inline-block align-top mr-2"
+              style={{
+                width: "30px",
+                height: "30px",
+                objectFit: "cover",
+              }}
             />
           </span>
         }
@@ -40,6 +42,16 @@ function NavMenuDropdown({ profile, logoutHandler }: NavMenuDropdownProps) {
             </Link>
           </Navbar.Text>
         </NavDropdown.Item>
+
+        {profile.userType === "Admin" && (
+          <NavDropdown.Item>
+            <Navbar.Text>
+              <Link href="/modify-users">
+                <span className="dark:text-black">Modify users</span>
+              </Link>
+            </Navbar.Text>
+          </NavDropdown.Item>
+        )}
         <NavDropdown.Divider />
         <NavDropdown.Item className="group">
           <Navbar.Text onClick={logoutHandler}>

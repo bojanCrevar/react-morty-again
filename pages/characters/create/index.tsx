@@ -6,14 +6,17 @@ import { CharactersItem } from "../../../model/charactersModel";
 
 export default function CreateCharacter() {
   async function submitHandler(character: CharactersItem) {
-    const response = await axios.post("/api/characters", character);
-    if (response.status === 200) {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters`,
+      character
+    );
+    if (response.status === 201) {
       Router.push("/characters");
     }
   }
 
   const dummyInitialData = {
-    id: -55,
+    _id: "",
     gender: "",
     image: "",
     name: "",

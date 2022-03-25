@@ -11,9 +11,11 @@ import { RootState } from "../model/storeModel";
 import styles from "./NavMenu.module.css";
 import { authActions } from "../store/auth-slice";
 import NavMenuDropdown from "./NavMenuDropdown";
+import { useRouter } from "next/router";
 
 const NavMenu = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [modalShow, setModalShow] = useState(false);
   const auth = useSelector((state: RootState) => state.auth);
   const profile = useSelector((state: RootState) => state.profile);
@@ -22,6 +24,8 @@ const NavMenu = () => {
     setModalShow(false);
 
     dispatch(authActions.logOut());
+
+    router.push("/");
   };
 
   return (
@@ -29,6 +33,7 @@ const NavMenu = () => {
       variant={profile.isDarkTheme ? "dark" : "light"}
       expand="lg"
       className="bg-[#fff] dark:bg-[#243038]"
+      collapseOnSelect={true}
     >
       <Container>
         <Link href="/" passHref>
@@ -54,30 +59,33 @@ const NavMenu = () => {
               );
             })}
           </Nav>
-        </Navbar.Collapse>
-        <Navbar.Collapse className="justify-content-end">
-          <div className={styles.divider}></div>
+          <div className="justify-content-end">
+            <div className={styles.divider}></div>
 
-          <div className="space-x-4 flex">
-            {auth.isLoggedIn ? (
-              <NavMenuDropdown
-                profile={profile}
-                logoutHandler={logoutHandler}
-              />
-            ) : (
-              <Navbar.Text>
-                <button
-                  className="px-3 pb-0.5 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
-                  onClick={() => setModalShow(true)}
-                >
-                  Login
-                </button>
+            <div className="space-x-4 flex">
+              {auth.isLoggedIn ? (
+                <NavMenuDropdown
+                  profile={profile}
+                  logoutHandler={logoutHandler}
+                />
+              ) : (
+                <Navbar.Text>
+                  <button
+                    className="px-3 pb-0.5 rounded border-2 border-gray-200 text-gray-400 hover:bg-gray-600 hover:text-white transition-all ease-in-out duration-400 hover:scale-110"
+                    onClick={() => setModalShow(true)}
+                  >
+                    Login
+                  </button>
 
-                <GenericModal modalShow={modalShow} setModalShow={setModalShow}>
-                  <LoginForm />
-                </GenericModal>
-              </Navbar.Text>
-            )}
+                  <GenericModal
+                    modalShow={modalShow}
+                    setModalShow={setModalShow}
+                  >
+                    <LoginForm />
+                  </GenericModal>
+                </Navbar.Text>
+              )}
+            </div>
           </div>
         </Navbar.Collapse>
       </Container>

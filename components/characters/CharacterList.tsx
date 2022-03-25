@@ -4,7 +4,9 @@ import axios from "axios";
 import { CharactersItem } from "../../model/charactersModel";
 import { ResponseData } from "../../model/ResponseDataModel";
 import NoResults from "../NoResults";
-import { PAGE_SIZE } from "../../utils/apiResponse";
+//import { PAGE_SIZE } from "../../utils/apiResponse";
+import { useSelector } from "react-redux";
+import { RootState } from "../../model/storeModel";
 
 type CharListProps = {
   characters: CharactersItem[];
@@ -13,9 +15,14 @@ type CharListProps = {
 };
 
 function CharacterList({ characters, setData, setLoader }: CharListProps) {
-  async function handleDelete(id: number) {
+  const token = useSelector((state: RootState) => state.auth.token);
+
+  async function handleDelete(id: string) {
     const response = await axios.delete(
-      `/api/characters/${encodeURIComponent(id)}`
+      `${process.env.NEXT_PUBLIC_NODE_URL}/characters/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (response.status === 200) {
       setLoader(true);
@@ -23,19 +30,17 @@ function CharacterList({ characters, setData, setLoader }: CharListProps) {
         ...prev,
         info: {
           count: prev.info.count - 1,
-          pages:
-            prev.info.count % PAGE_SIZE === 1
-              ? prev.info.pages - 1
-              : prev.info.pages,
+          pages: prev.info.pages,
         },
       }));
     }
   }
+
   return (
     <>
       {characters.length > 0 ? (
         characters.map((c) => (
-          <CharCard {...c} key={c.id} handleDelete={handleDelete} />
+          <CharCard {...c} key={c._id} handleDelete={handleDelete} />
         ))
       ) : (
         <NoResults />

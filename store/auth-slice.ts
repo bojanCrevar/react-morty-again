@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const authInitialState = {
   token: "",
   isLoggedIn: false,
-  localId: "",
 };
 
 const authSlice = createSlice({
@@ -11,24 +10,15 @@ const authSlice = createSlice({
   initialState: () => authInitialState,
   reducers: {
     logIn(state, action) {
-      state.token = action.payload.token;
+      state.token = action.payload;
       state.isLoggedIn = true;
-      state.localId = action.payload.localId;
-      localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("refresh_token", action.payload.refreshToken);
+      localStorage.setItem("token", action.payload);
     },
     logOut(state) {
       state.token = "";
       state.isLoggedIn = false;
-      state.localId = "";
       localStorage.removeItem("token");
-      localStorage.removeItem("refresh_token");
       localStorage.removeItem("isDarkTheme");
-    },
-    replaceToken(state, action) {
-      state.token = action.payload.token;
-      localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("refresh_token", action.payload.refreshToken);
     },
   },
 });
